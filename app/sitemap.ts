@@ -24,6 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/reports/kaspi-preorder-niches",
     "/reports/foot-stretcher-analysis",
     "/reports/towel-warmer-analysis",
+    "/reports/kaspi-camping",
   ];
 
   return staticRoutes.map((route) => ({
