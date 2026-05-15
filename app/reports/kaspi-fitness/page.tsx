@@ -5,37 +5,50 @@ import {
   CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, ReferenceLine,
 } from "recharts";
 
-/* ─────────────── design tokens ─────────────── */
+/* ───────────── design system · FT / Tufte editorial ─────────────
+   Paper-cream background, ink type, hairline rules, restrained palette.
+   Color encodes data only (positive / negative); everything else is ink. */
 const C = {
-  bg: "#0a0a0f", surface: "#111119", border: "#1e1e30",
-  accent: "#6c5ce7", green: "#00d2a0", text: "#e8e8f0",
-  dim: "#999", red: "#f87171", amber: "#f59e0b",
-  blue: "#60a5fa", pink: "#f472b6", cyan: "#22d3ee",
-  kaspi: "#f14635",
+  paper: "#FFF1E5",   // FT signature cream
+  panel: "#FBF0E2",   // chart well — barely distinct
+  ink: "#1A1714",     // near-black text
+  sub: "#6E6258",     // muted secondary
+  faint: "#9A8E80",   // tertiary / captions
+  rule: "#E4D7C4",    // hairline
+  ruleSoft: "#EFE5D6",
+  pos: "#1F6F54",     // growth (deep green)
+  neg: "#B23B2E",     // decline (oxblood red)
+  accent: "#127DB3",  // single editorial accent (FT teal-blue)
 };
-const sP: React.CSSProperties = { fontSize: 14, lineHeight: 1.75, color: "#ccc", margin: "0 0 12px" };
-const sCard: React.CSSProperties = { background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, padding: 24, marginBottom: 16 };
-const sBadge = (color: string): React.CSSProperties => ({ display: "inline-block", padding: "3px 10px", borderRadius: 20, background: `${color}18`, color, fontSize: 11, fontWeight: 600, letterSpacing: "0.03em" });
-const tipBox: React.CSSProperties = { background: "#15151f", border: `1px solid ${C.border}`, borderRadius: 8, fontSize: 12, color: C.text, padding: "8px 12px" };
+const SERIF = "Georgia, 'Times New Roman', Times, serif";
+const SANS = "'Inter', system-ui, -apple-system, sans-serif";
+
+const sLead: React.CSSProperties = { fontFamily: SERIF, fontSize: 18, lineHeight: 1.62, color: C.ink, margin: "0 0 14px" };
+const sBody: React.CSSProperties = { fontFamily: SERIF, fontSize: 15.5, lineHeight: 1.7, color: C.ink, margin: "0 0 14px" };
+const sKicker: React.CSSProperties = { fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: C.sub };
+const sCaption: React.CSSProperties = { fontFamily: SANS, fontSize: 12, lineHeight: 1.55, color: C.faint, marginTop: 10 };
+const num: React.CSSProperties = { fontFamily: SANS, fontVariantNumeric: "tabular-nums" };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function Tip({ active, payload, label, unit = "M ₸", title }: any) {
   if (!active || !payload || !payload.length) return null;
   return (
-    <div style={tipBox}>
-      {label != null && <div style={{ color: C.dim, marginBottom: 4 }}>{label}</div>}
+    <div style={{ background: C.paper, border: `1px solid ${C.ink}`, padding: "7px 11px", fontFamily: SANS, fontSize: 12, color: C.ink }}>
+      {label != null && <div style={{ color: C.sub, marginBottom: 3, letterSpacing: "0.04em" }}>{label}</div>}
       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       {payload.map((p: any, i: number) => p.value == null ? null : (
-        <div key={i} style={{ color: p.color || C.text }}>
-          {title || p.name}: <b>{unit === "×" ? `×${p.value}` : `${p.value} ${unit}`}</b>
+        <div key={i} style={{ ...num, color: p.color && p.color !== C.ink ? p.color : C.ink }}>
+          {title || p.name}: <b>{unit === "×" ? `×${p.value}` : `${p.value}${unit ? " " + unit : ""}`}</b>
         </div>
       ))}
     </div>
   );
 }
 
-/* ─────────────── data ─────────────── */
-// Рынок «Тренажёры» целиком, млн ₸ (2025 факт + 2026 факт/прогноз)
+const axis = { fontFamily: SANS, fontSize: 11, fill: C.sub };
+const gridProps = { stroke: C.rule, strokeDasharray: "0", vertical: false } as const;
+
+/* ───────────── data (unchanged) ───────────── */
 const MARKET = [
   { m: "Янв", a: 1573, f: 2051 }, { m: "Фев", a: 1758, f: 2443 },
   { m: "Мар", a: 1302, f: 1803 }, { m: "Апр", a: 970, f: 1332 },
@@ -44,24 +57,16 @@ const MARKET = [
   { m: "Сен", a: 1036, f: 1371 }, { m: "Окт", a: 1219, f: null },
   { m: "Ноя", a: 1924, f: null }, { m: "Дек", a: 1816, f: null },
 ];
-
-// Степперы — траектория взрыва ×18 (ноя-24 → сен-26)
 const STEP = [
-  { m: "Ноя·24", v: 18, t: "f" }, { m: "Дек·24", v: 19, t: "f" },
-  { m: "Янв·25", v: 26, t: "f" }, { m: "Фев·25", v: 32, t: "f" },
-  { m: "Мар·25", v: 31, t: "f" }, { m: "Апр·25", v: 24, t: "f" },
-  { m: "Май·25", v: 26, t: "f" }, { m: "Июн·25", v: 80, t: "f" },
-  { m: "Июл·25", v: 86, t: "f" }, { m: "Авг·25", v: 100, t: "f" },
-  { m: "Сен·25", v: 119, t: "f" }, { m: "Окт·25", v: 119, t: "f" },
-  { m: "Ноя·25", v: 173, t: "f" }, { m: "Дек·25", v: 148, t: "f" },
-  { m: "Янв·26", v: 313, t: "f" }, { m: "Фев·26", v: 336, t: "f" },
-  { m: "Мар·26", v: 211, t: "p" }, { m: "Апр·26", v: 115, t: "p" },
-  { m: "Май·26", v: 101, t: "p" }, { m: "Июн·26", v: 268, t: "p" },
-  { m: "Июл·26", v: 256, t: "p" }, { m: "Авг·26", v: 270, t: "p" },
-  { m: "Сен·26", v: 296, t: "p" },
+  { m: "Ноя·24", v: 18 }, { m: "Дек·24", v: 19 }, { m: "Янв·25", v: 26 },
+  { m: "Фев·25", v: 32 }, { m: "Мар·25", v: 31 }, { m: "Апр·25", v: 24 },
+  { m: "Май·25", v: 26 }, { m: "Июн·25", v: 80 }, { m: "Июл·25", v: 86 },
+  { m: "Авг·25", v: 100 }, { m: "Сен·25", v: 119 }, { m: "Окт·25", v: 119 },
+  { m: "Ноя·25", v: 173 }, { m: "Дек·25", v: 148 }, { m: "Янв·26", v: 313 },
+  { m: "Фев·26", v: 336 }, { m: "Мар·26", v: 211 }, { m: "Апр·26", v: 115 },
+  { m: "Май·26", v: 101 }, { m: "Июн·26", v: 268 }, { m: "Июл·26", v: 256 },
+  { m: "Авг·26", v: 270 }, { m: "Сен·26", v: 296 },
 ];
-
-// Беговые vs Очистители vs Виброплатформы — 2025 факт (сравнение профилей)
 const PROFILES = [
   { m: "Янв", Беговые: 867, Климат: 339, Вибро: 258 },
   { m: "Фев", Беговые: 885, Климат: 388, Вибро: 313 },
@@ -76,260 +81,241 @@ const PROFILES = [
   { m: "Ноя", Беговые: 1084, Климат: 1043, Вибро: 157 },
   { m: "Дек", Беговые: 1031, Климат: 872, Вибро: 152 },
 ];
-
-// Матрица роста/падения (тренд_slope), сорт по тренду
 const MATRIX = [
-  ["Степперы", "named", 336, 0.179, 925], ["Очистители/увлажнители", "климат", 599, 0.067, 101],
-  ["Силовые тренажёры", "тренаж", 79, 0.045, 65], ["Эспандеры", "фитнес", 63, 0.044, 69],
-  ["Массажные валики (МФР)", "фитнес", 27, 0.043, 68], ["Шведские стенки", "фитнес", 57, 0.035, 42],
-  ["Фитболы и медболы", "фитнес", 17, 0.035, 53], ["Беговые дорожки", "named", 1331, 0.033, 35],
-  ["Скакалки", "фитнес", 8, 0.031, 68], ["Турники", "фитнес", 108, 0.029, 32],
-  ["Коврики для йоги", "фитнес", 50, 0.028, 33], ["Штанги", "тренаж", 26, 0.021, 36],
-  ["Скамьи и стойки", "тренаж", 39, 0.017, 25], ["Велотренажёры", "named", 186, 0.016, 19],
-  ["Эллиптические", "named", 135, 0.010, 13], ["Гантели и наборы", "фитнес", 178, 0.005, 7],
-  ["Балансировочные", "фитнес", 16, 0.002, 5], ["Одежда для похудения", "фитнес", 52, 0.0, 2],
-  ["Осушители воздуха", "климат", 28, -0.016, -18], ["Гребные тренажёры", "тренаж", 42, -0.021, -16],
-  ["Инверсионные столы", "named", 59, -0.024, -19], ["Виброплатформы", "named", 171, -0.032, -31],
-  ["Райдеры", "тренаж", 7, -0.044, -41], ["Ролики для пресса", "фитнес", 35, -0.045, -39],
-];
-
-// Полная таблица 8 ниш: 2025 факт помесячно + Feb26 + тренд + YoY + вердикт
+  ["Степперы", 336, 0.179, 925], ["Очистители/увлажнители", 599, 0.067, 101],
+  ["Силовые тренажёры", 79, 0.045, 65], ["Эспандеры", 63, 0.044, 69],
+  ["Массажные валики (МФР)", 27, 0.043, 68], ["Шведские стенки", 57, 0.035, 42],
+  ["Фитболы и медболы", 17, 0.035, 53], ["Беговые дорожки", 1331, 0.033, 35],
+  ["Скакалки", 8, 0.031, 68], ["Турники", 108, 0.029, 32],
+  ["Коврики для йоги", 50, 0.028, 33], ["Штанги", 26, 0.021, 36],
+  ["Скамьи и стойки", 39, 0.017, 25], ["Велотренажёры", 186, 0.016, 19],
+  ["Эллиптические", 135, 0.010, 13], ["Гантели и наборы", 178, 0.005, 7],
+  ["Балансировочные", 16, 0.002, 5], ["Одежда для похудения", 52, 0.0, 2],
+  ["Осушители воздуха", 28, -0.016, -18], ["Гребные тренажёры", 42, -0.021, -16],
+  ["Инверсионные столы", 59, -0.024, -19], ["Виброплатформы", 171, -0.032, -31],
+  ["Райдеры", 7, -0.044, -41], ["Ролики для пресса", 35, -0.045, -39],
+] as [string, number, number, number][];
 const TABLE: [string, string, number, number, number[], string, string][] = [
-  // name, статус-цвет-ключ, feb26, yoy, [12 мес 2025], пик, вердикт
-  ["Беговые дорожки", "grow", 1331, 35, [867, 885, 618, 410, 326, 411, 387, 516, 499, 625, 1084, 1031], "Фев", "Крупнейший рынок (1.33B), растёт, но GENAU-моно ~60%"],
-  ["Очистители/увлажнители", "boom", 599, 101, [339, 388, 277, 205, 182, 263, 266, 311, 286, 630, 1043, 872], "Ноя", "Растёт +100%, премиум-маржа, пик окт–дек"],
-  ["Степперы", "boom", 336, 925, [26, 32, 31, 24, 26, 80, 86, 100, 119, 119, 173, 148], "круглый год", "🚀 Взрыв ×18, десезонился. ГЛАВНАЯ возможность"],
+  ["Беговые дорожки", "grow", 1331, 35, [867, 885, 618, 410, 326, 411, 387, 516, 499, 625, 1084, 1031], "Фев", "Крупнейший рынок (1.33 B ₸), растёт, но GENAU-моно ~60 %"],
+  ["Очистители/увлажнители", "boom", 599, 101, [339, 388, 277, 205, 182, 263, 266, 311, 286, 630, 1043, 872], "Ноя", "Растёт +100 %, премиум-маржа, пик окт–дек"],
+  ["Степперы", "boom", 336, 925, [26, 32, 31, 24, 26, 80, 86, 100, 119, 119, 173, 148], "весь год", "Взрыв ×18, десезонился — главная возможность"],
   ["Велотренажёры", "stable", 186, 19, [128, 159, 122, 85, 66, 80, 68, 92, 79, 96, 143, 147], "Фев", "Стабильно, GENAU-моно, мало места"],
-  ["Виброплатформы", "fall", 171, -31, [258, 313, 235, 216, 195, 165, 147, 165, 134, 136, 157, 152], "Фев", "📉 −45% YoY. Не входить"],
+  ["Виброплатформы", "fall", 171, -31, [258, 313, 235, 216, 195, 165, 147, 165, 134, 136, 157, 152], "Фев", "−45 % YoY — не входить"],
   ["Эллиптические", "stable", 135, 13, [89, 104, 81, 50, 42, 45, 34, 54, 40, 49, 92, 91], "Фев", "Нишевый премиум, GENAU-моно"],
-  ["Инверсионные столы", "fall", 59, -19, [64, 80, 69, 60, 47, 48, 39, 42, 42, 42, 61, 56], "Фев", "📉 Угасает. Не входить"],
+  ["Инверсионные столы", "fall", 59, -19, [64, 80, 69, 60, 47, 48, 39, 42, 42, 42, 61, 56], "Фев", "Угасает — не входить"],
 ];
 
-/* ─────────────── reusable ─────────────── */
-function Section({ id, num, title, sub, children }: { id: string; num: string; title: string; sub?: string; children: React.ReactNode }) {
+/* ───────────── primitives ───────────── */
+function Section({ id, num: n, title, sub, children }: { id: string; num: string; title: string; sub?: string; children: React.ReactNode }) {
   return (
-    <div id={id} style={{ marginBottom: 56 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: sub ? 6 : 24, paddingBottom: 12, borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ width: 44, height: 44, borderRadius: 10, background: `${C.accent}15`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 800, color: C.accent, flexShrink: 0 }}>{num}</div>
-        <h2 style={{ fontSize: 22, fontWeight: 800, color: C.text, margin: 0, letterSpacing: "-0.01em", lineHeight: 1.2 }}>{title}</h2>
+    <section id={id} style={{ marginBottom: 64 }}>
+      <div style={{ borderTop: `2px solid ${C.ink}`, paddingTop: 10, marginBottom: sub ? 8 : 26 }}>
+        <div style={sKicker}>{n} —</div>
+        <h2 style={{ fontFamily: SERIF, fontSize: 27, fontWeight: 700, color: C.ink, margin: "6px 0 0", letterSpacing: "-0.01em", lineHeight: 1.18 }}>{title}</h2>
       </div>
-      {sub && <p style={{ ...sP, color: C.dim, margin: "0 0 22px" }}>{sub}</p>}
+      {sub && <p style={{ ...sBody, color: C.sub, fontSize: 16, margin: "0 0 26px", maxWidth: 680 }}>{sub}</p>}
       {children}
+    </section>
+  );
+}
+function Stat({ label, value, hint }: { label: string; value: string; hint: string }) {
+  return (
+    <div style={{ flex: "1 1 180px", padding: "2px 22px 2px 0" }}>
+      <div style={{ ...sKicker, fontSize: 10.5, marginBottom: 8 }}>{label}</div>
+      <div style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 700, color: C.ink, lineHeight: 1, letterSpacing: "-0.02em" }}>{value}</div>
+      <div style={{ fontFamily: SANS, fontSize: 12, color: C.sub, marginTop: 8, lineHeight: 1.5 }}>{hint}</div>
     </div>
   );
 }
-function KPI({ label, value, hint, color }: { label: string; value: string; hint: string; color: string }) {
+function Note({ tag, tone, title, children }: { tag: string; tone: "pos" | "neg" | "accent" | "ink"; title: string; children: React.ReactNode }) {
+  const col = tone === "pos" ? C.pos : tone === "neg" ? C.neg : tone === "accent" ? C.accent : C.ink;
   return (
-    <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, padding: 18 }}>
-      <div style={{ fontSize: 11, color: C.dim, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 8 }}>{label}</div>
-      <div style={{ fontSize: 25, fontWeight: 800, color, lineHeight: 1.1 }}>{value}</div>
-      <div style={{ fontSize: 12, color: C.dim, marginTop: 6, lineHeight: 1.5 }}>{hint}</div>
+    <div style={{ borderLeft: `2px solid ${col}`, padding: "2px 0 2px 18px", marginBottom: 20 }}>
+      <div style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: col, marginBottom: 6 }}>
+        {tag} · {title}
+      </div>
+      <div style={{ fontFamily: SERIF, fontSize: 15.5, color: C.ink, lineHeight: 1.7 }}>{children}</div>
     </div>
   );
 }
-function Callout({ icon, color, title, children }: { icon: string; color: string; title: string; children: React.ReactNode }) {
+function Well({ children, cap }: { children: React.ReactNode; cap: string }) {
   return (
-    <div style={{ padding: "14px 16px", background: `${color}10`, borderLeft: `3px solid ${color}`, borderRadius: 8, marginBottom: 14 }}>
-      <div style={{ fontSize: 12, fontWeight: 700, color, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 6 }}>{icon} {title}</div>
-      <div style={{ fontSize: 13.5, color: C.text, lineHeight: 1.7 }}>{children}</div>
-    </div>
+    <figure style={{ margin: "0 0 18px" }}>
+      <div style={{ background: C.panel, border: `1px solid ${C.rule}`, padding: "20px 18px 14px" }}>{children}</div>
+      <figcaption style={sCaption}>{cap}</figcaption>
+    </figure>
   );
 }
 const STAT: Record<string, [string, string]> = {
-  boom: [C.green, "🚀 Взрыв"], grow: [C.cyan, "📈 Растёт"], stable: [C.dim, "→ Стабильно"], fall: [C.red, "📉 Падает"],
+  boom: [C.pos, "Взрыв"], grow: [C.pos, "Растёт"], stable: [C.sub, "Стабильно"], fall: [C.neg, "Падает"],
 };
 
-/* ─────────────── page ─────────────── */
+/* ───────────── page ───────────── */
 export default function KaspiFitnessPage() {
   const TOC: [string, string][] = [
-    ["s0", "Executive Summary"],
-    ["s1", "Дашборд: зеркало кемпинга"],
-    ["s2", "Степперы — взрыв ×18"],
-    ["s3", "Матрица роста и падения"],
-    ["s4", "Профили: тренажёр vs климат"],
-    ["s5", "8 ниш — таблица и вердикты"],
-    ["s6", "Рекомендации и тайминг"],
-    ["s7", "Методология"],
+    ["s0", "Резюме"], ["s1", "Сезонность рынка"], ["s2", "Степперы — взрыв ×18"],
+    ["s3", "Рост и падение"], ["s4", "Тренажёр против климата"],
+    ["s5", "Восемь ниш"], ["s6", "Рекомендации"], ["s7", "Методология"],
   ];
   return (
-    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "'Inter', -apple-system, sans-serif" }}>
-      <div style={{ maxWidth: 920, margin: "0 auto", padding: "48px 24px 80px" }}>
+    <div style={{ minHeight: "100vh", background: C.paper, color: C.ink, fontFamily: SERIF, WebkitFontSmoothing: "antialiased" }}>
+      <div style={{ maxWidth: 860, margin: "0 auto", padding: "56px 28px 96px" }}>
 
-        {/* HEADER */}
-        <div style={{ marginBottom: 44 }}>
-          <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
-            <span style={sBadge(C.kaspi)}>Kaspi.kz</span>
-            <span style={sBadge(C.blue)}>Тренажёры · Фитнес · Климат</span>
-            <span style={sBadge(C.accent)}>Enterprise-аналитика</span>
-            <span style={sBadge(C.amber)}>RedStat · 16 мес</span>
+        {/* MASTHEAD */}
+        <header style={{ borderBottom: `3px double ${C.ink}`, paddingBottom: 26, marginBottom: 30 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: 8, marginBottom: 22 }}>
+            <span style={{ ...sKicker, fontSize: 11.5, color: C.ink }}>RedStat&nbsp;Intelligence</span>
+            <span style={{ ...sKicker, fontSize: 10.5 }}>Kaspi.kz · Спорт-инвентарь &amp; Климат</span>
           </div>
-          <h1 style={{ fontSize: 33, fontWeight: 800, margin: "0 0 16px", letterSpacing: "-0.02em", lineHeight: 1.15 }}>
-            🏋️ Тренажёры, фитнес и климат на Kaspi.kz — спрос и ассортимент за полтора года
+          <h1 style={{ fontFamily: SERIF, fontSize: 40, fontWeight: 700, margin: "0 0 18px", letterSpacing: "-0.022em", lineHeight: 1.12 }}>
+            Тренажёры, фитнес и климат на Kaspi.kz
           </h1>
-          <p style={{ fontSize: 16, color: C.dim, margin: 0, lineHeight: 1.6 }}>
-            29 категорий, полный сезонный цикл (16 мес факта) + прогноз. Сезонность фитнеса — зеркало кемпинга: пик зимой, провал летом. Внутри — взрыв степперов ×18, монополия GENAU и список падающих категорий.
+          <p style={{ fontFamily: SERIF, fontSize: 19, fontStyle: "italic", color: C.sub, margin: 0, lineHeight: 1.55, maxWidth: 660 }}>
+            Анализ спроса и ассортимента 29 категорий за полтора года. Сезонность фитнеса — зеркало кемпинга: пик зимой, провал летом. Внутри — взрыв степперов ×18, монополия GENAU и список угасающих категорий.
           </p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 28, marginTop: 22, padding: "16px 20px", background: C.surface, border: `1px solid ${C.border}`, borderRadius: 10, borderLeft: `4px solid ${C.accent}` }}>
-            <div>
-              <div style={{ fontSize: 10.5, color: C.dim, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 4 }}>Подготовлено для</div>
-              <div style={{ fontSize: 15, fontWeight: 700, color: C.text }}>Сергей Соколунин</div>
-            </div>
-            <div>
-              <div style={{ fontSize: 10.5, color: C.dim, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 4 }}>Автор анализа</div>
-              <div style={{ fontSize: 15, fontWeight: 700, color: C.text }}>Алмас Касымжанов</div>
-            </div>
-          </div>
-          <div style={{ fontSize: 12, color: C.dim, marginTop: 14 }}>
-            Дата: 15 мая 2026 · Окно: ноя-2024 → фев-2026 (факт) + прогноз RedStat до сен-2026 · Источник: RedStat Backend API (ClickHouse, Kaspi.kz)
-          </div>
-        </div>
-
-        {/* TOC */}
-        <div style={{ ...sCard, borderLeft: `4px solid ${C.accent}` }}>
-          <h3 style={{ fontSize: 13, fontWeight: 700, color: C.accent, margin: "0 0 12px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Содержание</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 8 }}>
-            {TOC.map(([id, t], i) => (
-              <a key={id} href={`#${id}`} style={{ fontSize: 13, color: "#ccc", textDecoration: "none", padding: "6px 0", display: "flex", gap: 10 }}>
-                <span style={{ color: C.accent, fontWeight: 700, minWidth: 18 }}>{i}</span>{t}
-              </a>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "10px 40px", marginTop: 26, paddingTop: 18, borderTop: `1px solid ${C.rule}` }}>
+            {[
+              ["Подготовлено для", "Сергей Соколунин"],
+              ["Автор анализа", "Алмас Касымжанов"],
+              ["Дата", "15 мая 2026"],
+              ["Источник", "RedStat · ClickHouse"],
+            ].map(([k, v]) => (
+              <div key={k}>
+                <div style={{ ...sKicker, fontSize: 10, marginBottom: 4 }}>{k}</div>
+                <div style={{ fontFamily: SERIF, fontSize: 15, fontWeight: 700, color: C.ink }}>{v}</div>
+              </div>
             ))}
           </div>
-        </div>
+        </header>
 
-        {/* 0 · EXEC */}
-        <Section id="s0" num="0" title="Executive Summary">
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12, marginBottom: 20 }}>
-            <KPI label="Сезон тренажёров" value="ЗИМА" hint="Пик ноя–фев, провал май–июл" color={C.blue} />
-            <KPI label="Зима ÷ лето" value="×2.08" hint="6 ниш: 4.77B vs 2.29B ₸" color={C.text} />
-            <KPI label="Степперы за 15 мес" value="×18" hint="18M → 336M ₸, тренд +0.179" color={C.green} />
-            <KPI label="Падающих категорий" value="6" hint="вибро −45%, ролики −39%…" color={C.red} />
+        {/* TOC — running heads */}
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: "4px 26px", marginBottom: 56, fontFamily: SANS, fontSize: 12.5 }}>
+          {TOC.map(([id, t], i) => (
+            <a key={id} href={`#${id}`} style={{ color: C.sub, textDecoration: "none", borderBottom: `1px solid ${C.rule}`, paddingBottom: 2 }}>
+              <span style={{ color: C.faint, marginRight: 6 }}>{String(i).padStart(2, "0")}</span>{t}
+            </a>
+          ))}
+        </nav>
+
+        {/* 0 — SUMMARY */}
+        <Section id="s0" num="00" title="Резюме">
+          <div style={{ display: "flex", flexWrap: "wrap", borderTop: `1px solid ${C.rule}`, borderBottom: `1px solid ${C.rule}`, padding: "22px 0", marginBottom: 30 }}>
+            <Stat label="Сезон тренажёров" value="Зима" hint="Пик ноя–фев, провал май–июл" />
+            <Stat label="Зима ÷ лето" value="×2.08" hint="6 ниш: 4.77 B vs 2.29 B ₸" />
+            <Stat label="Степперы / 15 мес" value="×18" hint="18 → 336 M ₸, тренд +0.179" />
+            <Stat label="Падающих категорий" value="6" hint="вибро −45 %, ролики −39 %…" />
           </div>
-          <Callout icon="🔄" color={C.blue} title="Сезонность — зеркало кемпинга">
-            Тренажёры и климат пикуют <b>ноябрь–февраль</b> (Kaspi Juma в ноябре + новогодние решения + холода = тренировки дома) и проваливаются <b>май–июль</b>. Сейчас (май) ниша <b>входит в низкий сезон</b>. Закуп под главный сезон — август–сентябрь, продажи — октябрь(Juma)–февраль. С кемпингом это идеальный антицикл: лето — кемпинг, зима — фитнес.
-          </Callout>
-          <Callout icon="🚀" color={C.green} title="Главная возможность — степперы">
-            Рост ×18 за 15 месяцев (SKU 11→75, продавцов 9→51 — органический взрыв). Категория <b>десезонилась</b> (прогноз держит 250–296 M ₸ и летом). Низкий чек, фрагментированная конкуренция — самый доступный вход во всём обзоре.
-          </Callout>
-          <Callout icon="🏆" color={C.amber} title="Монополия GENAU">
-            Один продавец (sellers=1) с собственным брендом держит ~60% беговых дорожек (786 M ₸), ~100% велотренажёров и эллиптических. В эти ниши «в лоб» заходить бессмысленно — только дифференциация (компактное/умное/детское/сервис).
-          </Callout>
-          <Callout icon="📉" color={C.red} title="Не входить">
-            Структурный спад: виброплатформы (−45% YoY), ролики для пресса (−39%), райдеры (−41%), инверсионные столы (−19%), гребные (−16%), осушители. Большой текущий объём (вибро 171 M) обманчив.
-          </Callout>
+          <Note tag="01" tone="accent" title="Сезонность — зеркало кемпинга">
+            Тренажёры и климат пикуют <b>ноябрь–февраль</b> (Kaspi Juma в ноябре + новогодние решения + холода = тренировки дома) и проваливаются <b>май–июль</b>. Сейчас (май) ниша входит в низкий сезон. Закуп под главный сезон — август–сентябрь, продажи — октябрь (Juma)–февраль. С кемпингом это идеальный антицикл: лето — кемпинг, зима — фитнес.
+          </Note>
+          <Note tag="02" tone="pos" title="Главная возможность — степперы">
+            Рост ×18 за 15 месяцев (SKU 11→75, продавцов 9→51 — органический взрыв). Категория десезонилась (прогноз держит 250–296 M ₸ и летом). Низкий чек, фрагментированная конкуренция — самый доступный вход во всём обзоре.
+          </Note>
+          <Note tag="03" tone="ink" title="Монополия GENAU">
+            Один продавец с собственным брендом держит ~60 % беговых дорожек (786 M ₸), ~100 % велотренажёров и эллиптических. В эти ниши «в лоб» заходить бессмысленно — только дифференциация (компактное / умное / детское / сервис).
+          </Note>
+          <Note tag="04" tone="neg" title="Не входить">
+            Структурный спад: виброплатформы (−45 % YoY), ролики для пресса (−39 %), райдеры (−41 %), инверсионные столы (−19 %), гребные (−16 %), осушители. Большой текущий объём (вибро 171 M ₸) обманчив.
+          </Note>
         </Section>
 
-        {/* 1 · MARKET */}
-        <Section id="s1" num="1" title="Дашборд: зеркало кемпинга" sub="Рынок «Тренажёры» целиком, млн ₸. Столбцы — факт 2025 (зимние месяцы подсвечены), линия — факт/прогноз 2026. Пик — ноябрь (Kaspi Juma), дно — май.">
-          <div style={sCard}>
-            <ResponsiveContainer width="100%" height={340}>
-              <ComposedChart data={MARKET} margin={{ top: 10, right: 12, left: 0, bottom: 0 }}>
-                <CartesianGrid stroke={C.border} strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="m" stroke={C.dim} fontSize={12} tickLine={false} />
-                <YAxis stroke={C.dim} fontSize={11} tickLine={false} axisLine={false} tickFormatter={(v: number) => `${(v / 1000).toFixed(1)}B`} />
-                <Tooltip content={<Tip />} cursor={{ fill: `${C.accent}10` }} />
-                <Legend wrapperStyle={{ fontSize: 12 }} />
-                <Bar name="Факт 2025" dataKey="a" radius={[4, 4, 0, 0]} maxBarSize={40}>
+        {/* 1 — MARKET */}
+        <Section id="s1" num="01" title="Сезонность рынка" sub="Рынок «Тренажёры» целиком, млн ₸. Столбцы — факт 2025 (зимние месяцы тёмные), линия — факт/прогноз 2026. Пик — ноябрь (Kaspi Juma), дно — май.">
+          <Well cap="Источник: RedStat / Kaspi.kz. Профиль: пик ноябрь → плато дек–фев → дно май–июль → восстановление авг–окт. Прогноз-2026 повторяет форму с поправкой на рост рынка (+25–35 %).">
+            <ResponsiveContainer width="100%" height={330}>
+              <ComposedChart data={MARKET} margin={{ top: 6, right: 8, left: 0, bottom: 0 }}>
+                <CartesianGrid {...gridProps} />
+                <XAxis dataKey="m" tick={axis} tickLine={false} axisLine={{ stroke: C.ink }} />
+                <YAxis tick={axis} tickLine={false} axisLine={false} tickFormatter={(v: number) => `${(v / 1000).toFixed(1)}`} width={34} />
+                <Tooltip content={<Tip />} cursor={{ fill: "#1A171408" }} />
+                <Legend wrapperStyle={{ fontFamily: SANS, fontSize: 11.5, color: C.sub }} iconType="plainline" />
+                <Bar name="Факт 2025 (млрд ₸ — ось)" dataKey="a" maxBarSize={34}>
                   {MARKET.map((d, i) => (
-                    <Cell key={i} fill={["Ноя", "Дек", "Янв", "Фев"].includes(d.m) ? C.blue : `${C.accent}aa`} />
+                    <Cell key={i} fill={["Ноя", "Дек", "Янв", "Фев"].includes(d.m) ? C.ink : "#C9B89C"} />
                   ))}
                 </Bar>
-                <Line name="2026 (факт/прогноз)" dataKey="f" stroke={C.green} strokeWidth={3} dot={{ r: 4, fill: C.green }} connectNulls />
+                <Line name="2026 (факт/прогноз)" dataKey="f" stroke={C.accent} strokeWidth={1.75} dot={{ r: 2.5, fill: C.accent, strokeWidth: 0 }} connectNulls />
               </ComposedChart>
             </ResponsiveContainer>
-            <div style={{ fontSize: 12, color: C.dim, marginTop: 10, lineHeight: 1.6 }}>
-              Профиль: <b style={{ color: C.blue }}>пик ноябрь (Juma) → плато дек–фев</b> → спад март–апрель → <b style={{ color: C.text }}>дно май–июль</b> → восстановление авг–окт. Прогноз-2026 повторяет форму с поправкой на рост рынка (+25–35%).
-            </div>
-          </div>
+          </Well>
+          <p style={sBody}>
+            Три драйвера зимнего пика: <b>Kaspi Juma в ноябре</b> (крупнейший месяц года почти у всех категорий), <b>новогодний цикл</b> «начну заниматься» (дек–фев) и <b>холодовой фактор</b> (тренировки уходят домой). Лето — обратный отток: улица, зал, отпуск, дача.
+          </p>
         </Section>
 
-        {/* 2 · STEPPERS */}
-        <Section id="s2" num="2" title="Степперы — взрыв ×18" sub="Траектория выручки ноя-2024 → сен-2026, млн ₸. Зелёная зона — факт, штрих — прогноз. Рост через расширение SKU (11→75) и числа продавцов (9→51) — органический, не артефакт.">
-          <div style={sCard}>
-            <ResponsiveContainer width="100%" height={320}>
-              <AreaChart data={STEP} margin={{ top: 10, right: 12, left: 0, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="stepG" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={C.green} stopOpacity={0.5} />
-                    <stop offset="100%" stopColor={C.green} stopOpacity={0.03} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid stroke={C.border} strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="m" stroke={C.dim} fontSize={10} tickLine={false} interval={1} angle={-35} textAnchor="end" height={50} />
-                <YAxis stroke={C.dim} fontSize={11} tickLine={false} axisLine={false} tickFormatter={(v: number) => `${v}M`} />
-                <Tooltip content={<Tip title="Выручка" />} cursor={{ stroke: C.green, strokeDasharray: "4 4" }} />
-                <ReferenceLine x="Фев·26" stroke={C.dim} strokeDasharray="4 4" label={{ value: "прогноз →", fill: C.dim, fontSize: 10, position: "insideTopRight" }} />
-                <Area dataKey="v" stroke={C.green} strokeWidth={2.5} fill="url(#stepG)" dot={false} />
+        {/* 2 — STEPPERS */}
+        <Section id="s2" num="02" title="Степперы — взрыв ×18" sub="Траектория выручки ноя-2024 → сен-2026, млн ₸. Сплошная — факт, штрих — прогноз. Рост через расширение SKU (11→75) и числа продавцов (9→51) — органический, не артефакт.">
+          <Well cap="Источник: RedStat / Kaspi.kz. Два скачка: июнь-2025 (×3) и январь-2026 (×2). Виральный продукт — балансировочный степпер с эспандерами ≈14 700 ₸: 2 566 продаж, 20 продавцов.">
+            <ResponsiveContainer width="100%" height={300}>
+              <AreaChart data={STEP} margin={{ top: 6, right: 8, left: 0, bottom: 0 }}>
+                <CartesianGrid {...gridProps} />
+                <XAxis dataKey="m" tick={{ ...axis, fontSize: 10 }} tickLine={false} axisLine={{ stroke: C.ink }} interval={1} angle={-38} textAnchor="end" height={48} />
+                <YAxis tick={axis} tickLine={false} axisLine={false} tickFormatter={(v: number) => `${v}`} width={34} />
+                <Tooltip content={<Tip title="Выручка" />} cursor={{ stroke: C.ink, strokeDasharray: "3 3" }} />
+                <ReferenceLine x="Фев·26" stroke={C.sub} strokeDasharray="3 3" label={{ value: "прогноз →", fill: C.faint, fontFamily: SANS, fontSize: 10, position: "insideTopRight" }} />
+                <Area dataKey="v" stroke={C.ink} strokeWidth={1.75} fill="#1A171410" dot={false} />
               </AreaChart>
             </ResponsiveContainer>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 }}>
-            <Callout icon="📊" color={C.green} title="Что произошло">
-              18 M ₸ (ноя-24) → 336 M ₸ (фев-26). Два скачка: июнь-2025 (×3) и январь-2026 (×2). Виральный продукт — балансировочный степпер с эспандерами ~14 700 ₸: 2 566 продаж, 20 продавцов.
-            </Callout>
-            <Callout icon="🎯" color={C.accent} title="Почему это вход">
-              Десезонился (продаётся и в мае-июле — редкость для тренажёров). Низкий чек. Премиум-сегмент (~63 k ₸) — крупнейший по деньгам (102 M), массовый — фрагментирован («Без бренда»). Есть место для бренда.
-            </Callout>
-            <Callout icon="⚠️" color={C.amber} title="Риск">
-              Виральные категории остывают. Короткие партии, мониторинг помесячно, не перетариваться. Повторяет путь виброплатформ (взлёт→спад) — важно не опоздать с выходом, если тренд развернётся.
-            </Callout>
+          </Well>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: "0 32px" }}>
+            <Note tag="A" tone="pos" title="Почему это вход">
+              Десезонился — продаётся и в мае-июле, редкость для тренажёров. Низкий чек. Премиум-сегмент (≈63 k ₸) крупнейший по деньгам (102 M); массовый фрагментирован — есть место для бренда.
+            </Note>
+            <Note tag="B" tone="neg" title="Риск">
+              Виральные категории остывают. Короткие партии, помесячный мониторинг, не перетариваться. Путь виброплатформ (взлёт → спад) — важно не опоздать с выходом, если тренд развернётся.
+            </Note>
           </div>
         </Section>
 
-        {/* 3 · MATRIX */}
-        <Section id="s3" num="3" title="Матрица роста и падения" sub="24 товарные категории по структурному тренду (trend_slope RedStat, очищен от сезона). Зелёное — растёт, красное — падает. Ранжирование по тренду надёжнее, чем по YoY.">
-          <div style={sCard}>
-            <ResponsiveContainer width="100%" height={620}>
-              <BarChart data={MATRIX.map((r) => ({ n: r[0], t: (r[3] as number) * 1000 }))} layout="vertical" margin={{ top: 0, right: 40, left: 30, bottom: 0 }}>
-                <CartesianGrid stroke={C.border} strokeDasharray="3 3" horizontal={false} />
-                <XAxis type="number" stroke={C.dim} fontSize={11} tickLine={false} axisLine={false} tickFormatter={(v: number) => (v > 0 ? `+${v}` : `${v}`)} />
-                <YAxis type="category" dataKey="n" stroke={C.dim} fontSize={11} width={150} tickLine={false} axisLine={false} />
-                <Tooltip content={<Tip unit="" title="тренд ×1000" />} cursor={{ fill: `${C.accent}10` }} />
-                <ReferenceLine x={0} stroke={C.dim} />
-                <Bar dataKey="t" radius={2} maxBarSize={16}>
+        {/* 3 — MATRIX */}
+        <Section id="s3" num="03" title="Рост и падение" sub="24 товарные категории по структурному тренду (trend_slope, очищен от сезона). Зелёное — растёт, красное — падает. Ранжирование по тренду надёжнее, чем по YoY.">
+          <Well cap="Источник: RedStat / Kaspi.kz. Шкала — trend_slope ×1000. Ассортиментный сдвиг: растёт всё компактное и доступное для дома; падает громоздкое и нишевое.">
+            <ResponsiveContainer width="100%" height={580}>
+              <BarChart data={MATRIX.map((r) => ({ n: r[0], t: r[2] * 1000 }))} layout="vertical" margin={{ top: 4, right: 30, left: 8, bottom: 0 }}>
+                <CartesianGrid stroke={C.rule} strokeDasharray="0" horizontal={false} />
+                <XAxis type="number" tick={axis} tickLine={false} axisLine={false} tickFormatter={(v: number) => (v > 0 ? `+${v}` : `${v}`)} />
+                <YAxis type="category" dataKey="n" tick={{ ...axis, fontSize: 11.5, fill: C.ink }} width={158} tickLine={false} axisLine={false} />
+                <Tooltip content={<Tip unit="" title="тренд ×1000" />} cursor={{ fill: "#1A171408" }} />
+                <ReferenceLine x={0} stroke={C.ink} />
+                <Bar dataKey="t" maxBarSize={13}>
                   {MATRIX.map((r, i) => (
-                    <Cell key={i} fill={(r[3] as number) >= 0.06 ? C.green : (r[3] as number) >= 0.025 ? C.cyan : (r[3] as number) <= -0.02 ? C.red : C.dim} />
+                    <Cell key={i} fill={r[2] >= 0 ? C.pos : C.neg} />
                   ))}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
-            <div style={{ fontSize: 12, color: C.dim, marginTop: 10, lineHeight: 1.6 }}>
-              <span style={{ color: C.green }}>🚀 Взрыв</span> — степперы, климат · <span style={{ color: C.cyan }}>📈 Растёт</span> — беговые, эспандеры, валики, фитболы, турники, коврики · <span style={{ color: C.dim }}>→ Стабильно</span> — велотренажёры, эллиптические, гантели · <span style={{ color: C.red }}>📉 Падает</span> — виброплатформы, ролики для пресса, инверсионные, гребные, райдеры.
-            </div>
-          </div>
-          <Callout icon="📦" color={C.accent} title="Ассортиментный мегатренд">
-            Растёт всё <b>компактное и доступное для дома</b> (степперы, эспандеры, массажные валики/МФР, фитболы, коврики +30–70%). Падает <b>громоздкое и нишевое</b> (виброплатформы, инверсионные, гребные, ролики для пресса). Покупатель смещается в лёгкий домашний фитнес.
-          </Callout>
+          </Well>
+          <Note tag="—" tone="ink" title="Ассортиментный мегатренд">
+            Растёт компактное и доступное для дома — степперы, эспандеры, массажные валики/МФР, фитболы, коврики (+30…70 %). Падает громоздкое и нишевое — виброплатформы, инверсионные, гребные, ролики для пресса. Покупатель смещается в лёгкий домашний фитнес.
+          </Note>
         </Section>
 
-        {/* 4 · PROFILES */}
-        <Section id="s4" num="4" title="Профили: тренажёр vs климат" sub="Беговые дорожки vs Очистители/увлажнители vs Виброплатформы, факт 2025, млн ₸. Климат пикует ещё раньше и резче (отопительный сезон); виброплатформы — плоский спад без сезона.">
-          <div style={sCard}>
-            <ResponsiveContainer width="100%" height={320}>
-              <ComposedChart data={PROFILES} margin={{ top: 10, right: 12, left: 0, bottom: 0 }}>
-                <CartesianGrid stroke={C.border} strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="m" stroke={C.dim} fontSize={12} tickLine={false} />
-                <YAxis stroke={C.dim} fontSize={11} tickLine={false} axisLine={false} tickFormatter={(v: number) => `${v}M`} />
-                <Tooltip content={<Tip />} cursor={{ fill: `${C.accent}10` }} />
-                <Legend wrapperStyle={{ fontSize: 12 }} />
-                <Bar name="Беговые дорожки" dataKey="Беговые" fill={`${C.blue}cc`} radius={[3, 3, 0, 0]} maxBarSize={26} />
-                <Line name="Климат (очист./увлаж.)" dataKey="Климат" stroke={C.green} strokeWidth={3} dot={{ r: 3 }} />
-                <Line name="Виброплатформы" dataKey="Вибро" stroke={C.red} strokeWidth={2.5} strokeDasharray="5 4" dot={{ r: 3 }} />
+        {/* 4 — PROFILES */}
+        <Section id="s4" num="04" title="Тренажёр против климата" sub="Беговые дорожки · Очистители/увлажнители · Виброплатформы, факт 2025, млн ₸. Климат пикует раньше и резче; виброплатформы — плоский спад без сезона.">
+          <Well cap="Источник: RedStat / Kaspi.kz. Беговые и климат синхронны по сезону, но климат взлетает уже с октября (×3.4 окт→ноя — старт отопления). Виброплатформы пика не имеют — медленно сползают весь год.">
+            <ResponsiveContainer width="100%" height={310}>
+              <ComposedChart data={PROFILES} margin={{ top: 6, right: 8, left: 0, bottom: 0 }}>
+                <CartesianGrid {...gridProps} />
+                <XAxis dataKey="m" tick={axis} tickLine={false} axisLine={{ stroke: C.ink }} />
+                <YAxis tick={axis} tickLine={false} axisLine={false} tickFormatter={(v: number) => `${v}`} width={36} />
+                <Tooltip content={<Tip />} cursor={{ fill: "#1A171408" }} />
+                <Legend wrapperStyle={{ fontFamily: SANS, fontSize: 11.5, color: C.sub }} iconType="plainline" />
+                <Bar name="Беговые дорожки" dataKey="Беговые" fill="#C9B89C" maxBarSize={22} />
+                <Line name="Климат (очист./увлаж.)" dataKey="Климат" stroke={C.pos} strokeWidth={1.75} dot={{ r: 2.5, strokeWidth: 0 }} />
+                <Line name="Виброплатформы" dataKey="Вибро" stroke={C.neg} strokeWidth={1.5} strokeDasharray="5 3" dot={{ r: 2.5, strokeWidth: 0 }} />
               </ComposedChart>
             </ResponsiveContainer>
-            <div style={{ fontSize: 12, color: C.dim, marginTop: 10, lineHeight: 1.6 }}>
-              Беговые и климат синхронны по сезону (пик ноябрь), но климат взлетает уже с октября (×3.4 окт→ноя — старт отопления). Виброплатформы не имеют пика — просто медленно сползают вниз весь год.
-            </div>
-          </div>
+          </Well>
         </Section>
 
-        {/* 5 · TABLE */}
-        <Section id="s5" num="5" title="8 ниш — таблица и вердикты" sub="Помесячно 2025 (млн ₸), Feb-2026, зимний YoY и вердикт. Отсортировано по размеру рынка.">
-          <div style={{ overflowX: "auto", ...sCard, padding: 0 }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11.5 }}>
+        {/* 5 — TABLE */}
+        <Section id="s5" num="05" title="Восемь ниш" sub="Помесячно 2025 (млн ₸), Feb-2026, зимний YoY и вердикт. Тёмная цифра — пиковый месяц года.">
+          <div style={{ overflowX: "auto", marginBottom: 12 }}>
+            <table style={{ width: "100%", borderCollapse: "collapse", ...num, fontSize: 12 }}>
               <thead>
-                <tr>
+                <tr style={{ borderBottom: `2px solid ${C.ink}` }}>
                   {["Ниша", "Статус", "Feb-26", "YoY", "Я", "Ф", "М", "А", "М", "И", "И", "А", "С", "О", "Н", "Д", "Вердикт"].map((h, i) => (
-                    <th key={i} style={{ padding: "10px 7px", textAlign: i === 0 ? "left" : "center", color: C.dim, fontWeight: 600, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 10.5, position: i === 0 ? "sticky" : undefined, left: i === 0 ? 0 : undefined, background: i === 0 ? C.surface : undefined }}>{h}</th>
+                    <th key={i} style={{ padding: "8px 7px", textAlign: i === 0 || i === 16 ? "left" : i === 1 ? "left" : "right", color: C.sub, fontWeight: 600, whiteSpace: "nowrap", fontSize: 10.5, fontFamily: SANS, letterSpacing: "0.04em", textTransform: "uppercase" }}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -339,84 +325,80 @@ export default function KaspiFitnessPage() {
                   const series = r[4] as number[];
                   const mx = Math.max(...series);
                   return (
-                    <tr key={ri}>
-                      <td style={{ padding: "9px 7px", color: C.text, fontWeight: 600, whiteSpace: "nowrap", borderBottom: `1px solid ${C.border}20`, position: "sticky", left: 0, background: C.surface }}>{r[0]}</td>
-                      <td style={{ padding: "9px 7px", textAlign: "center", color: col, borderBottom: `1px solid ${C.border}20`, whiteSpace: "nowrap", fontSize: 10.5 }}>{lbl}</td>
-                      <td style={{ padding: "9px 7px", textAlign: "center", color: C.text, fontWeight: 700, borderBottom: `1px solid ${C.border}20` }}>{r[2]}</td>
-                      <td style={{ padding: "9px 7px", textAlign: "center", color: (r[3] as number) >= 0 ? C.green : C.red, fontWeight: 600, borderBottom: `1px solid ${C.border}20` }}>{(r[3] as number) >= 0 ? "+" : ""}{r[3]}%</td>
+                    <tr key={ri} style={{ borderBottom: `1px solid ${C.ruleSoft}` }}>
+                      <td style={{ padding: "9px 7px", color: C.ink, fontWeight: 700, whiteSpace: "nowrap", fontFamily: SERIF, fontSize: 13.5 }}>{r[0]}</td>
+                      <td style={{ padding: "9px 7px", color: col, fontFamily: SANS, fontSize: 11, fontWeight: 600 }}>{lbl}</td>
+                      <td style={{ padding: "9px 7px", textAlign: "right", color: C.ink, fontWeight: 700 }}>{r[2]}</td>
+                      <td style={{ padding: "9px 7px", textAlign: "right", color: (r[3] as number) >= 0 ? C.pos : C.neg, fontWeight: 600 }}>{(r[3] as number) >= 0 ? "+" : ""}{r[3]}%</td>
                       {series.map((v, ci) => (
-                        <td key={ci} style={{ padding: "9px 5px", textAlign: "center", color: v === mx ? C.blue : "#888", fontWeight: v === mx ? 700 : 400, borderBottom: `1px solid ${C.border}20` }}>{v}</td>
+                        <td key={ci} style={{ padding: "9px 6px", textAlign: "right", color: v === mx ? C.ink : C.faint, fontWeight: v === mx ? 700 : 400 }}>{v}</td>
                       ))}
-                      <td style={{ padding: "9px 10px", color: "#bbb", borderBottom: `1px solid ${C.border}20`, fontSize: 11, minWidth: 230 }}>{r[6]}</td>
+                      <td style={{ padding: "9px 10px", color: C.sub, fontFamily: SERIF, fontSize: 12.5, minWidth: 230, lineHeight: 1.45 }}>{r[6]}</td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
           </div>
-          <p style={{ fontSize: 12, color: C.dim, marginTop: 10 }}>Синим — пиковый месяц 2025. Я–Д = январь…декабрь. Полные ряды и прогноз 2026 — в текстовом отчёте RedStat.</p>
+          <p style={sCaption}>Я–Д = январь…декабрь 2025. Полные ряды и прогноз 2026 — в текстовом отчёте RedStat.</p>
         </Section>
 
-        {/* 6 · RECS */}
-        <Section id="s6" num="6" title="Рекомендации и тайминг">
-          <div style={sCard}>
-            <h3 style={{ fontSize: 15, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>Приоритеты входа</h3>
+        {/* 6 — RECS */}
+        <Section id="s6" num="06" title="Рекомендации">
+          <ol style={{ ...sBody, paddingLeft: 0, listStyle: "none", margin: "0 0 30px", counterReset: "rec" }}>
             {[
-              ["1", "Степперы — сейчас", "Единственная ниша без сезонного «нельзя в мае»: десезонилась и растёт ×18. Низкий чек, фрагментированная конкуренция — место для бренда."],
-              ["2", "Очистители/увлажнители — к осени", "Крупно (600M+), +100% YoY, премиум-маржа. Целиться в средний сегмент (~22–40k ₸) или увлажнители-фокус. Закуп август–сентябрь."],
-              ["3", "Лёгкий домашний фитнес", "Эспандеры, массажные валики/МФР, коврики, фитболы: +50–70%, слабая сезонность, дёшево входить, ровная торговля круглый год."],
-              ["4", "Беговые — только дифференцированно", "Крупнейший рынок, но GENAU-моно. Угол: компактные/складные, умные, детские, реабилитация, сервис+сборка+гарантия."],
-            ].map(([n, t, d]) => (
-              <div key={n} style={{ display: "flex", gap: 14, padding: "12px 0", borderBottom: `1px solid ${C.border}30` }}>
-                <div style={{ width: 26, height: 26, borderRadius: 7, background: `${C.green}18`, color: C.green, fontWeight: 800, fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{n}</div>
-                <div><span style={{ color: C.text, fontWeight: 600, fontSize: 14 }}>{t}.</span> <span style={{ color: "#bbb", fontSize: 13.5, lineHeight: 1.6 }}>{d}</span></div>
-              </div>
+              ["Степперы — сейчас", "Единственная ниша без сезонного «нельзя в мае»: десезонилась и растёт ×18. Низкий чек, фрагментированная конкуренция — место для бренда."],
+              ["Очистители/увлажнители — к осени", "Крупно (600 M+), +100 % YoY, премиум-маржа. Целиться в средний сегмент (≈22–40 k ₸) или увлажнители-фокус. Закуп август–сентябрь."],
+              ["Лёгкий домашний фитнес", "Эспандеры, массажные валики/МФР, коврики, фитболы: +50…70 %, слабая сезонность, дёшево входить, ровная торговля круглый год."],
+              ["Беговые — только дифференцированно", "Крупнейший рынок, но GENAU-моно. Угол: компактные/складные, умные, детские, реабилитация, сервис + сборка + гарантия."],
+            ].map(([t, d], i) => (
+              <li key={i} style={{ display: "flex", gap: 18, padding: "16px 0", borderBottom: `1px solid ${C.ruleSoft}` }}>
+                <span style={{ fontFamily: SERIF, fontSize: 24, fontWeight: 700, color: C.faint, lineHeight: 1, minWidth: 30 }}>{String(i + 1).padStart(2, "0")}</span>
+                <span><b style={{ color: C.ink }}>{t}.</b> <span style={{ color: C.sub }}>{d}</span></span>
+              </li>
             ))}
+          </ol>
+          <div style={{ marginBottom: 22 }}>
+            <div style={{ ...sKicker, fontSize: 11, marginBottom: 12 }}>Календарь сезона · тренажёры + климат</div>
+            <table style={{ width: "100%", borderCollapse: "collapse", borderTop: `2px solid ${C.ink}` }}>
+              <tbody>
+                {[
+                  ["Май–июль (сейчас)", "Низкий сезон. Не разгонять тренажёры/климат. Работать со степперами и лёгким инвентарём. Тест новых SKU малыми партиями"],
+                  ["Август–сентябрь", "Главный закуп под осень: тренажёры, климат, турники. Готовить листинги, отзывы, цены"],
+                  ["Октябрь", "Разгон. Старт роста климата (отопление). Полный сток к концу месяца"],
+                  ["Ноябрь — Kaspi Juma", "Пик года. Держать цену и контроль out-of-stock"],
+                  ["Декабрь–февраль", "Высокое плато (НГ + «решения с нового года»). Допродажи"],
+                  ["Март–апрель", "Спад. Распродажа остатков, не дозакупать «зимнее»"],
+                ].map((r, i) => (
+                  <tr key={i} style={{ borderBottom: `1px solid ${C.ruleSoft}` }}>
+                    <td style={{ padding: "11px 16px 11px 0", color: C.ink, fontWeight: 700, whiteSpace: "nowrap", fontFamily: SERIF, fontSize: 14, verticalAlign: "top", width: 180 }}>{r[0]}</td>
+                    <td style={{ padding: "11px 0", color: C.sub, fontFamily: SERIF, fontSize: 14, lineHeight: 1.55 }}>{r[1]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-          <div style={sCard}>
-            <h3 style={{ fontSize: 15, fontWeight: 700, color: C.text, margin: "0 0 14px" }}>Календарь сезона (тренажёры + климат)</h3>
-            <div style={{ overflowX: "auto" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12.5 }}>
-                <thead><tr>{["Период", "Что делать"].map((h, i) => (
-                  <th key={i} style={{ padding: "10px 12px", textAlign: "left", color: C.dim, fontWeight: 600, borderBottom: `1px solid ${C.border}`, fontSize: 11 }}>{h}</th>
-                ))}</tr></thead>
-                <tbody>
-                  {[
-                    ["Май–июль (сейчас)", "Низкий сезон. НЕ разгонять тренажёры/климат. Работать со степперами и лёгким инвентарём (десезонены). Тест новых SKU малыми партиями"],
-                    ["Август–сентябрь", "Главный закуп под осень: тренажёры, климат, турники. Готовить листинги, отзывы, цены"],
-                    ["Октябрь", "Разгон. Старт роста климата (отопление). Полный сток к концу месяца"],
-                    ["Ноябрь — Kaspi Juma", "ПИК года. Держать цену и контроль out-of-stock"],
-                    ["Декабрь–февраль", "Высокое плато (НГ + «решения с нового года»). Допродажи"],
-                    ["Март–апрель", "Спад. Распродажа остатков, не дозакупать «зимнее»"],
-                  ].map((r, i) => (
-                    <tr key={i}>
-                      <td style={{ padding: "10px 12px", color: C.text, fontWeight: 700, borderBottom: `1px solid ${C.border}20`, whiteSpace: "nowrap" }}>{r[0]}</td>
-                      <td style={{ padding: "10px 12px", color: "#ccc", borderBottom: `1px solid ${C.border}20` }}>{r[1]}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <Callout icon="💡" color={C.blue} title="Стратегический инсайт: антицикл">
+          <Note tag="∞" tone="accent" title="Стратегический инсайт — антицикл">
             Кемпинг пикует в июне (закуп в мае), фитнес/климат — в ноябре (закуп в августе–сентябре). Продавец с обеими нишами загружает склад и оборотку круглый год без простоя: лето — кемпинг, зима — фитнес и климат.
-          </Callout>
+          </Note>
         </Section>
 
-        {/* 7 · METHOD */}
-        <Section id="s7" num="7" title="Методология">
-          <div style={sCard}>
-            <p style={sP}><b style={{ color: C.text }}>Источник.</b> RedStat Backend API (ClickHouse, Kaspi.kz): <code style={{ color: C.cyan }}>/api/niche/history</code> + <code style={{ color: C.cyan }}>/forecast</code> (16 мес факта + прогноз, объект сезонности), <code style={{ color: C.cyan }}>/category-segments</code>, <code style={{ color: C.cyan }}>/category-brand</code>, <code style={{ color: C.cyan }}>/sku-v1</code>. 29 категорий.</p>
-            <p style={sP}><b style={{ color: C.text }}>Проверка.</b> Сезонный паттерн воспроизводится у всех «зимних» категорий независимо. Взрыв степперов валидирован по «физике»: SKU 11→75, продавцов 9→51, заказов 703→13 244 — органический рост, не дубль данных. Падающие категории — leaf с непрерывным рядом.</p>
-            <Callout icon="⚠️" color={C.amber} title="Ограничения (учтены)">
-              Зимний YoY у мелких/узловых категорий завышен перестройкой дерева Kaspi в 2025 — ранжирование велось по <code style={{ color: C.cyan }}>trend_slope</code> (устойчив), YoY — подтверждающий сигнал. «Очистители и увлажнители» — одна объединённая категория Kaspi (раздельной выручки API не отдаёт; сплит по типу сделан на уровне топ-SKU/брендов). Сегменты/SKU — только текущий срез. Прогноз — модель (для взрывных категорий — сценарий).
-            </Callout>
-            <p style={{ ...sP, margin: "8px 0 0", fontSize: 13, color: C.dim }}><code style={{ color: C.cyan }}>B ₸</code> = млрд тенге, <code style={{ color: C.cyan }}>M ₸</code> = млн тенге · «факт» — данные Kaspi · «прогноз» — модель RedStat (тренд × сезонность).</p>
-          </div>
-          <div style={{ textAlign: "center", marginTop: 32, fontSize: 12, color: C.dim }}>
-            Автор анализа: Алмас Касымжанов · Подготовлено для: Сергей Соколунин<br />
-            akasymzhanov.com · Enterprise-аналитика тренажёров, фитнеса и климата Kaspi.kz · 15 мая 2026
-          </div>
+        {/* 7 — METHOD */}
+        <Section id="s7" num="07" title="Методология">
+          <p style={sBody}>
+            <b>Источник.</b> RedStat Backend API (ClickHouse, Kaspi.kz): <span style={num}>/api/niche/history</span> + <span style={num}>/forecast</span> (16 мес факта + прогноз, объект сезонности), <span style={num}>/category-segments</span>, <span style={num}>/category-brand</span>, <span style={num}>/sku-v1</span>. 29 категорий.
+          </p>
+          <p style={sBody}>
+            <b>Проверка.</b> Сезонный паттерн воспроизводится у всех «зимних» категорий независимо. Взрыв степперов валидирован по «физике»: SKU 11→75, продавцов 9→51, заказов 703→13 244 — органический рост, не дубль данных. Падающие категории — leaf с непрерывным рядом.
+          </p>
+          <Note tag="!" tone="neg" title="Ограничения (учтены)">
+            Зимний YoY у мелких/узловых категорий завышен перестройкой дерева Kaspi в 2025 — ранжирование велось по trend_slope (устойчив), YoY — подтверждающий сигнал. «Очистители и увлажнители» — одна объединённая категория Kaspi (раздельной выручки API не отдаёт). Сегменты/SKU — только текущий срез. Прогноз — модель.
+          </Note>
+          <p style={{ ...sCaption, marginTop: 6 }}>B ₸ = млрд тенге · M ₸ = млн тенге · «факт» — данные Kaspi · «прогноз» — модель RedStat (тренд × сезонность).</p>
+          <footer style={{ marginTop: 44, paddingTop: 20, borderTop: `3px double ${C.ink}`, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8, fontFamily: SANS, fontSize: 11.5, color: C.faint, letterSpacing: "0.04em" }}>
+            <span>Автор анализа: <b style={{ color: C.sub }}>Алмас Касымжанов</b> · Подготовлено для: <b style={{ color: C.sub }}>Сергей Соколунин</b></span>
+            <span>akasymzhanov.com · 15 мая 2026</span>
+          </footer>
         </Section>
 
       </div>
