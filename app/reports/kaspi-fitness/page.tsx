@@ -169,6 +169,16 @@ export default function KaspiFitnessPage() {
           <p style={{ fontSize: 16, color: C.dim, margin: 0, lineHeight: 1.6 }}>
             29 категорий, полный сезонный цикл (16 мес факта) + прогноз. Сезонность фитнеса — зеркало кемпинга: пик зимой, провал летом. Внутри — взрыв степперов ×18, монополия GENAU и список падающих категорий.
           </p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 28, marginTop: 22, padding: "16px 20px", background: C.surface, border: `1px solid ${C.border}`, borderRadius: 10, borderLeft: `4px solid ${C.accent}` }}>
+            <div>
+              <div style={{ fontSize: 10.5, color: C.dim, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 4 }}>Подготовлено для</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: C.text }}>Сергей Соколунин</div>
+            </div>
+            <div>
+              <div style={{ fontSize: 10.5, color: C.dim, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 4 }}>Автор анализа</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: C.text }}>Алмас Касымжанов</div>
+            </div>
+          </div>
           <div style={{ fontSize: 12, color: C.dim, marginTop: 14 }}>
             Дата: 15 мая 2026 · Окно: ноя-2024 → фев-2026 (факт) + прогноз RedStat до сен-2026 · Источник: RedStat Backend API (ClickHouse, Kaspi.kz)
           </div>
@@ -404,6 +414,7 @@ export default function KaspiFitnessPage() {
             <p style={{ ...sP, margin: "8px 0 0", fontSize: 13, color: C.dim }}><code style={{ color: C.cyan }}>B ₸</code> = млрд тенге, <code style={{ color: C.cyan }}>M ₸</code> = млн тенге · «факт» — данные Kaspi · «прогноз» — модель RedStat (тренд × сезонность).</p>
           </div>
           <div style={{ textAlign: "center", marginTop: 32, fontSize: 12, color: C.dim }}>
+            Автор анализа: Алмас Касымжанов · Подготовлено для: Сергей Соколунин<br />
             akasymzhanov.com · Enterprise-аналитика тренажёров, фитнеса и климата Kaspi.kz · 15 мая 2026
           </div>
         </Section>
