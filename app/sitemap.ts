@@ -15,6 +15,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/tools/ai-seller-guide",
     "/contacts",
     "/sellers-forum",
+    "/sellers-forum/razbor",
+    "/sellers-forum/guide",
     "/reports/zbody",
     "/reports/kaspi-clothing",
     "/reports/bg-optic",
