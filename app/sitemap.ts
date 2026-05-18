@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/tools/mpstats-api",
     "/tools/ai-seller-guide",
     "/contacts",
+    "/sellers-forum",
     "/reports/zbody",
     "/reports/kaspi-clothing",
     "/reports/bg-optic",
