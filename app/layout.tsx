@@ -18,6 +18,14 @@ const menlo = localFont({
   display: "swap",
 });
 
+const ttNorms = localFont({
+  src: "../public/fonts/TTNormsProVariable.ttf",
+  variable: "--font-tt-norms",
+  weight: "100 900",
+  style: "normal",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Almas Kasymzhanov",
   description: "Founder of Redstat & 10b.kz — Marketplace Analytics & Data Products",
@@ -47,7 +55,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ru" className={`${geist.variable} ${menlo.variable}`} suppressHydrationWarning>
+    <html lang="ru" className={`${geist.variable} ${menlo.variable} ${ttNorms.variable}`} suppressHydrationWarning>
       <head>
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />

@@ -29,6 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/reports/towel-warmer-analysis",
     "/reports/kaspi-camping",
     "/reports/kaspi-fitness",
+    "/reports/hinoko-report",
   ];
 
   return staticRoutes.map((route) => ({
