@@ -353,6 +353,31 @@ export default function Page() {
               Запуск на Kaspi.kz с calendar до сентября 2027. Эстетика и функция в духе Arc'teryx,
               реальное позиционирование в премиум-сегменте локального маркетплейса.
             </p>
+
+            {/* Byline — author + brand attribution (Bloomberg canon) */}
+            <div style={{
+              marginTop: 24, paddingTop: 16, borderTop: `1px solid ${C.border}`,
+              display: "flex", flexWrap: "wrap", gap: 48,
+            }}>
+              <div>
+                <span style={{
+                  fontFamily: FONT_NUM, fontSize: 10, color: C.textFaint,
+                  letterSpacing: "0.12em", textTransform: "uppercase", marginRight: 12,
+                }}>By</span>
+                <span style={{
+                  fontFamily: FONT_TEXT, fontSize: 14, color: C.text, fontWeight: 500,
+                }}>Алмас Касымжанов</span>
+              </div>
+              <div>
+                <span style={{
+                  fontFamily: FONT_NUM, fontSize: 10, color: C.textFaint,
+                  letterSpacing: "0.12em", textTransform: "uppercase", marginRight: 12,
+                }}>For brand</span>
+                <span style={{
+                  fontFamily: FONT_TEXT, fontSize: 14, color: C.text, fontWeight: 500,
+                }}>Hinoko</span>
+              </div>
+            </div>
           </div>
 
           {/* Meta строка */}
