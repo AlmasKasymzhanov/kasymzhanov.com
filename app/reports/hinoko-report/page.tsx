@@ -116,17 +116,19 @@ const SCENARIOS = [
   { s: "High", share: 1.5, gmvUsd: 54000, units: 562, sept: 170, net: -4000 },
 ];
 
-// Календарь запуска
+// Календарь запуска — 4-месячный sprint к сентябрю 2026 (главный пик)
 const CALENDAR = [
-  { phase: "Май–Авг 26", action: "Спека, прототипы, factory partner, контент", color: C.accent },
-  { phase: "Сен 26", action: "Production run #1 (300 шт)", color: C.accent },
-  { phase: "Окт 26", action: "Soft-launch Kaspi", color: C.good },
-  { phase: "Ноя–Янв 27", action: "Маркетинг, контент, инфлюенсеры", color: C.textDim },
-  { phase: "Фев 27", action: "Production run #2 (500–700 шт)", color: C.accent },
-  { phase: "Мар 27", action: "Весенний пик — первая коммерческая волна", color: C.good },
+  { phase: "Май 26 (now)", action: "Финализация спеки + brand identity + поиск фабрики (Sympatex/Toray supplier)", color: C.accent },
+  { phase: "Июнь 26", action: "Прототипы, factory contract, fabric/membrane samples, lab-тест WP/MVTR", color: C.accent },
+  { phase: "Июль 26", action: "Pre-production sample approval, production run #1 (300 шт), фото/видеопродакшн", color: C.accent },
+  { phase: "Август 26", action: "Логистика → Алматы, Kaspi store setup, pre-launch awareness (контент + инфлюенсеры)", color: C.accent },
+  { phase: "Сентябрь 26", action: "★ ЗАПУСК в главный пик сезона (target 80–150 шт/мес)", color: C.good },
+  { phase: "Окт–Дек 26", action: "Post-peak sell-out, накопление отзывов, performance ads", color: C.textDim },
+  { phase: "Янв 27", action: "Production run #2 (500–700 шт) — заказ под мартовский пик", color: C.accent },
+  { phase: "Март 27", action: "Весенний пик — вторая коммерческая волна (Year 1)", color: C.good },
   { phase: "Май–Июл 27", action: "Сток заморожен. Контент + brand build", color: C.textFaint },
-  { phase: "Авг 27", action: "Production run #3 (1000+ шт)", color: C.accent },
-  { phase: "Сен 27", action: "ГЛАВНЫЙ ПИК (target 80–150 шт/мес)", color: C.good },
+  { phase: "Август 27", action: "Production run #3 (1000+ шт) — расширенный объём при подтверждённом PMF", color: C.accent },
+  { phase: "Сентябрь 27", action: "✦ ВТОРОЙ ГЛАВНЫЙ ПИК (target 200–300 шт/мес)", color: C.good },
 ];
 
 // Риски
@@ -350,8 +352,9 @@ export default function Page() {
               maxWidth: 720, lineHeight: 1.55,
             }}>
               Лёгкая водоотталкивающая техническая куртка для outdoor / кемпинга / хайкинга.
-              Запуск на Kaspi.kz с calendar до сентября 2027. Эстетика и функция в духе Arc'teryx,
-              реальное позиционирование в премиум-сегменте локального маркетплейса.
+              Запуск на Kaspi.kz в <strong style={{ color: C.text, fontWeight: 600 }}>сентябре 2026</strong> —
+              точно к главному пику сезона. 4-месячный sprint от концепта до полки.
+              Эстетика и функция в духе Arc'teryx, реальное позиционирование в премиум-сегменте локального маркетплейса.
             </p>
 
             {/* Byline — author + brand attribution (Bloomberg canon) */}
@@ -413,7 +416,8 @@ export default function Page() {
               Первый рынок — <strong style={{ color: C.text }}>Kaspi.kz</strong>. Первый продукт —
               лёгкая техническая 2.5L shell-куртка с PFAS-free мембраной. Целевая цена{" "}
               <Num color={C.accent}>35 000–55 000 ₸</Num> (<Num color={C.accent}>$75–120</Num>).
-              Target Q1 пика — <Num color={C.accent}>80–150 единиц/месяц</Num> в сентябре 2027.
+              Запуск в <Num color={C.accent}>сентябре 2026</Num> (4 месяца от сейчас) —
+              target <Num color={C.accent}>80–150 единиц/месяц</Num> в первом же пике.
             </P>
             <div style={{
               marginTop: 16, padding: 16, background: C.surfaceAlt,
@@ -755,7 +759,7 @@ export default function Page() {
 
         {/* ─────────── §06 CALENDAR ─────────── */}
         <Section num="06" title="Календарь запуска"
-          subtitle="От прототипирования к главному коммерческому пику Year 1 — сентябрь 2027.">
+          subtitle="4-месячный sprint: концепт (май 2026) → ЗАПУСК в главный пик (сентябрь 2026). Year 2 расширяется под повторный сентябрьский пик 2027.">
           <Card>
             {CALENDAR.map((c, i) => (
               <div key={i} style={{
@@ -776,7 +780,7 @@ export default function Page() {
 
         {/* ─────────── §07 SCENARIOS ─────────── */}
         <Section num="07" title="Финансовые сценарии Year 1"
-          subtitle="Допущения: ASP 45 000 ₸, CIF $32/unit, Kaspi+эквайринг+логистика 18%, возвраты 10%, маркетинг $20-30K.">
+          subtitle="Year 1 = Sept 2026 – Aug 2027 (два пика: сентябрь 26 + март 27). Допущения: ASP 45 000 ₸, CIF $32/unit, Kaspi+эквайринг+логистика 18%, возвраты 10%, маркетинг $20-30K.">
           <Card>
             <div style={{ display: "grid", gridTemplateColumns: "100px 1fr 1fr 1fr 1fr 1fr 1fr", gap: 0 }}>
               {["", "Доля Kaspi M", "GMV годовой", "Единиц/год", "Сент пик, шт", "Net contrib.", "Net Y1 (incl. mkt)"].map((h) => (
