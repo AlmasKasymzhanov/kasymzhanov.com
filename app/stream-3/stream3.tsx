@@ -61,6 +61,10 @@ const CSS = `
     border-radius:8px;padding:10px 16px;color:var(--ink)}
   .s3-cta{border:1px solid var(--ink);border-radius:14px;padding:30px 28px;margin:24px 0 0}
   .s3-cta p{color:var(--ink)}
+  .s3-wa{display:inline-block;margin-top:18px;background:var(--ink);color:var(--bg);
+    text-decoration:none;font-weight:600;font-size:15px;padding:13px 22px;border-radius:10px;
+    transition:opacity .15s}
+  .s3-wa:hover{opacity:.85}
   .s3-foot{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);
     font-size:14px;color:var(--dim)}
   .s3-foot a{color:var(--ink);text-underline-offset:3px}
@@ -178,6 +182,10 @@ const MODULES: Module[] = [
     ),
   },
 ];
+
+const WA = `https://wa.me/77028290908?text=${encodeURIComponent(
+  "Здравствуйте! Хочу на третий поток курса по AI-аналитике маркетплейсов."
+)}`;
 
 export function Stream3Page() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -308,16 +316,13 @@ export function Stream3Page() {
           <div className="s3-kicker">Бонус 2</div>
           <h2>Белый ввоз из Китая</h2>
           <p>
-            Возить по-серому — значит спать вполглаза. Отдельное занятие с
-            Рустамом Ниетпаевым, основателем TradeLINK: его команда возит товар
-            из Китая под ключ каждый день.
+            Возить по-серому — значит спать вполглаза. Разберём как делать
+            по-белому, чтобы спать спокойно и расти.
           </p>
           <p>
-            Уровень, которому доверяют серьёзные сети. Рустам — <b>партнёр
-            McDonald&apos;s Казахстан</b>, поставляет для них оборудование.
-            Среди клиентов — сети ресторанов <b>Sandeq</b>, <b>Tarek</b>,{" "}
-            <b>Hilton Казахстан</b> и другие компании группы Hilton, плюс
-            десятки других крупных заказчиков.
+            Белым ввозом занимается наш партнёр — он возит оборудование для{" "}
+            <b>McDonald&apos;s</b> и <b>Hilton</b> в Казахстан. Уровень,
+            которому доверяют международные сети.
           </p>
           <p>На занятии разбираем как делать по-белому и спать спокойно:</p>
           <ul>
@@ -459,30 +464,26 @@ export function Stream3Page() {
         {/* CTA */}
         <div className="s3-cta">
           <p style={{ margin: 0, fontSize: 18, fontWeight: 600 }}>
-            Старт — по мере набора группы.
+            Старт через 10 дней. Стоимость 250 000 ₸.
           </p>
           <p style={{ marginTop: 8 }}>
-            Напишите мне в личку: расскажу детали, отвечу на вопросы и закреплю
-            за вами место.{" "}
-            <a
-              href="https://www.instagram.com/almas_kasymzhanov/"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "var(--ink)" }}
-            >
-              @almas_kasymzhanov
-            </a>
+            Мест в группе немного. Напишите мне в WhatsApp: расскажу детали,
+            отвечу на вопросы и закреплю за вами место.
           </p>
+          <a
+            className="s3-wa"
+            href={WA}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Написать в WhatsApp →
+          </a>
         </div>
 
         <div className="s3-foot">
           Алмас Касымжанов ·{" "}
-          <a
-            href="https://www.instagram.com/almas_kasymzhanov/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            @almas_kasymzhanov
+          <a href={WA} target="_blank" rel="noopener noreferrer">
+            WhatsApp
           </a>
         </div>
       </div>
