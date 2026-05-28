@@ -17,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/sellers-forum",
     "/sellers-forum/razbor",
     "/sellers-forum/guide",
+    "/stream-3",
     "/reports/zbody",
     "/reports/kaspi-clothing",
     "/reports/bg-optic",
