@@ -1,84 +1,76 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const CSS = `
   .s3{
-    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-    background:var(--bg);color:var(--ink);font-family:var(--sans);
-    -webkit-font-smoothing:antialiased;line-height:1.6;min-height:100vh;
-    transition:background .2s,color .2s;
+    color:var(--color-text);
+    font-family:var(--font-sans);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.8;
   }
-  .s3.light{--bg:#ffffff;--ink:#101012;--dim:#6b6b70;--line:#e5e5e7;--soft:#f6f6f7;--accent:#101012}
-  .s3.dark{--bg:#0c0c0d;--ink:#f3f3f4;--dim:#9a9aa0;--line:#262629;--soft:#161618;--accent:#f3f3f4}
-  .s3-wrap{max-width:720px;margin:0 auto;padding:40px 24px 120px}
-  .s3-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:48px}
-  .s3-brand{font-family:var(--mono);font-size:13px;color:var(--dim);text-decoration:none}
-  .s3-brand:hover{color:var(--ink)}
-  .s3-toggle{width:34px;height:34px;border:1px solid var(--line);border-radius:50%;
-    background:transparent;cursor:pointer;display:flex;align-items:center;
-    justify-content:center;color:var(--ink);transition:border-color .15s}
-  .s3-toggle:hover{border-color:var(--ink)}
-  .s3-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink)}
-  .s3.dark .s3-dot{background:var(--ink)}
-  .s3-eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;
-    color:var(--dim);font-weight:600;margin-bottom:18px}
-  .s3 h1{font-size:clamp(30px,6vw,52px);line-height:1.05;letter-spacing:-.025em;
-    font-weight:700;margin:0 0 22px}
-  .s3-lead{font-size:18px;color:var(--ink);margin:0 0 14px;max-width:62ch}
-  .s3-lead.dim{color:var(--dim)}
-  .s3-rule{border:none;border-top:1px solid var(--line);margin:56px 0 0}
+  .s3-wrap{max-width:680px;margin:0 auto;padding:48px 24px 96px}
+  .s3-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+  .s3-back{display:inline-block;font-family:var(--font-mono);font-size:12px;font-weight:400;
+    color:var(--color-dim);text-decoration:none;margin-bottom:56px;transition:color .15s}
+  .s3-back:hover{color:var(--color-text)}
+  .s3-arr{color:var(--color-dim);opacity:.55;padding:0 2px}
+  .s3-brand{font-family:var(--font-mono);font-size:13px;color:var(--color-dim);text-decoration:none;transition:color .15s}
+  .s3-brand:hover{color:var(--color-text)}
+  .s3-eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--color-dim);margin-bottom:16px}
+  .s3 h1{font-size:33px;line-height:1.18;letter-spacing:-.02em;font-weight:700;
+    color:var(--color-text);margin:0 0 20px}
+  .s3-lead{font-size:16px;color:var(--color-dim);line-height:1.8;margin:0 0 16px}
+  .s3-lead.dim{color:var(--color-dim);opacity:.85}
+  .s3-rule{border:none;border-top:1px solid var(--color-border);margin:48px 0 0}
   .s3-sec{padding:48px 0 0}
-  .s3-kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--dim);margin-bottom:18px}
-  .s3 h2{font-size:clamp(22px,4vw,30px);line-height:1.12;letter-spacing:-.02em;
-    font-weight:680;margin:0 0 16px}
-  .s3 p{font-size:17px;color:var(--dim);margin:14px 0}
-  .s3 p b,.s3 li b{color:var(--ink);font-weight:600}
-  .s3-card{border:1px solid var(--line);border-radius:14px;padding:30px 28px;margin:18px 0}
-  .s3-card h3{font-size:21px;font-weight:660;letter-spacing:-.01em;margin:0 0 4px}
-  .s3-card .s3-num{margin-bottom:0;margin-right:10px}
-  .s3-num{font-family:var(--mono);font-size:13px;color:var(--dim);
-    border:1px solid var(--line);border-radius:6px;padding:3px 9px;display:inline-block}
-  .s3-head-row{display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-bottom:14px}
-  .s3-res{font-size:16px;color:var(--ink);background:var(--soft);
-    border-left:3px solid var(--ink);padding:12px 16px;margin-top:16px;border-radius:0 8px 8px 0}
+  .s3-kicker{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--color-dim);margin-bottom:16px}
+  .s3 h2{font-size:20px;line-height:1.25;letter-spacing:-.01em;font-weight:650;
+    color:var(--color-text);margin:0 0 16px}
+  .s3 p{font-size:15px;color:var(--color-dim);line-height:1.8;margin:14px 0}
+  .s3 p b,.s3 li b{color:var(--color-text);font-weight:600}
+  .s3-card{border:1px solid var(--color-border);border-radius:3px;padding:26px 24px;margin:16px 0}
+  .s3-card h3{font-size:16px;font-weight:600;letter-spacing:-.01em;color:var(--color-text);margin:0}
+  .s3-card p{margin:10px 0 0}
+  .s3-num{font-family:var(--font-mono);font-size:12px;color:var(--color-dim)}
+  .s3-head-row{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+  .s3-res{font-size:15px;color:var(--color-text);background:var(--color-surface);
+    border-left:2px solid var(--color-border);padding:12px 16px;margin-top:16px;
+    border-radius:0 3px 3px 0;line-height:1.7}
   .s3-res b{font-weight:700}
-  .s3 ul{margin:14px 0 0 0;padding:0;list-style:none}
-  .s3 ul li{font-size:16px;color:var(--dim);padding:7px 0 7px 22px;position:relative}
-  .s3 ul li:before{content:"";position:absolute;left:2px;top:15px;width:6px;height:6px;
-    border-radius:50%;background:var(--dim)}
-  .s3-tablewrap{overflow-x:auto;margin:18px 0}
-  .s3-table{width:100%;border-collapse:collapse;font-size:15px;min-width:420px}
-  .s3-table th{text-align:left;font-weight:600;color:var(--dim);padding:10px 12px;
-    border-bottom:2px solid var(--line);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
-  .s3-table td{padding:11px 12px;border-bottom:1px solid var(--line);color:var(--ink);vertical-align:top}
-  .s3-table td:last-child,.s3-table th:last-child{text-align:right;white-space:nowrap;font-weight:600}
-  .s3-table td.free{color:var(--ink)}
-  .s3-price{display:flex;flex-wrap:wrap;gap:14px;margin:18px 0 0}
-  .s3-pill{font-family:var(--mono);font-size:14px;border:1px solid var(--line);
-    border-radius:8px;padding:10px 16px;color:var(--ink)}
-  .s3-cta{border:1px solid var(--ink);border-radius:14px;padding:30px 28px;margin:24px 0 0}
-  .s3-cta p{color:var(--ink)}
-  .s3-wa{display:inline-block;margin-top:18px;background:var(--ink);color:var(--bg);
-    text-decoration:none;font-weight:600;font-size:15px;padding:13px 22px;border-radius:10px;
-    transition:opacity .15s}
-  .s3-wa:hover{opacity:.85}
-  .s3-foot{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);
-    font-size:14px;color:var(--dim)}
-  .s3-foot a{color:var(--ink);text-underline-offset:3px}
+  .s3 ul{margin:14px 0 0;padding:0 0 0 20px;list-style:disc}
+  .s3 ul li{font-size:15px;color:var(--color-dim);line-height:1.8;padding:3px 0}
+  .s3 ul li::marker{color:var(--color-dim)}
+  .s3-tablewrap{overflow-x:auto;margin:18px 0;border:1px solid var(--color-border);border-radius:3px}
+  .s3-table{width:100%;border-collapse:collapse;font-size:13px;min-width:420px}
+  .s3-table th{text-align:left;font-family:var(--font-mono);font-weight:500;color:var(--color-dim);
+    padding:10px 16px;border-bottom:1px solid var(--color-border);font-size:11px;
+    text-transform:uppercase;letter-spacing:.05em}
+  .s3-table td{padding:11px 16px;border-bottom:1px solid var(--color-border);
+    color:var(--color-text);vertical-align:top;font-size:13px}
+  .s3-table tr:last-child td{border-bottom:none}
+  .s3-table td:last-child,.s3-table th:last-child{text-align:right;white-space:nowrap;font-family:var(--font-mono)}
+  .s3-table td.free{color:var(--color-text)}
+  .s3-cta{border:1px solid var(--color-border);border-radius:3px;padding:26px 24px;margin:24px 0 0}
+  .s3-cta p{color:var(--color-text)}
+  .s3-wa{display:inline-flex;align-items:center;gap:6px;margin-top:18px;
+    font-family:var(--font-mono);font-size:13px;font-weight:500;color:var(--color-text);
+    text-decoration:none;border:1px solid var(--color-text);border-radius:3px;
+    padding:11px 18px;transition:background .15s,color .15s}
+  .s3-wa:hover{background:var(--color-text);color:var(--color-bg)}
+  .s3-foot{margin-top:64px;padding-top:24px;border-top:1px solid var(--color-border);
+    font-family:var(--font-mono);font-size:12px;color:var(--color-dim)}
+  .s3-foot a{color:var(--color-text);text-underline-offset:3px}
   @media (max-width:480px){
-    .s3-wrap{padding:28px 18px 90px}
-    .s3-top{margin-bottom:36px}
-    .s3-card,.s3-cta{padding:22px 18px}
+    .s3-wrap{padding:32px 18px 64px}
+    .s3-back{margin-bottom:40px}
+    .s3 h1{font-size:27px}
+    .s3-card,.s3-cta{padding:20px 18px}
     .s3-sec{padding:40px 0 0}
-    .s3-rule{margin-top:44px}
-    .s3-lead{font-size:17px}
-    .s3 p{font-size:16px}
-    .s3-res,.s3 ul li{font-size:15px}
-    .s3-price{gap:10px}
-    .s3-pill{font-size:13px;padding:9px 13px}
+    .s3-rule{margin-top:40px}
   }
 `;
 
@@ -115,6 +107,33 @@ const MODULES: Module[] = [
   },
   {
     num: "Модуль 2",
+    title: "Свой дашборд: оцифровка магазина",
+    body: (
+      <>
+        <p>
+          Полная оцифровка вашего магазина на Kaspi. Вы перестаёте держать
+          цифры в голове и в таблицах: продажи, маржа, остатки и отмены
+          собираются в один живой дашборд.
+        </p>
+        <p>
+          Я даю готовое решение. Прямо на эфире вы разворачиваете его у себя,
+          вставляете свой токен и получаете дашборд с полной аналитикой по
+          своему магазину. Никаких подписок: инструмент ваш.
+        </p>
+        <p>
+          Сюда же выводим MCP-коннектор Redstat. В одном окне видите весь
+          спектр: что продаётся у вас, что делают конкуренты и куда движется
+          рынок.
+        </p>
+        <div className="s3-res">
+          <b>Результат:</b> живой дашборд по вашему магазину, рядом рыночная
+          аналитика, всё в одном месте.
+        </div>
+      </>
+    ),
+  },
+  {
+    num: "Модуль 3",
     title: "Wildberries × MPStats",
     body: (
       <>
@@ -138,7 +157,7 @@ const MODULES: Module[] = [
     ),
   },
   {
-    num: "Модуль 3",
+    num: "Модуль 4",
     title: "Тренды Amazon → Kaspi и Wildberries",
     body: (
       <>
@@ -158,19 +177,19 @@ const MODULES: Module[] = [
         <p>Разбираем три инструмента:</p>
         <ul>
           <li>
-            <b>Jungle Scout</b> — продуктовые тренды Amazon. Через group-buy:
-            $8 вместо $49+ в месяц.
+            <b>Jungle Scout</b> — продуктовые тренды Amazon. Доступ через мой
+            аккаунт, для вас бесплатно.
           </li>
           <li>
-            <b>Helium 10</b> — глубокая аналитика и keyword research. Через
-            group-buy: $10 вместо $99+ в месяц.
+            <b>Helium 10</b> — глубокая аналитика и keyword research. Доступ
+            через мой аккаунт, для вас бесплатно.
           </li>
           <li>
             <b>amazing.ai</b> — расширение для аналитики SKU прямо на странице
             Amazon.
           </li>
         </ul>
-        <p>Доступ через мой group-buy даю бесплатно и показываю как подключить.</p>
+        <p>Все доступы открываю со своей стороны: вы пользуетесь через мой аккаунт и ничего не платите. Показываю, как подключить.</p>
         <div className="s3-res">
           <b>Результат:</b> заходите в нишу за 6–18 месяцев до того, как в неё
           придут конкуренты.
@@ -179,7 +198,7 @@ const MODULES: Module[] = [
     ),
   },
   {
-    num: "Модуль 4",
+    num: "Модуль 5",
     title: "Личная AI-база знаний",
     body: (
       <>
@@ -208,36 +227,15 @@ const WA = `https://wa.me/77028290908?text=${encodeURIComponent(
 )}`;
 
 export function Stream3Page() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
-
-  useEffect(() => {
-    const saved = localStorage.getItem("s3-theme");
-    if (saved === "dark" || saved === "light") setTheme(saved);
-  }, []);
-
-  const toggle = () => {
-    const next = theme === "light" ? "dark" : "light";
-    setTheme(next);
-    try {
-      localStorage.setItem("s3-theme", next);
-    } catch {}
-  };
-
   return (
-    <div className={`s3 ${theme}`}>
+    <div className="s3 min-h-screen">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="s3-wrap">
         <div className="s3-top">
-          <a className="s3-brand" href="/">akasymzhanov.com</a>
-          <button
-            className="s3-toggle"
-            onClick={toggle}
-            aria-label={theme === "light" ? "Тёмная тема" : "Светлая тема"}
-            title={theme === "light" ? "Тёмная тема" : "Светлая тема"}
-          >
-            <span className="s3-dot" />
-          </button>
+          <Link href="/" className="s3-brand">akasymzhanov.com</Link>
+          <ThemeToggle />
         </div>
+        <Link href="/blog/kaspi-mcp" className="s3-back">← Назад к статье</Link>
 
         {/* HERO */}
         <div className="s3-eyebrow">AI-аналитика маркетплейсов · третий поток</div>
@@ -251,6 +249,12 @@ export function Stream3Page() {
           Этот курс про другое. Вы спрашиваете свой магазин: «где я теряю на
           отменах», «какая ниша ещё свободна», «что брать на сезон» — и получаете
           ответ. По своим данным, человеческим языком, за секунды.
+        </p>
+        <p className="s3-lead">
+          Коротко, чтобы вы понимали, кто это говорит. Redstat, через который вы
+          будете спрашивать рынок, <b>я построил сам</b> — это мой сервис
+          аналитики маркетплейсов. На курсе я отдаю то, чем пользуюсь каждый
+          день, а не пересказываю чужие методички.
         </p>
 
         {/* ЧТО ВЫ ПОЛУЧИТЕ */}
@@ -269,6 +273,11 @@ export function Stream3Page() {
               данными, не открывая сервис. Готовый коннектор в подарок.
             </li>
             <li>
+              <b>Свой дашборд магазина.</b> Готовое решение: вставляете токен и
+              получаете полную оцифровку магазина, рядом рыночная аналитика
+              через коннектор Redstat. Инструмент ваш, без подписок.
+            </li>
+            <li>
               <b>Личная AI-база знаний.</b> NotebookLM или Obsidian, ваш «второй
               мозг» по рынку. AI читает её один раз и помнит всё о вашей
               категории.
@@ -283,7 +292,7 @@ export function Stream3Page() {
         {/* МОДУЛИ */}
         <hr className="s3-rule" />
         <div className="s3-sec">
-          <div className="s3-kicker">Четыре модуля</div>
+          <div className="s3-kicker">Пять модулей</div>
         </div>
         {MODULES.map((m) => (
           <div className="s3-card" key={m.num}>
@@ -299,11 +308,12 @@ export function Stream3Page() {
         <hr className="s3-rule" />
         <div className="s3-sec">
           <div className="s3-kicker">Логика курса</div>
-          <h2>Четыре модуля — одна система</h2>
+          <h2>Пять модулей — одна система</h2>
           <p>
             Порядок не случайный. Начинаем с Kaspi и Redstat — на этом
             маркетплейсе вы уже торгуете, поэтому осваиваетесь без стресса.
-            Дальше Wildberries и MPStats — собираете первого AI-агента. Потом
+            Затем оцифровываем ваш магазин в собственный дашборд. Дальше
+            Wildberries и MPStats — собираете первого AI-агента. Потом
             Amazon — учитесь читать тренды до того, как они придут к нам. В
             финале всё складывается в одну базу знаний, и система начинает
             работать на вас каждый день.
@@ -354,7 +364,10 @@ export function Stream3Page() {
           <p>На занятии разбираем как делать по-белому и спать спокойно:</p>
           <ul>
             <li>
-              Маршрут: завод → Хоргос → Алматы → растаможка → ГТД на руках.
+              Маршрут: завод <span className="s3-arr">→</span> Хоргос{" "}
+              <span className="s3-arr">→</span> Алматы{" "}
+              <span className="s3-arr">→</span> растаможка{" "}
+              <span className="s3-arr">→</span> ГТД на руках.
             </li>
             <li>
               Документы по порогам: до $10 000 — инвойс, дальше — контракт, от
@@ -407,14 +420,14 @@ export function Stream3Page() {
                   <td className="free">в подарок</td>
                 </tr>
                 <tr>
-                  <td>Jungle Scout через group-buy</td>
+                  <td>Jungle Scout — через мой доступ</td>
                   <td>$49+/мес</td>
-                  <td className="free">$8/мес</td>
+                  <td className="free">бесплатно</td>
                 </tr>
                 <tr>
-                  <td>Helium 10 через group-buy</td>
+                  <td>Helium 10 — через мой доступ</td>
                   <td>$99+/мес</td>
-                  <td className="free">$10/мес</td>
+                  <td className="free">бесплатно</td>
                 </tr>
                 <tr>
                   <td>Все материалы и записи</td>
@@ -454,7 +467,7 @@ export function Stream3Page() {
           <p style={{ marginTop: 18 }}>Что нужно для старта:</p>
           <ul>
             <li>Вы продаёте или только запускаетесь на Kaspi или Wildberries.</li>
-            <li>Аккаунт в Claude (бесплатный подходит, для модуля 4 удобнее Pro).</li>
+            <li>Аккаунт в Claude (бесплатный подходит, для модуля 5 удобнее Pro).</li>
             <li>Два часа в неделю на Zoom.</li>
           </ul>
         </div>
@@ -473,7 +486,7 @@ export function Stream3Page() {
               Ozon и Kaspi.
             </li>
             <li>
-              <b>Ильдос Хайпес, основатель Nemo.kz</b> — выручка больше 2 млрд
+              <b>Елдос Хапез, основатель Nemo.kz</b> — выручка больше 2 млрд
               тенге в месяц.
             </li>
           </ul>
@@ -499,9 +512,10 @@ export function Stream3Page() {
           <div className="s3-card">
             <h3>Это безопасно для моего магазина?</h3>
             <p style={{ marginBottom: 0 }}>
-              Аналитика идёт через официальные сервисы — Redstat и MPStats.
-              Коннектор только читает цифры, которые вы и так видите в этих
-              сервисах. Он не управляет магазином, не трогает заказы и деньги.
+              Да. Коннектор работает только на чтение: показывает аналитику и
+              ничего не делает с самим магазином — не трогает заказы, остатки,
+              деньги и доступы. Данные идут из Redstat (это мой сервис аналитики
+              маркетплейсов) и MPStats.
             </p>
           </div>
           <div className="s3-card">
@@ -536,10 +550,10 @@ export function Stream3Page() {
         <hr className="s3-rule" />
         <div className="s3-sec">
           <div className="s3-kicker">Гарантия</div>
-          <h2>Довожу до результата лично</h2>
+          <h2>Не заработает — дорабатываю лично, без доплаты</h2>
           <p>
-            Пройдёте все занятия и не запустите свой инструмент — дорабатываю с
-            вами один на один после курса. Без доплаты, пока не заработает.
+            Пройдёте все занятия, но инструмент так и не запустится — садимся
+            один на один после курса и доводим, пока он не заработает.
           </p>
         </div>
 

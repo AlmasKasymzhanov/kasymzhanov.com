@@ -199,12 +199,12 @@ export default function KaspiMcpArticle() {
         {/* ─── Третий поток ─── */}
         <div className="mb-12 border border-[var(--color-border)] rounded-[3px] p-6 md:p-8">
           <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--color-dim)] mb-3">Третий поток</p>
-          <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-4">Это не финал. Это ваша точка отсчёта</h2>
+          <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-4">Вы дали магазину зрение. Дайте ему мозг</h2>
           <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
-            Вы дали бизнесу зрение там, где конкуренты ещё блуждают вслепую. Но что вы будете делать, когда рынок проснётся и поймёт, что старые методы не работают? Когда конкуренты начнут дышать в спину?
+            Вы только что настроили инструмент, который даёт зрение там, где конкуренты ещё блуждают вслепую. Но признайтесь: что вы будете делать, когда конкуренты вас догонят? Как масштабируете это до сотен товаров на разных маркетплейсах?
           </p>
-          <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
-            Я открываю набор на третий поток. Это не «курсы» в привычном смысле, а пересборка вашего магазина на AI-рельсы. В реальном времени, на ваших данных.
+          <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-6">
+            Я открываю набор на третий поток. Это не «курсы», а инженерный спецназ для селлеров. Мы не пересказываем теорию, мы пересобираем ваш магазин на AI-рельсы. В реальном времени, на ваших данных.
           </p>
 
           <button
@@ -212,32 +212,39 @@ export default function KaspiMcpArticle() {
             onClick={() => setShowProgram((v) => !v)}
             className="inline-flex items-center gap-1.5 font-mono text-[13px] text-[var(--color-text)] border-b border-[var(--color-text)] pb-0.5 hover:text-[var(--color-dim)] hover:border-[var(--color-dim)] transition-colors"
           >
-            {showProgram ? "Свернуть программу" : "Развернуть программу"}
+            {showProgram ? "Свернуть" : "Подробнее"}
             <span className="text-[10px]">{showProgram ? "▲" : "▼"}</span>
           </button>
 
           {showProgram && (
             <div className="mt-6 flex flex-col gap-5">
               <div>
-                <p className="text-[15px] font-medium text-[var(--color-text)] mb-1">Свои AI-агенты под вашу категорию</p>
-                <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">Сканируют Kaspi, Wildberries и Amazon, ловят новинки и тренды раньше, чем они доезжают до рынка СНГ. Ваша машина времени для закупок.</p>
+                <p className="text-[15px] font-medium text-[var(--color-text)] mb-1">Модуль 1. Kaspi и Redstat через MCP</p>
+                <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">Redstat знает, сколько зарабатывает ниша, кто топ-продавец и куда уходит маржа. Вы перестаёте рыться в графиках: спрашиваете словами, кто топ в категории, какая сезонность и где ниша свободна, и получаете ответ данными, не открывая сервис. Готовый коннектор я отдаю вам.</p>
               </div>
               <div>
-                <p className="text-[15px] font-medium text-[var(--color-text)] mb-1">Белый ввоз из Китая</p>
-                <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">Отдельное занятие ведёт эксперт, который возит оборудование для McDonald’s и Hilton. Один грамотно оформленный ввоз окупает весь курс.</p>
+                <p className="text-[15px] font-medium text-[var(--color-text)] mb-1">Модуль 2. Свой дашборд: оцифровка магазина</p>
+                <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">Полная оцифровка вашего магазина на Kaspi. Я даю готовое решение: прямо на эфире вы разворачиваете его у себя, вставляете свой токен и получаете дашборд с полной аналитикой по своему магазину. Туда же выводите MCP-коннектор Redstat и видите весь спектр: что продаётся, что делают конкуренты, куда движется рынок. Инструмент ваш, платить за него никому не нужно.</p>
               </div>
               <div>
-                <p className="text-[15px] font-medium text-[var(--color-text)] mb-1">Внешний трафик на карточку</p>
-                <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">Находим залетевшие Reels и видео на топовых карточках и повторяем рабочую связку под ваш товар.</p>
+                <p className="text-[15px] font-medium text-[var(--color-text)] mb-1">Модуль 3. Автономные агенты (Wildberries)</p>
+                <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">Учим AI собирать отчёты за вас. Пока вы пьёте кофе, агент выгружает данные из MPStats, прогоняет их через Claude Code и присылает готовый вердикт. Вы ставите задачу словами, код пишет AI.</p>
               </div>
               <div>
-                <p className="text-[15px] font-medium text-[var(--color-text)] mb-1">Решения на фактах, а не на интуиции</p>
-                <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">Дашборд и база знаний по вашей нише. AI считает, вы принимаете решение.</p>
+                <p className="text-[15px] font-medium text-[var(--color-text)] mb-1">Модуль 4. Машина времени (Amazon → Kaspi и WB)</p>
+                <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">То, что взрывает продажи на Amazon сейчас, доходит до Kaspi и Wildberries через <span className="font-mono">6–18</span> месяцев. Вы видите это заранее и заходите в нишу, пока конкуренты о ней даже не знают.</p>
+              </div>
+              <div>
+                <p className="text-[15px] font-medium text-[var(--color-text)] mb-1">Модуль 5. Ваш «второй мозг»</p>
+                <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">Строим базу знаний в Obsidian или NotebookLM. AI один раз выучивает всё о вашей нише и перестаёт задавать глупые вопросы. Он становится вашим бессменным аналитиком.</p>
               </div>
               <div className="border-t border-[var(--color-border)] pt-5">
-                <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">
-                  Группа жёстко ограничена: <span className="font-mono">15</span> человек. Это не маркетинговый дефицит, а необходимость. Я лично проверяю архитектуру вашего бизнеса, докручиваю коннекторы и настраиваю агентов под ваши задачи. Никаких кураторов, только инженерный подход под моим присмотром.
-                </p>
+                <p className="text-[15px] font-medium text-[var(--color-text)] mb-1">Бонусная экосистема</p>
+                <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">Все нужные сервисы я открываю со своей стороны: Redstat, MPStats, Wildbox, Jungle Scout, Helium 10. Отдельно платить за них не нужно. Плюс приглашённый эксперт по «белому» ввозу из Китая, который возит оборудование для McDonald’s и Hilton, разбирает, как возить по-белому и спать спокойно.</p>
+              </div>
+              <div>
+                <p className="text-[15px] font-medium text-[var(--color-text)] mb-1">Почему это для вас</p>
+                <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">Набор идёт активно. Это не маркетинговый трюк, а необходимость: чтобы довести каждого до результата, я беру немного людей и лично докручиваю агента под ваш магазин. Никаких «домашних заданий» для галочки, только работающая архитектура в вашем телефоне.</p>
               </div>
             </div>
           )}
@@ -250,7 +257,7 @@ export default function KaspiMcpArticle() {
             href="/stream-3"
             className="inline-flex items-center gap-1.5 font-mono text-[13px] text-[var(--color-text)] no-underline border border-[var(--color-text)] rounded-[3px] px-4 py-2.5 hover:bg-[var(--color-text)] hover:text-[var(--color-bg)] transition-colors"
           >
-            Подать заявку в третий поток →
+            Ознакомиться с полной программой →
           </Link>
         </div>
 
