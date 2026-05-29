@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "/blog",
     "/blog/why-blogger-brands-fail",
+    "/blog/kaspi-mcp",
     "/analytics",
     "/tools",
     "/tools/wb-analyzer",

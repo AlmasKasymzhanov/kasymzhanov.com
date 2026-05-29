@@ -14,6 +14,7 @@ const SOCIAL_LINKS = [
 ];
 
 const POSTS = [
+  { title: "Прибыльная ниша на Kaspi за 5 минут", date: "Май 29, 2026", href: "/blog/kaspi-mcp" },
   { title: "Блеск и тени Lick Beauty", date: "Март 25, 2026", href: "/blog/why-blogger-brands-fail" },
 ];
 
