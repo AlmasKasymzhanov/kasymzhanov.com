@@ -544,7 +544,7 @@ export function Stream3Page() {
         {/* CTA */}
         <div className="s3-cta">
           <p style={{ margin: 0, fontSize: 18, fontWeight: 600 }}>
-            Старт через 10 дней. Стоимость 250 000 ₸.
+            Стоимость 250 000 ₸.
           </p>
           <p style={{ marginTop: 8 }}>
             Беру небольшую группу — чтобы успеть лично довести агента до
