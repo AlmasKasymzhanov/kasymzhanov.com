@@ -6,6 +6,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { ViewCounter } from "@/components/view-counter";
 import { ShareButtons } from "@/components/share-buttons";
 import { ReadTracker } from "@/components/read-tracker";
+import { useState } from "react";
 
 /* MCP-коннектор для аналитики Kaspi (используется в шаге 3) */
 const CONNECTOR_URL = "https://redstat-backend-production.up.railway.app/mcp";
@@ -39,6 +40,8 @@ function Step({ n, title, children }: { n: number; title: string; children: Reac
 /* ═══════════════════════════════════════════════════ */
 
 export default function KaspiMcpArticle() {
+  const [showProgram, setShowProgram] = useState(false);
+
   return (
     <div className="min-h-screen">
       <ReadTracker slug="kaspi-mcp" />
@@ -56,7 +59,7 @@ export default function KaspiMcpArticle() {
         <div className="mb-12">
           <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--color-dim)] mb-4">Аналитика без таблиц и сервисов</p>
           <h1 className="text-[28px] md:text-[34px] font-bold tracking-tight text-[var(--color-text)] leading-[1.2] mb-5">
-            Прибыльная ниша на Kaspi за&nbsp;<span className="font-mono">5</span>&nbsp;минут
+            Арифметика лени: как заставить AI добывать золото из&nbsp;Kaspi, пока вы пьёте кофе
           </h1>
           <p className="text-[15px] text-[var(--color-dim)] leading-relaxed mb-6">
             Без таблиц, дашбордов и платных сервисов аналитики. Только Claude, чашка кофе и телефон. AI-аналитик, который помогает разбирать ниши на Kaspi прямо в чате. Тот самый гайд из Reels: как развернуть его у себя.
@@ -65,7 +68,7 @@ export default function KaspiMcpArticle() {
             <p className="font-mono text-[11px] text-[var(--color-dim)]/60 whitespace-nowrap">Май 29, 2026</p>
             <div className="flex items-center gap-3 whitespace-nowrap">
               <ViewCounter slug="kaspi-mcp" />
-              <ShareButtons url="https://akasymzhanov.com/blog/kaspi-mcp" title="Прибыльная ниша на Kaspi за 5 минут | Almas Kasymzhanov" variant="compact" />
+              <ShareButtons url="https://akasymzhanov.com/blog/kaspi-mcp" title="Арифметика лени: как AI добывает золото из Kaspi | Almas Kasymzhanov" variant="compact" />
             </div>
           </div>
         </div>
@@ -75,10 +78,16 @@ export default function KaspiMcpArticle() {
         {/* ─── Что произошло ─── */}
         <div className="mb-12">
           <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
-            Я попросил AI подобрать топ-ниши для старта на Kaspi в летний период. Бюджет: <span className="font-mono">5</span> миллионов тенге. И сразу уточнил, где лучше заходить с брендом, а где без.
+            Мир электронной коммерции сегодня похож на старый советский завод: все при деле, все заняты, все что-то сводят в таблицы. Но на выходе лишь бесконечный шум и отчёты, от которых веет холодом бухгалтерских душ. Предприниматели бьются над аналитикой, как над теоремой Ферма, хотя ответ у них буквально перед носом.
           </p>
           <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
-            Никаких выгрузок, никаких таблиц вручную, никакой подписки на сервис аналитики. Просто чат, как с человеком, который понимает рынок. Через пять минут он выдал готовое решение: садовые гамаки, химия для бассейнов и электросамокаты, каждая ниша с цифрами и долей «без бренда».
+            Я наблюдал за этим долго. Наблюдал, как талантливые ребята тратят лучшие годы жизни, просеивая тысячи позиций вручную. Это не бизнес. Это мазохизм.
+          </p>
+          <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
+            Секрет прост: Redstat + MCP. Это не фокус из сериалов про хакеров, а чистая инженерная механика. Вы берёте свой бизнес, который до этого был «слепым» котёнком, и через коннектор даёте ему зрение. Пока конкурент пытается понять, «почему гамаки не едут», ваш AI-агент уже разложил по полочкам <span className="font-mono">350</span> единиц товара и шепнул: «Бери, маржа твоя».
+          </p>
+          <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
+            Это не фантазия. Вот что он выдал, когда я попросил топ-ниши для старта на Kaspi летом с бюджетом <span className="font-mono">5</span> миллионов тенге: садовые гамаки, химия для бассейнов, электросамокаты. По каждой свои цифры, средний чек и доля «без бренда».
           </p>
 
           <Shot src="/blog/kaspi-mcp/result.png" alt="Ответ AI-аналитика: топ-ниши для старта на Kaspi летом" caption="Тот самый ответ в чате, целиком" w={855} h={1484} maxWidth={400} />
@@ -184,24 +193,64 @@ export default function KaspiMcpArticle() {
 
         {/* ─── Поделиться ─── */}
         <div className="mb-12">
-          <ShareButtons url="https://akasymzhanov.com/blog/kaspi-mcp" title="Прибыльная ниша на Kaspi за 5 минут | Almas Kasymzhanov" variant="full" />
+          <ShareButtons url="https://akasymzhanov.com/blog/kaspi-mcp" title="Арифметика лени: как AI добывает золото из Kaspi | Almas Kasymzhanov" variant="full" />
         </div>
 
         {/* ─── Третий поток ─── */}
         <div className="mb-12 border border-[var(--color-border)] rounded-[3px] p-6 md:p-8">
           <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--color-dim)] mb-3">Третий поток</p>
-          <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-4">Коннектор это только начало</h2>
+          <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-4">Это не финал. Это ваша точка отсчёта</h2>
           <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
-            Этот коннектор я написал для своего курса по AI-аналитике маркетплейсов. На третьем потоке за две недели вы собираете не только его, а целую систему: свой дашборд, AI-агента и базу знаний по вашей категории.
+            Вы дали бизнесу зрение там, где конкуренты ещё блуждают вслепую. Но что вы будете делать, когда рынок проснётся и поймёт, что старые методы не работают? Когда конкуренты начнут дышать в спину?
           </p>
           <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
-            Дальше я и AI-агенты помогаем вам стать экспертом в своей категории. Приглашённый гость по «белому» ввозу, который возит оборудование для McDonald’s и Hilton. И эффективный внешний трафик на карточки.
+            Я открываю набор на третий поток. Это не «курсы» в привычном смысле, а пересборка вашего магазина на AI-рельсы. В реальном времени, на ваших данных.
           </p>
+
+          <button
+            type="button"
+            onClick={() => setShowProgram((v) => !v)}
+            className="inline-flex items-center gap-1.5 font-mono text-[13px] text-[var(--color-text)] border-b border-[var(--color-text)] pb-0.5 hover:text-[var(--color-dim)] hover:border-[var(--color-dim)] transition-colors"
+          >
+            {showProgram ? "Свернуть программу" : "Развернуть программу"}
+            <span className="text-[10px]">{showProgram ? "▲" : "▼"}</span>
+          </button>
+
+          {showProgram && (
+            <div className="mt-6 flex flex-col gap-5">
+              <div>
+                <p className="text-[15px] font-medium text-[var(--color-text)] mb-1">Свои AI-агенты под вашу категорию</p>
+                <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">Сканируют Kaspi, Wildberries и Amazon, ловят новинки и тренды раньше, чем они доезжают до рынка СНГ. Ваша машина времени для закупок.</p>
+              </div>
+              <div>
+                <p className="text-[15px] font-medium text-[var(--color-text)] mb-1">Белый ввоз из Китая</p>
+                <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">Отдельное занятие ведёт эксперт, который возит оборудование для McDonald’s и Hilton. Один грамотно оформленный ввоз окупает весь курс.</p>
+              </div>
+              <div>
+                <p className="text-[15px] font-medium text-[var(--color-text)] mb-1">Внешний трафик на карточку</p>
+                <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">Находим залетевшие Reels и видео на топовых карточках и повторяем рабочую связку под ваш товар.</p>
+              </div>
+              <div>
+                <p className="text-[15px] font-medium text-[var(--color-text)] mb-1">Решения на фактах, а не на интуиции</p>
+                <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">Дашборд и база знаний по вашей нише. AI считает, вы принимаете решение.</p>
+              </div>
+              <div className="border-t border-[var(--color-border)] pt-5">
+                <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">
+                  Группа жёстко ограничена: <span className="font-mono">15</span> человек. Это не маркетинговый дефицит, а необходимость. Я лично проверяю архитектуру вашего бизнеса, докручиваю коннекторы и настраиваю агентов под ваши задачи. Никаких кураторов, только инженерный подход под моим присмотром.
+                </p>
+              </div>
+            </div>
+          )}
+
+          <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mt-6 mb-6">
+            Конкуренты продолжат верить в «удачу» и бесконечные таблицы. Вы станете тем, кто диктует правила игры.
+          </p>
+
           <Link
             href="/stream-3"
-            className="inline-flex items-center gap-1.5 font-mono text-[13px] text-[var(--color-text)] no-underline border-b border-[var(--color-text)] pb-0.5 hover:text-[var(--color-dim)] hover:border-[var(--color-dim)] transition-colors"
+            className="inline-flex items-center gap-1.5 font-mono text-[13px] text-[var(--color-text)] no-underline border border-[var(--color-text)] rounded-[3px] px-4 py-2.5 hover:bg-[var(--color-text)] hover:text-[var(--color-bg)] transition-colors"
           >
-            Программа третьего потока →
+            Подать заявку в третий поток →
           </Link>
         </div>
 

@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
 export const runtime = "nodejs";
-export const alt = "Прибыльная ниша на Kaspi за 5 минут";
+export const alt = "Арифметика лени: как AI добывает золото из Kaspi";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -53,13 +53,25 @@ export default async function Image() {
             style={{
               fontFamily: "Mono",
               fontWeight: 700,
-              fontSize: 66,
-              lineHeight: 1.18,
-              letterSpacing: -2,
+              fontSize: 92,
+              lineHeight: 1.05,
+              letterSpacing: -3,
               color: "#ededed",
             }}
           >
-            Прибыльная ниша на Kaspi за 5 минут
+            Арифметика лени
+          </div>
+          <div
+            style={{
+              fontFamily: "Mono",
+              fontWeight: 400,
+              fontSize: 28,
+              lineHeight: 1.4,
+              color: "#888888",
+              marginTop: 26,
+            }}
+          >
+            Как заставить AI добывать золото из Kaspi, пока вы пьёте кофе
           </div>
         </div>
 

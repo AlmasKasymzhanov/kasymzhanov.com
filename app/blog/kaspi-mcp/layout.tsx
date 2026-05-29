@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-const title = "Прибыльная ниша на Kaspi за 5 минут | Almas Kasymzhanov";
+const title = "Арифметика лени: как AI добывает золото из Kaspi | Almas Kasymzhanov";
 const description =
-  "Без таблиц, дашбордов и платных сервисов. Как развернуть AI-аналитика Kaspi.kz прямо в телефоне через MCP-коннектор — пошагово, со скриншотами, бесплатно.";
+  "Без таблиц и дашбордов. Как развернуть AI-аналитика Kaspi через MCP-коннектор и находить прибыльные ниши, пока вы пьёте кофе. Пошагово, со скриншотами, бесплатно.";
 
 export const metadata: Metadata = {
   title,
