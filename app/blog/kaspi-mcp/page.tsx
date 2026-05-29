@@ -37,6 +37,36 @@ function Step({ n, title, children }: { n: number; title: string; children: Reac
   );
 }
 
+/* ───── Copy field ───── */
+function CopyField({ value }: { value: string }) {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1600);
+    } catch {}
+  };
+  return (
+    <div className="group relative border border-[var(--color-border)] rounded-[3px] bg-[var(--color-surface)] pl-4 pr-12 py-3">
+      <code className="font-mono text-[12px] text-[var(--color-text)] break-all select-all">{value}</code>
+      <button
+        type="button"
+        onClick={copy}
+        aria-label={copied ? "Скопировано" : "Скопировать ссылку"}
+        title={copied ? "Скопировано" : "Скопировать"}
+        className="absolute right-2 top-2 inline-flex items-center justify-center w-8 h-8 rounded-[3px] text-[var(--color-dim)] hover:text-[var(--color-text)] hover:bg-[var(--color-bg)] transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100"
+      >
+        {copied ? (
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5" /></svg>
+        ) : (
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" /><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" /></svg>
+        )}
+      </button>
+    </div>
+  );
+}
+
 /* ═══════════════════════════════════════════════════ */
 
 export default function KaspiMcpArticle() {
@@ -57,7 +87,7 @@ export default function KaspiMcpArticle() {
 
         {/* Title */}
         <div className="mb-12">
-          <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--color-dim)] mb-4">Аналитика без таблиц и сервисов</p>
+          <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--color-dim)] mb-4">Redstat + MCP</p>
           <h1 className="text-[28px] md:text-[34px] font-bold tracking-tight text-[var(--color-text)] leading-[1.2] mb-5">
             Арифметика лени: как заставить AI добывать золото из&nbsp;Kaspi, пока вы пьёте кофе
           </h1>
@@ -78,10 +108,7 @@ export default function KaspiMcpArticle() {
         {/* ─── Что произошло ─── */}
         <div className="mb-12">
           <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
-            Мир электронной коммерции сегодня похож на старый советский завод: все при деле, все заняты, все что-то сводят в таблицы. Но на выходе лишь бесконечный шум и отчёты, от которых веет холодом бухгалтерских душ. Предприниматели бьются над аналитикой, как над теоремой Ферма, хотя ответ у них буквально перед носом.
-          </p>
-          <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
-            Я наблюдал за этим долго. Наблюдал, как талантливые ребята тратят лучшие годы жизни, просеивая тысячи позиций вручную. Это не бизнес. Это мазохизм.
+            Мир электронной коммерции сегодня похож на старый советский завод: все при деле, все заняты, все что-то сводят в таблицы. Но на выходе лишь бесконечный шум и отчёты, от которых веет холодом бухгалтерских душ. Предприниматели бьются над аналитикой, хотя ответ у них буквально перед носом.
           </p>
           <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
             Секрет прост: Redstat + MCP. Это не фокус из сериалов про хакеров, а чистая инженерная механика. Вы берёте свой бизнес, который до этого был «слепым» котёнком, и через коннектор даёте ему зрение. Пока конкурент пытается понять, «почему гамаки не едут», ваш AI-агент уже разложил по полочкам <span className="font-mono">350</span> единиц товара и шепнул: «Бери, маржа твоя».
@@ -140,9 +167,7 @@ export default function KaspiMcpArticle() {
             <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-4">
               Нажми <strong className="text-[var(--color-text)]">«+»</strong> вверху и выбери <strong className="text-[var(--color-text)]">«Add custom connector»</strong>. В открывшемся окне впиши название (например, <strong className="text-[var(--color-text)]">«Kaspi»</strong>) и вставь ссылку на коннектор, затем нажми «Добавить»:
             </p>
-            <div className="border border-[var(--color-border)] rounded-[3px] bg-[var(--color-surface)] px-4 py-3 font-mono text-[12px] text-[var(--color-text)] break-all select-all">
-              {CONNECTOR_URL}
-            </div>
+            <CopyField value={CONNECTOR_URL} />
             <Shot src="/blog/kaspi-mcp/03-add-connector.png" alt="Add custom connector: добавленный коннектор Kaspi со ссылкой и инструментами" caption="«+» → «Add custom connector». Справа подключённый Kaspi и его инструменты" w={864} h={570} />
           </Step>
 
@@ -171,18 +196,18 @@ export default function KaspiMcpArticle() {
 
         {/* ─── Первый запрос ─── */}
         <div className="mb-12">
-          <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">Первый запрос</h2>
+          <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">Запросы</h2>
           <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
             Открой <strong className="text-[var(--color-text)]">новый чат</strong> и просто напиши задачу своими словами. Например:
           </p>
-          <blockquote className="border-l-2 border-[var(--color-border)] pl-4 my-6 text-[15px] text-[var(--color-text)] leading-[1.8] italic">
-            Подбери топ-ниши для старта на Kaspi летом, бюджет 5 млн ₸. Подскажи, где заходить с брендом, а где без бренда (открытые карточки). Дай средний чек и сколько единиц можно закупить.
+          <blockquote className="border-l-2 border-[var(--color-border)] pl-4 my-4 text-[15px] text-[var(--color-dim)] leading-[1.8] italic">
+            Подбери топ-ниши для старта на Kaspi летом, бюджет 5 млн ₸. Где заходить с брендом, а где без бренда (открытые карточки). Дай средний чек и сколько единиц можно закупить.
           </blockquote>
-          <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
-            Дальше можно копать глубже, по конкретной нише:
-          </p>
-          <blockquote className="border-l-2 border-[var(--color-border)] pl-4 my-6 text-[15px] text-[var(--color-dim)] leading-[1.8] italic">
+          <blockquote className="border-l-2 border-[var(--color-border)] pl-4 my-4 text-[15px] text-[var(--color-dim)] leading-[1.8] italic">
             Разбери нишу садовых гамаков: сегменты по цене, доля без бренда, топ-3 карточки и конкуренция.
+          </blockquote>
+          <blockquote className="border-l-2 border-[var(--color-border)] pl-4 my-4 text-[15px] text-[var(--color-dim)] leading-[1.8] italic">
+            Проанализируй отзывы по этому товару и дай рекомендации, что улучшить в карточке и в самом товаре.
           </blockquote>
           <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">
             Claude сам соберёт аналитику по нише, покажет сегменты и предложит, куда заходить новичку. Никаких таблиц вручную.
@@ -198,13 +223,16 @@ export default function KaspiMcpArticle() {
 
         {/* ─── Третий поток ─── */}
         <div className="mb-12 border border-[var(--color-border)] rounded-[3px] p-6 md:p-8">
-          <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--color-dim)] mb-3">Третий поток</p>
+          <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--color-dim)] mb-3">Набор на третий поток · AI-аналитика Kaspi</p>
           <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-4">Вы дали магазину зрение. Дайте ему мозг</h2>
           <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
             Вы только что настроили инструмент, который даёт зрение там, где конкуренты ещё блуждают вслепую. Но признайтесь: что вы будете делать, когда конкуренты вас догонят? Как масштабируете это до сотен товаров на разных маркетплейсах?
           </p>
+          <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
+            Я открываю набор на третий поток. Это не «курсы», а инженерный спецназ для селлеров. Мы не пересказываем теорию, мы переводим весь ваш магазин на AI-рельсы: от внутренней аналитики до поиска новинок и трендов. В реальном времени, на ваших данных.
+          </p>
           <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-6">
-            Я открываю набор на третий поток. Это не «курсы», а инженерный спецназ для селлеров. Мы не пересказываем теорию, мы пересобираем ваш магазин на AI-рельсы. В реальном времени, на ваших данных.
+            В прошлых потоках со мной собирали систему владельцы топовых брендов на Kaspi и Wildberries: основатели Nemo.kz, Assen и другие.
           </p>
 
           <button
@@ -242,22 +270,19 @@ export default function KaspiMcpArticle() {
                 <p className="text-[15px] font-medium text-[var(--color-text)] mb-1">Бонусная экосистема</p>
                 <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">Все нужные сервисы я открываю со своей стороны: Redstat, MPStats, Wildbox, Jungle Scout, Helium 10. Отдельно платить за них не нужно. Плюс приглашённый эксперт по «белому» ввозу из Китая, который возит оборудование для McDonald’s и Hilton, разбирает, как возить по-белому и спать спокойно.</p>
               </div>
-              <div>
-                <p className="text-[15px] font-medium text-[var(--color-text)] mb-1">Почему это для вас</p>
-                <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">Набор идёт активно. Это не маркетинговый трюк, а необходимость: чтобы довести каждого до результата, я беру немного людей и лично докручиваю агента под ваш магазин. Никаких «домашних заданий» для галочки, только работающая архитектура в вашем телефоне.</p>
-              </div>
             </div>
           )}
 
           <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mt-6 mb-6">
-            Конкуренты продолжат верить в «удачу» и бесконечные таблицы. Вы станете тем, кто диктует правила игры.
+            За две недели вы переводите на AI-рельсы всю систему: внутреннюю аналитику своего магазина, внешнюю аналитику рынка и новинок, агентов и базу знаний. Всё это связывается в один контур, который работает на вас каждый день.
           </p>
 
           <Link
             href="/stream-3"
-            className="inline-flex items-center gap-1.5 font-mono text-[13px] text-[var(--color-text)] no-underline border border-[var(--color-text)] rounded-[3px] px-4 py-2.5 hover:bg-[var(--color-text)] hover:text-[var(--color-bg)] transition-colors"
+            className="inline-flex items-center gap-1.5 font-mono text-[12px] font-medium no-underline bg-[var(--color-text)] text-[var(--color-bg)] rounded-[3px] px-4 py-2.5 hover:opacity-85 transition-opacity"
           >
-            Ознакомиться с полной программой →
+            Ознакомиться с полной программой
+            <span className="text-[11px]">→</span>
           </Link>
         </div>
 
