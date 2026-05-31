@@ -61,6 +61,11 @@ const CSS = `
     text-decoration:none;border:1px solid var(--color-text);border-radius:3px;
     padding:11px 18px;transition:background .15s,color .15s}
   .s3-wa:hover{background:var(--color-text);color:var(--color-bg)}
+  .s3-ghost{display:inline-flex;align-items:center;gap:6px;margin-top:14px;
+    font-family:var(--font-mono);font-size:13px;color:var(--color-text);
+    text-decoration:none;border-bottom:1px solid var(--color-text);padding-bottom:2px;
+    transition:color .15s,border-color .15s}
+  .s3-ghost:hover{color:var(--color-dim);border-color:var(--color-dim)}
   .s3-foot{margin-top:64px;padding-top:24px;border-top:1px solid var(--color-border);
     font-family:var(--font-mono);font-size:12px;color:var(--color-dim)}
   .s3-foot a{color:var(--color-text);text-underline-offset:3px}
@@ -575,6 +580,20 @@ export function Stream3Page() {
           >
             Написать в WhatsApp →
           </a>
+        </div>
+
+        {/* Карманный аналитик — бесплатный шаг */}
+        <hr className="s3-rule" />
+        <div className="s3-sec">
+          <div className="s3-kicker">Не готов на поток?</div>
+          <h2>Начни с карманного аналитика</h2>
+          <p>
+            Разверни AI-аналитика Kaspi по моему гайду. За пять минут, прямо в
+            телефоне: он сам подберёт прибыльную нишу. Бесплатно.
+          </p>
+          <Link href="/blog/kaspi-mcp" className="s3-ghost">
+            Карманный аналитик: пошаговый гайд →
+          </Link>
         </div>
 
         <div className="s3-foot">
