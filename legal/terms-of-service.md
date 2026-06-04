@@ -41,8 +41,7 @@
 
 | Тариф | Описание | Стоимость | Период |
 |---|---|---|---|
-| `[УКАЗАТЬ: название]` | `[УКАЗАТЬ: что входит]` | `[УКАЗАТЬ: цена] ₸` | `[УКАЗАТЬ: мес./год]` |
-| `[УКАЗАТЬ: название]` | `[УКАЗАТЬ: что входит]` | `[УКАЗАТЬ: цена] ₸` | `[УКАЗАТЬ: мес./год]` |
+| Подписка | Полный доступ к платному Контенту Сайта | $10 (списывается в ₸ по курсу на дату оплаты) | Месяц |
 
 Администрация вправе изменять тарифы; изменения не затрагивают уже оплаченный период.
 
@@ -149,8 +148,7 @@ Subscription types, scope of access, and price are stated on the Site's pricing 
 
 | Plan | Description | Price | Period |
 |---|---|---|---|
-| `[SPECIFY: name]` | `[SPECIFY: what's included]` | `[SPECIFY: price] ₸` | `[SPECIFY: month/year]` |
-| `[SPECIFY: name]` | `[SPECIFY: what's included]` | `[SPECIFY: price] ₸` | `[SPECIFY: month/year]` |
+| Subscription | Full access to the Site's paid Content | $10 (charged in ₸ at the rate on the payment date) | Month |
 
 The Administration may change plans; changes do not affect an already paid period.
 
