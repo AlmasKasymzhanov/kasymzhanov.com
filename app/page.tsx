@@ -153,10 +153,24 @@ export default function Home() {
         </div>
 
         {/* Footer */}
-        <footer className="border-t border-[var(--color-border)] pt-6 pb-8">
+        <footer className="border-t border-[var(--color-border)] pt-6 pb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <p className="font-mono text-[11px] text-dim/50">
             © 2026 akasymzhanov.com
           </p>
+          <nav className="flex items-center gap-4">
+            <Link
+              href="/privacy"
+              className="font-mono text-[11px] text-dim hover:text-[var(--color-text)] transition-colors no-underline"
+            >
+              Политика конфиденциальности
+            </Link>
+            <Link
+              href="/terms"
+              className="font-mono text-[11px] text-dim hover:text-[var(--color-text)] transition-colors no-underline"
+            >
+              Оферта
+            </Link>
+          </nav>
         </footer>
       </div>
     </div>
