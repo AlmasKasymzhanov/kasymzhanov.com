@@ -26,6 +26,25 @@ const ttNorms = localFont({
   display: "swap",
 });
 
+// Canon fonts (from Brock UI) — Hack = readable mono body, Departure Mono = pixel display.
+const hack = localFont({
+  src: [
+    { path: "../public/fonts/hack/Hack-Regular.ttf", weight: "400", style: "normal" },
+    { path: "../public/fonts/hack/Hack-Italic.ttf", weight: "400", style: "italic" },
+    { path: "../public/fonts/hack/Hack-Bold.ttf", weight: "700", style: "normal" },
+    { path: "../public/fonts/hack/Hack-BoldItalic.ttf", weight: "700", style: "italic" },
+  ],
+  variable: "--font-hack",
+  display: "swap",
+});
+
+const departureMono = localFont({
+  src: "../public/fonts/departure-mono/DepartureMono-Regular.woff2",
+  variable: "--font-departure",
+  weight: "400",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Almas Kasymzhanov",
   description: "Founder of Redstat & 10b.kz — Marketplace Analytics & Data Products",
@@ -55,7 +74,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ru" className={`${geist.variable} ${menlo.variable} ${ttNorms.variable}`} suppressHydrationWarning>
+    <html lang="ru" className={`${geist.variable} ${menlo.variable} ${ttNorms.variable} ${hack.variable} ${departureMono.variable}`} suppressHydrationWarning>
       <head>
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />

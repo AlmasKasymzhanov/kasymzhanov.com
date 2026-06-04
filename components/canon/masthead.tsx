@@ -5,7 +5,7 @@ export function Masthead({ back = false }: { back?: boolean }) {
   return (
     <Link
       href="/"
-      className="font-mono text-[12px] md:text-[13px] font-bold tracking-[0.22em] uppercase text-[var(--color-text)] hover:opacity-70 transition-opacity no-underline"
+      className="font-pixel text-[14px] md:text-[15px] tracking-[0.16em] uppercase text-[var(--color-text)] hover:opacity-70 transition-opacity no-underline"
     >
       {back ? "← " : ""}A. Kasymzhanov
     </Link>

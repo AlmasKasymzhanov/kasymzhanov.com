@@ -10,7 +10,8 @@
   --color-dim: #888888;
   --color-border: #222222;
   --font-sans: var(--font-geist), system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-menlo), Menlo, Monaco, Consolas, monospace;
+  --font-mono: var(--font-hack), var(--font-menlo), Menlo, Monaco, Consolas, monospace;
+  --font-pixel: var(--font-departure), var(--font-hack), Menlo, monospace;
 }
 
 /* Light theme */

@@ -31,11 +31,12 @@ export default function CanonPage() {
         </span>
       </div>
 
-      <h1 className="text-[28px] md:text-[34px] font-bold tracking-tight leading-[1.15] mb-4">
+      <h1 className="font-pixel text-[30px] md:text-[40px] tracking-[0.02em] leading-[1.15] mb-4">
         Канон
       </h1>
       <p className="text-[14px] leading-[1.8] text-[var(--color-dim)] mb-2">
-        Единый язык сайта: монохром, моноширинный Menlo везде, ASCII-микрографика,
+        Единый язык сайта: монохром, моноширинный текст на Hack, пиксельный
+        Departure Mono для masthead и крупных заголовков, ASCII-микрографика,
         максимум воздуха. Эта страница — эталон, из которого собираются все экраны.
       </p>
 
@@ -48,15 +49,15 @@ export default function CanonPage() {
           <h1 className="text-[28px] md:text-[34px] font-bold tracking-tight leading-[1.15]">
             Заголовок H1 — 34 / bold
           </h1>
-          <span className="text-[11px] text-[var(--color-dim)]">Menlo · 28–34px · tracking-tight</span>
+          <span className="text-[11px] text-[var(--color-dim)]">Hack ·28–34px · tracking-tight</span>
         </div>
         <div>
           <h2 className="text-[20px] font-bold tracking-tight">Подзаголовок H2 — 20 / bold</h2>
-          <span className="text-[11px] text-[var(--color-dim)]">Menlo · 20px</span>
+          <span className="text-[11px] text-[var(--color-dim)]">Hack ·20px</span>
         </div>
         <div>
           <h3 className="text-[17px] font-bold">Раздел H3 — 17 / bold</h3>
-          <span className="text-[11px] text-[var(--color-dim)]">Menlo · 17px</span>
+          <span className="text-[11px] text-[var(--color-dim)]">Hack ·17px</span>
         </div>
         <div>
           <p className="text-[15px] leading-[1.8] text-[var(--color-dim)]">
@@ -64,7 +65,7 @@ export default function CanonPage() {
             Данным всё равно, сколько у тебя подписчиков: они не смотрят сторис,
             не ставят лайки — они просто считают.
           </p>
-          <span className="text-[11px] text-[var(--color-dim)]">Menlo · 15px / 1.8 · dim</span>
+          <span className="text-[11px] text-[var(--color-dim)]">Hack ·15px / 1.8 · dim</span>
         </div>
       </div>
 
