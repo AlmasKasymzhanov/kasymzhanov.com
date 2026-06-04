@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { ViewCounter } from "@/components/view-counter";
 import { AuthButton } from "@/components/auth-button";
+import { SubscribeForm } from "@/components/subscribe-form";
 
 const SOCIAL_LINKS = [
   { label: "telegram", href: "https://t.me/almaskasymzhanov" },
@@ -44,6 +45,18 @@ export default function Home() {
         <div className="flex justify-end items-center gap-3 mb-8">
           <AuthButton />
           <ThemeToggle />
+        </div>
+
+        {/* Subscribe CTA */}
+        <div className="mb-16 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 md:p-8">
+          <h2 className="font-heading text-lg md:text-xl font-bold text-[var(--color-text)] mb-1.5">
+            Подпишитесь на рассылку
+          </h2>
+          <p className="text-[13px] text-dim leading-relaxed mb-5 max-w-md">
+            Разборы ниш маркетплейсов, юнит-экономика и мои ошибки — на почту.
+            Бесплатно, без спама.
+          </p>
+          <SubscribeForm source="home" />
         </div>
         <div className="flex flex-col md:flex-row gap-12 mb-20">
           {/* Left — Avatar + Bio + Social */}

@@ -30,6 +30,19 @@ export async function GET(request: Request) {
 
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
+      // Also add the signed-in user to the newsletter list (idempotent).
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user?.email) {
+        await supabase.from("subscribers").upsert(
+          {
+            email: user.email.toLowerCase(),
+            status: "confirmed",
+            source: "google",
+            user_id: user.id,
+          },
+          { onConflict: "email", ignoreDuplicates: true },
+        );
+      }
       return NextResponse.redirect(`${origin}${next}`);
     }
   }
