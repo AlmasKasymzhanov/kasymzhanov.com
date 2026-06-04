@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { ViewCounter } from "@/components/view-counter";
+import { AuthButton } from "@/components/auth-button";
 
 const SOCIAL_LINKS = [
   { label: "telegram", href: "https://t.me/almaskasymzhanov" },
@@ -39,8 +40,9 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <div className="max-w-[980px] mx-auto px-6 py-16 md:py-24">
-        {/* Theme toggle */}
-        <div className="flex justify-end mb-8">
+        {/* Top bar — auth + theme */}
+        <div className="flex justify-end items-center gap-3 mb-8">
+          <AuthButton />
           <ThemeToggle />
         </div>
         <div className="flex flex-col md:flex-row gap-12 mb-20">
