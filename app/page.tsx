@@ -101,13 +101,56 @@ export default function Home() {
             {/* image */}
             <div className="order-1 md:order-2 border border-[var(--color-border)] overflow-hidden">
               <Image
-                src="/blog/why-blogger-brands-fail/hero.webp"
-                alt="Блеск и тени Lick Beauty — выручка как кардиограмма, −92%"
-                width={1600}
-                height={893}
+                src="/blog/why-blogger-brands-fail/likbeauty.webp"
+                alt="Блеск и тени Lick Beauty — выручка −92%"
+                width={1400}
+                height={1045}
                 className="w-full h-auto"
                 priority
               />
+            </div>
+          </Link>
+        </section>
+
+        <AsciiRule className="my-0" />
+
+        {/* ── Featured: MCP ── */}
+        <section className="py-12 md:py-16">
+          <Link
+            href="/blog/kaspi-mcp"
+            className="group grid md:grid-cols-2 gap-10 md:gap-14 items-center no-underline"
+          >
+            {/* image */}
+            <div className="border border-[var(--color-border)] overflow-hidden">
+              <Image
+                src="/blog/kaspi-mcp/mcp.webp"
+                alt="MCP-капсула среди капсул данных"
+                width={1400}
+                height={1045}
+                className="w-full h-auto"
+              />
+            </div>
+            {/* text */}
+            <div>
+              <div className="flex items-center gap-3 mb-5 text-[11px] uppercase tracking-[0.14em] text-[var(--color-dim)]">
+                <span>[ 29 Май 2026 ]</span>
+                <span>Kaspi</span>
+                <span className="text-[var(--color-text)]">Redstat × MCP</span>
+              </div>
+              <h2 className="text-[28px] md:text-[36px] font-bold leading-[1.12] tracking-tight text-[var(--color-text)] mb-5 group-hover:opacity-70 transition-opacity">
+                Арифметика лени: как AI добывает золото из&nbsp;Kaspi
+              </h2>
+              <p className="text-[15px] md:text-[17px] leading-[1.7] text-[var(--color-dim)] mb-7 max-w-md">
+                Подключаешь Claude к данным Kaspi через MCP-коннектор — и AI сам
+                добывает ниши, цены и долю «без бренда», пока ты пьёшь кофе.
+              </p>
+              <div>
+                <ReadMore label="Читать подробнее" />
+              </div>
+              <div className="mt-8 inline-flex items-center border border-[var(--color-text)] px-3.5 py-2 text-[12px] text-[var(--color-text)]">
+                Автор: Алмас Касымжанов
+                <span className="text-[var(--color-dim)]">&nbsp;·&nbsp;дата-журналист</span>
+              </div>
             </div>
           </Link>
         </section>
