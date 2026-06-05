@@ -1,14 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { CornerTicks } from "@/components/canon/corner-ticks";
 
-// Corner arrow — elbow going right then up, with an up arrowhead (↱).
+// Corner arrow — elbow (up then right) with a right arrowhead.
 function SubmitIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path d="M6 18H18V6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" />
-      <path d="M14.5 9.5L18 6L21.5 9.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" />
+      <path
+        d="M15.5564 11.1401L18.9994 14.5832L15.5564 18.0262M18.5148 14.5827H5V5.97656"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="square"
+      />
     </svg>
   );
 }
@@ -55,7 +58,6 @@ export function SubscribeForm({
     return (
       <form onSubmit={submit} className="flex w-full gap-x-2 font-mono">
         <div className="relative h-10 flex-1 border border-[var(--color-text)]">
-          <CornerTicks size={5} />
           <input
             type="email"
             required
@@ -70,9 +72,8 @@ export function SubscribeForm({
           type="submit"
           disabled={state === "loading"}
           aria-label="Подписаться"
-          className="relative shrink-0 h-10 w-10 grid place-items-center border border-[var(--color-text)] text-[var(--color-text)] hover:bg-[var(--color-text)] hover:text-[var(--color-bg)] disabled:opacity-40 transition-colors"
+          className="shrink-0 h-10 w-10 grid place-items-center border border-[var(--color-text)] text-[var(--color-text)] hover:bg-[var(--color-text)] hover:text-[var(--color-bg)] disabled:opacity-40 transition-colors"
         >
-          <CornerTicks size={5} />
           <SubmitIcon />
         </button>
       </form>

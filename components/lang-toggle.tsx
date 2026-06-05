@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CornerTicks } from "@/components/canon/corner-ticks";
 
 // EN / RU language switch — two tick-boxes. Visual for now (full i18n comes later);
 // stores the choice in localStorage so it's ready to wire up to translations.
@@ -36,7 +35,6 @@ export function LangToggle() {
                 : "bg-transparent text-[var(--color-text)] hover:bg-[var(--color-text)] hover:text-[var(--color-bg)]"
             }`}
           >
-            {!active && <CornerTicks size={5} />}
             {l}
           </button>
         );
