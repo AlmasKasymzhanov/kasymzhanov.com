@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { CornerTicks } from "@/components/canon/corner-ticks";
 
 // Corner arrow — elbow going right then up, with an up arrowhead (↱).
 function SubmitIcon() {
@@ -9,19 +10,6 @@ function SubmitIcon() {
       <path d="M6 18H18V6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" />
       <path d="M14.5 9.5L18 6L21.5 9.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" />
     </svg>
-  );
-}
-
-// Small filled corner ticks for the framed input.
-function CornerTicks() {
-  const base = "pointer-events-none absolute w-[7px] h-[7px] bg-[var(--color-text)]";
-  return (
-    <>
-      <span className={`${base} top-0 left-0`} style={{ clipPath: "polygon(0 0,100% 0,0 100%)" }} aria-hidden />
-      <span className={`${base} top-0 right-0`} style={{ clipPath: "polygon(0 0,100% 0,100% 100%)" }} aria-hidden />
-      <span className={`${base} bottom-0 left-0`} style={{ clipPath: "polygon(0 0,0 100%,100% 100%)" }} aria-hidden />
-      <span className={`${base} bottom-0 right-0`} style={{ clipPath: "polygon(100% 0,100% 100%,0 100%)" }} aria-hidden />
-    </>
   );
 }
 
@@ -66,8 +54,8 @@ export function SubscribeForm({
     }
     return (
       <form onSubmit={submit} className="flex w-full gap-x-2 font-mono">
-        <div className="relative h-12 flex-1 border border-[var(--color-text)]">
-          <CornerTicks />
+        <div className="relative h-10 flex-1 border border-[var(--color-text)]">
+          <CornerTicks size={5} />
           <input
             type="email"
             required
@@ -75,15 +63,16 @@ export function SubscribeForm({
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email address"
             autoComplete="email"
-            className="w-full h-full bg-transparent px-[18px] text-[15px] tracking-[-0.02em] text-[var(--color-text)] placeholder:text-[var(--color-dim)] outline-none"
+            className="w-full h-full bg-transparent px-[14px] text-[14px] tracking-[-0.02em] text-[var(--color-text)] placeholder:text-[var(--color-dim)] outline-none"
           />
         </div>
         <button
           type="submit"
           disabled={state === "loading"}
           aria-label="Подписаться"
-          className="shrink-0 h-12 w-12 grid place-items-center border border-[var(--color-text)] text-[var(--color-text)] hover:bg-[var(--color-text)] hover:text-[var(--color-bg)] disabled:opacity-40 transition-colors"
+          className="relative shrink-0 h-10 w-10 grid place-items-center border border-[var(--color-text)] text-[var(--color-text)] hover:bg-[var(--color-text)] hover:text-[var(--color-bg)] disabled:opacity-40 transition-colors"
         >
+          <CornerTicks size={5} />
           <SubmitIcon />
         </button>
       </form>

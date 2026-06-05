@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { LangToggle } from "@/components/lang-toggle";
 import { SubscribeForm } from "@/components/subscribe-form";
 import { Masthead } from "@/components/canon/masthead";
 import { HeroWordmark } from "@/components/canon/hero-wordmark";
@@ -52,18 +53,20 @@ export default function Home() {
     <div className="font-mono text-[var(--color-text)]">
       <div className="max-w-[1080px] mx-auto px-6">
         {/* ── Header ── */}
-        <header className="flex items-center justify-between gap-6 py-6 border-b border-[var(--color-border)]">
+        <header className="flex items-center justify-between gap-6 py-5 border-b border-[var(--color-border)]">
           <HeroWordmark size="header" />
-          <div className="hidden sm:flex items-end gap-3">
-            <div className="w-[280px] md:w-[340px]">
-              <p className="font-mono text-[13px] font-bold tracking-[-0.02em] text-[var(--color-text)] mb-2.5">
+          <div className="hidden sm:flex items-end gap-2">
+            <div className="w-[200px] md:w-[240px]">
+              <p className="font-mono text-[11px] font-bold tracking-[-0.02em] text-[var(--color-text)] mb-2">
                 Подписаться на рассылку
               </p>
               <SubscribeForm source="home" variant="header" />
             </div>
+            <LangToggle />
             <ThemeToggle boxed />
           </div>
-          <div className="sm:hidden">
+          <div className="sm:hidden flex items-center gap-2">
+            <LangToggle />
             <ThemeToggle boxed />
           </div>
         </header>

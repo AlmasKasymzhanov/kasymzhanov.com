@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { CornerTicks } from "@/components/canon/corner-ticks";
 
 export function ThemeToggle({ boxed = false }: { boxed?: boolean }) {
   const [theme, setTheme] = useState<"dark" | "light">("light");
@@ -24,11 +25,12 @@ export function ThemeToggle({ boxed = false }: { boxed?: boolean }) {
       onClick={toggle}
       className={
         boxed
-          ? "shrink-0 h-12 w-12 grid place-items-center border border-[var(--color-text)] bg-transparent text-[var(--color-text)] hover:bg-[var(--color-text)] hover:text-[var(--color-bg)] transition-colors"
+          ? "relative shrink-0 h-10 w-10 grid place-items-center border border-[var(--color-text)] bg-transparent text-[var(--color-text)] hover:bg-[var(--color-text)] hover:text-[var(--color-bg)] transition-colors"
           : "p-1.5 rounded-md text-dim hover:text-[var(--color-text)] transition-colors"
       }
       aria-label="Toggle theme"
     >
+      {boxed && <CornerTicks size={5} />}
       {theme === "dark" ? (
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="12" r="5" />
