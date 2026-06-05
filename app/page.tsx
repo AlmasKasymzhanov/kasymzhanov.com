@@ -8,7 +8,7 @@ import { Masthead } from "@/components/canon/masthead";
 import { HeroWordmark } from "@/components/canon/hero-wordmark";
 import { MetaLabel } from "@/components/canon/meta-label";
 import { AsciiRule } from "@/components/canon/ascii-rule";
-import { Sparkline } from "@/components/canon/sparkline";
+import { ReadMore } from "@/components/canon/read-more";
 
 export const metadata: Metadata = {
   title: "A. Kasymzhanov — дата-журнал о маркетплейсах",
@@ -51,7 +51,7 @@ const SOCIAL = [
 export default function Home() {
   return (
     <div className="font-mono text-[var(--color-text)]">
-      <div className="max-w-[1080px] mx-auto px-6">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         {/* ── Header ── */}
         <header className="flex items-center justify-between gap-6 py-5 border-b border-[var(--color-border)]">
           <HeroWordmark size="header" />
@@ -72,37 +72,42 @@ export default function Home() {
         </header>
 
         {/* ── Featured: Бьюти ── */}
-        <section className="py-14">
-          <MetaLabel items={["Бьюти", "Свежий разбор"]} className="mb-7" />
+        <section className="py-12 md:py-16">
           <Link
             href="/blog/why-blogger-brands-fail"
-            className="group grid md:grid-cols-2 gap-8 md:gap-10 items-center no-underline"
+            className="group grid md:grid-cols-2 gap-10 md:gap-14 items-center no-underline"
           >
-            <div className="border border-[var(--color-border)] rounded-[3px] overflow-hidden bg-[var(--color-surface)]">
+            {/* text */}
+            <div className="order-2 md:order-1">
+              <div className="flex items-center gap-3 mb-5 text-[11px] uppercase tracking-[0.14em] text-[var(--color-dim)]">
+                <span>[ 25 Мар 2026 ]</span>
+                <span>Статьи</span>
+              </div>
+              <h2 className="text-[28px] md:text-[36px] font-bold leading-[1.12] tracking-tight text-[var(--color-text)] mb-5 group-hover:opacity-70 transition-opacity">
+                Блеск и тени Lick&nbsp;Beauty
+              </h2>
+              <p className="text-[15px] md:text-[17px] leading-[1.7] text-[var(--color-dim)] mb-7 max-w-md">
+                43&nbsp;млн в первый месяц. 3.3&nbsp;млн через полгода. Как бренд
+                с&nbsp;7&nbsp;миллионами подписчиков проиграл реплике за&nbsp;420&nbsp;тенге.
+              </p>
+              <div>
+                <ReadMore label="Читать подробнее" />
+              </div>
+              <div className="mt-8 inline-flex items-center border border-[var(--color-text)] px-3.5 py-2 text-[12px] text-[var(--color-text)]">
+                Автор: Алмас Касымжанов
+                <span className="text-[var(--color-dim)]">&nbsp;·&nbsp;дата-журналист</span>
+              </div>
+            </div>
+            {/* image */}
+            <div className="order-1 md:order-2 border border-[var(--color-border)] overflow-hidden">
               <Image
                 src="/blog/why-blogger-brands-fail/hero.webp"
-                alt="Блеск и тени Lick Beauty — выручка как затухающая кардиограмма"
+                alt="Блеск и тени Lick Beauty — выручка как кардиограмма, −92%"
                 width={1600}
                 height={893}
                 className="w-full h-auto"
                 priority
               />
-            </div>
-            <div>
-              <MetaLabel items={["25 Мар 2026", "Разбор", "7 мин"]} className="mb-4" />
-              <h2 className="text-[24px] md:text-[28px] font-bold leading-[1.2] tracking-tight text-[var(--color-text)] mb-4 group-hover:opacity-70 transition-opacity">
-                Блеск и тени Lick&nbsp;Beauty
-              </h2>
-              <p className="text-[14px] leading-[1.8] text-[var(--color-dim)] mb-5">
-                43&nbsp;млн в первый месяц. 3.3&nbsp;млн через полгода. Как бренд
-                с&nbsp;7&nbsp;миллионами подписчиков проиграл реплике за&nbsp;420&nbsp;тенге.
-              </p>
-              <div className="flex items-center gap-4">
-                <Sparkline data={[43.6, 16, 6.3, 3.3]} delta="↓ −92%" />
-              </div>
-              <span className="inline-block mt-6 text-[13px] font-bold text-[var(--color-text)] group-hover:opacity-70 transition-opacity">
-                Читать&nbsp;→
-              </span>
             </div>
           </Link>
         </section>
