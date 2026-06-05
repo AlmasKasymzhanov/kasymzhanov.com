@@ -3,12 +3,16 @@ import Link from "next/link";
 // The media wordmark: A▪ KASYMZHANO▼
 // — classic "A" + square-dot period, and a filled inverted triangle for the final "V"
 // (the triangle = delta / downturn, and doubles as the standalone brand mark).
-export function Masthead({ back = false }: { back?: boolean }) {
+export function Masthead({ back = false, size = "sm" }: { back?: boolean; size?: "sm" | "lg" }) {
+  const sizeCls =
+    size === "lg"
+      ? "text-[22px] md:text-[28px] tracking-[0.12em]"
+      : "text-[13px] md:text-[14px] tracking-[0.16em]";
   return (
     <Link
       href="/"
       aria-label="A. Kasymzhanov — на главную"
-      className="inline-flex items-baseline font-mono text-[13px] md:text-[14px] font-bold tracking-[0.16em] uppercase text-[var(--color-text)] no-underline hover:opacity-70 transition-opacity"
+      className={`inline-flex items-baseline font-mono ${sizeCls} font-bold uppercase text-[var(--color-text)] no-underline hover:opacity-70 transition-opacity`}
     >
       {back && <span className="mr-2 font-normal not-italic">←</span>}
       <span>A</span>

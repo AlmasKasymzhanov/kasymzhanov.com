@@ -7,6 +7,7 @@ import { SubscribeForm } from "@/components/subscribe-form";
 import { Masthead } from "@/components/canon/masthead";
 import { HeroWordmark } from "@/components/canon/hero-wordmark";
 import { ReadMore } from "@/components/canon/read-more";
+import { SocialIcon } from "@/components/social-icons";
 
 export const metadata: Metadata = {
   title: "A. Kasymzhanov — дата-журнал о маркетплейсах",
@@ -42,10 +43,11 @@ const ARTICLES = [
 ];
 
 const SOCIAL = [
-  { label: "telegram", href: "https://t.me/almaskasymzhanov" },
-  { label: "instagram", href: "https://www.instagram.com/almas_kasymzhanov/" },
-  { label: "github", href: "https://github.com/AlmasKasymzhanov" },
-  { label: "linkedin", href: "https://www.linkedin.com/in/akasymzhanov/" },
+  { icon: "telegram", href: "https://t.me/almaskasymzhanov" },
+  { icon: "instagram", href: "https://www.instagram.com/almas_kasymzhanov/" },
+  { icon: "threads", href: "https://www.threads.net/@almas_kasymzhanov" },
+  { icon: "github", href: "https://github.com/AlmasKasymzhanov" },
+  { icon: "linkedin", href: "https://www.linkedin.com/in/akasymzhanov/" },
 ];
 
 export default function Home() {
@@ -112,26 +114,28 @@ export default function Home() {
         <div className="flex-1" aria-hidden />
 
         {/* ── Footer ── */}
-        <footer className="px-6 md:px-12 py-10 flex flex-col gap-6 border-t border-[var(--color-border)]">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <Masthead />
-            <nav className="flex flex-wrap items-center gap-4">
+        <footer className="px-6 md:px-12 py-12 md:py-16 flex flex-col gap-8 border-t border-[var(--color-border)]">
+          <div className="flex flex-wrap items-center justify-between gap-6">
+            <Masthead size="lg" />
+            <nav className="flex items-center gap-5">
               {SOCIAL.map((s) => (
                 <a
                   key={s.href}
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[12px] text-[var(--color-dim)] hover:text-[var(--color-text)] transition-colors no-underline"
+                  aria-label={s.icon}
+                  className="text-[var(--color-dim)] hover:text-[var(--color-text)] transition-colors"
                 >
-                  {s.label}
+                  <SocialIcon name={s.icon} />
                 </a>
               ))}
             </nav>
           </div>
-          <div className="flex flex-wrap items-center justify-between gap-3 text-[11px] text-[var(--color-dim)]">
-            <span>© 2026 akasymzhanov.com</span>
-            <nav className="flex items-center gap-4">
+          <div className="border-t border-[var(--color-border)]" />
+          <div className="flex flex-wrap items-center justify-between gap-3 text-[13px] text-[var(--color-dim)]">
+            <span>© 2026 akasymzhanov.com · Дата-журнал о маркетплейсах</span>
+            <nav className="flex items-center gap-5">
               <Link href="/privacy" className="hover:text-[var(--color-text)] no-underline">
                 Политика конфиденциальности
               </Link>
