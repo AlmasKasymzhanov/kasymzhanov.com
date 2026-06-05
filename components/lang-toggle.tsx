@@ -5,7 +5,7 @@ import { CornerTicks } from "@/components/canon/corner-ticks";
 
 // EN / RU language switch — two tick-boxes. Visual for now (full i18n comes later);
 // stores the choice in localStorage so it's ready to wire up to translations.
-const LANGS = ["RU", "EN"] as const;
+const LANGS = ["EN", "RU"] as const;
 type Lang = (typeof LANGS)[number];
 
 export function LangToggle() {
