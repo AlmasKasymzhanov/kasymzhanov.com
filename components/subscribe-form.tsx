@@ -60,7 +60,7 @@ export function SubscribeForm({
         autoComplete="email"
         className={
           header
-            ? "flex-1 px-4 py-3 rounded-[3px] border border-[var(--color-border)] bg-[var(--color-surface)] text-[14px] text-[var(--color-text)] placeholder:text-[var(--color-dim)] outline-none focus:border-[var(--color-text)] transition-colors"
+            ? "h-11 flex-1 min-w-0 px-4 rounded-[3px] border border-[var(--color-border)] bg-[var(--color-surface)] text-[14px] text-[var(--color-text)] placeholder:text-[var(--color-dim)] outline-none focus:border-[var(--color-text)] transition-colors"
             : "flex-1 px-4 py-2.5 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] text-[14px] text-[var(--color-text)] placeholder:text-[var(--color-dim)] outline-none focus:border-[var(--color-text)] transition-colors"
         }
       />
@@ -70,7 +70,7 @@ export function SubscribeForm({
         aria-label="Подписаться"
         className={
           header
-            ? "shrink-0 w-12 grid place-items-center rounded-[3px] border border-[var(--color-border)] bg-[var(--color-surface)] hover:bg-[var(--color-surface-hover)] text-[18px] text-[var(--color-text)] disabled:opacity-60 transition-colors"
+            ? "shrink-0 h-11 w-11 grid place-items-center rounded-[3px] border border-[var(--color-border)] bg-[var(--color-surface)] hover:bg-[var(--color-surface-hover)] text-[18px] text-[var(--color-text)] disabled:opacity-60 transition-colors"
             : "px-5 py-2.5 rounded-lg bg-[var(--color-text)] text-[var(--color-bg)] text-[14px] font-semibold hover:opacity-90 disabled:opacity-60 transition-opacity whitespace-nowrap"
         }
       >

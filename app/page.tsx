@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { SubscribeForm } from "@/components/subscribe-form";
 import { Masthead } from "@/components/canon/masthead";
 import { HeroWordmark } from "@/components/canon/hero-wordmark";
 import { MetaLabel } from "@/components/canon/meta-label";
@@ -51,16 +52,13 @@ export default function Home() {
     <div className="font-mono text-[var(--color-text)]">
       <div className="max-w-[1080px] mx-auto px-6">
         {/* ── Header ── */}
-        <header className="flex items-center justify-between py-5 border-b border-[var(--color-border)]">
+        <header className="flex items-center justify-between gap-4 py-5 border-b border-[var(--color-border)]">
           <HeroWordmark size="header" />
-          <div className="flex items-center gap-3 md:gap-4">
-            <Link
-              href="/subscribe"
-              className="px-4 py-1.5 rounded-[3px] bg-[var(--color-text)] text-[var(--color-bg)] text-[13px] font-bold hover:opacity-90 transition-opacity no-underline"
-            >
-              Подписаться
-            </Link>
-            <ThemeToggle />
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:block w-[220px] md:w-[280px]">
+              <SubscribeForm source="home" variant="header" />
+            </div>
+            <ThemeToggle boxed />
           </div>
         </header>
 

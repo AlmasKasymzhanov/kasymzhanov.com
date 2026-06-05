@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-export function ThemeToggle() {
+export function ThemeToggle({ boxed = false }: { boxed?: boolean }) {
   const [theme, setTheme] = useState<"dark" | "light">("light");
 
   useEffect(() => {
@@ -22,7 +22,11 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggle}
-      className="p-1.5 rounded-md text-dim hover:text-[var(--color-text)] transition-colors"
+      className={
+        boxed
+          ? "shrink-0 h-11 w-11 grid place-items-center rounded-[3px] border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-dim)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-hover)] transition-colors"
+          : "p-1.5 rounded-md text-dim hover:text-[var(--color-text)] transition-colors"
+      }
       aria-label="Toggle theme"
     >
       {theme === "dark" ? (
