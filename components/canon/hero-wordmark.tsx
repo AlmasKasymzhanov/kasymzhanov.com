@@ -72,14 +72,14 @@ export function HeroWordmark({ size = "hero" }: { size?: "hero" | "header" }) {
       {/* square dot = period */}
       <span
         aria-hidden
-        className="inline-block w-[0.13em] h-[0.13em] bg-[var(--color-text)] ml-[0.04em] mr-[0.34em]"
+        className="inline-block w-[0.18em] h-[0.18em] bg-[var(--color-text)] ml-[0.05em] mr-[0.34em]"
       />
       <span>KASYMZHANO</span>
       {/* inverted filled triangle = V */}
       <svg
         aria-hidden
         viewBox="0 0 12 12"
-        className="inline-block w-[0.62em] h-[0.78em] ml-[0.04em] translate-y-[0.04em] fill-[var(--color-text)]"
+        className="inline-block w-[0.72em] h-[0.88em] ml-[0.04em] translate-y-[0.02em] fill-[var(--color-text)]"
       >
         <polygon points="0,0 12,0 6,12" />
       </svg>
