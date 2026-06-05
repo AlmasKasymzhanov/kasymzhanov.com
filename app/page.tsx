@@ -51,8 +51,8 @@ const SOCIAL = [
 export default function Home() {
   return (
     <div className="font-mono text-[var(--color-text)]">
-      {/* Framed container — vertical rules at the edges */}
-      <div className="max-w-[1400px] mx-auto border-x border-[var(--color-border)]">
+      {/* Framed container — vertical rules at the edges, full viewport height */}
+      <div className="max-w-[1400px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">
         {/* ── Header ── */}
         <header className="flex items-center justify-between gap-6 px-6 md:px-12 py-5 border-b border-[var(--color-border)]">
           <HeroWordmark size="header" />
@@ -108,8 +108,11 @@ export default function Home() {
           ))}
         </section>
 
+        {/* Spacer — pushes the footer to the bottom on tall screens */}
+        <div className="flex-1" aria-hidden />
+
         {/* ── Footer ── */}
-        <footer className="px-6 md:px-12 py-10 flex flex-col gap-6">
+        <footer className="px-6 md:px-12 py-10 flex flex-col gap-6 border-t border-[var(--color-border)]">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <Masthead />
             <nav className="flex flex-wrap items-center gap-4">
