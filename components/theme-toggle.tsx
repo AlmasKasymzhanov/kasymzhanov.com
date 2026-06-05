@@ -24,7 +24,7 @@ export function ThemeToggle({ boxed = false }: { boxed?: boolean }) {
       onClick={toggle}
       className={
         boxed
-          ? "shrink-0 h-11 w-11 grid place-items-center rounded-[3px] border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-dim)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-hover)] transition-colors"
+          ? "shrink-0 h-12 w-12 grid place-items-center border border-[var(--color-text)] bg-transparent text-[var(--color-text)] hover:bg-[var(--color-text)] hover:text-[var(--color-bg)] transition-colors"
           : "p-1.5 rounded-md text-dim hover:text-[var(--color-text)] transition-colors"
       }
       aria-label="Toggle theme"

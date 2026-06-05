@@ -52,12 +52,18 @@ export default function Home() {
     <div className="font-mono text-[var(--color-text)]">
       <div className="max-w-[1080px] mx-auto px-6">
         {/* ── Header ── */}
-        <header className="flex items-center justify-between gap-4 py-5 border-b border-[var(--color-border)]">
+        <header className="flex items-center justify-between gap-6 py-6 border-b border-[var(--color-border)]">
           <HeroWordmark size="header" />
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:block w-[220px] md:w-[280px]">
+          <div className="hidden sm:flex items-end gap-3">
+            <div className="w-[280px] md:w-[340px]">
+              <p className="font-mono text-[13px] font-bold tracking-[-0.02em] text-[var(--color-text)] mb-2.5">
+                Подписаться на рассылку
+              </p>
               <SubscribeForm source="home" variant="header" />
             </div>
+            <ThemeToggle boxed />
+          </div>
+          <div className="sm:hidden">
             <ThemeToggle boxed />
           </div>
         </header>
