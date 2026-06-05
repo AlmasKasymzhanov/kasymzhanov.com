@@ -54,7 +54,7 @@ export function HeroWordmark({ size = "hero" }: { size?: "hero" | "header" }) {
 
   const sizeCls =
     size === "header"
-      ? "text-[15px] md:text-[17px] tracking-[0.14em]"
+      ? "text-[19px] md:text-[25px] tracking-[0.12em]"
       : "text-[38px] sm:text-[56px] md:text-[74px] tracking-[0.04em]";
   const base = `font-mono font-bold uppercase leading-[0.95] text-[var(--color-text)] ${sizeCls} select-none`;
 

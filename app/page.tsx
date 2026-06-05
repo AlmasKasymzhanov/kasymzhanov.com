@@ -88,7 +88,7 @@ export default function Home() {
                   alt={a.title}
                   width={a.w}
                   height={a.h}
-                  className="w-full h-auto"
+                  className="w-full h-auto transition-transform duration-500 ease-out group-hover:scale-[1.04]"
                   priority={i === 0}
                 />
               </div>

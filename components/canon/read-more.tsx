@@ -21,7 +21,7 @@ export function ReadMore({ label = "Читать подробнее" }: { label?
           <Tri />
         </span>
       </span>
-      {label}
+      <span className="group-hover:underline decoration-1 underline-offset-4">{label}</span>
     </span>
   );
 }

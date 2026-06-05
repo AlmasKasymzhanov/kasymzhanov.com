@@ -57,7 +57,7 @@ export function SubscribeForm({
     }
     return (
       <form onSubmit={submit} className="flex w-full gap-x-2 font-mono">
-        <div className="relative h-10 flex-1 border border-[var(--color-text)]">
+        <div className="relative h-10 flex-1 border border-[var(--color-text)] hover:bg-[var(--color-surface-hover)] focus-within:bg-[var(--color-surface-hover)] transition-colors">
           <input
             type="email"
             required
