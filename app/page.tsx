@@ -1,189 +1,220 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { ViewCounter } from "@/components/view-counter";
 import { AuthButton } from "@/components/auth-button";
 import { SubscribeForm } from "@/components/subscribe-form";
+import { Masthead } from "@/components/canon/masthead";
+import { MetaLabel } from "@/components/canon/meta-label";
+import { AsciiRule } from "@/components/canon/ascii-rule";
+import { Sparkline } from "@/components/canon/sparkline";
 
-const SOCIAL_LINKS = [
+export const metadata: Metadata = {
+  title: "A. Kasymzhanov — дата-журнал о маркетплейсах",
+  description:
+    "Разборы ниш маркетплейсов Казахстана, юнит-экономика и ошибки брендов. Данные вместо мнений.",
+};
+
+const POSTS = [
+  {
+    date: "29 Май 2026",
+    title: "Арифметика лени: как AI добывает золото из Kaspi",
+    href: "/blog/kaspi-mcp",
+    rubric: "Kaspi",
+    read: "8 мин",
+  },
+  {
+    date: "25 Мар 2026",
+    title: "Блеск и тени Lick Beauty",
+    href: "/blog/why-blogger-brands-fail",
+    rubric: "Бьюти",
+    read: "7 мин",
+  },
+];
+
+const RUBRICS = ["Бьюти", "Kaspi", "Wildberries", "Юнит-экономика"];
+
+const TOOLS = [
+  { name: "WB Niche Analyzer", desc: "CSV → анализ ниши Wildberries", href: "/tools/wb-analyzer" },
+  { name: "MPStats API Гайд", desc: "MPStats API → Claude Code → AI-агенты", href: "/tools/mpstats-api" },
+  { name: "AI для селлеров", desc: "Инструменты ИИ для маркетплейсов", href: "/tools/ai-seller-guide" },
+];
+
+const SOCIAL = [
   { label: "telegram", href: "https://t.me/almaskasymzhanov" },
   { label: "instagram", href: "https://www.instagram.com/almas_kasymzhanov/" },
   { label: "github", href: "https://github.com/AlmasKasymzhanov" },
   { label: "linkedin", href: "https://www.linkedin.com/in/akasymzhanov/" },
-  { label: "email", href: "mailto:almaskasymzhanov@gmail.com" },
-];
-
-const POSTS = [
-  { title: "Арифметика лени: как AI добывает золото из Kaspi", date: "Май 29, 2026", href: "/blog/kaspi-mcp" },
-  { title: "Блеск и тени Lick Beauty", date: "Март 25, 2026", href: "/blog/why-blogger-brands-fail" },
-];
-
-const PROJECTS = [
-  {
-    name: "redstat.kz",
-    description: "ML-аналитика Kaspi маркетплейса. Выручка, тренды, прогнозы, конкуренция — всё по нишам.",
-    years: "2025",
-    href: "https://redstat.kz",
-    external: true,
-  },
-  {
-    name: "10b.kz",
-    description: "Аналитика тендеров и госзакупок Казахстана. Поиск, разбор, оценка контрактов.",
-    years: "2025",
-    href: "https://10b.kz",
-    external: true,
-  },
 ];
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
-      <div className="max-w-[980px] mx-auto px-6 py-16 md:py-24">
-        {/* Top bar — auth + theme */}
-        <div className="flex justify-end items-center gap-3 mb-8">
-          <AuthButton />
-          <ThemeToggle />
-        </div>
+    <div className="font-mono text-[var(--color-text)]">
+      <div className="max-w-[1080px] mx-auto px-6">
+        {/* ── Masthead bar ── */}
+        <header className="flex items-center justify-between py-5 border-b border-[var(--color-border)]">
+          <Masthead />
+          <div className="flex items-center gap-3">
+            <AuthButton />
+            <ThemeToggle />
+          </div>
+        </header>
 
-        {/* Subscribe CTA */}
-        <div className="mb-16 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 md:p-8">
-          <h2 className="font-heading text-lg md:text-xl font-bold text-[var(--color-text)] mb-1.5">
-            Подпишитесь на рассылку
-          </h2>
-          <p className="text-[13px] text-dim leading-relaxed mb-5 max-w-md">
-            Разборы ниш маркетплейсов, юнит-экономика и мои ошибки — на почту.
-            Бесплатно, без спама.
-          </p>
-          <SubscribeForm source="home" />
-        </div>
-        <div className="flex flex-col md:flex-row gap-12 mb-20">
-          {/* Left — Avatar + Bio + Social */}
-          <div className="md:w-[260px] shrink-0">
-            <Image
-              src="/avatar/almas.webp"
-              alt="Almas Kasymzhanov"
-              width={80}
-              height={80}
-              className="rounded-full mb-5"
-            />
-            <h1 className="font-mono text-[15px] font-bold text-[var(--color-text)] mb-2 tracking-tight">
-              almas kasymzhanov
-            </h1>
-            <p className="text-[13px] text-dim leading-relaxed mb-5">
-              Продавал БАДы в Перу. Трусы в России. Ложки в Казахстане. Разработал{" "}
-              <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-text)] hover:text-dim transition-colors no-underline font-mono font-bold">redstat.kz</a>
-              {" "}и{" "}
-              <a href="https://10b.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-text)] hover:text-dim transition-colors no-underline font-mono font-bold">10b.kz</a>
-              {" "}— чтобы другие не торговали вслепую. Иногда ошибаюсь — тоже пишу об этом.
+        {/* ── Hero / intro + newsletter ── */}
+        <section className="py-14 md:py-20 grid md:grid-cols-[1fr_auto] gap-10 md:items-end">
+          <div className="max-w-xl">
+            <p className="font-pixel text-[22px] md:text-[26px] leading-[1.25] text-[var(--color-text)] mb-4">
+              Дата-журнал о&nbsp;маркетплейсах
             </p>
+            <p className="text-[14px] leading-[1.8] text-[var(--color-dim)]">
+              Разборы ниш, юнит-экономика и ошибки брендов на Kaspi и Wildberries.
+              Данные не смотрят сторис — они просто считают.
+            </p>
+          </div>
+          <div className="md:pb-1">
+            <MetaLabel items={["Подписка"]} className="mb-3" />
+            <SubscribeForm source="home" />
+            <p className="text-[11px] text-[var(--color-dim)] mt-2.5">
+              Бесплатно, без спама. Отписка в один клик.
+            </p>
+          </div>
+        </section>
 
-            {/* Social */}
-            <div className="flex flex-col gap-0.5">
-              {SOCIAL_LINKS.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  target={item.href.startsWith("mailto:") ? undefined : "_blank"}
-                  rel="noopener noreferrer"
-                  className="text-[13px] text-dim hover:text-[var(--color-text)] transition-colors py-1 no-underline font-mono inline-flex items-center gap-1.5"
-                >
-                  {item.label}
-                  <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
-                  </svg>
-                </a>
+        <AsciiRule className="my-0" />
+
+        {/* ── Featured: Бьюти ── */}
+        <section className="py-14">
+          <MetaLabel items={["Бьюти", "Свежий разбор"]} className="mb-7" />
+          <Link
+            href="/blog/why-blogger-brands-fail"
+            className="group grid md:grid-cols-2 gap-8 md:gap-10 items-center no-underline"
+          >
+            <div className="border border-[var(--color-border)] rounded-[3px] overflow-hidden bg-[var(--color-surface)]">
+              <Image
+                src="/blog/why-blogger-brands-fail/hero.webp"
+                alt="Блеск и тени Lick Beauty — выручка как затухающая кардиограмма"
+                width={1600}
+                height={893}
+                className="w-full h-auto"
+                priority
+              />
+            </div>
+            <div>
+              <MetaLabel items={["25 Мар 2026", "Разбор", "7 мин"]} className="mb-4" />
+              <h2 className="text-[24px] md:text-[28px] font-bold leading-[1.2] tracking-tight text-[var(--color-text)] mb-4 group-hover:opacity-70 transition-opacity">
+                Блеск и тени Lick&nbsp;Beauty
+              </h2>
+              <p className="text-[14px] leading-[1.8] text-[var(--color-dim)] mb-5">
+                43&nbsp;млн в первый месяц. 3.3&nbsp;млн через полгода. Как бренд
+                с&nbsp;7&nbsp;миллионами подписчиков проиграл реплике за&nbsp;420&nbsp;тенге.
+              </p>
+              <div className="flex items-center gap-4">
+                <Sparkline data={[43.6, 16, 6.3, 3.3]} delta="↓ −92%" />
+              </div>
+              <span className="inline-block mt-6 text-[13px] font-bold text-[var(--color-text)] group-hover:opacity-70 transition-opacity">
+                Читать&nbsp;→
+              </span>
+            </div>
+          </Link>
+        </section>
+
+        <AsciiRule className="my-0" />
+
+        {/* ── Свежее ── */}
+        <section className="py-14">
+          <div className="flex items-center justify-between mb-7">
+            <MetaLabel items={["Свежее"]} />
+            <div className="hidden md:flex items-center gap-3">
+              {RUBRICS.map((r) => (
+                <span key={r} className="text-[11px] uppercase tracking-[0.16em] text-[var(--color-dim)]">
+                  {r}
+                </span>
               ))}
             </div>
           </div>
 
-          {/* Right — Posts + Projects */}
-          <div className="flex-1 min-w-0 flex flex-col md:flex-row gap-12">
-            {/* Posts */}
-            <div className="flex-1 min-w-0">
-              <h2 className="font-mono text-[11px] font-bold uppercase tracking-widest text-dim mb-6">
-                Посты
-              </h2>
-              <div>
-                {POSTS.map((post) => (
-                  <Link key={post.title} href={post.href} className="block no-underline group mb-4">
-                    <span className="text-[14px] text-[var(--color-text)] group-hover:text-dim transition-colors font-medium">
-                      {post.title}
-                    </span>
-                    <br />
-                    <span className="flex items-center justify-between">
-                      <span className="font-mono text-[11px] text-dim/60">{post.date}</span>
-                      <ViewCounter slug={post.href.replace("/blog/", "")} track={false} />
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </div>
+          <ul className="flex flex-col">
+            {POSTS.map((p) => (
+              <li key={p.href}>
+                <Link
+                  href={p.href}
+                  className="group grid grid-cols-[auto_1fr] md:grid-cols-[110px_1fr_120px] gap-x-5 gap-y-1 items-baseline py-5 border-b border-[var(--color-border)]/50 no-underline"
+                >
+                  <span className="text-[12px] text-[var(--color-dim)] tabular-nums">{p.date}</span>
+                  <span className="text-[16px] md:text-[17px] font-bold text-[var(--color-text)] group-hover:opacity-70 transition-opacity leading-snug">
+                    {p.title}
+                  </span>
+                  <span className="hidden md:block text-right text-[11px] uppercase tracking-[0.16em] text-[var(--color-dim)]">
+                    {p.rubric}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-            {/* Projects */}
-            <div className="md:w-[300px] shrink-0">
-              <h2 className="font-mono text-[11px] font-bold uppercase tracking-widest text-dim mb-6">
-                Проекты
-              </h2>
-              <div className="flex flex-col gap-6">
-                {PROJECTS.map((project) => (
-                  <div key={project.name} className="group">
-                    <div className="flex items-start justify-between gap-2">
-                      {project.external ? (
-                        <a
-                          href={project.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-mono text-[14px] font-bold text-[var(--color-text)] no-underline hover:text-dim transition-colors inline-flex items-center gap-1.5"
-                        >
-                          {project.name}
-                          <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
-                          </svg>
-                        </a>
-                      ) : (
-                        <Link href={project.href} className="font-mono text-[14px] font-bold text-[var(--color-text)] no-underline hover:text-dim transition-colors">
-                          {project.name}
-                        </Link>
-                      )}
-                    </div>
-                    <p className="text-[12px] text-dim leading-relaxed mt-1.5 mb-2">
-                      {project.description}
-                    </p>
-                    <div className="flex gap-2">
-                      {project.years.split(" — ").map((y) => (
-                        <span key={y} className="font-mono text-[10px] text-dim/70 border border-border rounded px-1.5 py-0.5">
-                          {y}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div className="flex gap-5 mt-7 text-[13px]">
+            <Link href="/blog" className="font-bold text-[var(--color-text)] hover:opacity-70 no-underline">
+              Все материалы →
+            </Link>
+            <Link href="/reports" className="text-[var(--color-dim)] hover:text-[var(--color-text)] no-underline">
+              Отчёты
+            </Link>
           </div>
-        </div>
+        </section>
 
-        {/* Footer */}
-        <footer className="border-t border-[var(--color-border)] pt-6 pb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <p className="font-mono text-[11px] text-dim/50">
-            © 2026 akasymzhanov.com
-          </p>
-          <nav className="flex items-center gap-4">
-            <Link
-              href="/privacy"
-              className="font-mono text-[11px] text-dim hover:text-[var(--color-text)] transition-colors no-underline"
-            >
-              Политика конфиденциальности
-            </Link>
-            <Link
-              href="/terms"
-              className="font-mono text-[11px] text-dim hover:text-[var(--color-text)] transition-colors no-underline"
-            >
-              Оферта
-            </Link>
-          </nav>
+        <AsciiRule className="my-0" />
+
+        {/* ── Инструменты ── */}
+        <section className="py-14">
+          <MetaLabel items={["Инструменты"]} className="mb-7" />
+          <div className="grid md:grid-cols-3 gap-4">
+            {TOOLS.map((t) => (
+              <Link
+                key={t.href}
+                href={t.href}
+                className="group border border-[var(--color-border)] rounded-[3px] bg-[var(--color-surface)] hover:bg-[var(--color-surface-hover)] transition-colors p-5 no-underline"
+              >
+                <p className="text-[15px] font-bold text-[var(--color-text)] mb-1.5 group-hover:opacity-70 transition-opacity">
+                  {t.name}
+                </p>
+                <p className="text-[12px] leading-relaxed text-[var(--color-dim)]">{t.desc}</p>
+                <span className="inline-block mt-4 text-[12px] text-[var(--color-dim)]">Открыть →</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <AsciiRule className="my-0" />
+
+        {/* ── Footer ── */}
+        <footer className="py-12 flex flex-col gap-6">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <Masthead />
+            <nav className="flex flex-wrap items-center gap-4">
+              {SOCIAL.map((s) => (
+                <a
+                  key={s.href}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[12px] text-[var(--color-dim)] hover:text-[var(--color-text)] transition-colors no-underline"
+                >
+                  {s.label}
+                </a>
+              ))}
+            </nav>
+          </div>
+          <div className="flex flex-wrap items-center justify-between gap-3 text-[11px] text-[var(--color-dim)]">
+            <span>© 2026 akasymzhanov.com</span>
+            <nav className="flex items-center gap-4">
+              <Link href="/privacy" className="hover:text-[var(--color-text)] no-underline">
+                Политика конфиденциальности
+              </Link>
+              <Link href="/terms" className="hover:text-[var(--color-text)] no-underline">
+                Оферта
+              </Link>
+            </nav>
+          </div>
         </footer>
       </div>
     </div>
