@@ -2,9 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { AuthButton } from "@/components/auth-button";
-import { SubscribeForm } from "@/components/subscribe-form";
 import { Masthead } from "@/components/canon/masthead";
+import { HeroWordmark } from "@/components/canon/hero-wordmark";
 import { MetaLabel } from "@/components/canon/meta-label";
 import { AsciiRule } from "@/components/canon/ascii-rule";
 import { Sparkline } from "@/components/canon/sparkline";
@@ -51,36 +50,19 @@ export default function Home() {
   return (
     <div className="font-mono text-[var(--color-text)]">
       <div className="max-w-[1080px] mx-auto px-6">
-        {/* ── Masthead bar ── */}
+        {/* ── Header ── */}
         <header className="flex items-center justify-between py-5 border-b border-[var(--color-border)]">
-          <Masthead />
-          <div className="flex items-center gap-3">
-            <AuthButton />
+          <HeroWordmark size="header" />
+          <div className="flex items-center gap-3 md:gap-4">
+            <Link
+              href="/subscribe"
+              className="px-4 py-1.5 rounded-[3px] bg-[var(--color-text)] text-[var(--color-bg)] text-[13px] font-bold hover:opacity-90 transition-opacity no-underline"
+            >
+              Подписаться
+            </Link>
             <ThemeToggle />
           </div>
         </header>
-
-        {/* ── Hero / intro + newsletter ── */}
-        <section className="py-14 md:py-20 grid md:grid-cols-[1fr_auto] gap-10 md:items-end">
-          <div className="max-w-xl">
-            <p className="font-pixel text-[22px] md:text-[26px] leading-[1.25] text-[var(--color-text)] mb-4">
-              Дата-журнал о&nbsp;маркетплейсах
-            </p>
-            <p className="text-[14px] leading-[1.8] text-[var(--color-dim)]">
-              Разборы ниш, юнит-экономика и ошибки брендов на Kaspi и Wildberries.
-              Данные не смотрят сторис — они просто считают.
-            </p>
-          </div>
-          <div className="md:pb-1">
-            <MetaLabel items={["Подписка"]} className="mb-3" />
-            <SubscribeForm source="home" />
-            <p className="text-[11px] text-[var(--color-dim)] mt-2.5">
-              Бесплатно, без спама. Отписка в один клик.
-            </p>
-          </div>
-        </section>
-
-        <AsciiRule className="my-0" />
 
         {/* ── Featured: Бьюти ── */}
         <section className="py-14">

@@ -31,7 +31,7 @@ export default function CanonPage() {
         </span>
       </div>
 
-      <h1 className="font-pixel text-[30px] md:text-[40px] tracking-[0.02em] leading-[1.15] mb-4">
+      <h1 className="font-mono font-bold text-[28px] md:text-[34px] tracking-tight leading-[1.15] mb-4">
         Канон
       </h1>
       <p className="text-[14px] leading-[1.8] text-[var(--color-dim)] mb-2">
