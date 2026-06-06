@@ -8,15 +8,25 @@ function norm(email: string) {
   return email.toLowerCase().trim();
 }
 
-// Model A: any authenticated visitor is enrolled into Stream 2 (and their
-// email captured). Idempotent — safe to call on every authenticated visit.
+// Model A: any authenticated visitor is enrolled into Stream 2 and their email
+// captured into the newsletter list. Both writes go through the service key
+// (bypass RLS) and are idempotent — safe to call on every authenticated visit.
 export async function ensureEnrolled(email: string) {
   const admin = getSupabaseAdmin();
+  const e = norm(email);
+
   await admin
     .from("enrollments")
     .upsert(
-      { email: norm(email), course: COURSE_ID },
+      { email: e, course: COURSE_ID },
       { onConflict: "email,course", ignoreDuplicates: true },
+    );
+
+  await admin
+    .from("subscribers")
+    .upsert(
+      { email: e, source: "course" },
+      { onConflict: "email", ignoreDuplicates: true },
     );
 }
 
