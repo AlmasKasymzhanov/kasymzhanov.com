@@ -42,7 +42,7 @@ export default async function FileViewPage({ params }: Props) {
     <div className="font-mono text-[var(--color-text)]">
       <div className="max-w-[920px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">
         {/* Header */}
-        <header className="flex items-center justify-between gap-6 px-6 md:px-10 py-5 border-b border-[var(--color-border)]">
+        <header className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 px-6 md:px-10 py-5 border-b border-[var(--color-border)]">
           <Masthead />
           <div className="flex items-center gap-4">
             <Link
@@ -61,7 +61,7 @@ export default async function FileViewPage({ params }: Props) {
         </header>
 
         {/* Document */}
-        <article className="px-6 md:px-10 py-10 md:py-14 prose prose-neutral dark:prose-invert max-w-none prose-table:text-sm prose-th:text-left prose-pre:text-sm prose-headings:tracking-tight">
+        <article className="px-6 md:px-10 py-10 md:py-14 prose prose-neutral dark:prose-invert max-w-none prose-table:text-sm prose-table:block prose-table:overflow-x-auto prose-th:text-left prose-pre:text-sm prose-pre:overflow-x-auto prose-headings:tracking-tight break-words">
           <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
             {md}
           </ReactMarkdown>

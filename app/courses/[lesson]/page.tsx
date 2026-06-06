@@ -63,7 +63,7 @@ export default async function LessonPage({ params }: Props) {
     <div className="font-mono text-[var(--color-text)]">
       <div className="max-w-[1000px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">
         {/* Header */}
-        <header className="flex items-center justify-between gap-6 px-6 md:px-10 py-5 border-b border-[var(--color-border)]">
+        <header className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 px-6 md:px-10 py-5 border-b border-[var(--color-border)]">
           <Masthead />
           <div className="flex items-center gap-4">
             <Link
@@ -112,15 +112,15 @@ export default async function LessonPage({ params }: Props) {
                 {l.files.map((f) => (
                   <li
                     key={f.file}
-                    className="flex items-center justify-between gap-4 py-3.5 border-b border-[var(--color-border)]"
+                    className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4 py-3.5 border-b border-[var(--color-border)]"
                   >
                     <span className="flex items-center gap-3 min-w-0">
                       <span className="shrink-0 text-[10px] font-bold tracking-wider text-[var(--color-dim)] border border-[var(--color-border)] px-1.5 py-0.5">
                         {TYPE_LABEL[f.type]}
                       </span>
-                      <span className="text-[14px] text-[var(--color-text)] truncate">{f.name}</span>
+                      <span className="text-[14px] text-[var(--color-text)] break-words">{f.name}</span>
                     </span>
-                    <span className="flex items-center gap-3 shrink-0 text-[12px]">
+                    <span className="flex items-center gap-5 sm:gap-3 shrink-0 text-[12px] pl-[38px] sm:pl-0">
                       {openHref(l.slug, f) && (
                         <a
                           href={openHref(l.slug, f)!}

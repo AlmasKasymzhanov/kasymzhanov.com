@@ -24,7 +24,7 @@ export default async function CoursesPage() {
     <div className="font-mono text-[var(--color-text)]">
       <div className="max-w-[1100px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">
         {/* Header */}
-        <header className="flex items-center justify-between gap-6 px-6 md:px-10 py-5 border-b border-[var(--color-border)]">
+        <header className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 px-6 md:px-10 py-5 border-b border-[var(--color-border)]">
           <Masthead />
           <div className="flex items-center gap-4">
             <Link
