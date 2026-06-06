@@ -27,6 +27,7 @@ const TYPE_LABEL: Record<string, string> = {
   doc: "DOCX",
   csv: "CSV",
   zip: "ZIP",
+  md: "MD",
 };
 
 function fileUrl(lessonSlug: string, file: string, inline = false) {

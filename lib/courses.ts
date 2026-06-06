@@ -4,7 +4,7 @@
 
 export type CourseFile = {
   name: string;
-  type: "slides" | "doc" | "csv" | "zip";
+  type: "slides" | "doc" | "csv" | "zip" | "md";
   file: string;
 };
 
@@ -90,6 +90,17 @@ export const COURSE: Course = {
       files: [
         { name: "Слайды занятия", type: "slides", file: "kaspi-mcp-connector-slides.html" },
         { name: "Kaspi MCP-коннектор · код-пак", type: "zip", file: "kaspi-mcp-connector.zip" },
+      ],
+    },
+    {
+      n: 7,
+      slug: "zanyatie-7",
+      title: "Развертывание 1С",
+      desc: "Разворачиваем аналитику на 1С: пошаговый слайд и context-файл со всеми деталями.",
+      bunny: "",
+      files: [
+        { name: "Слайды · развертывание 1С", type: "slides", file: "1c-analytics-deployment-slides.html" },
+        { name: "Context · развертывание 1С", type: "md", file: "1c-analytics-deployment-context.md" },
       ],
     },
   ],
