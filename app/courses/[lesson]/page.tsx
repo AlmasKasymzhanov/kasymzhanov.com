@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { COURSE, getLesson } from "@/lib/courses";
+import { COURSE, getLesson, type CourseFile } from "@/lib/courses";
 import { Masthead } from "@/components/canon/masthead";
 import { getSessionUser } from "@/lib/supabase-server";
 import { ensureEnrolled } from "@/lib/enrollment";
@@ -31,10 +31,19 @@ const TYPE_LABEL: Record<string, string> = {
   md: "MD",
 };
 
-function fileUrl(lessonSlug: string, file: string, inline = false) {
+function fileUrl(lessonSlug: string, file: string, mode?: "inline" | "view") {
   const p = new URLSearchParams({ lesson: lessonSlug, file });
-  if (inline) p.set("inline", "1");
+  if (mode === "inline") p.set("inline", "1");
+  if (mode === "view") p.set("view", "1");
   return `/api/course-file?${p.toString()}`;
+}
+
+// "Открыть" target per file type, or null if it can't be previewed in-browser.
+function openHref(lessonSlug: string, f: CourseFile): string | null {
+  if (f.type === "slides") return fileUrl(lessonSlug, f.file, "inline"); // html
+  if (f.type === "doc") return fileUrl(lessonSlug, f.file, "view"); // docx → Office viewer
+  if (f.type === "md") return `/courses/${lessonSlug}/view/${encodeURIComponent(f.file)}`; // rendered page
+  return null;
 }
 
 export default async function LessonPage({ params }: Props) {
@@ -79,9 +88,9 @@ export default async function LessonPage({ params }: Props) {
             {l.desc}
           </p>
 
-          {/* Video */}
-          <div className="aspect-video w-full border border-[var(--color-border)] overflow-hidden mb-10 bg-[var(--color-surface)]">
-            {l.bunny ? (
+          {/* Video — only when a Bunny embed is set for this lesson */}
+          {l.bunny && (
+            <div className="aspect-video w-full border border-[var(--color-border)] overflow-hidden mb-10 bg-[var(--color-surface)]">
               <iframe
                 src={l.bunny}
                 title={l.title}
@@ -90,19 +99,8 @@ export default async function LessonPage({ params }: Props) {
                 allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
                 allowFullScreen
               />
-            ) : (
-              <div className="w-full h-full grid place-items-center text-center px-6">
-                <div>
-                  <p className="text-[13px] uppercase tracking-[0.18em] text-[var(--color-dim)]">
-                    Видео скоро
-                  </p>
-                  <p className="text-[12px] text-[var(--color-dim)] mt-2">
-                    Сюда встанет плеер Bunny Stream
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
+            </div>
+          )}
 
           {/* Files */}
           {l.files.length > 0 && (
@@ -123,9 +121,9 @@ export default async function LessonPage({ params }: Props) {
                       <span className="text-[14px] text-[var(--color-text)] truncate">{f.name}</span>
                     </span>
                     <span className="flex items-center gap-3 shrink-0 text-[12px]">
-                      {f.type === "slides" && (
+                      {openHref(l.slug, f) && (
                         <a
-                          href={fileUrl(l.slug, f.file, true)}
+                          href={openHref(l.slug, f)!}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-[var(--color-dim)] hover:text-[var(--color-text)] no-underline"
@@ -144,7 +142,7 @@ export default async function LessonPage({ params }: Props) {
                 ))}
               </ul>
               <p className="text-[11px] text-[var(--color-dim)] mt-3">
-                Слайды (HTML) открываются в браузере или скачиваются. Остальное — скачивание.
+                «Открыть» — просмотр прямо в браузере (слайды, документы). «Скачать» — файл к себе.
               </p>
             </div>
           )}

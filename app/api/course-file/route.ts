@@ -8,20 +8,16 @@ export const dynamic = "force-dynamic";
 
 const BUCKET = "course-files";
 
-const INLINE_CT: Record<string, string> = {
-  ".html": "text/html; charset=utf-8",
-  ".md": "text/markdown; charset=utf-8",
-};
-
 // Gated file delivery. Verifies the visitor is signed in (Model A: a signed-in
-// visitor is a Stream 2 participant → enrolled) and validates the requested file
+// visitor is a Stream 2 participant → enrolled) and validates the request
 // against the course config.
-//   - inline (slides "Открыть"): streamed through our domain with the correct
-//     Content-Type. Supabase serves stored HTML as text/plain + nosniff (an
-//     anti-XSS measure on the storage domain), so a direct signed URL would
-//     show source instead of rendering the page.
-//   - download: 302-redirect to a short-lived signed URL with attachment
-//     disposition (Content-Type is irrelevant for a download).
+//   - inline (html slides): streamed through our domain with the correct
+//     Content-Type so it renders. Supabase serves stored HTML as text/plain +
+//     nosniff (anti-XSS on the storage domain), so a direct signed URL shows
+//     source instead of the page. (Markdown is rendered by a separate page.)
+//   - view (docx): redirect to the Microsoft Office Online viewer with a
+//     short-lived signed URL, so the document opens in the browser.
+//   - download: redirect to a signed URL with attachment disposition.
 export async function GET(req: NextRequest) {
   const user = await getSessionUser();
   if (!user?.email) {
@@ -32,6 +28,7 @@ export async function GET(req: NextRequest) {
   const lessonSlug = searchParams.get("lesson") ?? "";
   const file = searchParams.get("file") ?? "";
   const inline = searchParams.get("inline") === "1";
+  const view = searchParams.get("view") === "1";
 
   const lesson = getLesson(lessonSlug);
   const entry = lesson?.files.find((f) => f.file === file);
@@ -45,6 +42,19 @@ export async function GET(req: NextRequest) {
   const path = `${lesson.slug}/${entry.file}`;
   const ext = entry.file.slice(entry.file.lastIndexOf(".")).toLowerCase();
 
+  // Open a docx in the Office Online viewer.
+  if (view) {
+    const { data, error } = await admin.storage.from(BUCKET).createSignedUrl(path, 600);
+    if (error || !data) {
+      return new NextResponse("Не удалось открыть файл", { status: 500 });
+    }
+    const viewer = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(
+      data.signedUrl,
+    )}`;
+    return NextResponse.redirect(viewer);
+  }
+
+  // Render an HTML slide inline through our own domain.
   if (inline) {
     const { data, error } = await admin.storage.from(BUCKET).download(path);
     if (error || !data) {
@@ -53,13 +63,14 @@ export async function GET(req: NextRequest) {
     const buf = Buffer.from(await data.arrayBuffer());
     return new NextResponse(buf, {
       headers: {
-        "Content-Type": INLINE_CT[ext] ?? "text/plain; charset=utf-8",
+        "Content-Type": ext === ".html" ? "text/html; charset=utf-8" : "text/plain; charset=utf-8",
         "Content-Disposition": "inline",
         "Cache-Control": "private, no-store",
       },
     });
   }
 
+  // Download with attachment disposition.
   const downloadName = `${entry.name}${ext}`.replace(/[\\/:*?"<>|]+/g, "-");
   const { data, error } = await admin.storage
     .from(BUCKET)
