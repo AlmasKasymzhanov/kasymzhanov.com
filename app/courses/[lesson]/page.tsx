@@ -3,13 +3,14 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { COURSE, getLesson } from "@/lib/courses";
 import { Masthead } from "@/components/canon/masthead";
+import { getSessionUser } from "@/lib/supabase-server";
+import { ensureEnrolled } from "@/lib/enrollment";
+import { CourseGate } from "@/components/course-gate";
+
+export const dynamic = "force-dynamic";
 
 interface Props {
   params: Promise<{ lesson: string }>;
-}
-
-export function generateStaticParams() {
-  return COURSE.lessons.map((l) => ({ lesson: l.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -28,15 +29,20 @@ const TYPE_LABEL: Record<string, string> = {
   zip: "ZIP",
 };
 
-// TODO: replace with a Supabase Storage signed URL once the bucket is wired + access-gated.
-function fileHref() {
-  return "#";
+function fileUrl(lessonSlug: string, file: string, inline = false) {
+  const p = new URLSearchParams({ lesson: lessonSlug, file });
+  if (inline) p.set("inline", "1");
+  return `/api/course-file?${p.toString()}`;
 }
 
 export default async function LessonPage({ params }: Props) {
   const { lesson } = await params;
   const l = getLesson(lesson);
   if (!l) notFound();
+
+  const user = await getSessionUser();
+  if (!user?.email) return <CourseGate />;
+  await ensureEnrolled(user.email);
 
   const idx = COURSE.lessons.findIndex((x) => x.slug === l.slug);
   const prev = COURSE.lessons[idx - 1];
@@ -114,7 +120,7 @@ export default async function LessonPage({ params }: Props) {
                     <span className="flex items-center gap-3 shrink-0 text-[12px]">
                       {f.type === "slides" && (
                         <a
-                          href={fileHref()}
+                          href={fileUrl(l.slug, f.file, true)}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-[var(--color-dim)] hover:text-[var(--color-text)] no-underline"
@@ -123,8 +129,7 @@ export default async function LessonPage({ params }: Props) {
                         </a>
                       )}
                       <a
-                        href={fileHref()}
-                        download
+                        href={fileUrl(l.slug, f.file)}
                         className="font-bold text-[var(--color-text)] hover:opacity-70 no-underline"
                       >
                         Скачать ↓
@@ -134,7 +139,7 @@ export default async function LessonPage({ params }: Props) {
                 ))}
               </ul>
               <p className="text-[11px] text-[var(--color-dim)] mt-3">
-                Файлы подключим к хранилищу (Supabase) на следующем шаге.
+                Слайды (HTML) открываются в браузере или скачиваются. Остальное — скачивание.
               </p>
             </div>
           )}

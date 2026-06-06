@@ -2,6 +2,11 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { COURSE } from "@/lib/courses";
 import { Masthead } from "@/components/canon/masthead";
+import { getSessionUser } from "@/lib/supabase-server";
+import { ensureEnrolled } from "@/lib/enrollment";
+import { CourseGate } from "@/components/course-gate";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: `${COURSE.title} — A. Kasymzhanov`,
@@ -9,7 +14,11 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function CoursesPage() {
+export default async function CoursesPage() {
+  const user = await getSessionUser();
+  if (!user?.email) return <CourseGate />;
+  await ensureEnrolled(user.email);
+
   return (
     <div className="font-mono text-[var(--color-text)]">
       <div className="max-w-[1100px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">

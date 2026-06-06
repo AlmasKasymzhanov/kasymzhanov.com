@@ -46,7 +46,7 @@ export const COURSE: Course = {
         { name: "Промпт · создание context-pack", type: "doc", file: "prompt-create-context-pack.docx" },
         { name: "Промпт · WB Ads Analyzer", type: "doc", file: "prompt-wb-ads-analyzer.docx" },
         { name: "Redstat context-pack", type: "zip", file: "redstat-context-pack.zip" },
-        { name: "WB · выбор ниши (CSV)", type: "csv", file: "WB - выбор ниши - 31.03.2026.csv" },
+        { name: "WB · выбор ниши (CSV)", type: "csv", file: "wb-niche-selection.csv" },
         { name: "WB Analyzer · код-пак", type: "zip", file: "wb-analyzer-pack.zip" },
       ],
     },
@@ -58,7 +58,7 @@ export const COURSE: Course = {
       bunny: "https://player.mediadelivery.net/embed/677544/7936dc0a-e1e1-4936-9755-5103ba60fb87?responsive=true",
       files: [
         { name: "Слайды занятия", type: "slides", file: "slides.html" },
-        { name: "Ресурсы и доступы", type: "doc", file: "Ресурсы и доступы.docx" },
+        { name: "Ресурсы и доступы", type: "doc", file: "resources.docx" },
       ],
     },
     {
@@ -67,7 +67,7 @@ export const COURSE: Course = {
       title: "Логистика",
       desc: "Приглашённый гость по «белой» логистике: как возить из Китая по-белому и спать спокойно.",
       bunny: "https://player.mediadelivery.net/embed/677544/dffe247a-2dea-464e-bd4b-443c5ff038f7?responsive=true",
-      files: [{ name: "Ресурсы и доступы", type: "doc", file: "Ресурсы и доступы.docx" }],
+      files: [{ name: "Ресурсы и доступы", type: "doc", file: "resources.docx" }],
     },
     {
       n: 5,
@@ -77,7 +77,7 @@ export const COURSE: Course = {
       bunny: "https://player.mediadelivery.net/embed/677544/6b84bbac-087f-4d97-ac57-b38dd72cdd33?responsive=true",
       files: [
         { name: "Слайды занятия", type: "slides", file: "slides.html" },
-        { name: "Ресурсы и доступы", type: "doc", file: "Ресурсы и доступы.docx" },
+        { name: "Ресурсы и доступы", type: "doc", file: "resources.docx" },
         { name: "Niche Analytics · код-пак", type: "zip", file: "niche-analytics.zip" },
       ],
     },
