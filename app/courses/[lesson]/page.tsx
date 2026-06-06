@@ -6,6 +6,7 @@ import { Masthead } from "@/components/canon/masthead";
 import { getSessionUser } from "@/lib/supabase-server";
 import { ensureEnrolled } from "@/lib/enrollment";
 import { CourseGate } from "@/components/course-gate";
+import { CourseSignOut } from "@/components/course-signout";
 
 export const dynamic = "force-dynamic";
 
@@ -55,12 +56,15 @@ export default async function LessonPage({ params }: Props) {
         {/* Header */}
         <header className="flex items-center justify-between gap-6 px-6 md:px-10 py-5 border-b border-[var(--color-border)]">
           <Masthead />
-          <Link
-            href="/courses"
-            className="text-[12px] text-[var(--color-dim)] hover:text-[var(--color-text)] no-underline transition-colors"
-          >
-            ← Все занятия
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/courses"
+              className="text-[12px] text-[var(--color-dim)] hover:text-[var(--color-text)] no-underline transition-colors"
+            >
+              ← Все занятия
+            </Link>
+            <CourseSignOut />
+          </div>
         </header>
 
         <article className="px-6 md:px-10 py-10 md:py-14">
