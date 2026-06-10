@@ -37,11 +37,34 @@ export default function Stream4Page() {
             контакты: добавлю вас в список предзаписи на 4 поток и напишу первым, как только откроется
             набор.
           </p>
+          <Link
+            href="/stream-3"
+            className="inline-flex items-center gap-2 mt-6 text-[14px] font-bold text-[var(--color-text)] border-b border-[var(--color-text)] pb-0.5 no-underline hover:opacity-70 transition-opacity"
+          >
+            Смотреть программу курса →
+          </Link>
         </section>
 
         {/* Form */}
         <section className="px-6 md:px-10 py-10 md:py-14">
           <PreorderForm />
+        </section>
+
+        {/* Программа курса */}
+        <section className="px-6 md:px-10 py-10 md:py-12 border-t border-[var(--color-border)]">
+          <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--color-dim)] mb-3">
+            [ Программа ]
+          </p>
+          <p className="text-[14px] md:text-[15px] text-[var(--color-dim)] leading-relaxed max-w-2xl mb-5">
+            Хотите узнать, что входит — 5 модулей, бонусы (внешний трафик, белый ввоз из Китая) и какие
+            сервисы достаются бесплатно? Посмотрите полную программу курса.
+          </p>
+          <Link
+            href="/stream-3"
+            className="inline-flex items-center gap-2 text-[14px] font-bold text-[var(--color-text)] border-b border-[var(--color-text)] pb-0.5 no-underline hover:opacity-70 transition-opacity"
+          >
+            Программа курса →
+          </Link>
         </section>
 
         <div className="flex-1" aria-hidden />

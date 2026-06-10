@@ -69,6 +69,15 @@ const CSS = `
   .s3-foot{margin-top:64px;padding-top:24px;border-top:1px solid var(--color-border);
     font-family:var(--font-mono);font-size:12px;color:var(--color-dim)}
   .s3-foot a{color:var(--color-text);text-underline-offset:3px}
+  .s3-banner{border:1px solid var(--color-text);border-radius:3px;padding:18px 20px;margin:0 0 40px;
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
+  .s3-banner-txt{font-size:14px;color:var(--color-text);line-height:1.5}
+  .s3-banner-txt b{font-weight:700}
+  .s3-banner-btn{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+    font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--color-bg);
+    background:var(--color-text);text-decoration:none;border:1px solid var(--color-text);
+    border-radius:3px;padding:11px 18px;transition:opacity .15s}
+  .s3-banner-btn:hover{opacity:.85}
   @media (max-width:480px){
     .s3-wrap{padding:32px 18px 64px}
     .s3-back{margin-bottom:40px}
@@ -240,6 +249,17 @@ export function Stream3Page() {
           <Link href="/" className="s3-brand">akasymzhanov.com</Link>
           <ThemeToggle />
         </div>
+
+        {/* Набор закрыт → предзапись */}
+        <div className="s3-banner">
+          <div className="s3-banner-txt">
+            <b>Набор в 3 поток закрыт</b> — все места заняты. Открыта предзапись на 4 поток.
+          </div>
+          <Link href="/stream-4" className="s3-banner-btn">
+            Записаться в предзапись →
+          </Link>
+        </div>
+
         <Link href="/blog/kaspi-mcp" className="s3-back">← Назад к статье</Link>
 
         {/* HERO */}
