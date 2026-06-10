@@ -14,7 +14,7 @@ function GoogleIcon() {
   );
 }
 
-export function CourseAccess() {
+export function CourseAccess({ next = "/courses" }: { next?: string }) {
   const [supabase] = useState(() => createSupabaseBrowser());
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "loading" | "sent" | "error">("idle");
@@ -22,7 +22,7 @@ export function CourseAccess() {
 
   const redirectTo =
     typeof window !== "undefined"
-      ? `${window.location.origin}/auth/callback?next=/courses`
+      ? `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`
       : undefined;
 
   function google() {

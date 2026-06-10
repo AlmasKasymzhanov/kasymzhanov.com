@@ -6,7 +6,7 @@ import { createSupabaseBrowser } from "@/lib/supabase-browser";
 
 // Sign-out for the course area. Clears the Supabase session cookie and sends the
 // visitor back to /courses, which then renders the access (sign-in) screen.
-export function CourseSignOut() {
+export function CourseSignOut({ to = "/courses" }: { to?: string }) {
   const [supabase] = useState(() => createSupabaseBrowser());
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -14,7 +14,7 @@ export function CourseSignOut() {
   async function signOut() {
     setLoading(true);
     await supabase.auth.signOut();
-    router.replace("/courses");
+    router.replace(to);
     router.refresh();
   }
 

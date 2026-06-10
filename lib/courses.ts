@@ -109,3 +109,40 @@ export const COURSE: Course = {
 export function getLesson(slug: string) {
   return COURSE.lessons.find((l) => l.slug === slug);
 }
+
+// ── Generalised course config (used by the reusable course engine) ──
+// Stream 2 keeps its original /courses pages; Stream 3+ use the shared engine.
+export type CourseConfig = {
+  id: string; // enrollment course id, e.g. "stream-3"
+  basePath: string; // route base, e.g. "/course-3"
+  storagePrefix: string; // Storage path prefix in the course-files bucket, e.g. "stream-3/"
+  title: string;
+  tagline: string;
+  gateDescription: string;
+  lessons: Lesson[];
+};
+
+export const STREAM3: CourseConfig = {
+  id: "stream-3",
+  basePath: "/course-3",
+  storagePrefix: "stream-3/",
+  title: "AI-аналитика маркетплейсов",
+  tagline: "Поток 3",
+  gateDescription:
+    "Закрытый доступ для участников третьего потока: видео-сессии и все материалы. " +
+    "Открыт без ограничений по времени.",
+  lessons: [
+    {
+      n: 1,
+      slug: "session-1",
+      title: "Сессия 1",
+      desc: "Первая сессия третьего потока.",
+      bunny: "",
+      files: [],
+    },
+  ],
+};
+
+export const COURSES: Record<string, CourseConfig> = {
+  [STREAM3.id]: STREAM3,
+};

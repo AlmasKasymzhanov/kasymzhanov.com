@@ -2,11 +2,21 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/supabase-server";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
 import { ensureEnrolled } from "@/lib/enrollment";
-import { getLesson } from "@/lib/courses";
+import { COURSE, COURSES } from "@/lib/courses";
 
 export const dynamic = "force-dynamic";
 
 const BUCKET = "course-files";
+
+// Resolve the course config from the ?course= param. Default (no param) is
+// Stream 2, whose files live at the bucket root with no storage prefix.
+function resolveCourse(id: string | null) {
+  if (id && COURSES[id]) {
+    const c = COURSES[id];
+    return { id: c.id, prefix: c.storagePrefix, lessons: c.lessons };
+  }
+  return { id: "stream-2", prefix: "", lessons: COURSE.lessons };
+}
 
 // Gated file delivery. Verifies the visitor is signed in (Model A: a signed-in
 // visitor is a Stream 2 participant → enrolled) and validates the request
@@ -30,16 +40,17 @@ export async function GET(req: NextRequest) {
   const inline = searchParams.get("inline") === "1";
   const view = searchParams.get("view") === "1";
 
-  const lesson = getLesson(lessonSlug);
+  const course = resolveCourse(searchParams.get("course"));
+  const lesson = course.lessons.find((l) => l.slug === lessonSlug);
   const entry = lesson?.files.find((f) => f.file === file);
   if (!lesson || !entry) {
     return new NextResponse("Файл не найден", { status: 404 });
   }
 
-  await ensureEnrolled(user.email);
+  await ensureEnrolled(user.email, course.id);
 
   const admin = getSupabaseAdmin();
-  const path = `${lesson.slug}/${entry.file}`;
+  const path = `${course.prefix}${lesson.slug}/${entry.file}`;
   const ext = entry.file.slice(entry.file.lastIndexOf(".")).toLowerCase();
 
   // Open a docx in the Office Online viewer.

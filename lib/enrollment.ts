@@ -8,17 +8,17 @@ function norm(email: string) {
   return email.toLowerCase().trim();
 }
 
-// Model A: any authenticated visitor is enrolled into Stream 2 and their email
-// captured into the newsletter list. Both writes go through the service key
+// Model A: any authenticated visitor is enrolled into the given course and their
+// email captured into the newsletter list. Both writes go through the service key
 // (bypass RLS) and are idempotent — safe to call on every authenticated visit.
-export async function ensureEnrolled(email: string) {
+export async function ensureEnrolled(email: string, course: string = COURSE_ID) {
   const admin = getSupabaseAdmin();
   const e = norm(email);
 
   await admin
     .from("enrollments")
     .upsert(
-      { email: e, course: COURSE_ID },
+      { email: e, course },
       { onConflict: "email,course", ignoreDuplicates: true },
     );
 
@@ -30,13 +30,13 @@ export async function ensureEnrolled(email: string) {
     );
 }
 
-export async function isEnrolled(email: string) {
+export async function isEnrolled(email: string, course: string = COURSE_ID) {
   const admin = getSupabaseAdmin();
   const { data } = await admin
     .from("enrollments")
     .select("id")
     .eq("email", norm(email))
-    .eq("course", COURSE_ID)
+    .eq("course", course)
     .maybeSingle();
   return !!data;
 }
