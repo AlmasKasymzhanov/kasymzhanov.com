@@ -158,6 +158,37 @@ export const STREAM3: CourseConfig = {
   ],
 };
 
+// ── Individual (1-on-1) students ──
+// Each is a private course at /i/<slug>. Add a new student = one entry here
+// (and upload their files under the matching storagePrefix).
+export const INDIVIDUALS: Record<string, CourseConfig> = {
+  hydra: {
+    id: "ind-hydra",
+    basePath: "/i/hydra",
+    storagePrefix: "ind-hydra/",
+    title: "AI-аналитика маркетплейсов",
+    tagline: "Индивидуально · Hydra.kz",
+    gateDescription:
+      "Индивидуальный доступ для Алишера (Hydra.kz): видео-сессии и материалы. " +
+      "Открыт без ограничений по времени.",
+    lessons: [
+      {
+        n: 1,
+        slug: "session-1",
+        title: "Сессия 1",
+        desc: "Первая индивидуальная сессия.",
+        bunny: "",
+        files: [{ name: "Слайды сессии", type: "slides", file: "slides.html" }],
+      },
+    ],
+  },
+};
+
+export function getIndividual(slug: string) {
+  return INDIVIDUALS[slug];
+}
+
 export const COURSES: Record<string, CourseConfig> = {
   [STREAM3.id]: STREAM3,
+  ...Object.fromEntries(Object.values(INDIVIDUALS).map((c) => [c.id, c])),
 };
