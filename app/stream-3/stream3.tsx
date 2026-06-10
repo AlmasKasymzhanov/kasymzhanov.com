@@ -602,6 +602,16 @@ export function Stream3Page() {
           </a>
         </div>
 
+        {/* Набор закрыт → предзапись (повтор внизу) */}
+        <div className="s3-banner" style={{ marginTop: 28 }}>
+          <div className="s3-banner-txt">
+            <b>Набор в 3 поток закрыт</b> — все места заняты. Открыта предзапись на 4 поток.
+          </div>
+          <Link href="/stream-4" className="s3-banner-btn">
+            Записаться в предзапись →
+          </Link>
+        </div>
+
         {/* Блог: статья про карманного аналитика */}
         <hr className="s3-rule" />
         <div className="s3-sec">
