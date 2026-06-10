@@ -173,7 +173,7 @@ export async function CourseLessonView({
             </div>
           )}
 
-          {l.files.length > 0 && (
+          {(l.files.length > 0 || (l.links?.length ?? 0) > 0) && (
             <div>
               <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--color-dim)] mb-4">
                 [ Материалы ]
@@ -206,6 +206,29 @@ export async function CourseLessonView({
                         className="font-bold text-[var(--color-text)] hover:opacity-70 no-underline"
                       >
                         Скачать ↓
+                      </a>
+                    </span>
+                  </li>
+                ))}
+                {l.links?.map((lk) => (
+                  <li
+                    key={lk.url}
+                    className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4 py-3.5 border-b border-[var(--color-border)]"
+                  >
+                    <span className="flex items-center gap-3 min-w-0">
+                      <span className="shrink-0 text-[10px] font-bold tracking-wider text-[var(--color-dim)] border border-[var(--color-border)] px-1.5 py-0.5">
+                        LINK
+                      </span>
+                      <span className="text-[14px] text-[var(--color-text)] break-words">{lk.name}</span>
+                    </span>
+                    <span className="flex items-center shrink-0 text-[12px] pl-[38px] sm:pl-0">
+                      <a
+                        href={lk.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-bold text-[var(--color-text)] hover:opacity-70 no-underline"
+                      >
+                        Открыть →
                       </a>
                     </span>
                   </li>

@@ -8,6 +8,13 @@ export type CourseFile = {
   file: string;
 };
 
+// A plain hyperlink shown in the materials list (name left, link right).
+// Not a stored file — opens a URL in a new tab.
+export type LessonLink = {
+  name: string;
+  url: string;
+};
+
 export type Lesson = {
   n: number;
   slug: string;
@@ -15,6 +22,7 @@ export type Lesson = {
   desc: string;
   bunny: string; // Bunny Stream embed URL, e.g. https://iframe.mediadelivery.net/embed/<lib>/<id>
   files: CourseFile[];
+  links?: LessonLink[];
 };
 
 export type Course = {
@@ -137,8 +145,15 @@ export const STREAM3: CourseConfig = {
       slug: "session-1",
       title: "Сессия 1",
       desc: "Первая сессия третьего потока.",
-      bunny: "",
-      files: [],
+      bunny:
+        "https://player.mediadelivery.net/embed/677544/82e59c66-b3f9-4b15-b970-9a950bc7b045?responsive=true",
+      files: [{ name: "Слайды сессии", type: "slides", file: "slides.html" }],
+      links: [
+        {
+          name: "Инструкция по подключению MCP-коннектора",
+          url: "/blog/kaspi-mcp",
+        },
+      ],
     },
   ],
 };
