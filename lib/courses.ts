@@ -155,6 +155,14 @@ export const STREAM3: CourseConfig = {
         },
       ],
     },
+    {
+      n: 2,
+      slug: "session-2",
+      title: "Сессия 2",
+      desc: "Вторая сессия третьего потока.",
+      bunny: "",
+      files: [{ name: "Слайды сессии", type: "slides", file: "slides.html" }],
+    },
   ],
 };
 
