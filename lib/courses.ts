@@ -153,10 +153,6 @@ export const STREAM3: CourseConfig = {
           name: "Инструкция по подключению MCP-коннектора",
           url: "/blog/kaspi-mcp",
         },
-        {
-          name: "WB-анализатор",
-          url: "/web-analyzer",
-        },
       ],
     },
     {
@@ -167,6 +163,12 @@ export const STREAM3: CourseConfig = {
       bunny:
         "https://player.mediadelivery.net/embed/677544/e56e0c0e-8eca-4c2c-b753-9877538f81d1?responsive=true",
       files: [{ name: "Слайды сессии", type: "slides", file: "slides.html" }],
+      links: [
+        {
+          name: "WB-анализатор",
+          url: "/web-analyzer",
+        },
+      ],
     },
   ],
 };
