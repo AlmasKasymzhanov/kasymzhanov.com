@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
+import { promises as fs } from "fs";
+import path from "path";
 import {
   buildRowsFromApi,
+  parseCSV,
   type MpSubject,
   type NicheRow,
 } from "@/app/web-analyzer/niches";
@@ -37,10 +40,28 @@ interface CacheEntry {
   key: string;
   total: number;
   rows: NicheRow[];
+  source?: string;
+  label?: string;
 }
 
 // Module-level cache survives between requests on a warm server instance.
 let cache: CacheEntry | null = null;
+
+// Snapshot shipped with the app: a real «Выбор ниши» export used while the
+// live API is unavailable (e.g. daily request limit). Parsed with the exact
+// same pipeline as a manual CSV upload. Remove/ignore once the API is primary.
+const SNAPSHOT_FILE = path.join(process.cwd(), "app", "api", "web-analyzer", "snapshot.csv");
+const SNAPSHOT_LABEL = "Снапшот MPStats · 06.03.2026";
+
+async function loadSnapshot(): Promise<NicheRow[] | null> {
+  try {
+    const text = await fs.readFile(SNAPSHOT_FILE, "utf8");
+    const rows = parseCSV(text);
+    return rows.length ? rows : null;
+  } catch {
+    return null;
+  }
+}
 
 function buildUrl(startRow: number, endRow: number, date: string, fbs: boolean) {
   const u = new URL(BASE);
@@ -85,14 +106,6 @@ async function fetchPage(
 }
 
 export async function GET(req: Request) {
-  const token = process.env.MPSTATS_TOKEN;
-  if (!token) {
-    return NextResponse.json(
-      { message: "MPSTATS_TOKEN не задан на сервере (.env.local)." },
-      { status: 500 }
-    );
-  }
-
   const url = new URL(req.url);
   const date = url.searchParams.get("date") ?? "";
   const fbs = url.searchParams.get("fbs") === "1";
@@ -101,46 +114,64 @@ export async function GET(req: Request) {
 
   if (!refresh && cache && cache.key === key && Date.now() - cache.at < CACHE_TTL_MS) {
     return NextResponse.json(
-      { total: cache.total, date, cached: true, data: cache.rows },
+      { total: cache.total, date, cached: true, source: cache.source, label: cache.label, data: cache.rows },
       { headers: { "Cache-Control": "no-store" } }
     );
   }
 
-  try {
-    // First page tells us the total, then we fan out for the rest.
-    const first = await fetchPage(0, token, date, fbs);
-    const subjects: MpSubject[] = [...first.data];
+  // Try the live MPStats API first (when a token is configured).
+  const token = process.env.MPSTATS_TOKEN;
+  if (token) {
+    try {
+      // First page tells us the total, then we fan out for the rest.
+      const first = await fetchPage(0, token, date, fbs);
+      const subjects: MpSubject[] = [...first.data];
 
-    const pageCount = Math.min(Math.ceil(first.total / PAGE_SIZE), MAX_PAGES);
-    const starts: number[] = [];
-    for (let p = 1; p < pageCount; p++) starts.push(p * PAGE_SIZE);
+      const pageCount = Math.min(Math.ceil(first.total / PAGE_SIZE), MAX_PAGES);
+      const starts: number[] = [];
+      for (let p = 1; p < pageCount; p++) starts.push(p * PAGE_SIZE);
 
-    for (let i = 0; i < starts.length; i += CONCURRENCY) {
-      const batch = starts.slice(i, i + CONCURRENCY);
-      const pages = await Promise.all(
-        batch.map((s) => fetchPage(s, token, date, fbs))
-      );
-      for (const pg of pages) subjects.push(...pg.data);
-    }
+      for (let i = 0; i < starts.length; i += CONCURRENCY) {
+        const batch = starts.slice(i, i + CONCURRENCY);
+        const pages = await Promise.all(
+          batch.map((s) => fetchPage(s, token, date, fbs))
+        );
+        for (const pg of pages) subjects.push(...pg.data);
+      }
 
-    const rows = buildRowsFromApi(subjects);
-    cache = { at: Date.now(), key, total: first.total, rows };
+      const rows = buildRowsFromApi(subjects);
+      cache = { at: Date.now(), key, total: first.total, rows };
 
-    return NextResponse.json(
-      { total: first.total, date, cached: false, data: rows },
-      { headers: { "Cache-Control": "no-store" } }
-    );
-  } catch (err) {
-    // Upstream failed (e.g. MPStats daily limit / 429). If we have any prior
-    // result — even past its TTL — serve it stale so the public page keeps
-    // working instead of going dark. Only error out if we've never loaded.
-    if (cache && cache.key === key) {
       return NextResponse.json(
-        { total: cache.total, date, cached: true, stale: true, data: cache.rows },
+        { total: first.total, date, cached: false, data: rows },
         { headers: { "Cache-Control": "no-store" } }
       );
+    } catch (err) {
+      // Upstream failed (e.g. MPStats daily limit / 429). Serve a prior result
+      // (even past TTL) if we have one, so the page never goes dark.
+      console.error("web-analyzer: MPStats API failed, falling back:", err);
+      if (cache && cache.key === key) {
+        return NextResponse.json(
+          { total: cache.total, date, cached: true, stale: true, source: cache.source, label: cache.label, data: cache.rows },
+          { headers: { "Cache-Control": "no-store" } }
+        );
+      }
     }
-    const message = err instanceof Error ? err.message : "Не удалось загрузить данные из MPStats.";
-    return NextResponse.json({ message }, { status: 502 });
   }
+
+  // No token, or the API failed and we have no cache → bundled snapshot.
+  const snap = await loadSnapshot();
+  if (snap) {
+    const label = `${SNAPSHOT_LABEL} · ${snap.length} ниш`;
+    cache = { at: Date.now(), key, total: snap.length, rows: snap, source: "snapshot", label };
+    return NextResponse.json(
+      { total: snap.length, date, cached: false, source: "snapshot", label, data: snap },
+      { headers: { "Cache-Control": "no-store" } }
+    );
+  }
+
+  return NextResponse.json(
+    { message: "Данные недоступны: живой API исчерпал лимит, а снапшот не найден." },
+    { status: 502 }
+  );
 }

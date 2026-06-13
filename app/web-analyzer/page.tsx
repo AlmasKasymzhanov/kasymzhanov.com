@@ -399,7 +399,10 @@ export default function WbAnalyzerPage() {
       const rows = (json.data as NicheRow[]) ?? [];
       if (!rows.length) throw new Error("API вернул пустой список.");
       const stamp = json.cached ? " · из кэша" : "";
-      applyData(rows, `MPStats API · ${json.total ?? rows.length} предметов${stamp}`);
+      const label = json.label
+        ? `${json.label}${stamp}`
+        : `MPStats API · ${json.total ?? rows.length} предметов${stamp}`;
+      applyData(rows, label);
     } catch (e) {
       // On failure we fall through to the silent file-upload fallback screen.
       console.error("web-analyzer API load failed:", e);
