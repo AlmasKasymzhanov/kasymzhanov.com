@@ -153,6 +153,10 @@ export const STREAM3: CourseConfig = {
           name: "Инструкция по подключению MCP-коннектора",
           url: "/blog/kaspi-mcp",
         },
+        {
+          name: "WB-анализатор",
+          url: "/web-analyzer",
+        },
       ],
     },
     {
