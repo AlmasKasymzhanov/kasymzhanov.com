@@ -20,7 +20,8 @@ export type Lesson = {
   slug: string;
   title: string;
   desc: string;
-  bunny: string; // Bunny Stream embed URL, e.g. https://iframe.mediadelivery.net/embed/<lib>/<id>
+  bunny: string; // single Bunny Stream embed URL (empty string = no video)
+  bunnies?: string[]; // multiple video parts (e.g. a split Zoom recording) — overrides `bunny`
   files: CourseFile[];
   links?: LessonLink[];
 };
@@ -169,6 +170,15 @@ export const STREAM3: CourseConfig = {
           url: "/web-analyzer",
         },
       ],
+    },
+    {
+      n: 3,
+      slug: "session-3",
+      title: "Сессия 3",
+      desc: "Третья сессия третьего потока. Запись разбита на две части.",
+      bunny: "",
+      bunnies: [],
+      files: [{ name: "Слайды сессии", type: "slides", file: "slides.html" }],
     },
   ],
 };

@@ -133,6 +133,8 @@ export async function CourseLessonView({
   const prev = course.lessons[idx - 1];
   const next = course.lessons[idx + 1];
 
+  const videos = l.bunnies?.length ? l.bunnies : l.bunny ? [l.bunny] : [];
+
   return (
     <div className="font-mono text-[var(--color-text)]">
       <div className="max-w-[1000px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">
@@ -160,18 +162,25 @@ export async function CourseLessonView({
             {l.desc}
           </p>
 
-          {l.bunny && (
-            <div className="aspect-video w-full border border-[var(--color-border)] overflow-hidden mb-10 bg-[var(--color-surface)]">
-              <iframe
-                src={l.bunny}
-                title={l.title}
-                loading="lazy"
-                className="w-full h-full"
-                allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
-                allowFullScreen
-              />
+          {videos.map((src, i) => (
+            <div key={i} className="mb-10">
+              {videos.length > 1 && (
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--color-dim)] mb-3">
+                  [ Часть {i + 1} ]
+                </p>
+              )}
+              <div className="aspect-video w-full border border-[var(--color-border)] overflow-hidden bg-[var(--color-surface)]">
+                <iframe
+                  src={src}
+                  title={videos.length > 1 ? `${l.title} — часть ${i + 1}` : l.title}
+                  loading="lazy"
+                  className="w-full h-full"
+                  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
             </div>
-          )}
+          ))}
 
           {(l.files.length > 0 || (l.links?.length ?? 0) > 0) && (
             <div>
