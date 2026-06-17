@@ -177,7 +177,10 @@ export const STREAM3: CourseConfig = {
       title: "Сессия 3",
       desc: "Третья сессия третьего потока. Запись разбита на две части.",
       bunny: "",
-      bunnies: [],
+      bunnies: [
+        "https://player.mediadelivery.net/embed/677544/ae03034f-952f-4501-aff3-1b945aa8f190?responsive=true",
+        "https://player.mediadelivery.net/embed/677544/e8bedf75-4a97-4207-88fd-08735661ff47?responsive=true",
+      ],
       files: [{ name: "Слайды сессии", type: "slides", file: "slides.html" }],
     },
   ],
