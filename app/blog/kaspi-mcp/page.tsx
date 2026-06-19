@@ -6,6 +6,7 @@ import { ShareButtons } from "@/components/share-buttons";
 import { ReadTracker } from "@/components/read-tracker";
 import { SiteHeader, SiteFooter, AuthorBlock } from "@/components/canon/site-chrome";
 import { ArticleHeader } from "@/components/canon/article-header";
+import { ArticleEngagement } from "@/components/engagement/article-engagement";
 import { useState } from "react";
 
 /* MCP-коннектор для аналитики Kaspi (используется в шаге 3) */
@@ -254,6 +255,7 @@ export default function KaspiMcpArticle() {
           </Link>
         </div>
 
+        <ArticleEngagement slug="kaspi-mcp" />
         </article>
 
         <div className="flex-1" aria-hidden />

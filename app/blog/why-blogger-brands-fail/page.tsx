@@ -5,6 +5,7 @@ import { ShareButtons } from "@/components/share-buttons";
 import { ReadTracker } from "@/components/read-tracker";
 import { SiteHeader, SiteFooter, AuthorBlock } from "@/components/canon/site-chrome";
 import { ArticleHeader } from "@/components/canon/article-header";
+import { ArticleEngagement } from "@/components/engagement/article-engagement";
 import {
   AreaChart,
   Area,
@@ -671,6 +672,7 @@ export default function LiqBeautyArticle() {
           </div>
         </div>
 
+        <ArticleEngagement slug="why-blogger-brands-fail" />
         </article>
 
         <div className="flex-1" aria-hidden />
