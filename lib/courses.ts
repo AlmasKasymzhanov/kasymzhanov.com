@@ -183,6 +183,18 @@ export const STREAM3: CourseConfig = {
       ],
       files: [{ name: "Слайды сессии", type: "slides", file: "slides.html" }],
     },
+    {
+      n: 4,
+      slug: "session-4",
+      title: "Сессия 4",
+      desc: "Четвёртая сессия третьего потока — тренды и поиск товара.",
+      bunny:
+        "https://player.mediadelivery.net/embed/677544/d368906f-7bf7-442c-9d2e-a6819ab37155?responsive=true",
+      files: [
+        { name: "Слайды сессии", type: "slides", file: "slides.html" },
+        { name: "Алгоритм поиска товара · факторы тренда", type: "doc", file: "algoritm-poiska-tovara.docx" },
+      ],
+    },
   ],
 };
 
