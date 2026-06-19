@@ -2,17 +2,19 @@
 
 import { useEffect, useState } from "react";
 
-// EN / RU language switch — two tick-boxes. Visual for now (full i18n comes later);
-// stores the choice in localStorage so it's ready to wire up to translations.
-const LANGS = ["EN", "RU"] as const;
+// EN / RU language switch — segmented pill styled after 10b.kz.
+// Visual for now (full i18n comes later); stored in localStorage.
+const LANGS = ["RU", "EN"] as const;
 type Lang = (typeof LANGS)[number];
 
 export function LangToggle() {
   const [lang, setLang] = useState<Lang>("RU");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("lang") as Lang | null;
     if (saved && LANGS.includes(saved)) setLang(saved);
+    setMounted(true);
   }, []);
 
   const choose = (l: Lang) => {
@@ -20,19 +22,34 @@ export function LangToggle() {
     localStorage.setItem("lang", l);
   };
 
+  if (!mounted) {
+    return (
+      <div
+        className="h-[34px] w-[78px] rounded-full border border-[var(--color-border)] bg-[var(--color-text)]/5"
+        aria-hidden
+      />
+    );
+  }
+
   return (
-    <div className="flex items-center gap-2">
+    <div
+      role="radiogroup"
+      aria-label="Язык"
+      className="inline-flex items-center gap-0.5 rounded-full border border-[var(--color-border)] p-0.5 bg-[var(--color-text)]/5"
+    >
       {LANGS.map((l) => {
         const active = lang === l;
         return (
           <button
             key={l}
+            type="button"
+            role="radio"
+            aria-checked={active}
             onClick={() => choose(l)}
-            aria-pressed={active}
-            className={`relative h-10 w-10 grid place-items-center border border-[var(--color-text)] text-[11px] font-bold tracking-[0.06em] transition-colors ${
+            className={`flex h-7 items-center justify-center rounded-full px-2.5 text-[11px] font-bold transition-colors duration-150 ease-out cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--color-brand)]/60 ${
               active
-                ? "bg-[var(--color-text)] text-[var(--color-bg)]"
-                : "bg-transparent text-[var(--color-text)] hover:bg-[var(--color-text)] hover:text-[var(--color-bg)]"
+                ? "bg-[var(--color-bg)] text-[var(--color-text)] shadow-sm"
+                : "text-[var(--color-dim)] hover:text-[var(--color-text)] hover:bg-[var(--color-text)]/8"
             }`}
           >
             {l}

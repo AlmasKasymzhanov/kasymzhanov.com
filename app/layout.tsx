@@ -48,12 +48,12 @@ const departureMono = localFont({
 export const metadata: Metadata = {
   title: "Almas Kasymzhanov",
   description: "Founder of Redstat & 10b.kz — Marketplace Analytics & Data Products",
-  metadataBase: new URL("https://akasymzhanov.com"),
+  metadataBase: new URL("https://kasymzhanov.com"),
   openGraph: {
     title: "Almas Kasymzhanov",
     description: "Founder of Redstat & 10b.kz — Marketplace Analytics & Data Products",
-    url: "https://akasymzhanov.com",
-    siteName: "akasymzhanov.com",
+    url: "https://kasymzhanov.com",
+    siteName: "kasymzhanov.com",
     locale: "ru_RU",
     type: "website",
   },

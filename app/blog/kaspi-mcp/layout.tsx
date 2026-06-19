@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description,
-    url: "https://akasymzhanov.com/blog/kaspi-mcp",
+    url: "https://kasymzhanov.com/blog/kaspi-mcp",
     type: "article",
   },
   twitter: {

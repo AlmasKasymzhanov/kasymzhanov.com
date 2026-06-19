@@ -116,7 +116,7 @@ export default function KaspiHaircareReport() {
 
         {/* ═══ Header ═══ */}
         <div style={{ marginBottom: 16 }}>
-          <Link href="/" style={{ color: C.dim, fontSize: 13, textDecoration: "none" }}>&larr; akasymzhanov.com</Link>
+          <Link href="/" style={{ color: C.dim, fontSize: 13, textDecoration: "none" }}>&larr; kasymzhanov.com</Link>
         </div>
 
         <div style={{ marginBottom: 48, paddingBottom: 32, borderBottom: `1px solid ${C.border}` }}>
@@ -1089,7 +1089,7 @@ export default function KaspiHaircareReport() {
             Данные: <strong style={{ color: C.cyan }}>RedStat</strong> (агрегированная аналитика Kaspi.kz) · Период: ноябрь 2024 — февраль 2026
           </p>
           <p style={{ fontSize: 12, color: C.dim, margin: "8px 0 0" }}>
-            <Link href="/" style={{ color: C.accent, textDecoration: "none" }}>akasymzhanov.com</Link> · обновление отчёта ежемесячно после новой выгрузки Kaspi
+            <Link href="/" style={{ color: C.accent, textDecoration: "none" }}>kasymzhanov.com</Link> · обновление отчёта ежемесячно после новой выгрузки Kaspi
           </p>
         </div>
 

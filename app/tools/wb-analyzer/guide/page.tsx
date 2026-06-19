@@ -626,7 +626,7 @@ export default function GuidePage() {
             href="/"
             style={{ fontSize: 12, color: C.dim, textDecoration: "none" }}
           >
-            akasymzhanov.com
+            kasymzhanov.com
           </Link>
         </div>
       </div>

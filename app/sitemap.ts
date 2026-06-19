@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const BASE_URL = "https://akasymzhanov.com";
+const BASE_URL = "https://kasymzhanov.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [

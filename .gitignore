@@ -141,3 +141,16 @@ vite.config.ts.timestamp-*
 # Test data
 test-data/
 .velite
+
+# Playwright MCP session artifacts
+.playwright-mcp/
+
+# Local scratch artifacts (root-level screenshots / docs)
+/*.png
+/*.pdf
+
+# Obsidian vault config inside content
+**/.obsidian/
+
+# Next.js generated types (regenerated on build)
+next-env.d.ts

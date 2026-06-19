@@ -424,7 +424,7 @@ export default function KaspiCampingPage() {
             </p>
           </div>
           <div style={{ textAlign: "center", marginTop: 32, fontSize: 12, color: C.dim }}>
-            akasymzhanov.com · Сезонная аналитика кемпинга Kaspi.kz · 15 мая 2026
+            kasymzhanov.com · Сезонная аналитика кемпинга Kaspi.kz · 15 мая 2026
           </div>
         </Section>
 

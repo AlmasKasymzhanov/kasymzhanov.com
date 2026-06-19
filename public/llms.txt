@@ -8,7 +8,7 @@
 
 ## Блог
 
-- [Блеск и нищета Lick Beauty](https://akasymzhanov.com/blog/why-blogger-brands-fail): Data-driven анализ провала бренда блогера на Kaspi.kz. 43.6 млн тенге в первый месяц, 3.3 млн через полгода. Сравнение с PUSY (3.25 млрд рублей) и VOIS (2.5 млрд рублей). Данные Redstat, СПАРК-Интерфакс, MPSTATS.
+- [Блеск и нищета Lick Beauty](https://kasymzhanov.com/blog/why-blogger-brands-fail): Data-driven анализ провала бренда блогера на Kaspi.kz. 43.6 млн тенге в первый месяц, 3.3 млн через полгода. Сравнение с PUSY (3.25 млрд рублей) и VOIS (2.5 млрд рублей). Данные Redstat, СПАРК-Интерфакс, MPSTATS.
 
 ## Проекты
 

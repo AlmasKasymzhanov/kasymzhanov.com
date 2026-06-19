@@ -9,7 +9,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Публичная оферта — Almas Kasymzhanov",
   description:
-    "Публичная оферта (Terms of Service) akasymzhanov.com: подписка, оплата через Kaspi, возвраты, права и реквизиты (RU/EN).",
+    "Публичная оферта (Terms of Service) kasymzhanov.com: подписка, оплата через Kaspi, возвраты, права и реквизиты (RU/EN).",
 };
 
 export default function TermsPage() {

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://akasymzhanov.com/sitemap.xml
+Sitemap: https://kasymzhanov.com/sitemap.xml

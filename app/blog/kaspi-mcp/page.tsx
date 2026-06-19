@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { ViewCounter } from "@/components/view-counter";
 import { ShareButtons } from "@/components/share-buttons";
 import { ReadTracker } from "@/components/read-tracker";
+import { SiteHeader, SiteFooter, AuthorBlock } from "@/components/canon/site-chrome";
+import { ArticleHeader } from "@/components/canon/article-header";
 import { useState } from "react";
 
 /* MCP-коннектор для аналитики Kaspi (используется в шаге 3) */
@@ -73,35 +73,28 @@ export default function KaspiMcpArticle() {
   const [showProgram, setShowProgram] = useState(false);
 
   return (
-    <div className="min-h-screen">
-      <ReadTracker slug="kaspi-mcp" />
-      <div className="max-w-[680px] mx-auto px-6 py-12 md:py-20">
+    <div className="font-mono text-[var(--color-text)]">
+      <div className="max-w-[1400px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">
+        <ReadTracker slug="kaspi-mcp" />
+        <SiteHeader />
+        <article className="w-full max-w-[680px] mx-auto px-6 py-12 md:py-20">
 
-        {/* Header */}
-        <div className="flex items-center justify-between mb-16">
-          <Link href="/" className="font-mono text-[13px] text-[var(--color-dim)] hover:text-[var(--color-text)] transition-colors no-underline">
-            ← almas kasymzhanov
-          </Link>
-          <ThemeToggle />
-        </div>
-
-        {/* Title */}
-        <div className="mb-12">
-          <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--color-dim)] mb-4">Redstat + MCP</p>
-          <h1 className="text-[28px] md:text-[34px] font-bold tracking-tight text-[var(--color-text)] leading-[1.2] mb-5">
-            Арифметика лени: как заставить AI добывать золото из&nbsp;Kaspi, пока вы пьёте кофе
-          </h1>
-          <p className="text-[15px] text-[var(--color-dim)] leading-relaxed mb-6">
-            Тот самый гайд из Reels. Разворачиваем AI-аналитика Kaspi прямо в телефоне: пошагово, со скриншотами, бесплатно.
-          </p>
-          <div className="flex items-center justify-between gap-4">
-            <p className="font-mono text-[11px] text-[var(--color-dim)]/60 whitespace-nowrap">Май 29, 2026</p>
-            <div className="flex items-center gap-3 whitespace-nowrap">
-              <ViewCounter slug="kaspi-mcp" />
-              <ShareButtons url="https://akasymzhanov.com/blog/kaspi-mcp" title="Арифметика лени: как AI добывает золото из Kaspi | Almas Kasymzhanov" variant="compact" />
-            </div>
-          </div>
-        </div>
+        <ArticleHeader
+          kicker="Redstat + MCP"
+          title={<>Арифметика лени: как заставить AI добывать золото из&nbsp;Kaspi, пока вы пьёте кофе</>}
+          subtitle="Тот самый гайд из Reels. Разворачиваем AI-аналитика Kaspi прямо в телефоне: пошагово, со скриншотами, бесплатно."
+          slug="kaspi-mcp"
+          date="29 мая 2026"
+          readMin={5}
+          likes={86}
+          comments={7}
+          shares={5}
+          hero={{
+            src: "/blog/kaspi-mcp/mcp.webp",
+            alt: "Иллюстрация к гайду по MCP-коннектору для Kaspi",
+            credit: "Иллюстрация: Алмас Касымжанов · Higgsfield AI",
+          }}
+        />
 
         <hr className="border-[var(--color-border)] mb-12" />
 
@@ -193,7 +186,7 @@ export default function KaspiMcpArticle() {
 
         {/* ─── Поделиться ─── */}
         <div className="mb-12">
-          <ShareButtons url="https://akasymzhanov.com/blog/kaspi-mcp" title="Арифметика лени: как AI добывает золото из Kaspi | Almas Kasymzhanov" variant="full" />
+          <ShareButtons url="https://kasymzhanov.com/blog/kaspi-mcp" title="Арифметика лени: как AI добывает золото из Kaspi | Almas Kasymzhanov" variant="full" />
         </div>
 
         {/* ─── Третий поток ─── */}
@@ -261,31 +254,11 @@ export default function KaspiMcpArticle() {
           </Link>
         </div>
 
-        {/* ─── Автор ─── */}
-        <div className="border-t border-[var(--color-border)] pt-10 mt-8 mb-10">
-          <div className="flex items-start gap-5">
-            <Image src="/avatar/almas.webp" alt="Almas Kasymzhanov" width={72} height={72} className="rounded-full shrink-0" />
-            <div>
-              <p className="font-mono text-[14px] font-bold text-[var(--color-text)] mb-2">almas kasymzhanov</p>
-              <div className="flex flex-col gap-1.5 mt-1">
-                <a href="https://t.me/almaskasymzhanov" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-mono text-[12px] text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">telegram <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>
-                <a href="https://www.instagram.com/almas_kasymzhanov/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-mono text-[12px] text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">instagram <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>
-                <a href="https://github.com/AlmasKasymzhanov" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-mono text-[12px] text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">github <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>
-              </div>
-            </div>
-          </div>
-        </div>
+        </article>
 
-        {/* Footer */}
-        <footer className="border-t border-[var(--color-border)] pt-6">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="font-mono text-[12px] text-[var(--color-dim)] hover:text-[var(--color-text)] transition-colors no-underline">
-              ← Главная
-            </Link>
-            <span className="font-mono text-[11px] text-[var(--color-dim)]/50">© 2026 akasymzhanov.com</span>
-          </div>
-        </footer>
-
+        <div className="flex-1" aria-hidden />
+        <AuthorBlock variant="horizontal" />
+        <SiteFooter />
       </div>
     </div>
   );

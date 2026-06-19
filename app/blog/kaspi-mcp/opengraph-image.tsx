@@ -86,7 +86,7 @@ export default async function Image() {
           }}
         >
           <div style={{ display: "flex", color: "#ededed" }}>almas kasymzhanov</div>
-          <div style={{ display: "flex", color: "#888888" }}>akasymzhanov.com</div>
+          <div style={{ display: "flex", color: "#888888" }}>kasymzhanov.com</div>
         </div>
       </div>
     ),

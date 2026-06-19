@@ -2,13 +2,16 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --color-bg: #0a0a0a;
-  --color-surface: #141414;
-  --color-surface-hover: #1c1c1c;
+  /* Dark (default) — softened, warmer charcoal à la Rest of World (#262626), not pure black */
+  --color-bg: #171717;
+  --color-surface: #1f1f1f;
+  --color-surface-hover: #272727;
   --color-accent: #ededed;
   --color-text: #ededed;
   --color-dim: #888888;
-  --color-border: #222222;
+  --color-border: #2c2c2c;
+  /* Brand accent — mint-teal in dark (RoW uses #9EE9DF), blue in light */
+  --color-brand: #46d9b8;
   --font-sans: var(--font-geist), system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-hack), var(--font-menlo), Menlo, Monaco, Consolas, monospace;
   --font-pixel: var(--font-departure), var(--font-hack), Menlo, monospace;
@@ -23,6 +26,7 @@ html.light {
   --color-text: #171717;
   --color-dim: #666666;
   --color-border: #e5e5e5;
+  --color-brand: #242ef7;
 }
 
 body {

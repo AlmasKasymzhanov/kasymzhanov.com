@@ -77,7 +77,7 @@ export default async function CoursesPage() {
 
         {/* Footer */}
         <footer className="px-6 md:px-10 py-8 border-t border-[var(--color-border)] flex items-center justify-between text-[11px] text-[var(--color-dim)]">
-          <span>© 2026 akasymzhanov.com</span>
+          <span>© 2026 kasymzhanov.com</span>
           <span>Закрытый доступ</span>
         </footer>
       </div>

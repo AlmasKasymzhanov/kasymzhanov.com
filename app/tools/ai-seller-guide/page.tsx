@@ -813,7 +813,7 @@ export default function AiSellerGuidePage() {
 
         {/* ───── footer ───── */}
         <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 32, textAlign: "center" }}>
-          <p style={{ fontSize: 12, color: C.faint }}>akasymzhanov.com · AI для продавцов маркетплейсов · 2026</p>
+          <p style={{ fontSize: 12, color: C.faint }}>kasymzhanov.com · AI для продавцов маркетплейсов · 2026</p>
         </div>
       </div>
     </div>

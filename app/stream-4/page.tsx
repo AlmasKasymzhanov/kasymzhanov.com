@@ -71,7 +71,7 @@ export default function Stream4Page() {
 
         {/* Footer */}
         <footer className="px-6 md:px-10 py-8 border-t border-[var(--color-border)] flex flex-wrap items-center justify-between gap-3 text-[11px] text-[var(--color-dim)]">
-          <span>© 2026 akasymzhanov.com</span>
+          <span>© 2026 kasymzhanov.com</span>
           <span>Предзапись · 4 поток</span>
         </footer>
       </div>

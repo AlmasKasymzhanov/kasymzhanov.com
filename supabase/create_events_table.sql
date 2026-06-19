@@ -1,4 +1,4 @@
--- Universal events table for akasymzhanov.com analytics
+-- Universal events table for kasymzhanov.com analytics
 -- Run this in Supabase SQL Editor: https://supabase.com/dashboard → SQL Editor
 
 create table if not exists events (

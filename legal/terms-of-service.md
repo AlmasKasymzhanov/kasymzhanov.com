@@ -15,13 +15,13 @@
 - Индивидуальный предприниматель **«КАСЫМЖАНОВ А.Ж.»** (Almas Kasymzhanov), Республика Казахстан («Администрация», «мы»)
 - ИИН: **930422350609**
 - Адрес: Республика Казахстан, г. Костанай, ул. Воинов-Интернационалистов, д. 1/1, кв./офис 73
-- Email: **almas@akasymzhanov.com**
+- Email: **almas@kasymzhanov.com**
 
 Договор считается заключённым (оферта акцептована) с момента, когда вы совершаете любое из действий: регистрируетесь на Сайте, проходите авторизацию через Google или оформляете и оплачиваете подписку. Совершая эти действия, вы подтверждаете, что прочитали и принимаете настоящую оферту и [Политику конфиденциальности](/privacy).
 
 ### 2. Термины
 
-- **Сайт** — akasymzhanov.com.
+- **Сайт** — kasymzhanov.com.
 - **Пользователь** — лицо, использующее Сайт.
 - **Подписчик** — Пользователь с активной платной подпиской.
 - **Контент** — статьи, аналитика, данные, тексты, графики и иные материалы Сайта.
@@ -58,13 +58,13 @@
 
 ### 8. Отмена подписки
 
-Пользователь может отменить Подписку в любой момент в настройках учётной записи или написав на **almas@akasymzhanov.com**. После отмены автопродление прекращается, а доступ сохраняется до конца уже оплаченного периода.
+Пользователь может отменить Подписку в любой момент в настройках учётной записи или написав на **almas@kasymzhanov.com**. После отмены автопродление прекращается, а доступ сохраняется до конца уже оплаченного периода.
 
 ### 9. Возвраты
 
 Возвраты осуществляются в соответствии с **Законом Республики Казахстан «О защите прав потребителей»** и применимым законодательством.
 
-- Запрос на возврат направляется на **almas@akasymzhanov.com**; мы рассматриваем его в течение **10 рабочих дней**.
+- Запрос на возврат направляется на **almas@kasymzhanov.com**; мы рассматриваем его в течение **10 рабочих дней**.
 - Если услуга не была фактически оказана либо оказана ненадлежащего качества, уплаченная сумма подлежит возврату.
 - Поскольку Подписка предоставляет доступ к цифровому Контенту, оказываемому немедленно, после начала фактического использования доступа возможен пропорциональный возврат за неиспользованный оплаченный период — в пределах, допускаемых законом.
 
@@ -103,7 +103,7 @@
 - ИП **«КАСЫМЖАНОВ А.Ж.»** (Almas Kasymzhanov)
 - ИИН: **930422350609**
 - Адрес: Республика Казахстан, г. Костанай, ул. Воинов-Интернационалистов, д. 1/1, кв./офис 73
-- Email: **almas@akasymzhanov.com**
+- Email: **almas@kasymzhanov.com**
 - Банк: АО «Kaspi Bank»
 - БИК: **CASPKZKA**
 - КБе: **19**
@@ -122,13 +122,13 @@ This document is a **public offer** to enter into a contract under Articles 395 
 - Individual Entrepreneur **"KASYMZHANOV A.ZH."** (Almas Kasymzhanov), Republic of Kazakhstan (the "Administration", "we")
 - IIN: **930422350609**
 - Address: Republic of Kazakhstan, Kostanay, Voinov-Internatsionalistov St., 1/1, apt./office 73
-- Email: **almas@akasymzhanov.com**
+- Email: **almas@kasymzhanov.com**
 
 The contract is concluded (the offer is accepted) when you perform any of the following: register on the Site, sign in via Google, or purchase and pay for a subscription. By doing so, you confirm that you have read and accept this offer and the [Privacy Policy](/privacy).
 
 ### 2. Definitions
 
-- **Site** — akasymzhanov.com.
+- **Site** — kasymzhanov.com.
 - **User** — a person using the Site.
 - **Subscriber** — a User with an active paid subscription.
 - **Content** — articles, analytics, data, texts, charts, and other Site materials.
@@ -165,13 +165,13 @@ If the selected plan involves periodic payment, the Subscription **renews automa
 
 ### 8. Cancellation
 
-The User may cancel the Subscription at any time in account settings or by emailing **almas@akasymzhanov.com**. After cancellation, auto-renewal stops and access remains until the end of the already paid period.
+The User may cancel the Subscription at any time in account settings or by emailing **almas@kasymzhanov.com**. After cancellation, auto-renewal stops and access remains until the end of the already paid period.
 
 ### 9. Refunds
 
 Refunds are handled in accordance with the **Law of the Republic of Kazakhstan "On Consumer Rights Protection"** and applicable law.
 
-- Refund requests are sent to **almas@akasymzhanov.com**; we review them within **10 business days**.
+- Refund requests are sent to **almas@kasymzhanov.com**; we review them within **10 business days**.
 - If the service was not actually provided or was of inadequate quality, the amount paid is refundable.
 - Because the Subscription provides access to digital Content delivered immediately, once access has actually begun a pro-rata refund for the unused paid period may be available, to the extent permitted by law.
 
@@ -210,7 +210,7 @@ The Administration may amend this offer. A new version takes effect upon publica
 - IE **"KASYMZHANOV A.ZH."** (Almas Kasymzhanov)
 - IIN: **930422350609**
 - Address: Republic of Kazakhstan, Kostanay, Voinov-Internatsionalistov St., 1/1, apt./office 73
-- Email: **almas@akasymzhanov.com**
+- Email: **almas@kasymzhanov.com**
 - Bank: Kaspi Bank JSC
 - BIC: **CASPKZKA**
 - KBe: **19**

@@ -1,4 +1,4 @@
--- Newsletter subscribers for akasymzhanov.com
+-- Newsletter subscribers for kasymzhanov.com
 -- Run this in Supabase SQL Editor: https://supabase.com/dashboard → SQL Editor
 
 create table if not exists subscribers (

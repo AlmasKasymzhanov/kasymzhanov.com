@@ -9,7 +9,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Политика конфиденциальности — Almas Kasymzhanov",
   description:
-    "Политика конфиденциальности akasymzhanov.com: какие данные собираются, Google Sign-In, cookies, права субъекта данных (RU/EN). Privacy Policy.",
+    "Политика конфиденциальности kasymzhanov.com: какие данные собираются, Google Sign-In, cookies, права субъекта данных (RU/EN). Privacy Policy.",
 };
 
 export default function PrivacyPage() {

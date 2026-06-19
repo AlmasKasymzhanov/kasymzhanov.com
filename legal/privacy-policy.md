@@ -10,13 +10,13 @@
 
 ### 1. Общие положения
 
-Настоящая Политика конфиденциальности («Политика») описывает, какие персональные данные собираются на сайте **akasymzhanov.com** («Сайт»), с какими целями, на каких правовых основаниях они обрабатываются, кому передаются и какие права есть у вас как у субъекта данных.
+Настоящая Политика конфиденциальности («Политика») описывает, какие персональные данные собираются на сайте **kasymzhanov.com** («Сайт»), с какими целями, на каких правовых основаниях они обрабатываются, кому передаются и какие права есть у вас как у субъекта данных.
 
 **Оператор (контролёр) персональных данных:**
 - Индивидуальный предприниматель **«КАСЫМЖАНОВ А.Ж.»** (Almas Kasymzhanov), Республика Казахстан
 - ИИН: **930422350609**
 - Адрес: Республика Казахстан, г. Костанай, ул. Воинов-Интернационалистов, д. 1/1, кв./офис 73
-- Контакт для запросов по персональным данным: **almas@akasymzhanov.com**
+- Контакт для запросов по персональным данным: **almas@kasymzhanov.com**
 
 Используя Сайт, проходя авторизацию или оформляя подписку, вы подтверждаете, что ознакомились с настоящей Политикой. Обработка осуществляется в соответствии с **Законом Республики Казахстан «О персональных данных и их защите» от 21 мая 2013 года № 94-V**, Гражданским кодексом РК и Законом РК «Об информатизации» от 24 ноября 2015 года № 418-V, а для пользователей из ЕС/ЕЭЗ — с учётом требований **Общего регламента по защите данных (GDPR)**.
 
@@ -103,7 +103,7 @@
 - ограничить или возразить против обработки;
 - получить копию данных в переносимом формате (право на переносимость).
 
-Для реализации прав напишите на **almas@akasymzhanov.com**. Мы ответим в сроки, установленные применимым законодательством.
+Для реализации прав напишите на **almas@kasymzhanov.com**. Мы ответим в сроки, установленные применимым законодательством.
 
 **Для пользователей ЕС/ЕЭЗ (GDPR):** вы также имеете право подать жалобу в надзорный орган по защите данных вашей страны.
 
@@ -123,7 +123,7 @@
 
 ### 13. Контакты
 
-По любым вопросам, связанным с обработкой персональных данных: **almas@akasymzhanov.com**
+По любым вопросам, связанным с обработкой персональных данных: **almas@kasymzhanov.com**
 
 ---
 <a id="privacy-policy-english"></a>
@@ -132,13 +132,13 @@
 
 ### 1. General
 
-This Privacy Policy (the "Policy") describes what personal data is collected on the **akasymzhanov.com** website (the "Site"), for what purposes, on what legal grounds it is processed, with whom it is shared, and what rights you have as a data subject.
+This Privacy Policy (the "Policy") describes what personal data is collected on the **kasymzhanov.com** website (the "Site"), for what purposes, on what legal grounds it is processed, with whom it is shared, and what rights you have as a data subject.
 
 **Data controller:**
 - Individual Entrepreneur **"KASYMZHANOV A.ZH."** (Almas Kasymzhanov), Republic of Kazakhstan
 - IIN: **930422350609**
 - Address: Republic of Kazakhstan, Kostanay, Voinov-Internatsionalistov St., 1/1, apt./office 73
-- Contact for data requests: **almas@akasymzhanov.com**
+- Contact for data requests: **almas@kasymzhanov.com**
 
 By using the Site, signing in, or purchasing a subscription, you confirm that you have read this Policy. Processing is carried out in accordance with the **Law of the Republic of Kazakhstan "On Personal Data and Its Protection" No. 94-V of May 21, 2013**, the Civil Code of the RK, and the Law of the RK "On Informatization" No. 418-V of November 24, 2015, and, for users in the EU/EEA, taking into account the **General Data Protection Regulation (GDPR)**.
 
@@ -225,7 +225,7 @@ You have the right to:
 - restrict or object to processing;
 - receive a copy of your data in a portable format (portability).
 
-To exercise your rights, email **almas@akasymzhanov.com**. We will respond within the timeframes set by applicable law.
+To exercise your rights, email **almas@kasymzhanov.com**. We will respond within the timeframes set by applicable law.
 
 **For EU/EEA users (GDPR):** you also have the right to lodge a complaint with your national data protection authority.
 
@@ -245,4 +245,4 @@ We may update this Policy. For material changes, we will notify you (e.g., by em
 
 ### 13. Contact
 
-For any questions about the processing of personal data: **almas@akasymzhanov.com**
+For any questions about the processing of personal data: **almas@kasymzhanov.com**

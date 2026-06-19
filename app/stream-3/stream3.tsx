@@ -246,7 +246,7 @@ export function Stream3Page() {
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="s3-wrap">
         <div className="s3-top">
-          <Link href="/" className="s3-brand">akasymzhanov.com</Link>
+          <Link href="/" className="s3-brand">kasymzhanov.com</Link>
           <ThemeToggle />
         </div>
 

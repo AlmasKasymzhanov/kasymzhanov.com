@@ -403,7 +403,7 @@ export default function KaspiFitnessPage() {
           <p style={{ ...sCap, marginTop: 6 }}>B ₸ = млрд тенге · M ₸ = млн тенге · «факт» — данные Kaspi · «прогноз» — модель RedStat (тренд × сезонность).</p>
           <footer style={{ marginTop: 40, paddingTop: 18, borderTop: `1px solid ${C.line}`, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8, ...mono, fontSize: 10.5, color: C.faint, letterSpacing: "0.05em" }}>
             <span>АВТОР: <b style={{ color: C.sub }}>АЛМАС КАСЫМЖАНОВ</b> · ДЛЯ: <b style={{ color: C.sub }}>СЕРГЕЙ СОКОЛУНИН</b></span>
-            <span>AKASYMZHANOV.COM · 2026-05-15</span>
+            <span>kasymzhanov.com · 2026-05-15</span>
           </footer>
         </Section>
 

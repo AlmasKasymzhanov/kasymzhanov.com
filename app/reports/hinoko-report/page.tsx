@@ -328,7 +328,7 @@ export default function Page() {
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 24 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <a href="/" style={{ fontFamily: FONT_NUM, fontSize: 11, color: C.textDim, textDecoration: "none", letterSpacing: "0.08em" }}>
-                ← AKASYMZHANOV.COM
+                ← kasymzhanov.com
               </a>
               <span style={{ color: C.textFaint }}>/</span>
               <span style={{ fontFamily: FONT_NUM, fontSize: 11, color: C.textFaint, letterSpacing: "0.08em" }}>
@@ -1096,7 +1096,7 @@ export default function Page() {
                 fontFamily: FONT_NUM, fontSize: 11, color: C.accent,
                 textDecoration: "none", letterSpacing: "0.08em",
               }}>
-                AKASYMZHANOV.COM →
+                kasymzhanov.com →
               </a>
             </div>
           </div>

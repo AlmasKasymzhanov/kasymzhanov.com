@@ -8,7 +8,7 @@ import { PullQuote } from "@/components/canon/pull-quote";
 
 export const metadata: Metadata = {
   title: "Canon — A. Kasymzhanov",
-  description: "Дизайн-канон akasymzhanov.com: монохром, моноширинная типографика, ASCII-микрографика.",
+  description: "Дизайн-канон kasymzhanov.com: монохром, моноширинная типографика, ASCII-микрографика.",
   robots: { index: false, follow: false },
 };
 

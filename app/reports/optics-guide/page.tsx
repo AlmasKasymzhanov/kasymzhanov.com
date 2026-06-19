@@ -124,7 +124,7 @@ export default function OpticsGuideReport() {
 
         {/* ═══ Header ═══ */}
         <div style={{ marginBottom: 16 }}>
-          <Link href="/" style={{ color: C.dim, fontSize: 13, textDecoration: "none" }}>&larr; akasymzhanov.com</Link>
+          <Link href="/" style={{ color: C.dim, fontSize: 13, textDecoration: "none" }}>&larr; kasymzhanov.com</Link>
         </div>
 
         <div style={{ marginBottom: 48, paddingBottom: 32, borderBottom: `1px solid ${C.border}` }}>
@@ -748,7 +748,7 @@ export default function OpticsGuideReport() {
         {/* ═══ Footer ═══ */}
         <div style={{ paddingTop: 32, borderTop: `1px solid ${C.border}`, textAlign: "center" }}>
           <p style={{ ...sP, fontSize: 12, color: C.faint }}>
-            Подготовил Алмас Касымжанов | <Link href="/" style={{ color: C.accent, textDecoration: "none" }}>akasymzhanov.com</Link>
+            Подготовил Алмас Касымжанов | <Link href="/" style={{ color: C.accent, textDecoration: "none" }}>kasymzhanov.com</Link>
           </p>
         </div>
       </div>

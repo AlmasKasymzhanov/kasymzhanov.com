@@ -110,7 +110,7 @@ export default function ZBodyReport() {
 
         {/* ═══ Header ═══ */}
         <div style={{ marginBottom: 16 }}>
-          <Link href="/" style={{ color: C.dim, fontSize: 13, textDecoration: "none" }}>&larr; akasymzhanov.com</Link>
+          <Link href="/" style={{ color: C.dim, fontSize: 13, textDecoration: "none" }}>&larr; kasymzhanov.com</Link>
         </div>
 
         <div style={{ marginBottom: 48, paddingBottom: 32, borderBottom: `1px solid ${C.border}` }}>

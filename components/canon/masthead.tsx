@@ -3,11 +3,21 @@ import Link from "next/link";
 // The media wordmark: A▪ KASYMZHANO▼
 // — classic "A" + square-dot period, and a filled inverted triangle for the final "V"
 // (the triangle = delta / downturn, and doubles as the standalone brand mark).
-export function Masthead({ back = false, size = "sm" }: { back?: boolean; size?: "sm" | "lg" }) {
+export function Masthead({
+  back = false,
+  size = "sm",
+  surnameOnly = false,
+}: {
+  back?: boolean;
+  size?: "sm" | "lg" | "xl";
+  surnameOnly?: boolean;
+}) {
   const sizeCls =
-    size === "lg"
-      ? "text-[22px] md:text-[28px] tracking-[0.12em]"
-      : "text-[13px] md:text-[14px] tracking-[0.16em]";
+    size === "xl"
+      ? "text-[26px] md:text-[40px] tracking-[0.06em]"
+      : size === "lg"
+        ? "text-[22px] md:text-[28px] tracking-[0.12em]"
+        : "text-[13px] md:text-[14px] tracking-[0.16em]";
   return (
     <Link
       href="/"
@@ -15,12 +25,16 @@ export function Masthead({ back = false, size = "sm" }: { back?: boolean; size?:
       className={`inline-flex items-baseline font-mono ${sizeCls} font-bold uppercase text-[var(--color-text)] no-underline hover:opacity-70 transition-opacity`}
     >
       {back && <span className="mr-2 font-normal not-italic">←</span>}
-      <span>A</span>
-      {/* square dot = period */}
-      <span
-        aria-hidden
-        className="inline-block w-[0.18em] h-[0.18em] bg-[var(--color-text)] ml-[0.05em] mr-[0.42em]"
-      />
+      {!surnameOnly && (
+        <>
+          <span>A</span>
+          {/* square dot = period */}
+          <span
+            aria-hidden
+            className="inline-block w-[0.18em] h-[0.18em] bg-[var(--color-text)] ml-[0.05em] mr-[0.42em]"
+          />
+        </>
+      )}
       <span>Kasymzhano</span>
       {/* inverted filled triangle = V */}
       <svg
