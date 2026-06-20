@@ -197,7 +197,10 @@ export function ArticleEngagement({ slug }: { slug: string }) {
         ) : (
           <div className="mb-8 border border-[var(--color-border)] p-5 text-[14px] text-[var(--color-dim)] leading-relaxed">
             Чтобы оставить комментарий и поставить лайк —{" "}
-            <Link href="/course-3" className="text-[var(--color-brand)] no-underline hover:underline">
+            <Link
+              href={`/login?next=${encodeURIComponent(`/blog/${slug}`)}`}
+              className="text-[var(--color-brand)] no-underline hover:underline"
+            >
               войдите
             </Link>
             .

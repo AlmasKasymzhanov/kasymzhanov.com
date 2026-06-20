@@ -218,7 +218,7 @@ export function SiteHeader() {
           </div>
           <HeaderSearch />
           <Link
-            href="/course-3"
+            href="/login"
             className="inline-flex items-center justify-center h-[30px] px-[10px] rounded-[5px] border border-[var(--color-brand)] bg-[var(--color-brand)] text-[var(--color-bg)] text-[12px] uppercase no-underline hover:bg-transparent hover:text-[var(--color-brand)] transition-colors duration-200"
           >
             Войти

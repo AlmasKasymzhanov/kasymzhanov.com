@@ -57,7 +57,7 @@ export function CourseAccess({ next = "/courses" }: { next?: string }) {
         </p>
         <p className="text-[15px] text-[var(--color-text)] leading-relaxed">
           Отправили ссылку для входа на <span className="font-bold">{email.trim()}</span>.
-          Откройте письмо и перейдите по ссылке — попадёте прямо в курс.
+          Откройте письмо и перейдите по ссылке — войдёте автоматически.
         </p>
         <button
           onClick={() => {
