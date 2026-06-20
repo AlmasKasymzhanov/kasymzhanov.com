@@ -154,3 +154,5 @@ test-data/
 
 # Next.js generated types (regenerated on build)
 next-env.d.ts
+
+.vercel
