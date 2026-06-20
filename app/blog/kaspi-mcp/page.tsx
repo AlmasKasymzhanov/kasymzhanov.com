@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ShareButtons } from "@/components/share-buttons";
 import { ReadTracker } from "@/components/read-tracker";
 import { SiteHeader, SiteFooter, AuthorBlock } from "@/components/canon/site-chrome";
 import { ArticleHeader } from "@/components/canon/article-header";
-import { ArticleEngagement } from "@/components/engagement/article-engagement";
+import { EngagementProvider } from "@/components/engagement/engagement-provider";
+import { EngagementBar } from "@/components/engagement/engagement-bar";
+import { Comments } from "@/components/engagement/comments";
 import { useState } from "react";
 
 /* MCP-коннектор для аналитики Kaspi (используется в шаге 3) */
@@ -78,6 +79,7 @@ export default function KaspiMcpArticle() {
       <div className="max-w-[1400px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">
         <ReadTracker slug="kaspi-mcp" />
         <SiteHeader />
+        <EngagementProvider slug="kaspi-mcp">
         <article className="w-full max-w-[680px] mx-auto px-6 py-12 md:py-20">
 
         <ArticleHeader
@@ -87,9 +89,6 @@ export default function KaspiMcpArticle() {
           slug="kaspi-mcp"
           date="29 мая 2026"
           readMin={5}
-          likes={86}
-          comments={7}
-          shares={5}
           hero={{
             src: "/blog/kaspi-mcp/mcp.webp",
             alt: "Иллюстрация к гайду по MCP-коннектору для Kaspi",
@@ -185,11 +184,6 @@ export default function KaspiMcpArticle() {
 
         <hr className="border-[var(--color-border)] mb-12" />
 
-        {/* ─── Поделиться ─── */}
-        <div className="mb-12">
-          <ShareButtons url="https://kasymzhanov.com/blog/kaspi-mcp" title="Арифметика лени: как AI добывает золото из Kaspi | Almas Kasymzhanov" variant="full" />
-        </div>
-
         {/* ─── Третий поток ─── */}
         <div className="mb-12 border border-[var(--color-border)] rounded-[3px] p-6 md:p-8">
           <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--color-dim)] mb-3">Набор на третий поток · AI-аналитика Kaspi</p>
@@ -255,8 +249,13 @@ export default function KaspiMcpArticle() {
           </Link>
         </div>
 
-        <ArticleEngagement slug="kaspi-mcp" />
+        {/* ─── Вовлечённость ─── */}
+        <div className="mt-12 flex justify-end">
+          <EngagementBar />
+        </div>
+        <Comments />
         </article>
+        </EngagementProvider>
 
         <div className="flex-1" aria-hidden />
         <AuthorBlock variant="horizontal" />

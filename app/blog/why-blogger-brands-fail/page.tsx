@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { ShareButtons } from "@/components/share-buttons";
 import { ReadTracker } from "@/components/read-tracker";
 import { SiteHeader, SiteFooter, AuthorBlock } from "@/components/canon/site-chrome";
 import { ArticleHeader } from "@/components/canon/article-header";
-import { ArticleEngagement } from "@/components/engagement/article-engagement";
+import { EngagementProvider } from "@/components/engagement/engagement-provider";
+import { EngagementBar } from "@/components/engagement/engagement-bar";
+import { Comments } from "@/components/engagement/comments";
 import {
   AreaChart,
   Area,
@@ -199,6 +200,7 @@ export default function LiqBeautyArticle() {
       <div className="max-w-[1400px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">
         <ReadTracker slug="why-blogger-brands-fail" />
         <SiteHeader />
+        <EngagementProvider slug="why-blogger-brands-fail">
         <article className="w-full max-w-[680px] mx-auto px-6 py-12 md:py-20">
 
         <ArticleHeader
@@ -212,9 +214,6 @@ export default function LiqBeautyArticle() {
           slug="why-blogger-brands-fail"
           date="25 марта 2026"
           readMin={7}
-          likes={142}
-          comments={18}
-          shares={9}
           hero={{
             src: "/blog/why-blogger-brands-fail/likbeauty.webp",
             alt: "Иллюстрация к материалу о Lick Beauty",
@@ -651,11 +650,6 @@ export default function LiqBeautyArticle() {
           </p>
         </div>
 
-        {/* ─── Поделиться ─── */}
-        <div className="my-12">
-          <ShareButtons url="https://kasymzhanov.com/blog/why-blogger-brands-fail" title="Блеск и тени Lick Beauty — Almas Kasymzhanov" variant="full" />
-        </div>
-
         <hr className="border-[var(--color-border)] mb-12" />
 
         {/* ─── Источники ─── */}
@@ -672,8 +666,13 @@ export default function LiqBeautyArticle() {
           </div>
         </div>
 
-        <ArticleEngagement slug="why-blogger-brands-fail" />
+        {/* ─── Вовлечённость ─── */}
+        <div className="mt-12 flex justify-end">
+          <EngagementBar />
+        </div>
+        <Comments />
         </article>
+        </EngagementProvider>
 
         <div className="flex-1" aria-hidden />
         <AuthorBlock variant="horizontal" />
