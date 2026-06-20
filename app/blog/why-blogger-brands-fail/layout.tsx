@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-const title = "Блеск и тени Lick Beauty | Almas Kasymzhanov";
+const title = "Lick Beauty: семь миллионов против четырёхсот двадцати | Almas Kasymzhanov";
 const description =
   "7 млн подписчиков, блески для губ, 3.3 млн тенге выручки. Разбираем на данных, почему бренды блогеров умирают после запуска.";
 

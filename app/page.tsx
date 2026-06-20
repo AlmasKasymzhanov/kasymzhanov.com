@@ -52,7 +52,7 @@ const LICK: Article = {
   slug: "why-blogger-brands-fail",
   img: "/blog/why-blogger-brands-fail/likbeauty.webp",
   rubric: "Рынок",
-  title: "Блеск и тени Lick Beauty",
+  title: "Lick Beauty: семь миллионов против четырёхсот двадцати",
   subtitle: "Как бренд с 7 млн подписчиков проиграл реплике за 420 тенге.",
   date: "25 Мар 2026",
   readMin: 7,

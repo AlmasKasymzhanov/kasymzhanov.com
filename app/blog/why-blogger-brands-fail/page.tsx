@@ -204,11 +204,11 @@ export default function LiqBeautyArticle() {
         <article className="w-full max-w-[680px] mx-auto px-6 py-12 md:py-20">
 
         <ArticleHeader
-          kicker="Рентген блогерского бренда"
-          title={<>Блеск и тени Lick&nbsp;Beauty</>}
+          kicker="Анатомия запуска"
+          title={<>Lick&nbsp;Beauty: семь миллионов против четырёхсот двадцати</>}
           subtitle={
             <>
-              <span className="font-mono">43</span> миллиона в первый месяц. <span className="font-mono">3.3</span> миллиона через полгода. Как бренд с <span className="font-mono">7</span> миллионами подписчиков проиграл реплике за <span className="font-mono">420</span> тенге.
+              Данные не смотрят сторис. <span className="font-mono">7</span> млн подписчиков и блеск за <span className="font-mono">5 990</span> ₸ — против китайской реплики за <span className="font-mono">420</span> ₸, которая продаёт в семнадцать раз больше. Это не невезение. Это модель. Дальше — только цифры.
             </>
           }
           slug="why-blogger-brands-fail"
