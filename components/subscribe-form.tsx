@@ -84,7 +84,7 @@ export function SubscribeForm({
   // panel's text colour (var(--color-bg)) for the done/error messages. ──
   if (variant === "brand") {
     if (state === "done") {
-      return <p className="text-[14px] font-medium">Готово — вы подписаны ✦ Скоро напишу.</p>;
+      return <p className="text-[14px] font-medium">Готово — вы подписаны. Спасибо за доверие ✦</p>;
     }
     return (
       <>
@@ -116,7 +116,7 @@ export function SubscribeForm({
   if (state === "done") {
     return (
       <p className="font-mono text-[14px] text-[var(--color-text)] font-medium">
-        Готово — вы подписаны. ✦ Скоро напишу.
+        Готово — вы подписаны. Спасибо за доверие ✦
       </p>
     );
   }
