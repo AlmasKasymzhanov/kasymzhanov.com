@@ -12,13 +12,7 @@ const CSS = `
     line-height:1.8;
   }
   .s3-wrap{max-width:680px;margin:0 auto;padding:48px 24px 96px}
-  .s3-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-  .s3-back{display:inline-block;font-family:var(--font-mono);font-size:12px;font-weight:400;
-    color:var(--color-dim);text-decoration:none;margin-bottom:56px;transition:color .15s}
-  .s3-back:hover{color:var(--color-text)}
   .s3-arr{color:var(--color-dim);opacity:.55;padding:0 2px}
-  .s3-brand{font-family:var(--font-mono);font-size:13px;color:var(--color-dim);text-decoration:none;transition:color .15s}
-  .s3-brand:hover{color:var(--color-text)}
   .s3-eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;
     text-transform:uppercase;color:var(--color-brand);margin-bottom:16px}
   .s3 h1{font-size:33px;line-height:1.18;letter-spacing:-.02em;font-weight:700;
@@ -28,7 +22,7 @@ const CSS = `
   .s3-rule{border:none;border-top:1px solid var(--color-border);margin:48px 0 0}
   .s3-sec{padding:48px 0 0}
   .s3-kicker{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;
-    text-transform:uppercase;color:var(--color-brand);margin-bottom:16px}
+    text-transform:uppercase;color:var(--color-dim);margin-bottom:16px}
   .s3 h2{font-size:20px;line-height:1.25;letter-spacing:-.01em;font-weight:650;
     color:var(--color-text);margin:0 0 16px}
   .s3 p{font-size:15px;color:var(--color-dim);line-height:1.8;margin:14px 0}
@@ -74,9 +68,6 @@ const CSS = `
   .s3-toolcard h2{transition:color .15s}
   .s3-toolcard:hover h2{color:var(--color-brand)}
   .s3-toolcard:hover .s3-ghost{color:var(--color-brand);border-color:var(--color-brand)}
-  .s3-foot{margin-top:64px;padding-top:24px;border-top:1px solid var(--color-border);
-    font-family:var(--font-mono);font-size:12px;color:var(--color-dim)}
-  .s3-foot a{color:var(--color-text);text-underline-offset:3px}
   .s3-banner{border:1px solid var(--color-text);border-radius:3px;padding:18px 20px;margin:0 0 40px;
     display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
   .s3-banner-txt{font-size:14px;color:var(--color-text);line-height:1.5}
@@ -88,7 +79,6 @@ const CSS = `
   .s3-banner-btn:hover{opacity:.85}
   @media (max-width:480px){
     .s3-wrap{padding:32px 18px 64px}
-    .s3-back{margin-bottom:40px}
     .s3 h1{font-size:27px}
     .s3-card,.s3-cta{padding:20px 18px}
     .s3-sec{padding:40px 0 0}
@@ -636,7 +626,7 @@ export function Stream3Page() {
               готовые ниши: с ценами и долей «без бренда». Разверни такого
               карманного аналитика у себя по моему гайду.
             </p>
-            <span className="s3-ghost">Читать статью →</span>
+            <span className="s3-ghost">Читать статью</span>
           </Link>
         </div>
 

@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 const linkCls =
   "inline-flex items-center gap-2 text-[14px] font-bold text-[var(--color-text)] border-b border-[var(--color-text)] pb-0.5 no-underline hover:opacity-70 transition-opacity";
 const kickerCls = "text-[11px] uppercase tracking-[0.18em] text-[var(--color-brand)] mb-3";
+const kickerDimCls = "text-[11px] uppercase tracking-[0.18em] text-[var(--color-dim)] mb-3";
 
 export default function Stream4Page() {
   return (
@@ -32,7 +33,7 @@ export default function Stream4Page() {
               набор.
             </p>
             <Link href="/stream-3" className={`mt-6 ${linkCls}`}>
-              Смотреть программу курса →
+              Смотреть программу курса
             </Link>
           </section>
 
@@ -43,13 +44,13 @@ export default function Stream4Page() {
 
           {/* Программа курса */}
           <section className="border-t border-[var(--color-border)] pt-10">
-            <p className={kickerCls}>[ Программа ]</p>
+            <p className={kickerDimCls}>[ Программа ]</p>
             <p className="text-[14px] md:text-[15px] text-[var(--color-dim)] leading-relaxed max-w-2xl mb-5">
               Хотите узнать, что входит — 5 модулей, бонусы (внешний трафик, белый ввоз из Китая) и какие
               сервисы достаются бесплатно? Посмотрите полную программу курса.
             </p>
             <Link href="/stream-3" className={linkCls}>
-              Программа курса →
+              Программа курса
             </Link>
           </section>
         </main>
