@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { getSupabase } from "@/lib/supabase";
 import { SiteHeader, SiteFooter, AuthorBlock } from "@/components/canon/site-chrome";
+import { SubscribeForm } from "@/components/subscribe-form";
 
 export const metadata: Metadata = {
   title: "A. Kasymzhanov — дата-журнал о маркетплейсах",
@@ -297,7 +298,7 @@ function CompactCard({ a, views }: { a: Article; views: number }) {
 }
 
 // Newsletter signup — Business Insider "BI Today" style. Brand-tinted panel flips per theme
-// (dusty blue in light, muted mint in dark). UI-only for now; wired to Supabase later.
+// (dusty blue in light, muted mint in dark). Wired to /api/subscribe via SubscribeForm.
 function NewsletterCard() {
   return (
     <div className="bg-[var(--color-brand)] text-[var(--color-bg)] p-6">
@@ -305,20 +306,7 @@ function NewsletterCard() {
       <p className="text-[13px] leading-relaxed opacity-80 mb-5">
         Подписывайтесь, чтобы получать уведомления о новых материалах
       </p>
-      <div className="flex">
-        <input
-          type="email"
-          placeholder="Ваша почта"
-          aria-label="Электронная почта"
-          className="flex-1 min-w-0 h-[42px] px-3.5 text-[13px] bg-[var(--color-bg)] text-[var(--color-text)] placeholder:text-[var(--color-dim)] focus:outline-none"
-        />
-        <button
-          type="button"
-          className="shrink-0 h-[42px] px-5 text-[12px] font-bold uppercase tracking-[0.08em] bg-[var(--color-text)] text-[var(--color-bg)] hover:opacity-90 transition-opacity"
-        >
-          Подписаться
-        </button>
-      </div>
+      <SubscribeForm source="home" variant="brand" />
     </div>
   );
 }

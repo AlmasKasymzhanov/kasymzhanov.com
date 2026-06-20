@@ -21,7 +21,7 @@ export function SubscribeForm({
   variant = "default",
 }: {
   source?: string;
-  variant?: "default" | "header";
+  variant?: "default" | "header" | "brand";
 }) {
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
@@ -77,6 +77,38 @@ export function SubscribeForm({
           <SubmitIcon />
         </button>
       </form>
+    );
+  }
+
+  // ── Brand variant: solid brand panel (homepage NewsletterCard). Inherits the
+  // panel's text colour (var(--color-bg)) for the done/error messages. ──
+  if (variant === "brand") {
+    if (state === "done") {
+      return <p className="text-[14px] font-medium">Готово — вы подписаны ✦ Скоро напишу.</p>;
+    }
+    return (
+      <>
+        <form onSubmit={submit} className="flex">
+          <input
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Ваша почта"
+            aria-label="Электронная почта"
+            autoComplete="email"
+            className="flex-1 min-w-0 h-[42px] px-3.5 text-[13px] bg-[var(--color-bg)] text-[var(--color-text)] placeholder:text-[var(--color-dim)] focus:outline-none"
+          />
+          <button
+            type="submit"
+            disabled={state === "loading"}
+            className="shrink-0 h-[42px] px-5 text-[12px] font-bold uppercase tracking-[0.08em] bg-[var(--color-text)] text-[var(--color-bg)] hover:opacity-90 disabled:opacity-60 transition-opacity"
+          >
+            {state === "loading" ? "…" : "Подписаться"}
+          </button>
+        </form>
+        {state === "error" && <p className="mt-2 text-[12px] opacity-90">{msg}</p>}
+      </>
     );
   }
 
