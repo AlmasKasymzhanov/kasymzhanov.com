@@ -186,7 +186,7 @@ export default function KaspiMcpArticle() {
 
         {/* ─── Третий поток ─── */}
         <div className="mb-12 border border-[var(--color-border)] rounded-[3px] p-6 md:p-8">
-          <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--color-dim)] mb-3">Набор на третий поток · AI-аналитика Kaspi</p>
+          <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--color-brand)] mb-3">Набор на третий поток · AI-аналитика Kaspi</p>
           <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-4">Вы дали магазину зрение. Дайте ему мозг</h2>
           <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
             Вы только что настроили инструмент, который даёт зрение там, где конкуренты ещё блуждают вслепую. Но признайтесь: что вы будете делать, когда конкуренты вас догонят? Как масштабируете это до сотен товаров на разных маркетплейсах?
@@ -201,7 +201,7 @@ export default function KaspiMcpArticle() {
           <button
             type="button"
             onClick={() => setShowProgram((v) => !v)}
-            className="inline-flex items-center gap-1.5 font-mono text-[13px] text-[var(--color-text)] border-b border-[var(--color-text)] pb-0.5 hover:text-[var(--color-dim)] hover:border-[var(--color-dim)] transition-colors"
+            className="inline-flex items-center gap-1.5 font-mono text-[13px] text-[var(--color-text)] border-b border-[var(--color-text)] pb-0.5 hover:text-[var(--color-brand)] hover:border-[var(--color-brand)] transition-colors"
           >
             {showProgram ? "Свернуть" : "Подробнее"}
             <svg
@@ -255,10 +255,9 @@ export default function KaspiMcpArticle() {
 
           <Link
             href="/stream-3"
-            className="inline-flex items-center gap-1.5 font-mono text-[12px] font-medium no-underline bg-[var(--color-text)] text-[var(--color-bg)] rounded-[3px] px-4 py-2.5 hover:opacity-85 transition-opacity"
+            className="inline-flex items-center font-mono text-[12px] font-medium no-underline rounded-[3px] px-4 py-2.5 border border-[var(--color-brand)] bg-[var(--color-brand)] text-[var(--color-bg)] hover:bg-transparent hover:text-[var(--color-brand)] transition-colors"
           >
             Ознакомиться с полной программой
-            <span className="text-[11px]">→</span>
           </Link>
         </div>
 
