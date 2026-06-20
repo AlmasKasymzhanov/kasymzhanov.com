@@ -7,7 +7,7 @@ const LINKS = [
   { label: "GitHub", href: "https://github.com/AlmasKasymzhanov", icon: "gh" },
   { label: "Telegram", href: "https://t.me/almaskasymzhanov", icon: "tg" },
   { label: "Instagram", href: "https://www.instagram.com/almas_kasymzhanov/", icon: "ig" },
-  { label: "Email", href: "mailto:almaskasymzhanov@gmail.com", icon: "mail" },
+  { label: "Email", href: "mailto:almas@kasymzhanov.com", icon: "mail" },
 ];
 
 export default function ContactsPage() {
