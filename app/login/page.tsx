@@ -39,7 +39,11 @@ export default async function LoginPage({
             <p className="text-[14px] md:text-[15px] text-[var(--color-dim)] leading-relaxed mb-7">
               Чтобы ставить лайки, комментировать материалы и подписаться на рассылку. Вход = регистрация.
             </p>
-            <CourseAccess next={dest} />
+            <CourseAccess
+              next={dest}
+              label=""
+              note="Вход = регистрация. Нужен только для лайков, комментариев и подписки — ничего лишнего."
+            />
           </div>
         </main>
 

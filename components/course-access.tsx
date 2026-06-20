@@ -14,7 +14,15 @@ function GoogleIcon() {
   );
 }
 
-export function CourseAccess({ next = "/courses" }: { next?: string }) {
+export function CourseAccess({
+  next = "/courses",
+  label = "Вход для участников",
+  note = "Вход = регистрация. Доступ к материалам остаётся открытым без ограничений по времени.",
+}: {
+  next?: string;
+  label?: string;
+  note?: string;
+}) {
   const [supabase] = useState(() => createSupabaseBrowser());
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "loading" | "sent" | "error">("idle");
@@ -74,9 +82,11 @@ export function CourseAccess({ next = "/courses" }: { next?: string }) {
 
   return (
     <div className="border border-[var(--color-border)] p-6 md:p-8 max-w-md">
-      <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--color-dim)] mb-4">
-        [ Вход для участников ]
-      </p>
+      {label && (
+        <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--color-dim)] mb-4">
+          [ {label} ]
+        </p>
+      )}
 
       {/* Google */}
       <button
@@ -119,7 +129,7 @@ export function CourseAccess({ next = "/courses" }: { next?: string }) {
       )}
 
       <p className="text-[11px] text-[var(--color-dim)] leading-relaxed mt-5">
-        Вход = регистрация. Доступ к материалам остаётся открытым без ограничений по времени.
+        {note}
       </p>
     </div>
   );
