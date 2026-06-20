@@ -255,7 +255,7 @@ export default function KaspiMcpArticle() {
 
           <Link
             href="/stream-3"
-            className="inline-flex items-center font-mono text-[12px] font-medium no-underline rounded-[3px] px-4 py-2.5 border border-[var(--color-brand)] bg-[var(--color-brand)] text-[var(--color-bg)] hover:bg-transparent hover:text-[var(--color-brand)] transition-colors"
+            className="inline-flex items-center font-mono text-[12px] font-medium no-underline rounded-[3px] px-4 py-2.5 bg-[var(--color-text)] text-[var(--color-bg)] hover:opacity-85 transition-opacity"
           >
             Ознакомиться с полной программой
           </Link>

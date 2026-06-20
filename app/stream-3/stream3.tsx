@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { SiteHeader, SiteFooter } from "@/components/canon/site-chrome";
 
 const CSS = `
@@ -19,7 +20,7 @@ const CSS = `
   .s3-brand{font-family:var(--font-mono);font-size:13px;color:var(--color-dim);text-decoration:none;transition:color .15s}
   .s3-brand:hover{color:var(--color-text)}
   .s3-eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;
-    text-transform:uppercase;color:var(--color-dim);margin-bottom:16px}
+    text-transform:uppercase;color:var(--color-brand);margin-bottom:16px}
   .s3 h1{font-size:33px;line-height:1.18;letter-spacing:-.02em;font-weight:700;
     color:var(--color-text);margin:0 0 20px}
   .s3-lead{font-size:16px;color:var(--color-dim);line-height:1.8;margin:0 0 16px}
@@ -27,7 +28,7 @@ const CSS = `
   .s3-rule{border:none;border-top:1px solid var(--color-border);margin:48px 0 0}
   .s3-sec{padding:48px 0 0}
   .s3-kicker{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;
-    text-transform:uppercase;color:var(--color-dim);margin-bottom:16px}
+    text-transform:uppercase;color:var(--color-brand);margin-bottom:16px}
   .s3 h2{font-size:20px;line-height:1.25;letter-spacing:-.01em;font-weight:650;
     color:var(--color-text);margin:0 0 16px}
   .s3 p{font-size:15px;color:var(--color-dim);line-height:1.8;margin:14px 0}
@@ -57,15 +58,22 @@ const CSS = `
   .s3-cta{border:1px solid var(--color-border);border-radius:3px;padding:26px 24px;margin:24px 0 0}
   .s3-cta p{color:var(--color-text)}
   .s3-wa{display:inline-flex;align-items:center;gap:6px;margin-top:18px;
-    font-family:var(--font-mono);font-size:13px;font-weight:500;color:var(--color-text);
-    text-decoration:none;border:1px solid var(--color-text);border-radius:3px;
+    font-family:var(--font-mono);font-size:13px;font-weight:500;color:var(--color-brand);
+    text-decoration:none;border:1px solid var(--color-brand);border-radius:3px;
     padding:11px 18px;transition:background .15s,color .15s}
-  .s3-wa:hover{background:var(--color-text);color:var(--color-bg)}
+  .s3-wa:hover{background:var(--color-brand);color:var(--color-bg)}
   .s3-ghost{display:inline-flex;align-items:center;gap:6px;margin-top:14px;
     font-family:var(--font-mono);font-size:13px;color:var(--color-text);
     text-decoration:none;border-bottom:1px solid var(--color-text);padding-bottom:2px;
     transition:color .15s,border-color .15s}
-  .s3-ghost:hover{color:var(--color-dim);border-color:var(--color-dim)}
+  .s3-ghost:hover{color:var(--color-brand);border-color:var(--color-brand)}
+  .s3-toolcard{display:block;text-decoration:none}
+  .s3-toolimg{border:1px solid var(--color-border);border-radius:3px;overflow:hidden;
+    margin-bottom:18px;background:var(--color-surface)}
+  .s3-toolimg img{display:block;width:100%;height:auto}
+  .s3-toolcard h2{transition:color .15s}
+  .s3-toolcard:hover h2{color:var(--color-brand)}
+  .s3-toolcard:hover .s3-ghost{color:var(--color-brand);border-color:var(--color-brand)}
   .s3-foot{margin-top:64px;padding-top:24px;border-top:1px solid var(--color-border);
     font-family:var(--font-mono);font-size:12px;color:var(--color-dim)}
   .s3-foot a{color:var(--color-text);text-underline-offset:3px}
@@ -255,11 +263,9 @@ export function Stream3Page() {
             <b>Набор в 3 поток закрыт</b> — все места заняты. Открыта предзапись на 4 поток.
           </div>
           <Link href="/stream-4" className="s3-banner-btn">
-            Записаться в предзапись →
+            Записаться в предзапись
           </Link>
         </div>
-
-        <Link href="/blog/kaspi-mcp" className="s3-back">← Назад к статье</Link>
 
         {/* HERO */}
         <div className="s3-eyebrow">AI-аналитика маркетплейсов · третий поток</div>
@@ -607,22 +613,30 @@ export function Stream3Page() {
             <b>Набор в 3 поток закрыт</b> — все места заняты. Открыта предзапись на 4 поток.
           </div>
           <Link href="/stream-4" className="s3-banner-btn">
-            Записаться в предзапись →
+            Записаться в предзапись
           </Link>
         </div>
 
-        {/* Блог: статья про карманного аналитика */}
+        {/* Инструменты: превью статьи про MCP */}
         <hr className="s3-rule" />
         <div className="s3-sec">
-          <div className="s3-kicker">Блог</div>
-          <h2>AI находит нишу на Kaspi за 5 минут</h2>
-          <p>
-            Без таблиц и дорогих сервисов. Я попросил агента, и он выдал три
-            готовые ниши: с ценами и долей «без бренда». Разверни такого
-            карманного аналитика у себя по моему гайду.
-          </p>
-          <Link href="/blog/kaspi-mcp" className="s3-ghost">
-            Читать гайд →
+          <div className="s3-kicker">Инструменты</div>
+          <Link href="/blog/kaspi-mcp" className="s3-toolcard">
+            <div className="s3-toolimg">
+              <Image
+                src="/blog/kaspi-mcp/mcp.webp"
+                alt="Превью статьи: AI находит нишу на Kaspi за 5 минут"
+                width={1200}
+                height={800}
+              />
+            </div>
+            <h2>AI находит нишу на Kaspi за 5 минут</h2>
+            <p>
+              Без таблиц и дорогих сервисов. Я попросил агента, и он выдал три
+              готовые ниши: с ценами и долей «без бренда». Разверни такого
+              карманного аналитика у себя по моему гайду.
+            </p>
+            <span className="s3-ghost">Читать статью →</span>
           </Link>
         </div>
 
