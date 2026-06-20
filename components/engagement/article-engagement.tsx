@@ -55,6 +55,7 @@ export function ArticleEngagement({ slug }: { slug: string }) {
   const [profiles, setProfiles] = useState<Record<string, Profile>>({});
   const [body, setBody] = useState("");
   const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     const [likeRes, shareRes, cmRes] = await Promise.all([
@@ -100,14 +101,25 @@ export function ArticleEngagement({ slug }: { slug: string }) {
 
   async function toggleLike() {
     if (!user) return;
+    setErr(null);
     if (liked) {
       setLiked(false);
       setLikeCount((c) => Math.max(0, c - 1));
-      await supabase.from("likes").delete().eq("slug", slug).eq("user_id", user.id);
+      const { error } = await supabase.from("likes").delete().eq("slug", slug).eq("user_id", user.id);
+      if (error) {
+        setLiked(true);
+        setLikeCount((c) => c + 1);
+        setErr(error.message);
+      }
     } else {
       setLiked(true);
       setLikeCount((c) => c + 1);
-      await supabase.from("likes").insert({ slug, user_id: user.id });
+      const { error } = await supabase.from("likes").insert({ slug, user_id: user.id });
+      if (error) {
+        setLiked(false);
+        setLikeCount((c) => Math.max(0, c - 1));
+        setErr(error.message);
+      }
     }
   }
 
@@ -134,11 +146,14 @@ export function ArticleEngagement({ slug }: { slug: string }) {
     e.preventDefault();
     if (!user || !body.trim()) return;
     setBusy(true);
+    setErr(null);
     const { error } = await supabase.from("comments").insert({ slug, user_id: user.id, body: body.trim() });
     setBusy(false);
     if (!error) {
       setBody("");
       load();
+    } else {
+      setErr(error.message);
     }
   }
 
@@ -167,6 +182,10 @@ export function ArticleEngagement({ slug }: { slug: string }) {
           <ShareIcon /> {shareCount}
         </button>
       </div>
+
+      {err && (
+        <p className="mt-3 text-[12px] text-red-500 break-words">Ошибка: {err}</p>
+      )}
 
       {/* Comments */}
       <div id="comments" className="mt-10 pt-8 border-t border-[var(--color-border)]">

@@ -5,6 +5,7 @@ import { HeaderSearch } from "@/components/canon/header-search";
 import { LangToggle } from "@/components/lang-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { SocialIcon } from "@/components/social-icons";
+import { HeaderAuth } from "@/components/canon/header-auth";
 
 const DESCRIPTION =
   "kasymzhanov.com — независимое издание дата-журналиста, аналитика и предпринимателя " +
@@ -217,12 +218,7 @@ export function SiteHeader() {
             <ThemeToggle />
           </div>
           <HeaderSearch />
-          <Link
-            href="/login"
-            className="inline-flex items-center justify-center h-[30px] px-[10px] rounded-[5px] border border-[var(--color-brand)] bg-[var(--color-brand)] text-[var(--color-bg)] text-[12px] uppercase no-underline hover:bg-transparent hover:text-[var(--color-brand)] transition-colors duration-200"
-          >
-            Войти
-          </Link>
+          <HeaderAuth />
         </div>
       </div>
     </header>
