@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { Masthead } from "@/components/canon/masthead";
+import { SiteHeader, SiteFooter } from "@/components/canon/site-chrome";
 import { PreorderForm } from "@/components/preorder-form";
 
 export const metadata: Metadata = {
@@ -9,71 +9,53 @@ export const metadata: Metadata = {
     "Набор в 3 поток закрыт. Оставьте телефон и email — добавлю вас в список предзаписи на 4 поток и напишу, когда откроется набор.",
 };
 
+const linkCls =
+  "inline-flex items-center gap-2 text-[14px] font-bold text-[var(--color-text)] border-b border-[var(--color-text)] pb-0.5 no-underline hover:opacity-70 transition-opacity";
+const kickerCls = "text-[11px] uppercase tracking-[0.18em] text-[var(--color-brand)] mb-3";
+
 export default function Stream4Page() {
   return (
     <div className="font-mono text-[var(--color-text)]">
-      <div className="max-w-[1000px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">
-        {/* Header */}
-        <header className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 px-6 md:px-10 py-5 border-b border-[var(--color-border)]">
-          <Masthead />
-          <Link
-            href="/"
-            className="text-[12px] text-[var(--color-dim)] hover:text-[var(--color-text)] no-underline transition-colors"
-          >
-            ← На сайт
-          </Link>
-        </header>
+      <div className="max-w-[1400px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">
+        <SiteHeader />
 
-        {/* Intro */}
-        <section className="px-6 md:px-10 py-10 md:py-14 border-b border-[var(--color-border)]">
-          <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--color-dim)] mb-3">
-            [ AI-аналитик маркетплейсов · предзапись ]
-          </p>
-          <h1 className="text-[28px] md:text-[40px] font-bold leading-[1.1] tracking-tight mb-5">
-            Предзапись на 4 поток
-          </h1>
-          <p className="text-[15px] md:text-[16px] text-[var(--color-dim)] leading-relaxed max-w-2xl">
-            Набор в 3 поток закрыт — все места заняты. Если хотите попасть в следующий, оставьте
-            контакты: добавлю вас в список предзаписи на 4 поток и напишу первым, как только откроется
-            набор.
-          </p>
-          <Link
-            href="/stream-3"
-            className="inline-flex items-center gap-2 mt-6 text-[14px] font-bold text-[var(--color-text)] border-b border-[var(--color-text)] pb-0.5 no-underline hover:opacity-70 transition-opacity"
-          >
-            Смотреть программу курса →
-          </Link>
-        </section>
+        <main className="w-full max-w-[760px] mx-auto px-6 py-12 md:py-16">
+          {/* Intro */}
+          <section className="mb-14">
+            <p className={kickerCls}>[ AI-аналитик маркетплейсов · предзапись ]</p>
+            <h1 className="text-[28px] md:text-[40px] font-bold leading-[1.1] tracking-tight mb-5">
+              Предзапись на 4 поток
+            </h1>
+            <p className="text-[15px] md:text-[16px] text-[var(--color-dim)] leading-relaxed">
+              Набор в 3 поток закрыт — все места заняты. Если хотите попасть в следующий, оставьте
+              контакты: добавлю вас в список предзаписи на 4 поток и напишу первым, как только откроется
+              набор.
+            </p>
+            <Link href="/stream-3" className={`mt-6 ${linkCls}`}>
+              Смотреть программу курса →
+            </Link>
+          </section>
 
-        {/* Form */}
-        <section className="px-6 md:px-10 py-10 md:py-14">
-          <PreorderForm />
-        </section>
+          {/* Form */}
+          <section className="mb-14">
+            <PreorderForm />
+          </section>
 
-        {/* Программа курса */}
-        <section className="px-6 md:px-10 py-10 md:py-12 border-t border-[var(--color-border)]">
-          <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--color-dim)] mb-3">
-            [ Программа ]
-          </p>
-          <p className="text-[14px] md:text-[15px] text-[var(--color-dim)] leading-relaxed max-w-2xl mb-5">
-            Хотите узнать, что входит — 5 модулей, бонусы (внешний трафик, белый ввоз из Китая) и какие
-            сервисы достаются бесплатно? Посмотрите полную программу курса.
-          </p>
-          <Link
-            href="/stream-3"
-            className="inline-flex items-center gap-2 text-[14px] font-bold text-[var(--color-text)] border-b border-[var(--color-text)] pb-0.5 no-underline hover:opacity-70 transition-opacity"
-          >
-            Программа курса →
-          </Link>
-        </section>
+          {/* Программа курса */}
+          <section className="border-t border-[var(--color-border)] pt-10">
+            <p className={kickerCls}>[ Программа ]</p>
+            <p className="text-[14px] md:text-[15px] text-[var(--color-dim)] leading-relaxed max-w-2xl mb-5">
+              Хотите узнать, что входит — 5 модулей, бонусы (внешний трафик, белый ввоз из Китая) и какие
+              сервисы достаются бесплатно? Посмотрите полную программу курса.
+            </p>
+            <Link href="/stream-3" className={linkCls}>
+              Программа курса →
+            </Link>
+          </section>
+        </main>
 
         <div className="flex-1" aria-hidden />
-
-        {/* Footer */}
-        <footer className="px-6 md:px-10 py-8 border-t border-[var(--color-border)] flex flex-wrap items-center justify-between gap-3 text-[11px] text-[var(--color-dim)]">
-          <span>© 2026 kasymzhanov.com</span>
-          <span>Предзапись · 4 поток</span>
-        </footer>
+        <SiteFooter />
       </div>
     </div>
   );

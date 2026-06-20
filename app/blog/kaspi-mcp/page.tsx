@@ -204,7 +204,20 @@ export default function KaspiMcpArticle() {
             className="inline-flex items-center gap-1.5 font-mono text-[13px] text-[var(--color-text)] border-b border-[var(--color-text)] pb-0.5 hover:text-[var(--color-dim)] hover:border-[var(--color-dim)] transition-colors"
           >
             {showProgram ? "Свернуть" : "Подробнее"}
-            <span className="text-[10px]">{showProgram ? "▲" : "▼"}</span>
+            <svg
+              width="11"
+              height="11"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+              className={`shrink-0 transition-transform duration-200 ${showProgram ? "rotate-180" : ""}`}
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
           </button>
 
           {showProgram && (
