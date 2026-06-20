@@ -208,7 +208,7 @@ export default function LiqBeautyArticle() {
           title={<>Lick&nbsp;Beauty: семь миллионов против четырёхсот двадцати</>}
           subtitle={
             <>
-              Данные не смотрят сторис. <span className="font-mono">7</span> млн подписчиков и блеск за <span className="font-mono">5 990</span> ₸ — против китайской реплики за <span className="font-mono">420</span> ₸, которая продаёт в семнадцать раз больше. Это не невезение. Это модель. Дальше — только цифры.
+              Данные не смотрят сторис. <span className="font-mono">7</span> млн подписчиков и блеск за <span className="font-mono">5 990</span> ₸ - против китайской реплики за <span className="font-mono">420</span> ₸, которая продаёт в семнадцать раз больше. Это не невезение. Это модель. Дальше - только цифры.
             </>
           }
           slug="why-blogger-brands-fail"
