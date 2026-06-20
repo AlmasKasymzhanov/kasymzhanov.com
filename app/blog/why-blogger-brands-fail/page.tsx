@@ -8,8 +8,9 @@ import { EngagementProvider } from "@/components/engagement/engagement-provider"
 import { EngagementBar } from "@/components/engagement/engagement-bar";
 import { Comments } from "@/components/engagement/comments";
 import {
-  AreaChart,
-  Area,
+  LineChart,
+  Line,
+  LabelList,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -25,69 +26,145 @@ const chartData = [
   { month: "Фев 2026", revenue: 3.3, sales: 596, label: "" },
 ];
 
-function ChartTooltip({ active, payload, label }: any) {
-  if (!active || !payload?.length) return null;
-  const d = payload[0].payload;
+/* Brock UI–style line chart (FT / Burn-Murdoch canon): one accent line, faint
+   horizontal gridlines, monospace axes, direct line-end label, source line.
+   github.com/brockui · brockui.com */
+function BrockLineChart({
+  title,
+  subtitle,
+  trend,
+  data,
+  xKey,
+  dataKey,
+  color,
+  yTickFormat,
+  seriesLabel,
+  tooltip,
+  source,
+}: {
+  title: string;
+  subtitle: string;
+  trend: { up: boolean; text: string };
+  data: Array<Record<string, unknown>>;
+  xKey: string;
+  dataKey: string;
+  color: string;
+  yTickFormat: (v: number) => string;
+  seriesLabel: string;
+  tooltip: (d: any) => React.ReactNode;
+  source: React.ReactNode;
+}) {
+  const lastIdx = data.length - 1;
   return (
-    <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg px-4 py-3 shadow-lg">
-      <p className="font-mono text-[11px] font-bold text-[var(--color-text)] mb-1">{d.month}</p>
-      <p className="font-mono text-[13px] text-[var(--color-text)]"><span className="font-bold">{d.revenue} млн</span><span className="text-[8px] text-[var(--color-dim)] ml-[2px]">₸</span></p>
-      <p className="font-mono text-[11px] text-[var(--color-dim)]">{d.sales.toLocaleString()} продаж</p>
-      {d.label && <p className="font-mono text-[10px] text-[#f87171] mt-1">{d.label}</p>}
-    </div>
+    <figure className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-5">
+      {/* Header — title + subtitle, trend indicator on the right */}
+      <div className="flex items-start justify-between gap-4 mb-5">
+        <div>
+          <p className="font-mono text-[15px] font-medium text-[var(--color-text)] tracking-tight leading-tight">{title}</p>
+          <p className="font-mono text-[10px] uppercase tracking-widest text-[var(--color-dim)] mt-1.5">{subtitle}</p>
+        </div>
+        <span className="font-mono text-[13px] font-medium tabular-nums shrink-0 leading-tight" style={{ color }}>
+          {trend.up ? "↗" : "↘"} {trend.text}
+        </span>
+      </div>
+      <ResponsiveContainer width="100%" height={232}>
+        <LineChart data={data} margin={{ top: 8, right: 60, left: 0, bottom: 0 }}>
+          <CartesianGrid horizontal vertical={false} stroke="var(--color-border)" strokeOpacity={0.55} />
+          <XAxis
+            dataKey={xKey}
+            tick={{ fontSize: 10, fill: "var(--color-dim)", fontFamily: "var(--font-mono)" }}
+            tickFormatter={(v: string) => String(v).toUpperCase()}
+            tickLine={false}
+            axisLine={{ stroke: "var(--color-border)" }}
+            tickMargin={10}
+            interval={0}
+          />
+          <YAxis
+            tick={{ fontSize: 10, fill: "var(--color-dim)", fontFamily: "var(--font-mono)" }}
+            tickFormatter={yTickFormat}
+            tickLine={false}
+            axisLine={false}
+            width={46}
+            tickCount={5}
+            domain={["auto", "auto"]}
+          />
+          <Tooltip
+            cursor={{ stroke: "var(--color-dim)", strokeWidth: 1, strokeDasharray: "3 3" }}
+            content={(props: any) => {
+              if (!props.active || !props.payload?.length) return null;
+              return (
+                <div className="bg-[var(--color-bg)] border border-[var(--color-border)] rounded-[4px] px-3 py-2 shadow-md">
+                  {tooltip(props.payload[0].payload)}
+                </div>
+              );
+            }}
+          />
+          <Line
+            type="linear"
+            dataKey={dataKey}
+            stroke={color}
+            strokeWidth={1.75}
+            isAnimationActive={false}
+            dot={{ r: 3, fill: color, stroke: "var(--color-surface)", strokeWidth: 1.5 }}
+            activeDot={{ r: 4.5, fill: color, stroke: "var(--color-surface)", strokeWidth: 2 }}
+          >
+            <LabelList
+              dataKey={dataKey}
+              content={(props: any) => {
+                if (props.index !== lastIdx) return null;
+                return (
+                  <text
+                    x={Number(props.x) + 10}
+                    y={Number(props.y)}
+                    fill={color}
+                    fontSize={11}
+                    fontFamily="var(--font-mono)"
+                    dominantBaseline="central"
+                  >
+                    {seriesLabel}
+                  </text>
+                );
+              }}
+            />
+          </Line>
+        </LineChart>
+      </ResponsiveContainer>
+      <figcaption className="font-mono text-[11px] text-[var(--color-dim)] mt-3 text-center">{source}</figcaption>
+    </figure>
   );
 }
 
+const BROCK_LINK = (
+  <a href="https://brockui.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2">Brock UI</a>
+);
+
 function RevenueChart() {
   return (
-    <div className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-5">
-      <div className="flex items-center justify-between mb-5">
-        <div>
-          <p className="font-mono text-[10px] uppercase tracking-widest text-[var(--color-dim)] mb-1">ВЫРУЧКА LICK BEAUTY &nbsp; ВСЕ SKU</p>
-          <p className="font-mono text-[22px] font-bold text-[var(--color-text)] tracking-tight">43.6 млн <span className="text-[var(--color-dim)] font-normal text-[16px] mx-1">→</span> 3.3 млн <span className="text-[17px] font-normal text-[var(--color-dim)]">₸</span></p>
-        </div>
-        <span className="font-mono text-[13px] font-bold text-[#f87171] bg-[#f8717115] px-2.5 py-1 rounded-md">−92%</span>
-      </div>
-      <ResponsiveContainer width="100%" height={240}>
-        <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-          <defs>
-            <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#f87171" stopOpacity={0.2} />
-              <stop offset="100%" stopColor="#f87171" stopOpacity={0} />
-            </linearGradient>
-          </defs>
-          <CartesianGrid horizontal={false} vertical={false} />
-          <XAxis
-            dataKey="month"
-            tick={{ fontSize: 11, fill: "var(--color-dim)", fontFamily: "var(--font-mono)" }}
-            tickLine={{ stroke: "var(--color-dim)", strokeWidth: 0.5 }}
-            tickSize={4}
-            axisLine={{ stroke: "var(--color-dim)", strokeWidth: 0.7 }}
-            tickMargin={8}
-          />
-          <YAxis
-            tick={{ fontSize: 11, fill: "var(--color-dim)", fontFamily: "var(--font-mono)" }}
-            tickLine={{ stroke: "var(--color-dim)", strokeWidth: 0.5 }}
-            tickSize={4}
-            axisLine={{ stroke: "var(--color-dim)", strokeWidth: 0.7 }}
-            tickFormatter={(v: number) => `${v} М`}
-            width={42}
-            tickCount={5}
-          />
-          <Tooltip content={<ChartTooltip />} cursor={{ stroke: "var(--color-dim)", strokeWidth: 1, strokeDasharray: "4 4" }} />
-          <Area
-            type="linear"
-            dataKey="revenue"
-            stroke="#f87171"
-            strokeWidth={1.5}
-            fill="url(#revenueGrad)"
-            dot={{ r: 3, fill: "#f87171", stroke: "var(--color-surface)", strokeWidth: 1.5 }}
-            activeDot={{ r: 4.5, fill: "#f87171", stroke: "var(--color-surface)", strokeWidth: 2 }}
-          />
-        </AreaChart>
-      </ResponsiveContainer>
-      <p className="font-mono text-[11px] text-[var(--color-dim)] mt-3 text-center">Источник: <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[#f87171] cursor-pointer hover:underline decoration-dotted decoration-[#f87171] underline-offset-2">redstat.kz</a></p>
-    </div>
+    <BrockLineChart
+      title="Выручка Lick Beauty"
+      subtitle="Все SKU · авг 2025 – фев 2026"
+      trend={{ up: false, text: "−92%" }}
+      data={chartData}
+      xKey="month"
+      dataKey="revenue"
+      color="#f87171"
+      yTickFormat={(v) => `${v} М`}
+      seriesLabel="Lick"
+      tooltip={(d: any) => (
+        <>
+          <p className="font-mono text-[11px] font-bold text-[var(--color-text)] mb-1">{d.month}</p>
+          <p className="font-mono text-[13px] text-[var(--color-text)]"><span className="font-bold">{d.revenue} млн</span><span className="text-[8px] text-[var(--color-dim)] ml-[2px]">₸</span></p>
+          <p className="font-mono text-[11px] text-[var(--color-dim)]">{d.sales.toLocaleString()} продаж</p>
+          {d.label && <p className="font-mono text-[10px] text-[#f87171] mt-1">{d.label}</p>}
+        </>
+      )}
+      source={
+        <>
+          Источник: <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[#f87171] hover:underline decoration-dotted decoration-[#f87171] underline-offset-2">redstat.kz</a>
+          <span className="text-[var(--color-border)] mx-1.5">·</span>Графики: {BROCK_LINK}
+        </>
+      }
+    />
   );
 }
 
@@ -98,69 +175,33 @@ const pusyData = [
   { year: "2024", revenue: 3250, profit: 802, label: "Рентабельность 25%" },
 ];
 
-function PusyChartTooltip({ active, payload }: any) {
-  if (!active || !payload?.length) return null;
-  const d = payload[0].payload;
-  return (
-    <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg px-4 py-3 shadow-lg">
-      <p className="font-mono text-[11px] font-bold text-[var(--color-text)] mb-1">{d.year}</p>
-      <p className="font-mono text-[13px] text-[var(--color-text)]"><span className="font-bold">{d.revenue >= 1000 ? (d.revenue / 1000).toFixed(2) + " млрд" : d.revenue + " млн"}</span><span className="text-[8px] text-[var(--color-dim)] ml-[2px]">₽</span></p>
-      {d.profit > 0 && <p className="font-mono text-[11px] text-[#22c55e]">Прибыль: {d.profit} млн ₽</p>}
-      {d.label && <p className="font-mono text-[10px] text-[var(--color-dim)] mt-1">{d.label}</p>}
-    </div>
-  );
-}
-
 function PusyRevenueChart() {
   return (
-    <div className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-5">
-      <div className="flex items-center justify-between mb-5">
-        <div>
-          <p className="font-mono text-[10px] uppercase tracking-widest text-[var(--color-dim)] mb-1">ВЫРУЧКА PUSY &nbsp; ООО «ДРОЖЬ БЬЮТИ»</p>
-          <p className="font-mono text-[22px] font-bold text-[var(--color-text)] tracking-tight">176 млн <span className="text-[var(--color-dim)] font-normal text-[16px] mx-1">→</span> 3.25 млрд <span className="text-[17px] font-normal text-[var(--color-dim)]">₽</span></p>
-        </div>
-        <span className="font-mono text-[13px] font-bold text-[#22c55e] bg-[#22c55e15] px-2.5 py-1 rounded-md">x18</span>
-      </div>
-      <ResponsiveContainer width="100%" height={240}>
-        <AreaChart data={pusyData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-          <defs>
-            <linearGradient id="pusyGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#22c55e" stopOpacity={0.2} />
-              <stop offset="100%" stopColor="#22c55e" stopOpacity={0} />
-            </linearGradient>
-          </defs>
-          <CartesianGrid horizontal={false} vertical={false} />
-          <XAxis
-            dataKey="year"
-            tick={{ fontSize: 11, fill: "var(--color-dim)", fontFamily: "var(--font-mono)" }}
-            tickLine={{ stroke: "var(--color-dim)", strokeWidth: 0.5 }}
-            tickSize={4}
-            axisLine={{ stroke: "var(--color-dim)", strokeWidth: 0.7 }}
-            tickMargin={8}
-          />
-          <YAxis
-            tick={{ fontSize: 11, fill: "var(--color-dim)", fontFamily: "var(--font-mono)" }}
-            tickLine={{ stroke: "var(--color-dim)", strokeWidth: 0.5 }}
-            tickSize={4}
-            axisLine={{ stroke: "var(--color-dim)", strokeWidth: 0.7 }}
-            tickFormatter={(v: number) => v >= 1000 ? `${(v/1000).toFixed(1)} млрд` : `${v} М`}
-            width={52}
-            tickCount={5}
-          />
-          <Tooltip content={<PusyChartTooltip />} cursor={{ stroke: "var(--color-dim)", strokeWidth: 1, strokeDasharray: "4 4" }} />
-          <Area
-            type="linear"
-            dataKey="revenue"
-            stroke="#22c55e"
-            strokeWidth={1.5}
-            fill="url(#pusyGrad)"
-            dot={{ r: 3, fill: "#22c55e", stroke: "var(--color-surface)", strokeWidth: 1.5 }}
-            activeDot={{ r: 4.5, fill: "#22c55e", stroke: "var(--color-surface)", strokeWidth: 2 }}
-          />
-        </AreaChart>
-      </ResponsiveContainer>
-      <p className="font-mono text-[11px] text-[var(--color-dim)] mt-3 text-center">Источник: <a href="https://spark-interfax.ru" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">СПАРК-Интерфакс</a></p>
-    </div>
+    <BrockLineChart
+      title="Выручка PUSY"
+      subtitle="ООО «Дрожь Бьюти» · 2022 – 2024"
+      trend={{ up: true, text: "x18" }}
+      data={pusyData}
+      xKey="year"
+      dataKey="revenue"
+      color="#22c55e"
+      yTickFormat={(v) => (v >= 1000 ? `${(v / 1000).toFixed(1)} млрд` : `${v} М`)}
+      seriesLabel="PUSY"
+      tooltip={(d: any) => (
+        <>
+          <p className="font-mono text-[11px] font-bold text-[var(--color-text)] mb-1">{d.year}</p>
+          <p className="font-mono text-[13px] text-[var(--color-text)]"><span className="font-bold">{d.revenue >= 1000 ? (d.revenue / 1000).toFixed(2) + " млрд" : d.revenue + " млн"}</span><span className="text-[8px] text-[var(--color-dim)] ml-[2px]">₽</span></p>
+          {d.profit > 0 && <p className="font-mono text-[11px] text-[#22c55e]">Прибыль: {d.profit} млн ₽</p>}
+          {d.label && <p className="font-mono text-[10px] text-[var(--color-dim)] mt-1">{d.label}</p>}
+        </>
+      )}
+      source={
+        <>
+          Источник: <a href="https://spark-interfax.ru" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">СПАРК-Интерфакс</a>
+          <span className="text-[var(--color-border)] mx-1.5">·</span>Графики: {BROCK_LINK}
+        </>
+      }
+    />
   );
 }
 
