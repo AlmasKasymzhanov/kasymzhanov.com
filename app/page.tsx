@@ -56,9 +56,9 @@ const LICK: Article = {
   subtitle: "Как бренд с 7 млн подписчиков проиграл реплике за 420 тенге.",
   date: "25 Мар 2026",
   readMin: 7,
-  likes: 142,
-  comments: 18,
-  shares: 9,
+  likes: 0,
+  comments: 0,
+  shares: 0,
 };
 
 const MCP: Article = {
@@ -70,9 +70,9 @@ const MCP: Article = {
   subtitle: "MCP-коннектор: Claude сам достаёт ниши, цены и долю «без бренда».",
   date: "29 Май 2026",
   readMin: 5,
-  likes: 86,
-  comments: 7,
-  shares: 5,
+  likes: 0,
+  comments: 0,
+  shares: 0,
 };
 
 function ClockIcon() {
@@ -322,9 +322,32 @@ async function getViews(slugs: string[]): Promise<Record<string, number>> {
   return map;
 }
 
+// Real engagement counts per slug (like_counts / comment_counts views + shares table).
+type Eng = { likes: number; comments: number; shares: number };
+async function getEngagement(slugs: string[]): Promise<Record<string, Eng>> {
+  const map: Record<string, Eng> = {};
+  for (const s of slugs) map[s] = { likes: 0, comments: 0, shares: 0 };
+  try {
+    const supabase = getSupabase();
+    const [likes, comments, shares] = await Promise.all([
+      supabase.from("like_counts").select("slug, count").in("slug", slugs),
+      supabase.from("comment_counts").select("slug, count").in("slug", slugs),
+      supabase.from("shares").select("slug, count").in("slug", slugs),
+    ]);
+    for (const r of (likes.data as { slug: string; count: number }[] | null) ?? []) if (map[r.slug]) map[r.slug].likes = Number(r.count);
+    for (const r of (comments.data as { slug: string; count: number }[] | null) ?? []) if (map[r.slug]) map[r.slug].comments = Number(r.count);
+    for (const r of (shares.data as { slug: string; count: number }[] | null) ?? []) if (map[r.slug]) map[r.slug].shares = Number(r.count);
+  } catch {
+    /* engagement counts are best-effort; render 0 on failure */
+  }
+  return map;
+}
+
 export default async function Home() {
-  const views = await getViews([LEAD.slug, LICK.slug, MCP.slug]);
+  const slugs = [LEAD.slug, LICK.slug, MCP.slug];
+  const [views, eng] = await Promise.all([getViews(slugs), getEngagement(slugs)]);
   const v = (slug: string) => views[slug] ?? 0;
+  const withEng = (art: Article): Article => ({ ...art, ...(eng[art.slug] ?? {}) });
 
   return (
     <div className="font-mono text-[var(--color-text)]">
@@ -341,16 +364,16 @@ export default async function Home() {
 
           {/* CENTER — flagship */}
           <div className="p-6 md:p-10 order-1 md:order-none">
-            <ArticleCard a={LEAD} views={v(LEAD.slug)} featured />
+            <ArticleCard a={withEng(LEAD)} views={v(LEAD.slug)} featured />
           </div>
 
           {/* RIGHT — market story + tools (same anatomy) */}
           <aside className="md:border-l border-[var(--color-border)] order-3 md:order-none border-t md:border-t-0 flex flex-col">
             <div className="p-6 md:p-7 border-b border-[var(--color-border)]">
-              <ArticleCard a={LICK} views={v(LICK.slug)} />
+              <ArticleCard a={withEng(LICK)} views={v(LICK.slug)} />
             </div>
             <div className="p-6 md:p-7 border-b border-[var(--color-border)]">
-              <CompactCard a={MCP} views={v(MCP.slug)} />
+              <CompactCard a={withEng(MCP)} views={v(MCP.slug)} />
             </div>
             <div className="p-6 md:p-7">
               <NewsletterCard />
