@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { SiteHeader, SiteFooter } from "@/components/canon/site-chrome";
 
 const CSS = `
   .s3{
     color:var(--color-text);
-    font-family:var(--font-sans);
+    font-family:var(--font-mono);
     -webkit-font-smoothing:antialiased;
     line-height:1.8;
   }
@@ -242,13 +242,12 @@ const WA = `https://wa.me/77028290908?text=${encodeURIComponent(
 
 export function Stream3Page() {
   return (
-    <div className="s3 min-h-screen">
-      <style dangerouslySetInnerHTML={{ __html: CSS }} />
-      <div className="s3-wrap">
-        <div className="s3-top">
-          <Link href="/" className="s3-brand">kasymzhanov.com</Link>
-          <ThemeToggle />
-        </div>
+    <div className="font-mono text-[var(--color-text)]">
+      <div className="max-w-[1400px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">
+        <SiteHeader />
+        <div className="s3">
+          <style dangerouslySetInnerHTML={{ __html: CSS }} />
+          <div className="s3-wrap">
 
         {/* Набор закрыт → предзапись */}
         <div className="s3-banner">
@@ -627,12 +626,10 @@ export function Stream3Page() {
           </Link>
         </div>
 
-        <div className="s3-foot">
-          Алмас Касымжанов ·{" "}
-          <a href={WA} target="_blank" rel="noopener noreferrer">
-            WhatsApp
-          </a>
+          </div>
         </div>
+        <div className="flex-1" aria-hidden />
+        <SiteFooter />
       </div>
     </div>
   );
