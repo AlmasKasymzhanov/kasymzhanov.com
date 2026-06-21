@@ -80,7 +80,7 @@ export function ArticleHeader({ kicker, title, subtitle, slug, date, readMin, he
             className="w-full h-auto"
           />
         </div>
-        <figcaption className="text-right text-[11px] text-[var(--color-dim)] mt-2">{hero.credit}</figcaption>
+        <figcaption className="text-left text-[11px] text-[var(--color-dim)] mt-2">{hero.credit}</figcaption>
       </figure>
     </>
   );

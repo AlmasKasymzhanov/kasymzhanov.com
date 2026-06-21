@@ -21,7 +21,9 @@ function Shot({ src, alt, caption, w, h, maxWidth }: { src: string; alt: string;
       style={maxWidth ? { maxWidth } : undefined}
     >
       <Image src={src} alt={alt} width={w} height={h} className="w-full h-auto" />
-      <figcaption className="font-mono text-[11px] text-[var(--color-dim)] text-center py-2.5">{caption}</figcaption>
+      {/* Full-width shots get a left caption (editorial canon); small capped UI
+          screenshots stay centered under their narrow frame. */}
+      <figcaption className={`font-mono text-[11px] text-[var(--color-dim)] px-4 py-2.5 ${maxWidth ? "text-center" : "text-left"}`}>{caption}</figcaption>
     </figure>
   );
 }
