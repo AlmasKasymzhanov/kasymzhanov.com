@@ -52,19 +52,33 @@ export function ThemeToggle() {
   if (!mounted) {
     return (
       <div
-        className="h-[34px] w-[66px] rounded-full border border-[var(--color-border)] bg-[var(--color-text)]/5"
+        className="h-8 w-8 md:h-[34px] md:w-[66px] rounded-full border border-[var(--color-border)] bg-[var(--color-text)]/5"
         aria-hidden
       />
     );
   }
 
+  const next: Theme = theme === "light" ? "dark" : "light";
+
   return (
-    <div
-      role="radiogroup"
-      aria-label="Тема оформления"
-      className="inline-flex items-center gap-0.5 rounded-full border border-[var(--color-border)] p-0.5 bg-[var(--color-text)]/5"
-    >
-      {OPTIONS.map(({ value, Icon, label }) => {
+    <>
+      {/* Mobile — single icon button showing the current theme; tap to toggle. */}
+      <button
+        type="button"
+        onClick={() => choose(next)}
+        aria-label={next === "dark" ? "Включить тёмную тему" : "Включить светлую тему"}
+        className="md:hidden grid size-8 place-items-center rounded-full border border-[var(--color-border)] bg-[var(--color-text)]/5 text-[var(--color-text)] transition-colors duration-150 ease-out cursor-pointer hover:bg-[var(--color-text)]/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--color-brand)]/60"
+      >
+        {theme === "light" ? <SunIcon size={16} /> : <MoonIcon size={16} />}
+      </button>
+
+      {/* Tablet / desktop — segmented sun·moon pill. */}
+      <div
+        role="radiogroup"
+        aria-label="Тема оформления"
+        className="hidden md:inline-flex items-center gap-0.5 rounded-full border border-[var(--color-border)] p-0.5 bg-[var(--color-text)]/5"
+      >
+        {OPTIONS.map(({ value, Icon, label }) => {
         const active = theme === value;
         return (
           <button
@@ -84,6 +98,7 @@ export function ThemeToggle() {
           </button>
         );
       })}
-    </div>
+      </div>
+    </>
   );
 }

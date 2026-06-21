@@ -44,13 +44,13 @@ export function HeaderSearch() {
       <button
         onClick={() => setOpen(true)}
         aria-label="Поиск"
-        className="grid place-items-center h-9 w-9 text-[var(--color-text)] hover:opacity-60 transition-opacity"
+        className="grid place-items-center h-8 w-8 md:h-9 md:w-9 text-[var(--color-text)] hover:opacity-60 transition-opacity"
       >
-        <SearchIcon />
+        <SearchIcon size={18} />
       </button>
 
       {open && (
-        <div className="absolute inset-0 z-30 bg-[var(--color-bg)] flex items-center gap-4 px-6 md:px-12">
+        <div className="absolute inset-0 z-30 bg-[var(--color-bg)] flex items-center gap-4 px-4 sm:px-6 md:px-7">
           <span className="text-[var(--color-dim)] shrink-0">
             <SearchIcon size={18} />
           </span>

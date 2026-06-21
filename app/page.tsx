@@ -250,7 +250,7 @@ function ArticleCard({ a, views, featured = false }: { a: Article; views: number
       </div>
 
       {featured && a.credit && (
-        <div className="-mt-4 mb-5 text-right text-[var(--color-dim)]">
+        <div className="-mt-4 mb-5 text-left text-[var(--color-dim)]">
           <p className="text-[11px]">{a.credit}</p>
         </div>
       )}
@@ -356,19 +356,19 @@ export default async function Home() {
         <SiteHeader />
 
         {/* ── Front page: about (left) · flagship (center) · market+tools (right) ── */}
-        <section className="grid md:grid-cols-[2fr_5fr_3fr] border-b border-[var(--color-border)]">
+        <section className="grid grid-cols-1 md:grid-cols-[minmax(0,2fr)_minmax(0,5fr)_minmax(0,3fr)] border-b border-[var(--color-border)]">
           {/* LEFT — about the author */}
-          <aside className="md:border-r border-[var(--color-border)] p-6 md:p-7 order-2 md:order-none border-t md:border-t-0">
+          <aside className="min-w-0 md:border-r border-[var(--color-border)] p-6 md:p-7 order-2 md:order-none border-t md:border-t-0">
             <AuthorBlock variant="vertical" />
           </aside>
 
           {/* CENTER — flagship */}
-          <div className="p-6 md:p-10 order-1 md:order-none">
+          <div className="min-w-0 p-6 md:p-10 order-1 md:order-none">
             <ArticleCard a={withEng(LEAD)} views={v(LEAD.slug)} featured />
           </div>
 
           {/* RIGHT — market story + tools (same anatomy) */}
-          <aside className="md:border-l border-[var(--color-border)] order-3 md:order-none border-t md:border-t-0 flex flex-col">
+          <aside className="min-w-0 md:border-l border-[var(--color-border)] order-3 md:order-none border-t md:border-t-0 flex flex-col">
             <div className="p-6 md:p-7 border-b border-[var(--color-border)]">
               <ArticleCard a={withEng(LICK)} views={v(LICK.slug)} />
             </div>

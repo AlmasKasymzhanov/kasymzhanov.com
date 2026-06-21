@@ -32,7 +32,7 @@ export default async function LoginPage({
 
         <main className="flex-1 flex items-center justify-center px-6 py-16 md:py-24">
           <div className="w-full max-w-md">
-            <div className="text-center mb-8">
+            <div className="text-left mb-8">
               <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--color-dim)] mb-3">[ Вход ]</p>
               <h1 className="text-[26px] md:text-[32px] font-bold tracking-tight leading-[1.1] mb-3">
                 Войдите в kasymzhanov.com

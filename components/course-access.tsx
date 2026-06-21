@@ -128,7 +128,7 @@ export function CourseAccess({
         <p className="text-[12px] text-red-500 mt-3">{msg || "Не удалось отправить ссылку"}</p>
       )}
 
-      <p className="text-[11px] text-[var(--color-dim)] leading-relaxed mt-5 text-center">
+      <p className="text-[11px] text-[var(--color-dim)] leading-relaxed mt-5 text-left">
         {note}
       </p>
     </div>
