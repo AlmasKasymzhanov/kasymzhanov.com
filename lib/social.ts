@@ -4,14 +4,14 @@
 // (identity), not a repo — canonical for social/sameAs.
 
 export const SOCIAL_PROFILES = [
-  { icon: "telegram", label: "Telegram", href: "https://t.me/akasymzhanov" },
-  { icon: "x", label: "X (Twitter)", href: "https://x.com/akasymzhanov" },
+  { icon: "github", label: "GitHub", href: "https://github.com/AlmasKasymzhanov" },
   { icon: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/akasymzhanov/" },
+  { icon: "telegram", label: "Telegram", href: "https://t.me/akasymzhanov" },
   { icon: "instagram", label: "Instagram", href: "https://www.instagram.com/almas_kasymzhanov/" },
+  { icon: "x", label: "X (Twitter)", href: "https://x.com/akasymzhanov" },
   { icon: "youtube", label: "YouTube", href: "https://www.youtube.com/@akasymzhanovv" },
   { icon: "threads", label: "Threads", href: "https://www.threads.com/@akasymzhanovv" },
   { icon: "facebook", label: "Facebook", href: "https://www.facebook.com/almaskassymzhanov" },
-  { icon: "github", label: "GitHub", href: "https://github.com/AlmasKasymzhanov" },
 ] as const;
 
 export const SOCIAL_SAMEAS: string[] = SOCIAL_PROFILES.map((s) => s.href);

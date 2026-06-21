@@ -97,8 +97,9 @@ function AboutSection() {
         <p>Дата-журналист · аналитик · предприниматель</p>
         <p>1,6 млрд заказов прошли через мои алгоритмы.</p>
         <p>
-          Разработал <SiteLink href="https://10b.kz">10b.kz</SiteLink>,{" "}
-          <SiteLink href="https://redstat.kz">redstat.kz</SiteLink>
+          Строю <SiteLink href="https://10b.kz">10b.kz</SiteLink>,{" "}
+          <SiteLink href="https://redstat.kz">redstat.kz</SiteLink>,{" "}
+          <SiteLink href="https://brockui.com">brockui.com</SiteLink>
         </p>
       </div>
     </div>
