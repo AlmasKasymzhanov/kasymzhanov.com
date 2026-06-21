@@ -114,22 +114,15 @@ export function EngagementProvider({ slug, children }: { slug: string; children:
     }
   }, [user, liked, supabase, slug]);
 
+  // Registers that a share happened (optimistic count + persisted counter).
+  // The actual platform hand-off (native sheet / channel / copy) is owned by
+  // <ShareMenu>, which calls this once per share action.
   const share = useCallback(async () => {
     setShareCount((c) => c + 1);
-    await supabase.rpc("increment_share", { page_slug: slug });
-    const url = window.location.href;
-    if (navigator.share) {
-      try {
-        await navigator.share({ url });
-      } catch {
-        /* cancelled */
-      }
-    } else {
-      try {
-        await navigator.clipboard.writeText(url);
-      } catch {
-        /* ignore */
-      }
+    try {
+      await supabase.rpc("increment_share", { page_slug: slug });
+    } catch {
+      /* counter is best-effort */
     }
   }, [supabase, slug]);
 

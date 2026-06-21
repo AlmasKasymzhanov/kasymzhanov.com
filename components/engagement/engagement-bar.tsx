@@ -1,6 +1,7 @@
 "use client";
 
 import { useEngagement } from "./engagement-provider";
+import { ShareMenu } from "@/components/share-menu";
 
 function HeartIcon({ filled }: { filled: boolean }) {
   return (
@@ -13,14 +14,6 @@ function CommentIcon() {
   return (
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-    </svg>
-  );
-}
-function ShareIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M10.12 3.5H8.02C5.24 3.5 3.5 5.47 3.5 8.25v7.5C3.5 18.53 5.23 20.5 8.02 20.5h7.96c2.79 0 4.52-1.97 4.52-4.75v-1.64" />
-      <path d="M20.5 8.07V3.5M20.5 3.5h-4.57M20.5 3.5l-7.13 7.13" />
     </svg>
   );
 }
@@ -56,9 +49,7 @@ export function EngagementBar({ className = "" }: { className?: string }) {
       >
         <CommentIcon /> {comments.length}
       </button>
-      <button onClick={share} title="Поделиться" className={`${pill} text-[var(--color-dim)] hover:text-[var(--color-text)] cursor-pointer`}>
-        <ShareIcon /> {shareCount}
-      </button>
+      <ShareMenu count={shareCount} onShare={share} />
     </div>
   );
 }

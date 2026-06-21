@@ -14,7 +14,7 @@ export function Masthead({
 }) {
   const sizeCls =
     size === "xl"
-      ? "text-[18px] sm:text-[20px] md:text-[24px] lg:text-[28px] tracking-[0.06em]"
+      ? "text-[14px] sm:text-[19px] md:text-[24px] lg:text-[28px] tracking-[0.02em] sm:tracking-[0.06em]"
       : size === "lg"
         ? "text-[20px] md:text-[28px] tracking-[0.12em]"
         : "text-[13px] md:text-[14px] tracking-[0.16em]";

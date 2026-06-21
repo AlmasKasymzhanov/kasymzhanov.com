@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
+import { SOCIAL_SAMEAS } from "@/lib/social";
 import "./globals.css";
 
 const geist = localFont({
@@ -61,6 +62,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Almas Kasymzhanov",
     description: "Founder of Redstat & 10b.kz — Marketplace Analytics & Data Products",
+    creator: "@akasymzhanov",
+    site: "@akasymzhanov",
   },
   robots: {
     index: true,
@@ -81,12 +84,26 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs.txt" />
         <link rel="alternate" type="text/plain" href="/llms-full.txt" title="LLMs Full" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Almas Kasymzhanov",
+              alternateName: "Алмас Касымжанов",
+              url: "https://kasymzhanov.com",
+              email: "almas@kasymzhanov.com",
+              jobTitle: "Дата-журналист, аналитик, предприниматель",
+              sameAs: SOCIAL_SAMEAS,
+            }),
+          }}
+        />
         <script dangerouslySetInnerHTML={{ __html: `
           try {
-            var t = localStorage.getItem('theme');
-            if (t !== 'dark') {
-              document.documentElement.classList.add('light');
-            }
+            var m = localStorage.getItem('theme');
+            var dark = m === 'dark' || ((m === 'system' || !m) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (!dark) document.documentElement.classList.add('light');
           } catch (e) {
             document.documentElement.classList.add('light');
           }

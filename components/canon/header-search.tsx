@@ -44,9 +44,9 @@ export function HeaderSearch() {
       <button
         onClick={() => setOpen(true)}
         aria-label="Поиск"
-        className="grid place-items-center h-8 w-8 md:h-9 md:w-9 text-[var(--color-text)] hover:opacity-60 transition-opacity"
+        className="grid place-items-center h-7 w-7 md:h-9 md:w-9 text-[var(--color-text)] hover:opacity-60 transition-opacity"
       >
-        <SearchIcon size={18} />
+        <SearchIcon size={17} />
       </button>
 
       {open && (

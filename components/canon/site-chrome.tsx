@@ -6,20 +6,13 @@ import { LangToggle } from "@/components/lang-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { SocialIcon } from "@/components/social-icons";
 import { HeaderAuth } from "@/components/canon/header-auth";
+import { SOCIAL_PROFILES } from "@/lib/social";
 
 const DESCRIPTION =
   "kasymzhanov.com — независимое издание дата-журналиста, аналитика и предпринимателя " +
   "Алмаса Касымжанова. Аналитика рынков, событий и экономики.";
 
-const SOCIAL = [
-  { icon: "github", href: "https://github.com/AlmasKasymzhanov" },
-  { icon: "linkedin", href: "https://www.linkedin.com/in/akasymzhanov/" },
-  { icon: "telegram", href: "https://t.me/akasymzhanov" },
-  { icon: "instagram", href: "https://www.instagram.com/almas_kasymzhanov/" },
-  { icon: "facebook", href: "https://www.facebook.com/almaskassymzhanov" },
-  { icon: "threads", href: "https://www.threads.net/@almas_kasymzhanov" },
-  { icon: "youtube", href: "https://www.youtube.com/@akasymzhanovv" },
-];
+const SOCIAL = SOCIAL_PROFILES;
 
 const PROJECTS = [
   {
@@ -38,6 +31,14 @@ const PROJECTS = [
     logoH: "h-4",
     desc: "Аналитика маркетплейса Kaspi: ниши, цены, продавцы и спрос.",
   },
+  {
+    name: "Brock UI",
+    url: "https://brockui.com",
+    logoBlack: "/logos/brockui-black.svg",
+    logoWhite: "/logos/brockui-white.svg",
+    logoH: "h-5",
+    desc: "Дизайн-система графиков: редактируемые React-компоненты для дата-визуализации.",
+  },
 ];
 
 // Inline brand link — turns to the accent on hover.
@@ -54,16 +55,17 @@ function SiteLink({ href, children }: { href: string; children: React.ReactNode 
   );
 }
 
-function Socials({ className = "" }: { className?: string }) {
+export function Socials({ className = "" }: { className?: string }) {
   return (
-    <nav className={`flex items-center gap-4 ${className}`}>
+    <nav className={`flex items-center flex-wrap gap-4 ${className}`}>
       {SOCIAL.map((s) => (
         <a
           key={s.href}
           href={s.href}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={s.icon}
+          aria-label={s.label}
+          title={s.label}
           className="text-[var(--color-dim)] hover:text-[var(--color-brand)] transition-colors"
         >
           <SocialIcon name={s.icon} size={18} />
@@ -204,11 +206,11 @@ export function AuthorBlock({ variant = "vertical" }: { variant?: "vertical" | "
 export function SiteHeader() {
   return (
     <header className="border-b border-[var(--color-border)]">
-      <div className="relative flex items-center justify-between gap-3 px-4 sm:px-6 md:px-7 py-4 md:py-5">
+      <div className="relative flex items-center justify-between gap-1.5 sm:gap-3 px-4 sm:px-6 md:px-7 py-4 md:py-5">
         <div className="min-w-0">
           <Masthead size="xl" surnameOnly />
         </div>
-        <div className="shrink-0 flex items-center gap-1.5 sm:gap-3 md:gap-4">
+        <div className="shrink-0 flex items-center gap-0.5 sm:gap-3 md:gap-4">
           <LangToggle />
           <ThemeToggle />
           <HeaderSearch />

@@ -1,10 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import Link from "next/link";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeRaw from "rehype-raw";
 import type { Metadata } from "next";
+import { LegalDoc } from "@/components/canon/legal-doc";
 
 export const metadata: Metadata = {
   title: "Публичная оферта — Almas Kasymzhanov",
@@ -18,20 +15,5 @@ export default function TermsPage() {
     "utf8",
   );
 
-  return (
-    <article className="max-w-3xl mx-auto px-6 py-16">
-      <Link
-        href="/"
-        className="text-sm text-dim hover:text-accent transition-colors no-underline mb-8 inline-block"
-      >
-        ← На главную
-      </Link>
-
-      <div className="prose prose-invert max-w-none prose-table:text-sm prose-th:text-left">
-        <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
-          {md}
-        </ReactMarkdown>
-      </div>
-    </article>
-  );
+  return <LegalDoc md={md} kicker="Правовые документы" enAnchor="terms-english" />;
 }

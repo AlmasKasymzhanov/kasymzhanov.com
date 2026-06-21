@@ -397,6 +397,15 @@ export type BarChartProps = {
   labelWidth?: number;
 
   /**
+   * Optional custom renderer for the category label node. Receives the raw
+   * label string; return any node (e.g. wrap it in an app-level tooltip so the
+   * full/expanded name is reachable on hover/tap). When provided, the native
+   * `title` browser tooltip on the label is suppressed (the custom node owns
+   * the reveal). The truncating wrapper still clamps the displayed text.
+   */
+  formatLabel?: (label: string) => ReactNode;
+
+  /**
    * Reference line — a dashed VERTICAL line at a fixed value ("Quota")
    * or a computed statistic (`{ stat: "mean" }` / `{ stat: "median" }`,
    * calculated over the original input data). Included in the scale on both
@@ -1065,6 +1074,7 @@ export function BarChart({
   gap = 8,
   maxHeight,
   labelWidth = 96,
+  formatLabel,
   referenceLine,
   source,
   accent,
@@ -1668,6 +1678,7 @@ export function BarChart({
                 points={points}
                 gap={gap}
                 barThickness={barThickness}
+                formatLabel={formatLabel}
               />
             )}
             <BarsGroup
@@ -2076,10 +2087,12 @@ function LabelColumn({
   points,
   gap,
   barThickness,
+  formatLabel,
 }: {
   points: NormalizedPoint[];
   gap: number;
   barThickness: number;
+  formatLabel?: (label: string) => ReactNode;
 }) {
   return (
     <div className="flex shrink-0 flex-col" style={{ gap }} aria-hidden>
@@ -2088,10 +2101,10 @@ function LabelColumn({
           key={i}
           className="brock-hbar-label flex min-w-0 items-center justify-end pe-2"
           style={{ height: barThickness }}
-          title={p.label}
+          title={formatLabel ? undefined : p.label}
         >
           <span className="truncate font-mono text-xs text-muted-foreground">
-            {p.label ?? ""}
+            {formatLabel ? formatLabel(p.label ?? "") : p.label ?? ""}
           </span>
         </div>
       ))}

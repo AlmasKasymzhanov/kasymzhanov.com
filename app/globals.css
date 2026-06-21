@@ -34,8 +34,14 @@ html.light {
    Brock UI library) expect shadcn tokens (text-foreground, bg-background,
    bg-muted, text-muted-foreground, border-border) and raw var(--foreground)
    /var(--brock-accent) refs in their inline SVG. Map them onto our canon so
-   the charts follow our light/dark theme. --brock-accent = editorial red:
-   the single "one thing is different" accent (decline / outlier).
+   the charts follow our light/dark theme.
+
+   Two-tone data-ink (FT / Burn-Murdoch): every chart is monochrome graphite
+   (--brock-neutral, the context series) with exactly ONE warm accent at a
+   time (--brock-accent = brand orange = coal / Ekibastuz / "worse / the
+   thing that matters"). The accent must read as bright against both the dark
+   charcoal and the white surface, so it is a single value for both themes;
+   the neutral graphite flips per theme so it stays subordinate but legible.
    ────────────────────────────────────────────────────────────────────── */
 @theme inline {
   --color-background: var(--color-bg);
@@ -43,13 +49,24 @@ html.light {
   --color-muted: var(--color-surface);
   --color-muted-foreground: var(--color-dim);
   --color-brock-accent: var(--brock-accent);
+  --color-brock-neutral: var(--brock-neutral);
 }
 
 :root {
   --background: var(--color-bg);
   --foreground: var(--color-text);
   --muted-foreground: var(--color-dim);
-  --brock-accent: #e5484d;
+  /* Brand orange — the single bright accent, identical in both themes. */
+  --brock-accent: #f54900;
+  /* Graphite context bars — dark-theme value (legible on #171717). */
+  --brock-neutral: #6e6e6e;
+}
+
+html.light {
+  /* Graphite context bars — light-theme value: crisp enough on #ffffff to read,
+     still subordinate so the orange accent stays the pop-out (FT: minimize
+     distraction, maximize contrast). */
+  --brock-neutral: #a6a6a6;
 }
 
 body {
@@ -59,6 +76,23 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Visually-hidden (screen-reader-only). Charts ship an sr-only <table> data
+   summary; without this it stays in flow and overflows narrow viewports. */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  /* tables ignore width:1px under auto layout and expand to content, pushing
+     the absolutely-positioned box past the viewport — pin it with fixed layout. */
+  table-layout: fixed !important;
 }
 
 /* Scrollbar */

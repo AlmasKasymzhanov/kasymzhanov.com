@@ -23,14 +23,14 @@ export function HeaderAuth() {
   }, [supabase]);
 
   if (!ready) {
-    return <div className="h-[30px] w-[64px] rounded-[5px] bg-[var(--color-text)]/5" aria-hidden />;
+    return <div className="h-7 w-[54px] md:h-[30px] md:w-[64px] rounded-[5px] bg-[var(--color-text)]/5" aria-hidden />;
   }
 
   if (!user) {
     return (
       <Link
         href="/login"
-        className="inline-flex items-center justify-center h-[30px] px-[10px] rounded-[5px] border border-[var(--color-brand)] bg-[var(--color-brand)] text-[var(--color-bg)] text-[12px] uppercase no-underline hover:bg-transparent hover:text-[var(--color-brand)] transition-colors duration-200"
+        className="inline-flex items-center justify-center h-7 px-2.5 md:h-[30px] md:px-[10px] rounded-[5px] border border-[var(--color-brand)] bg-[var(--color-brand)] text-[var(--color-bg)] text-[11px] md:text-[12px] uppercase no-underline hover:bg-transparent hover:text-[var(--color-brand)] transition-colors duration-200"
       >
         Войти
       </Link>
