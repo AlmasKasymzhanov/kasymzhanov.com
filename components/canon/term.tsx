@@ -149,9 +149,20 @@ export function Term({
         onFocus={openNow}
         onBlur={closeSoon}
         className={
-          accent
-            ? "cursor-help text-[var(--color-brand)] underline decoration-dotted decoration-[var(--color-brand)]/50 underline-offset-[3px] hover:decoration-[var(--color-brand)] transition-colors"
-            : "cursor-help underline decoration-dotted decoration-[var(--color-dim)] underline-offset-[3px] hover:decoration-[var(--color-text)] transition-colors"
+          // Chart-gutter labels (focusable=false) live inside a truncating
+          // overflow:hidden column; iOS Safari drops `text-decoration` on the
+          // visible part of a clipped inline element, so the dotted underline
+          // vanishes on mobile. A `border-bottom` is a box decoration that the
+          // overflow clip paints on the visible (truncated) portion in every
+          // engine. Body usage (focusable) keeps text-decoration so the dotted
+          // line follows line wraps.
+          !focusable
+            ? accent
+              ? "cursor-help border-b border-dotted border-[var(--color-brand)]/60 hover:border-[var(--color-brand)] transition-colors"
+              : "cursor-help border-b border-dotted border-[var(--color-dim)] hover:border-[var(--color-text)] transition-colors"
+            : accent
+              ? "cursor-help text-[var(--color-brand)] underline decoration-dotted decoration-[var(--color-brand)]/50 underline-offset-[3px] hover:decoration-[var(--color-brand)] transition-colors"
+              : "cursor-help underline decoration-dotted decoration-[var(--color-dim)] underline-offset-[3px] hover:decoration-[var(--color-text)] transition-colors"
         }
       >
         {children}
