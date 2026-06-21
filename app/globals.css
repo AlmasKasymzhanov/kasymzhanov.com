@@ -29,6 +29,29 @@ html.light {
   --color-brand: #242ef7;
 }
 
+/* ──────────────────────────────────────────────────────────────────────
+   Brock UI chart bridge — the Column/Bar chart components (ported from the
+   Brock UI library) expect shadcn tokens (text-foreground, bg-background,
+   bg-muted, text-muted-foreground, border-border) and raw var(--foreground)
+   /var(--brock-accent) refs in their inline SVG. Map them onto our canon so
+   the charts follow our light/dark theme. --brock-accent = editorial red:
+   the single "one thing is different" accent (decline / outlier).
+   ────────────────────────────────────────────────────────────────────── */
+@theme inline {
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-text);
+  --color-muted: var(--color-surface);
+  --color-muted-foreground: var(--color-dim);
+  --color-brock-accent: var(--brock-accent);
+}
+
+:root {
+  --background: var(--color-bg);
+  --foreground: var(--color-text);
+  --muted-foreground: var(--color-dim);
+  --brock-accent: #e5484d;
+}
+
 body {
   background: var(--color-bg);
   color: var(--color-text);
