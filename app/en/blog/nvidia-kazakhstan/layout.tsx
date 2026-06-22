@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import { ArticleJsonLd } from "@/components/articles";
 
-const title = "Кремний на угле | Almas Kasymzhanov";
+const title = "Silicon on Coal | Almas Kasymzhanov";
 const description =
-  "Казахстан подписал с NVIDIA и Firebird соглашения на $10 млрд: дата-центр для ИИ в Экибастузе запитают углём. Разбор на данных — что подписали, чем заплатят и где этот фильм уже показывали.";
+  "Kazakhstan signed $10bn in deals with NVIDIA and Firebird — and the power for the AI will be dug out of coal. A data breakdown of what was signed, what it costs, and where we've seen this movie before.";
 const image = "/blog/nvidia-kazakhstan/cover.webp";
 
 export const metadata: Metadata = {
   title,
   description,
   alternates: {
-    canonical: "https://kasymzhanov.com/blog/nvidia-kazakhstan",
+    canonical: "https://kasymzhanov.com/en/blog/nvidia-kazakhstan",
     languages: {
       "ru-RU": "https://kasymzhanov.com/blog/nvidia-kazakhstan",
       "en-US": "https://kasymzhanov.com/en/blog/nvidia-kazakhstan",
@@ -19,8 +19,9 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description,
-    url: "https://kasymzhanov.com/blog/nvidia-kazakhstan",
+    url: "https://kasymzhanov.com/en/blog/nvidia-kazakhstan",
     type: "article",
+    locale: "en_US",
     images: [image],
   },
   twitter: {
@@ -35,7 +36,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       {children}
-      <ArticleJsonLd slug="nvidia-kazakhstan" description={description} />
+      <ArticleJsonLd slug="nvidia-kazakhstan" description={description} locale="en" />
     </>
   );
 }

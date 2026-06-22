@@ -41,6 +41,7 @@ type Dict = {
   subscribe: { placeholder: string; emailLabel: string; button: string; loading: string; done: string; doneShort: string; errGeneric: string; errFail: string };
   card: { coverSoon: string };
   table: { source: string };
+  duel: { loses: string; of: string; measures: string };
   auth: {
     google: string;
     or: string;
@@ -121,6 +122,7 @@ export const dict: Record<Locale, Dict> = {
     },
     card: { coverSoon: "[ Обложка готовится ]" },
     table: { source: "Источник:" },
+    duel: { loses: "уступает по", of: "из", measures: "параметров" },
     auth: {
       google: "Войти через Google",
       or: "или",
@@ -206,6 +208,7 @@ export const dict: Record<Locale, Dict> = {
     },
     card: { coverSoon: "[ Cover coming soon ]" },
     table: { source: "Source:" },
+    duel: { loses: "loses on", of: "of", measures: "measures" },
     auth: {
       google: "Continue with Google",
       or: "or",

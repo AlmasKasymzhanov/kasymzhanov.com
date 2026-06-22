@@ -84,6 +84,7 @@ export const ARTICLES: Article[] = [
       date: "Jun 22, 2026",
       credit: "Illustration: Almas Kasymzhanov · Higgsfield AI",
     },
+    enReady: true,
   },
   {
     href: "/blog/why-blogger-brands-fail",

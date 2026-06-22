@@ -19,6 +19,9 @@
  * narrow widths; the spine and bars scale down with the container).
  */
 
+import { usePathname } from "next/navigation";
+import { localeFromPathname, dict } from "@/lib/i18n";
+
 export type DuelSideValue = {
   /** Value text shown (number, range, or short phrase). */
   value: string;
@@ -95,6 +98,7 @@ export function DuelChart({
   rightTag?: string;
   verdictSide?: "left" | "right";
 }) {
+  const t = dict[localeFromPathname(usePathname() ?? "/")].duel;
   const subjectLabel = verdictSide === "right" ? rightLabel : leftLabel;
   const losses = rows.filter((r) =>
     verdictSide === "right" ? r.right.worse : r.left.worse,
@@ -159,11 +163,11 @@ export function DuelChart({
 
       {/* Verdict tally. */}
       <div className="mt-5 border-t border-[var(--color-border)] pt-2.5 text-center text-[11px] text-[var(--color-dim)]">
-        {subjectLabel} уступает по{" "}
+        {subjectLabel} {t.loses}{" "}
         <span className="font-bold tabular-nums text-[var(--brock-accent)]">
           {losses}
         </span>{" "}
-        из {rows.length} параметров
+        {t.of} {rows.length} {t.measures}
       </div>
     </div>
   );
