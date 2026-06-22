@@ -12,7 +12,7 @@ import type { Locale } from "@/lib/i18n";
  * segmented by language (wrong-language blasts read as spam).
  */
 
-const FROM = process.env.EMAIL_FROM || "Kasymzhanov <hello@kasymzhanov.com>";
+const FROM = process.env.EMAIL_FROM || "Almas Kasymzhanov <almas@kasymzhanov.com>";
 const REPLY_TO = "almas@kasymzhanov.com";
 const UNSUB = `<mailto:${REPLY_TO}?subject=unsubscribe>`;
 
