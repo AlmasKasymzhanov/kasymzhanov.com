@@ -23,6 +23,8 @@
  */
 
 import type { ReactNode } from "react";
+import { usePathname } from "next/navigation";
+import { localeFromPathname, dict } from "@/lib/i18n";
 
 const DELTA_UP = "#22c55e";
 const DELTA_DOWN = "#fb3b4e";
@@ -105,6 +107,7 @@ export function DataTable({
   className,
   "data-testid": dataTestId,
 }: DataTableProps) {
+  const t = dict[localeFromPathname(usePathname() ?? "/")].table;
   const align = (c: DataTableColumn, i: number): DataTableAlign =>
     c.align ?? (i === 0 ? "left" : "right");
   const isMono = (c: DataTableColumn, i: number): boolean =>
@@ -199,7 +202,7 @@ export function DataTable({
           )}
           {source && (
             <p className="px-4 py-2 text-left font-mono text-[11px] text-[var(--color-dim)]">
-              Источник: {source}
+              {t.source} {source}
             </p>
           )}
         </div>

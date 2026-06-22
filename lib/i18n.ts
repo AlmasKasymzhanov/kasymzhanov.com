@@ -40,6 +40,7 @@ type Dict = {
   newsletter: { tagline: string };
   subscribe: { placeholder: string; emailLabel: string; button: string; loading: string; done: string; doneShort: string; errGeneric: string; errFail: string };
   card: { coverSoon: string };
+  table: { source: string };
   auth: {
     google: string;
     or: string;
@@ -119,6 +120,7 @@ export const dict: Record<Locale, Dict> = {
       errFail: "Не удалось подписаться",
     },
     card: { coverSoon: "[ Обложка готовится ]" },
+    table: { source: "Источник:" },
     auth: {
       google: "Войти через Google",
       or: "или",
@@ -203,6 +205,7 @@ export const dict: Record<Locale, Dict> = {
       errFail: "Couldn't subscribe",
     },
     card: { coverSoon: "[ Cover coming soon ]" },
+    table: { source: "Source:" },
     auth: {
       google: "Continue with Google",
       or: "or",

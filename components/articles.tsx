@@ -104,6 +104,7 @@ export const ARTICLES: Article[] = [
       subtitle: "How a brand with 7 million followers lost to a knockoff that sells for under a dollar.",
       date: "Mar 25, 2026",
     },
+    enReady: true,
   },
   {
     href: "/blog/kaspi-mcp",
