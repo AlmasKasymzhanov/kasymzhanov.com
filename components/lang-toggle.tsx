@@ -39,7 +39,7 @@ export function LangToggle() {
             aria-checked={active}
             aria-label={l === "RU" ? "Русский" : "English"}
             onClick={() => choose(l)}
-            className={`flex h-5 md:h-7 items-center justify-center rounded-full px-1.5 md:px-2.5 text-[10.5px] md:text-[11px] font-bold transition-colors duration-150 ease-out cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--color-brand)]/60 ${
+            className={`flex h-6 md:h-7 items-center justify-center rounded-full px-1 md:px-2.5 text-[11px] font-bold transition-colors duration-150 ease-out cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--color-brand)]/60 ${
               active
                 ? "bg-[var(--color-bg)] text-[var(--color-text)] shadow-sm"
                 : "text-[var(--color-dim)] hover:text-[var(--color-text)] hover:bg-[var(--color-text)]/8"

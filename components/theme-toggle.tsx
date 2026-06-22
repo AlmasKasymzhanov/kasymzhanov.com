@@ -93,13 +93,13 @@ export function ThemeToggle() {
             aria-label={label}
             title={label}
             onClick={() => choose(value)}
-            className={`grid size-5 md:size-7 place-items-center rounded-full transition-colors duration-150 ease-out cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--color-brand)]/60 ${
+            className={`grid size-6 md:size-7 place-items-center rounded-full transition-colors duration-150 ease-out cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--color-brand)]/60 ${
               active
                 ? "bg-[var(--color-bg)] text-[var(--color-text)] shadow-sm"
                 : "text-[var(--color-dim)] hover:text-[var(--color-text)] hover:bg-[var(--color-text)]/8"
             }`}
           >
-            <Icon size={13} />
+            <Icon size={14} />
           </button>
         );
       })}

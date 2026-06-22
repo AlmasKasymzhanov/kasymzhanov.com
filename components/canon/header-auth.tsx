@@ -30,7 +30,7 @@ export function HeaderAuth() {
     return (
       <Link
         href="/login"
-        className="inline-flex items-center justify-center h-7 px-2.5 md:h-[30px] md:px-[10px] rounded-[5px] border border-[var(--color-brand)] bg-[var(--color-brand)] text-[var(--color-bg)] text-[11px] md:text-[12px] uppercase no-underline hover:bg-transparent hover:text-[var(--color-brand)] transition-colors duration-200"
+        className="inline-flex items-center justify-center h-7 px-2 md:h-[30px] md:px-[10px] rounded-[5px] border border-[var(--color-brand)] bg-[var(--color-brand)] text-[var(--color-bg)] text-[11px] md:text-[12px] uppercase no-underline hover:bg-transparent hover:text-[var(--color-brand)] transition-colors duration-200"
       >
         Войти
       </Link>
