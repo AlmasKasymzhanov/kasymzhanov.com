@@ -53,6 +53,32 @@ type Dict = {
     errFail: string;
   };
   login: { title: string; description: string; kicker: string; heading: string; sub: string; note: string };
+  engage: {
+    viewsLabel: string;
+    like: string;
+    unlike: string;
+    likePrompt: string;
+    toComments: string;
+    share: string;
+    shareNative: string;
+    copyLink: string;
+    copied: string;
+    linkCopied: string;
+    email: string;
+    vk: string;
+  };
+  comments: {
+    heading: string;
+    placeholder: string;
+    submit: string;
+    submitting: string;
+    loginPre: string;
+    loginLink: string;
+    errorPre: string;
+    empty: string;
+    member: string;
+    delete: string;
+  };
   name: string;
   minRead: (n: number) => string;
 };
@@ -113,6 +139,32 @@ export const dict: Record<Locale, Dict> = {
       sub: "Чтобы ставить лайки, комментировать материалы и подписаться на рассылку. Вход = регистрация.",
       note: "Вход = регистрация. Нужен только для лайков, комментариев и подписки — ничего лишнего.",
     },
+    engage: {
+      viewsLabel: "просмотров",
+      like: "Лайк",
+      unlike: "Убрать лайк",
+      likePrompt: "Войдите, чтобы лайкнуть",
+      toComments: "К комментариям",
+      share: "Поделиться",
+      shareNative: "Поделиться…",
+      copyLink: "Скопировать ссылку",
+      copied: "Скопировано!",
+      linkCopied: "Ссылка скопирована",
+      email: "Почта",
+      vk: "ВКонтакте",
+    },
+    comments: {
+      heading: "Комментарии",
+      placeholder: "Оставьте комментарий…",
+      submit: "Отправить",
+      submitting: "Отправляем…",
+      loginPre: "Чтобы оставить комментарий и поставить лайк — ",
+      loginLink: "войдите",
+      errorPre: "Ошибка: ",
+      empty: "Пока нет комментариев. Будьте первым.",
+      member: "Участник",
+      delete: "удалить",
+    },
     name: "Алмас Касымжанов",
     minRead: (n) => `${n} мин`,
   },
@@ -170,6 +222,32 @@ export const dict: Record<Locale, Dict> = {
       heading: "Sign in to kasymzhanov.com",
       sub: "To like, comment on stories, and subscribe to the newsletter. Signing in creates your account.",
       note: "Signing in creates your account. It's only for likes, comments, and the newsletter — nothing else.",
+    },
+    engage: {
+      viewsLabel: "views",
+      like: "Like",
+      unlike: "Unlike",
+      likePrompt: "Sign in to like",
+      toComments: "Go to comments",
+      share: "Share",
+      shareNative: "Share…",
+      copyLink: "Copy link",
+      copied: "Copied!",
+      linkCopied: "Link copied",
+      email: "Email",
+      vk: "VK",
+    },
+    comments: {
+      heading: "Comments",
+      placeholder: "Leave a comment…",
+      submit: "Post",
+      submitting: "Posting…",
+      loginPre: "To comment and like — ",
+      loginLink: "sign in",
+      errorPre: "Error: ",
+      empty: "No comments yet. Be the first.",
+      member: "Member",
+      delete: "delete",
     },
     name: "Almas Kasymzhanov",
     minRead: (n) => `${n} min read`,

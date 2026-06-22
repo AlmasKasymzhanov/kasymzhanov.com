@@ -125,6 +125,7 @@ export const ARTICLES: Article[] = [
         "An MCP connector for Kaspi — Kazakhstan's dominant marketplace: Claude pulls niches, prices, and the “no-brand” share on its own.",
       date: "May 29, 2026",
     },
+    enReady: true,
   },
 ];
 
@@ -403,9 +404,10 @@ export function withEngagement(a: Article, eng: Record<string, Eng>): Article {
  * server-rendered <head> via its layout.tsx. Derived from the ARTICLES entry
  * (single source of truth); `description` is the article's curated SEO copy.
  */
-export function ArticleJsonLd({ slug, description }: { slug: string; description: string }) {
-  const a = ARTICLES.find((x) => x.slug === slug);
-  if (!a) return null;
+export function ArticleJsonLd({ slug, description, locale = "ru" }: { slug: string; description: string; locale?: Locale }) {
+  const base = ARTICLES.find((x) => x.slug === slug);
+  if (!base) return null;
+  const a = localizeArticle(base, locale);
   const url = `${SITE}${a.href}`;
   const json = {
     "@context": "https://schema.org",
@@ -415,12 +417,12 @@ export function ArticleJsonLd({ slug, description }: { slug: string; description
     image: [`${SITE}${a.img}`],
     datePublished: a.datePublished,
     dateModified: a.datePublished,
-    inLanguage: "ru-RU",
+    inLanguage: locale === "en" ? "en-US" : "ru-RU",
     articleSection: a.rubric,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
     author: {
       "@type": "Person",
-      name: "Алмас Касымжанов",
+      name: dict[locale].name,
       url: SITE,
       sameAs: SOCIAL_SAMEAS,
     },

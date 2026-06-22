@@ -1,7 +1,9 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEngagement } from "./engagement-provider";
 import { ShareMenu } from "@/components/share-menu";
+import { localeFromPathname, dict } from "@/lib/i18n";
 
 function HeartIcon({ filled }: { filled: boolean }) {
   return (
@@ -24,6 +26,7 @@ const pill =
 // Like / comment / share pills. Shared by the article header (top) and the
 // bottom of the article — both read the same EngagementProvider state.
 export function EngagementBar({ className = "" }: { className?: string }) {
+  const t = dict[localeFromPathname(usePathname() ?? "/")].engage;
   const { user, liked, likeCount, shareCount, comments, toggleLike, share } = useEngagement();
 
   function goToComments() {
@@ -37,14 +40,14 @@ export function EngagementBar({ className = "" }: { className?: string }) {
         onClick={toggleLike}
         disabled={!user}
         aria-pressed={liked}
-        title={user ? (liked ? "Убрать лайк" : "Лайк") : "Войдите, чтобы лайкнуть"}
+        title={user ? (liked ? t.unlike : t.like) : t.likePrompt}
         className={`${pill} ${liked ? "border-[var(--color-brand)] text-[var(--color-brand)]" : "text-[var(--color-dim)] hover:text-[var(--color-text)]"} ${user ? "cursor-pointer" : "cursor-default opacity-80"}`}
       >
         <HeartIcon filled={liked} /> {likeCount}
       </button>
       <button
         onClick={goToComments}
-        title="К комментариям"
+        title={t.toComments}
         className={`${pill} text-[var(--color-dim)] hover:text-[var(--color-text)] cursor-pointer`}
       >
         <CommentIcon /> {comments.length}

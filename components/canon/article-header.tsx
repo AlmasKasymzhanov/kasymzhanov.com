@@ -1,19 +1,20 @@
 import Image from "next/image";
 import { ViewCounter } from "@/components/view-counter";
 import { EngagementBar } from "@/components/engagement/engagement-bar";
+import { type Locale, dict } from "@/lib/i18n";
 
 // Canonical article header: kicker → headline → dek → author byline (left) +
 // reading meta & engagement bar (right) → hero + credit.
 // Must be rendered inside an <EngagementProvider> (provides the bar's data).
 // Used by every article page so the layout stays consistent.
 
-function ArticleAvatar({ size = 44 }: { size?: number }) {
+function ArticleAvatar({ size = 44, alt }: { size?: number; alt: string }) {
   return (
     <span
       className="relative block rounded-full overflow-hidden border border-[var(--color-border)] shrink-0"
       style={{ width: size, height: size }}
     >
-      <Image src="/avatar/almas.webp" alt="Алмас Касымжанов" fill sizes={`${size}px`} className="object-cover object-[center_25%]" />
+      <Image src="/avatar/almas.webp" alt={alt} fill sizes={`${size}px`} className="object-cover object-[center_25%]" />
     </span>
   );
 }
@@ -35,9 +36,11 @@ export type ArticleHeaderProps = {
   date: string;
   readMin: number;
   hero: { src: string; alt: string; credit: string; width?: number; height?: number };
+  locale?: Locale;
 };
 
-export function ArticleHeader({ kicker, title, subtitle, slug, date, readMin, hero }: ArticleHeaderProps) {
+export function ArticleHeader({ kicker, title, subtitle, slug, date, readMin, hero, locale = "ru" }: ArticleHeaderProps) {
+  const t = dict[locale];
   return (
     <>
       <header className="mb-10">
@@ -48,9 +51,9 @@ export function ArticleHeader({ kicker, title, subtitle, slug, date, readMin, he
         {/* Byline: author (left) — reading meta + engagement (right) */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5">
           <div className="flex items-center gap-3">
-            <ArticleAvatar size={44} />
+            <ArticleAvatar size={44} alt={t.name} />
             <div className="min-w-0">
-              <p className="text-[13px] font-medium text-[var(--color-text)] leading-tight">Алмас Касымжанов</p>
+              <p className="text-[13px] font-medium text-[var(--color-text)] leading-tight">{t.name}</p>
               <p className="mt-1 text-[11px] text-[var(--color-dim)]">{date}</p>
             </div>
           </div>
@@ -58,7 +61,7 @@ export function ArticleHeader({ kicker, title, subtitle, slug, date, readMin, he
           <div className="flex flex-col sm:items-end gap-2.5">
             <div className="flex flex-wrap items-center gap-x-1.5 text-[11px] text-[var(--color-dim)]">
               <span className="inline-flex items-center gap-1">
-                <ClockIcon /> {readMin} мин
+                <ClockIcon /> {t.minRead(readMin)}
               </span>
               <span aria-hidden>·</span>
               <ViewCounter slug={slug} />

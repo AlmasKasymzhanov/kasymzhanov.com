@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { localeFromPathname, bcp47, dict } from "@/lib/i18n";
 
 export function ViewCounter({ slug, track = true }: { slug: string; track?: boolean }) {
+  const locale = localeFromPathname(usePathname() ?? "/");
   const [views, setViews] = useState<number | null>(null);
 
   useEffect(() => {
@@ -27,7 +30,7 @@ export function ViewCounter({ slug, track = true }: { slug: string; track?: bool
 
   return (
     <span className="font-mono text-[11px] text-[var(--color-dim)]/60 tabular-nums">
-      {views.toLocaleString()} просмотров
+      {views.toLocaleString(bcp47[locale])} {dict[locale].engage.viewsLabel}
     </span>
   );
 }

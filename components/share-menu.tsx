@@ -1,7 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { track } from "@vercel/analytics";
+import { localeFromPathname, dict } from "@/lib/i18n";
 
 /*
  * Canon share control. One pill (icon + count) that opens a menu:
@@ -122,6 +124,8 @@ const pill =
   "inline-flex items-center gap-1.5 rounded-full border border-[var(--color-text)]/20 px-3 py-1.5 text-[12px] tabular-nums transition-colors text-[var(--color-dim)] hover:text-[var(--color-text)] cursor-pointer";
 
 export function ShareMenu({ count = 0, onShare }: { count?: number; onShare?: () => void }) {
+  const t = dict[localeFromPathname(usePathname() ?? "/")].engage;
+  const chLabel = (ch: Channel) => (ch.id === "vk" ? t.vk : ch.id === "email" ? t.email : ch.label);
   const [open, setOpen] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [canNative, setCanNative] = useState(false);
@@ -254,7 +258,7 @@ export function ShareMenu({ count = 0, onShare }: { count?: number; onShare?: ()
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="menu"
         aria-expanded={open}
-        title="Поделиться"
+        title={t.share}
         className={pill}
       >
         <ShareGlyph /> {count}
@@ -270,17 +274,17 @@ export function ShareMenu({ count = 0, onShare }: { count?: number; onShare?: ()
           {canNative && (
             <button onClick={() => nativeShare("native")} className={`${item} border-b border-[var(--color-border)]`} role="menuitem">
               <span className="shrink-0 opacity-70"><NativeIcon /></span>
-              <span className="flex-1">Поделиться…</span>
+              <span className="flex-1">{t.shareNative}</span>
             </button>
           )}
           <button onClick={() => doCopy("copy")} className={item} role="menuitem">
             <span className="shrink-0 opacity-70">{copiedId === "copy" ? <CheckIcon /> : <CopyIcon />}</span>
-            <span className="flex-1">{copiedId === "copy" ? "Скопировано!" : "Скопировать ссылку"}</span>
+            <span className="flex-1">{copiedId === "copy" ? t.copied : t.copyLink}</span>
           </button>
           {CHANNELS.map((ch) => (
             <button key={ch.id} onClick={() => activate(ch)} className={item} role="menuitem">
               <span className="shrink-0 opacity-70">{copiedId === ch.id ? <CheckIcon /> : ch.icon}</span>
-              <span className="flex-1">{copiedId === ch.id ? "Ссылка скопирована" : ch.label}</span>
+              <span className="flex-1">{copiedId === ch.id ? t.linkCopied : chLabel(ch)}</span>
             </button>
           ))}
         </div>

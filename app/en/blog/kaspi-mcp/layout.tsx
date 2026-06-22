@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import { ArticleJsonLd } from "@/components/articles";
 
-const title = "Арифметика лени: как AI добывает золото из Kaspi | Almas Kasymzhanov";
+const title = "Lazy Arithmetic: How AI Mines Gold Out of Kaspi | Almas Kasymzhanov";
 const description =
-  "Без таблиц и дашбордов. Как развернуть AI-аналитика Kaspi через MCP-коннектор и находить прибыльные ниши, пока вы пьёте кофе. Пошагово, со скриншотами, бесплатно.";
+  "No spreadsheets, no dashboards. Stand up an AI analyst for Kaspi through an MCP connector and find profitable niches while you drink your coffee. Step by step, with screenshots, free.";
 const image = "/blog/kaspi-mcp/mcp.webp";
 
 export const metadata: Metadata = {
   title,
   description,
   alternates: {
-    canonical: "https://kasymzhanov.com/blog/kaspi-mcp",
+    canonical: "https://kasymzhanov.com/en/blog/kaspi-mcp",
     languages: {
       "ru-RU": "https://kasymzhanov.com/blog/kaspi-mcp",
       "en-US": "https://kasymzhanov.com/en/blog/kaspi-mcp",
@@ -19,8 +19,9 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description,
-    url: "https://kasymzhanov.com/blog/kaspi-mcp",
+    url: "https://kasymzhanov.com/en/blog/kaspi-mcp",
     type: "article",
+    locale: "en_US",
     images: [image],
   },
   twitter: {
@@ -35,7 +36,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       {children}
-      <ArticleJsonLd slug="kaspi-mcp" description={description} />
+      <ArticleJsonLd slug="kaspi-mcp" description={description} locale="en" />
     </>
   );
 }
