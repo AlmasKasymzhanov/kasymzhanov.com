@@ -71,11 +71,11 @@ export function KaFoot() {
   return (
     <div className="ka-foot">
       <a
-        href="https://www.instagram.com/almas_kasymzhanov/"
+        href="https://www.instagram.com/akasymzhanovv/"
         target="_blank"
         rel="noopener noreferrer"
       >
-        @almas_kasymzhanov
+        @akasymzhanovv
       </a>
     </div>
   );
