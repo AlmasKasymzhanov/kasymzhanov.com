@@ -40,6 +40,19 @@ type Dict = {
   newsletter: { tagline: string };
   subscribe: { placeholder: string; emailLabel: string; button: string; loading: string; done: string; doneShort: string; errGeneric: string; errFail: string };
   card: { coverSoon: string };
+  auth: {
+    google: string;
+    or: string;
+    emailPlaceholder: string;
+    send: string;
+    sending: string;
+    sentTitle: string;
+    sentBefore: string;
+    sentAfter: string;
+    otherEmail: string;
+    errFail: string;
+  };
+  login: { title: string; description: string; kicker: string; heading: string; sub: string; note: string };
   name: string;
   minRead: (n: number) => string;
 };
@@ -80,6 +93,26 @@ export const dict: Record<Locale, Dict> = {
       errFail: "Не удалось подписаться",
     },
     card: { coverSoon: "[ Обложка готовится ]" },
+    auth: {
+      google: "Войти через Google",
+      or: "или",
+      emailPlaceholder: "your@email.com",
+      send: "Войти по ссылке на почту",
+      sending: "Отправляем…",
+      sentTitle: "[ Письмо отправлено ]",
+      sentBefore: "Отправили ссылку для входа на",
+      sentAfter: ". Откройте письмо и перейдите по ссылке — войдёте автоматически.",
+      otherEmail: "Ввести другой email",
+      errFail: "Не удалось отправить ссылку",
+    },
+    login: {
+      title: "Вход — kasymzhanov.com",
+      description: "Войдите, чтобы ставить лайки, комментировать и подписаться на рассылку.",
+      kicker: "[ Вход ]",
+      heading: "Войдите в kasymzhanov.com",
+      sub: "Чтобы ставить лайки, комментировать материалы и подписаться на рассылку. Вход = регистрация.",
+      note: "Вход = регистрация. Нужен только для лайков, комментариев и подписки — ничего лишнего.",
+    },
     name: "Алмас Касымжанов",
     minRead: (n) => `${n} мин`,
   },
@@ -118,6 +151,26 @@ export const dict: Record<Locale, Dict> = {
       errFail: "Couldn't subscribe",
     },
     card: { coverSoon: "[ Cover coming soon ]" },
+    auth: {
+      google: "Continue with Google",
+      or: "or",
+      emailPlaceholder: "your@email.com",
+      send: "Email me a sign-in link",
+      sending: "Sending…",
+      sentTitle: "[ Check your inbox ]",
+      sentBefore: "We've sent a sign-in link to",
+      sentAfter: ". Open it and follow the link — you'll be signed in automatically.",
+      otherEmail: "Use a different email",
+      errFail: "Couldn't send the link",
+    },
+    login: {
+      title: "Sign in — kasymzhanov.com",
+      description: "Sign in to like, comment, and subscribe to the newsletter.",
+      kicker: "[ Sign in ]",
+      heading: "Sign in to kasymzhanov.com",
+      sub: "To like, comment on stories, and subscribe to the newsletter. Signing in creates your account.",
+      note: "Signing in creates your account. It's only for likes, comments, and the newsletter — nothing else.",
+    },
     name: "Almas Kasymzhanov",
     minRead: (n) => `${n} min read`,
   },

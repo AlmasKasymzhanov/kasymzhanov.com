@@ -10,7 +10,9 @@ import type { User } from "@supabase/supabase-js";
 // Auth-aware header control: "Войти" (→ /login) when logged out, the user's
 // account chip with a sign-out menu when logged in.
 export function HeaderAuth() {
-  const t = dict[localeFromPathname(usePathname() ?? "/")].nav;
+  const locale = localeFromPathname(usePathname() ?? "/");
+  const t = dict[locale].nav;
+  const loginHref = locale === "en" ? "/en/login" : "/login";
   const [supabase] = useState(() => createSupabaseBrowser());
   const [user, setUser] = useState<User | null>(null);
   const [ready, setReady] = useState(false);
@@ -32,7 +34,7 @@ export function HeaderAuth() {
   if (!user) {
     return (
       <Link
-        href="/login"
+        href={loginHref}
         className="inline-flex items-center justify-center h-7 px-2 md:h-[30px] md:px-[10px] rounded-[5px] border border-[var(--color-brand)] bg-[var(--color-brand)] text-[var(--color-bg)] text-[11px] md:text-[12px] uppercase no-underline hover:bg-transparent hover:text-[var(--color-brand)] transition-colors duration-200"
       >
         {t.signIn}

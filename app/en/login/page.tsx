@@ -7,24 +7,24 @@ import { dict } from "@/lib/i18n";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: dict.ru.login.title,
-  description: dict.ru.login.description,
+  title: dict.en.login.title,
+  description: dict.en.login.description,
   robots: { index: false, follow: false },
-  alternates: { canonical: "/login", languages: { "ru-RU": "/login", "en-US": "/en/login" } },
+  alternates: { canonical: "/en/login", languages: { "ru-RU": "/login", "en-US": "/en/login" } },
 };
 
-// Site login (media side) — separate from the course gate. Returns the visitor
-// to ?next (must be an in-site path) or the homepage. Shared Supabase identity.
-export default async function LoginPage({
+// English login (media side). Mirrors /login; defaults the return path to the
+// EN home so an English visitor stays in the English site after signing in.
+export default async function LoginPageEn({
   searchParams,
 }: {
   searchParams: Promise<{ next?: string }>;
 }) {
   const { next } = await searchParams;
-  const dest = next && next.startsWith("/") && !next.startsWith("//") ? next : "/";
+  const dest = next && next.startsWith("/") && !next.startsWith("//") ? next : "/en";
 
   const user = await getSessionUser();
   if (user?.email) redirect(dest);
 
-  return <LoginScreen locale="ru" dest={dest} />;
+  return <LoginScreen locale="en" dest={dest} />;
 }

@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { createSupabaseBrowser } from "@/lib/supabase-browser";
+import { localeFromPathname, dict } from "@/lib/i18n";
 
 function GoogleIcon() {
   return (
@@ -24,6 +26,8 @@ export function CourseAccess({
   note?: string;
 }) {
   const [supabase] = useState(() => createSupabaseBrowser());
+  const locale = localeFromPathname(usePathname() ?? "/");
+  const t = dict[locale].auth;
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "loading" | "sent" | "error">("idle");
   const [msg, setMsg] = useState("");
@@ -47,7 +51,9 @@ export function CourseAccess({
     setMsg("");
     const { error } = await supabase.auth.signInWithOtp({
       email: email.trim(),
-      options: { emailRedirectTo: redirectTo },
+      // `data` lands in the user's metadata → the magic-link email template can
+      // branch on {{ .Data.locale }} to send RU or EN. See lib/i18n / email setup.
+      options: { emailRedirectTo: redirectTo, data: { locale } },
     });
     if (error) {
       setMsg(error.message);
@@ -61,11 +67,10 @@ export function CourseAccess({
     return (
       <div className="border border-[var(--color-border)] p-6 md:p-8">
         <p className="text-[13px] uppercase tracking-[0.18em] text-[var(--color-dim)] mb-3">
-          [ Письмо отправлено ]
+          {t.sentTitle}
         </p>
         <p className="text-[15px] text-[var(--color-text)] leading-relaxed">
-          Отправили ссылку для входа на <span className="font-bold">{email.trim()}</span>.
-          Откройте письмо и перейдите по ссылке — войдёте автоматически.
+          {t.sentBefore} <span className="font-bold">{email.trim()}</span>{t.sentAfter}
         </p>
         <button
           onClick={() => {
@@ -74,7 +79,7 @@ export function CourseAccess({
           }}
           className="mt-5 text-[12px] text-[var(--color-dim)] hover:text-[var(--color-text)] underline decoration-1 underline-offset-4"
         >
-          Ввести другой email
+          {t.otherEmail}
         </button>
       </div>
     );
@@ -94,13 +99,13 @@ export function CourseAccess({
         className="w-full h-11 flex items-center justify-center gap-2.5 rounded-md border border-[var(--color-text)] text-[14px] font-bold text-[var(--color-text)] hover:bg-[var(--color-text)] hover:text-[var(--color-bg)] transition-colors"
       >
         <GoogleIcon />
-        Войти через Google
+        {t.google}
       </button>
 
       {/* divider */}
       <div className="flex items-center gap-3 my-5">
         <span className="h-px flex-1 bg-[var(--color-border)]" />
-        <span className="text-[11px] uppercase tracking-[0.18em] text-[var(--color-dim)]">или</span>
+        <span className="text-[11px] uppercase tracking-[0.18em] text-[var(--color-dim)]">{t.or}</span>
         <span className="h-px flex-1 bg-[var(--color-border)]" />
       </div>
 
@@ -111,7 +116,7 @@ export function CourseAccess({
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="your@email.com"
+          placeholder={t.emailPlaceholder}
           autoComplete="email"
           className="h-11 w-full rounded-md border border-[var(--color-border)] bg-transparent px-4 text-[14px] text-[var(--color-text)] placeholder:text-[var(--color-dim)] outline-none focus:border-[var(--color-brand)] transition-colors"
         />
@@ -120,12 +125,12 @@ export function CourseAccess({
           disabled={state === "loading"}
           className="h-11 w-full rounded-md bg-[var(--color-text)] text-[var(--color-bg)] text-[14px] font-bold hover:opacity-90 disabled:opacity-50 transition-opacity"
         >
-          {state === "loading" ? "Отправляем…" : "Войти по ссылке на почту"}
+          {state === "loading" ? t.sending : t.send}
         </button>
       </form>
 
       {state === "error" && (
-        <p className="text-[12px] text-red-500 mt-3">{msg || "Не удалось отправить ссылку"}</p>
+        <p className="text-[12px] text-red-500 mt-3">{msg || t.errFail}</p>
       )}
 
       <p className="text-[11px] text-[var(--color-dim)] leading-relaxed mt-5 text-left">
