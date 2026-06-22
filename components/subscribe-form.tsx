@@ -28,7 +28,8 @@ export function SubscribeForm({
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [msg, setMsg] = useState("");
-  const t = dict[localeFromPathname(usePathname() ?? "/")].subscribe;
+  const locale = localeFromPathname(usePathname() ?? "/");
+  const t = dict[locale].subscribe;
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -38,7 +39,7 @@ export function SubscribeForm({
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, source }),
+        body: JSON.stringify({ email, source, locale }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || t.errFail);
