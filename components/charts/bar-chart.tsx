@@ -406,6 +406,16 @@ export type BarChartProps = {
   formatLabel?: (label: string) => ReactNode;
 
   /**
+   * Mark a label as interactive (e.g. it carries a tooltip). When true the
+   * dotted "tap me" affordance is drawn on the TRUNCATING clip box itself —
+   * not on the formatLabel node — because that node overflows the clip and
+   * iOS Safari won't paint a decoration/border on the clipped-away part of an
+   * overflowing inline. The clip box doesn't overflow, so its border paints
+   * on every engine (desktop + mobile).
+   */
+  labelInteractive?: (label: string) => boolean;
+
+  /**
    * Reference line — a dashed VERTICAL line at a fixed value ("Quota")
    * or a computed statistic (`{ stat: "mean" }` / `{ stat: "median" }`,
    * calculated over the original input data). Included in the scale on both
@@ -1075,6 +1085,7 @@ export function BarChart({
   maxHeight,
   labelWidth = 96,
   formatLabel,
+  labelInteractive,
   referenceLine,
   source,
   accent,
@@ -1679,6 +1690,7 @@ export function BarChart({
                 gap={gap}
                 barThickness={barThickness}
                 formatLabel={formatLabel}
+                labelInteractive={labelInteractive}
               />
             )}
             <BarsGroup
@@ -2088,26 +2100,42 @@ function LabelColumn({
   gap,
   barThickness,
   formatLabel,
+  labelInteractive,
 }: {
   points: NormalizedPoint[];
   gap: number;
   barThickness: number;
   formatLabel?: (label: string) => ReactNode;
+  labelInteractive?: (label: string) => boolean;
 }) {
   return (
     <div className="flex shrink-0 flex-col" style={{ gap }} aria-hidden>
-      {points.map((p, i) => (
-        <div
-          key={i}
-          className="brock-hbar-label flex min-w-0 items-center justify-end pe-2"
-          style={{ height: barThickness }}
-          title={formatLabel ? undefined : p.label}
-        >
-          <span className="truncate font-mono text-xs text-muted-foreground">
-            {formatLabel ? formatLabel(p.label ?? "") : p.label ?? ""}
-          </span>
-        </div>
-      ))}
+      {points.map((p, i) => {
+        // The dotted affordance is painted HERE (the truncating clip box), not
+        // on the formatLabel node: that node overflows the box and iOS Safari
+        // drops decorations on the clipped-away part. This element doesn't
+        // overflow, so its border-bottom shows on the visible (truncated) text
+        // in every engine — matching the in-body dotted underline.
+        const interactive = labelInteractive?.(p.label ?? "") ?? false;
+        return (
+          <div
+            key={i}
+            className="brock-hbar-label flex min-w-0 items-center justify-end pe-2"
+            style={{ height: barThickness }}
+            title={formatLabel ? undefined : p.label}
+          >
+            <span
+              className={`max-w-full truncate pb-px font-mono text-xs text-muted-foreground${
+                interactive
+                  ? " cursor-help border-b border-dotted border-[var(--color-dim)] hover:border-[var(--color-text)] transition-colors"
+                  : ""
+              }`}
+            >
+              {formatLabel ? formatLabel(p.label ?? "") : p.label ?? ""}
+            </span>
+          </div>
+        );
+      })}
     </div>
   );
 }

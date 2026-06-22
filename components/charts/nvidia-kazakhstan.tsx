@@ -66,6 +66,10 @@ const labelTip = (label: string): React.ReactNode => {
   );
 };
 
+// Tells BarChart which labels carry a tooltip, so the dotted "tap me" affordance
+// is painted on the truncating clip box (iOS-safe) rather than the Term node.
+const hasTip = (label: string): boolean => label in LABEL_TIPS;
+
 /* ── График 1. Десять миллиардов на бумаге — воронка «заявлено → твёрдо» ── */
 export function Grafik1() {
   return (
@@ -77,6 +81,7 @@ export function Grafik1() {
       xAxis={{ max: 13.5 }}
       slots={{ tooltip: () => null }}
       formatLabel={labelTip}
+      labelInteractive={hasTip}
       data={[
         { label: "Заявлено", value: 10, color: NEUTRAL, pattern: "hatched" },
         { label: "Этап 1 (заявлен)", value: 5, color: NEUTRAL, pattern: "hatched" },
@@ -118,6 +123,7 @@ export function Grafik3() {
       xAxis={{ max: 1500 }}
       slots={{ tooltip: () => null }}
       formatLabel={labelTip}
+      labelInteractive={hasTip}
       data={[
         { label: "Старые блоки Экибастуза", value: 950, pattern: "hatched" },
         { label: "ГРЭС-3 («чистый уголь»)", value: 800, pattern: "hatched" },
@@ -174,6 +180,7 @@ export function Grafik5() {
       xAxis={{ max: 56 }}
       slots={{ tooltip: () => null }}
       formatLabel={labelTip}
+      labelInteractive={hasTip}
       data={[
         { label: "Сев. Вирджиния (2030)", value: 37, pattern: "hatched" },
         { label: "Ирландия", value: 22 },
@@ -243,6 +250,7 @@ export function Grafik7() {
       xAxis={{ max: 760 }}
       slots={{ tooltip: () => null }}
       formatLabel={labelTip}
+      labelInteractive={hasTip}
       data={[
         { label: "Сервис Alstom (ВВ-оборуд.)", value: 480.9 },
         { label: "Огнезащита машзала", value: 168.9, color: NEUTRAL },
