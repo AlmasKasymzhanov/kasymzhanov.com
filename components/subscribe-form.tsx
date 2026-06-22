@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { localeFromPathname, dict } from "@/lib/i18n";
 
 // Corner arrow — elbow (up then right) with a right arrowhead.
 function SubmitIcon() {
@@ -26,6 +28,7 @@ export function SubscribeForm({
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [msg, setMsg] = useState("");
+  const t = dict[localeFromPathname(usePathname() ?? "/")].subscribe;
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -38,10 +41,10 @@ export function SubscribeForm({
         body: JSON.stringify({ email, source }),
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || "Не удалось подписаться");
+      if (!res.ok) throw new Error(data.error || t.errFail);
       setState("done");
     } catch (err) {
-      setMsg(err instanceof Error ? err.message : "Ошибка");
+      setMsg(err instanceof Error ? err.message : t.errGeneric);
       setState("error");
     }
   }
@@ -51,7 +54,7 @@ export function SubscribeForm({
     if (state === "done") {
       return (
         <p className="font-mono text-[14px] text-[var(--color-text)] font-medium h-12 flex items-center">
-          Готово — вы подписаны ✦
+          {t.doneShort}
         </p>
       );
     }
@@ -63,7 +66,7 @@ export function SubscribeForm({
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email address"
+            placeholder={t.placeholder}
             autoComplete="email"
             className="w-full h-full bg-transparent px-[14px] text-[14px] tracking-[-0.02em] text-[var(--color-text)] placeholder:text-[var(--color-dim)] outline-none"
           />
@@ -71,7 +74,7 @@ export function SubscribeForm({
         <button
           type="submit"
           disabled={state === "loading"}
-          aria-label="Подписаться"
+          aria-label={t.button}
           className="shrink-0 h-10 w-10 grid place-items-center border border-[var(--color-text)] text-[var(--color-text)] hover:bg-[var(--color-text)] hover:text-[var(--color-bg)] disabled:opacity-40 transition-colors"
         >
           <SubmitIcon />
@@ -84,7 +87,7 @@ export function SubscribeForm({
   // panel's text colour (var(--color-bg)) for the done/error messages. ──
   if (variant === "brand") {
     if (state === "done") {
-      return <p className="text-[14px] font-medium">Готово — вы подписаны. Спасибо за доверие ✦</p>;
+      return <p className="text-[14px] font-medium">{t.done}</p>;
     }
     return (
       <>
@@ -94,8 +97,8 @@ export function SubscribeForm({
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Ваша почта"
-            aria-label="Электронная почта"
+            placeholder={t.placeholder}
+            aria-label={t.emailLabel}
             autoComplete="email"
             className="flex-1 min-w-0 h-[42px] px-3.5 text-[13px] bg-[var(--color-bg)] text-[var(--color-text)] placeholder:text-[var(--color-dim)] focus:outline-none"
           />
@@ -104,7 +107,7 @@ export function SubscribeForm({
             disabled={state === "loading"}
             className="shrink-0 h-[42px] px-5 text-[12px] font-bold uppercase tracking-[0.08em] bg-[var(--color-text)] text-[var(--color-bg)] hover:opacity-90 disabled:opacity-60 transition-opacity"
           >
-            {state === "loading" ? "…" : "Подписаться"}
+            {state === "loading" ? t.loading : t.button}
           </button>
         </form>
         {state === "error" && <p className="mt-2 text-[12px] opacity-90">{msg}</p>}
@@ -116,7 +119,7 @@ export function SubscribeForm({
   if (state === "done") {
     return (
       <p className="font-mono text-[14px] text-[var(--color-text)] font-medium">
-        Готово — вы подписаны. Спасибо за доверие ✦
+        {t.done}
       </p>
     );
   }
@@ -137,7 +140,7 @@ export function SubscribeForm({
         disabled={state === "loading"}
         className="px-5 py-2.5 rounded-lg bg-[var(--color-text)] text-[var(--color-bg)] text-[14px] font-semibold hover:opacity-90 disabled:opacity-60 transition-opacity whitespace-nowrap"
       >
-        {state === "loading" ? "…" : "Подписаться"}
+        {state === "loading" ? t.loading : t.button}
       </button>
       {state === "error" && <p className="sm:hidden text-[12px] text-red-400 mt-1">{msg}</p>}
     </form>

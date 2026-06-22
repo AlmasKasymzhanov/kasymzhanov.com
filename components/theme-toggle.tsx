@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { localeFromPathname, dict } from "@/lib/i18n";
 
 type Mode = "system" | "light" | "dark";
 
@@ -50,6 +52,8 @@ const OPTIONS: { value: Mode; Icon: ({ size }: { size?: number }) => React.React
 // Segmented theme switch — System · Light · Dark, all visible on every
 // breakpoint (compact on mobile). System follows the OS and updates live.
 export function ThemeToggle() {
+  const t = dict[localeFromPathname(usePathname() ?? "/")].nav;
+  const labelFor = (v: Mode) => (v === "system" ? t.themeSystem : v === "light" ? t.themeLight : t.themeDark);
   const [mode, setMode] = useState<Mode>("system");
   const [mounted, setMounted] = useState(false);
 
@@ -79,11 +83,12 @@ export function ThemeToggle() {
   return (
     <div
       role="radiogroup"
-      aria-label="Тема оформления"
+      aria-label={t.theme}
       className="inline-flex items-center gap-0.5 rounded-full border border-[var(--color-border)] p-0.5 bg-[var(--color-text)]/5"
     >
-      {OPTIONS.map(({ value, Icon, label }) => {
+      {OPTIONS.map(({ value, Icon }) => {
         const active = mounted && mode === value;
+        const label = labelFor(value);
         return (
           <button
             key={value}

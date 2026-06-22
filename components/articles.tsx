@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getSupabase } from "@/lib/supabase";
 import { SubscribeForm } from "@/components/subscribe-form";
 import { SOCIAL_SAMEAS } from "@/lib/social";
+import { type Locale, dict, bcp47 } from "@/lib/i18n";
 
 const SITE = "https://kasymzhanov.com";
 
@@ -42,7 +43,21 @@ export type Article = {
   shares: number;
   // Hero image credit — flagship only.
   credit?: string;
+  // English transcreation of the localizable fields (rubric/title/subtitle/
+  // date/credit). Applied by localizeArticle when locale === "en".
+  en?: { rubric: string; title: string; subtitle: string; date: string; credit?: string };
+  // True once the EN article page exists at /en/blog/<slug>. Until then EN
+  // cards link to the RU article so nothing 404s during incremental rollout.
+  enReady?: boolean;
 };
+
+// Swap in the EN transcreation when rendering the English site. RU is the base.
+// On EN, the card links to /en/blog/<slug> only if that page is live (enReady).
+export function localizeArticle(a: Article, locale: Locale): Article {
+  if (locale !== "en") return a;
+  const base = a.en ? { ...a, ...a.en } : a;
+  return { ...base, href: a.enReady ? `/en${a.href}` : a.href };
+}
 
 export const ARTICLES: Article[] = [
   {
@@ -61,6 +76,14 @@ export const ARTICLES: Article[] = [
     comments: 0,
     shares: 0,
     credit: "Иллюстрация: Алмас Касымжанов · Higgsfield AI",
+    en: {
+      rubric: "Analysis",
+      title: "Silicon on Coal",
+      subtitle:
+        "Kazakhstan signed $10 billion in deals with NVIDIA and Firebird — and the electricity to run all that AI will be dug straight out of coal. What's actually in the deal, what it will cost, and where we've seen this movie before.",
+      date: "Jun 22, 2026",
+      credit: "Illustration: Almas Kasymzhanov · Higgsfield AI",
+    },
   },
   {
     href: "/blog/why-blogger-brands-fail",
@@ -75,6 +98,12 @@ export const ARTICLES: Article[] = [
     likes: 0,
     comments: 0,
     shares: 0,
+    en: {
+      rubric: "Markets",
+      title: "Lick Beauty: Seven Million Followers vs. 420 Tenge",
+      subtitle: "How a brand with 7 million followers lost to a knockoff that sells for under a dollar.",
+      date: "Mar 25, 2026",
+    },
   },
   {
     href: "/blog/kaspi-mcp",
@@ -89,6 +118,13 @@ export const ARTICLES: Article[] = [
     likes: 0,
     comments: 0,
     shares: 0,
+    en: {
+      rubric: "Tools",
+      title: "Lazy Arithmetic: How AI Mines Gold Out of Kaspi",
+      subtitle:
+        "An MCP connector for Kaspi — Kazakhstan's dominant marketplace: Claude pulls niches, prices, and the “no-brand” share on its own.",
+      date: "May 29, 2026",
+    },
   },
 ];
 
@@ -155,6 +191,7 @@ function CodeIcon({ size = 13 }: { size?: number }) {
 
 const RUBRIC_ICONS: Record<string, ({ size }: { size?: number }) => React.ReactElement> = {
   Инструменты: CodeIcon,
+  Tools: CodeIcon,
 };
 
 /* ───────── building blocks ───────── */
@@ -180,29 +217,29 @@ function Rubric({ a, size = "sm" }: { a: Article; size?: "sm" | "md" }) {
   );
 }
 
-function AuthorAvatar({ size }: { size: number }) {
+function AuthorAvatar({ size, locale = "ru" }: { size: number; locale?: Locale }) {
   return (
     <span className="relative block rounded-full overflow-hidden border border-[var(--color-border)] shrink-0" style={{ width: size, height: size }}>
-      <Image src="/avatar/almas.webp" alt="Алмас Касымжанов" fill sizes={`${size}px`} className="object-cover object-[center_25%]" />
+      <Image src="/avatar/almas.webp" alt={dict[locale].name} fill sizes={`${size}px`} className="object-cover object-[center_25%]" />
     </span>
   );
 }
 
-function BylineRow({ a, views, avatar = 26, className = "" }: { a: Article; views: number; avatar?: number; className?: string }) {
+function BylineRow({ a, views, avatar = 26, className = "", locale = "ru" }: { a: Article; views: number; avatar?: number; className?: string; locale?: Locale }) {
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
-      <AuthorAvatar size={avatar} />
+      <AuthorAvatar size={avatar} locale={locale} />
       <div className="min-w-0">
-        <p className="text-[12px] text-[var(--color-text)] leading-tight">Алмас Касымжанов</p>
+        <p className="text-[12px] text-[var(--color-text)] leading-tight">{dict[locale].name}</p>
         <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 mt-0.5 text-[11px] text-[var(--color-dim)]">
           <span>{a.date}</span>
           <span aria-hidden>·</span>
           <MetaItem>
-            <ClockIcon /> {a.readMin} мин
+            <ClockIcon /> {dict[locale].minRead(a.readMin)}
           </MetaItem>
           <span aria-hidden>·</span>
           <MetaItem>
-            <EyeIcon /> {views.toLocaleString("ru-RU")}
+            <EyeIcon /> {views.toLocaleString(bcp47[locale])}
           </MetaItem>
         </div>
       </div>
@@ -210,17 +247,18 @@ function BylineRow({ a, views, avatar = 26, className = "" }: { a: Article; view
   );
 }
 
-function ActionRow({ a, className = "" }: { a: Article; className?: string }) {
+function ActionRow({ a, className = "", locale = "ru" }: { a: Article; className?: string; locale?: Locale }) {
+  const fmt = (n: number) => n.toLocaleString(bcp47[locale]);
   return (
     <div className={`flex flex-wrap items-center gap-2 ${className}`}>
       <ActionPill>
-        <HeartIcon /> {a.likes.toLocaleString("ru-RU")}
+        <HeartIcon /> {fmt(a.likes)}
       </ActionPill>
       <ActionPill>
-        <CommentIcon /> {a.comments.toLocaleString("ru-RU")}
+        <CommentIcon /> {fmt(a.comments)}
       </ActionPill>
       <ActionPill>
-        <ShareIcon /> {a.shares.toLocaleString("ru-RU")}
+        <ShareIcon /> {fmt(a.shares)}
       </ActionPill>
     </div>
   );
@@ -233,11 +271,13 @@ export function ArticleCard({
   views,
   featured = false,
   headingLevel,
+  locale = "ru",
 }: {
   a: Article;
   views: number;
   featured?: boolean;
   headingLevel?: "h1" | "h2";
+  locale?: Locale;
 }) {
   const Heading = headingLevel ?? (featured ? "h1" : "h2");
   return (
@@ -255,7 +295,7 @@ export function ArticleCard({
           />
         ) : (
           <span className="absolute inset-0 grid place-items-center text-[11px] uppercase tracking-[0.2em] text-[var(--color-dim)]">
-            [ Обложка готовится ]
+            {dict[locale].card.coverSoon}
           </span>
         )}
       </div>
@@ -277,14 +317,14 @@ export function ArticleCard({
       <p className={`text-[var(--color-dim)] leading-relaxed ${featured ? "text-[15px] md:text-[16px] mb-4" : "text-[13px] mb-3"}`}>
         {a.subtitle}
       </p>
-      <BylineRow a={a} views={views} avatar={featured ? 34 : 30} className="mb-3" />
-      <ActionRow a={a} />
+      <BylineRow a={a} views={views} avatar={featured ? 34 : 30} className="mb-3" locale={locale} />
+      <ActionRow a={a} locale={locale} />
     </Link>
   );
 }
 
 // Compact preview (Business Insider "Inside Business" style): text + small thumbnail.
-export function CompactCard({ a, views }: { a: Article; views: number }) {
+export function CompactCard({ a, views, locale = "ru" }: { a: Article; views: number; locale?: Locale }) {
   return (
     <Link href={a.href} className="group flex gap-4 items-start">
       <div className="flex-1 min-w-0">
@@ -292,8 +332,8 @@ export function CompactCard({ a, views }: { a: Article; views: number }) {
         <h2 className="text-[15px] md:text-[16px] font-bold leading-[1.2] tracking-tight group-hover:text-[var(--color-brand)] transition-colors mb-2">
           {a.title}
         </h2>
-        <BylineRow a={a} views={views} avatar={28} className="mb-2" />
-        <ActionRow a={a} />
+        <BylineRow a={a} views={views} avatar={28} className="mb-2" locale={locale} />
+        <ActionRow a={a} locale={locale} />
       </div>
       <div className="relative shrink-0 w-[120px] h-[104px] border border-[var(--color-border)] overflow-hidden">
         <Image
@@ -309,12 +349,12 @@ export function CompactCard({ a, views }: { a: Article; views: number }) {
 }
 
 // Newsletter signup — Business Insider "BI Today" style. Brand-tinted panel.
-export function NewsletterCard({ source = "home" }: { source?: string }) {
+export function NewsletterCard({ source = "home", locale = "ru" }: { source?: string; locale?: Locale }) {
   return (
     <div className="bg-[var(--color-brand)] text-[var(--color-bg)] p-6">
       <p className="text-[24px] md:text-[26px] font-bold tracking-tight leading-none mb-2.5">KASYMZHANOV.COM</p>
       <p className="text-[13px] leading-relaxed opacity-80 mb-5">
-        Подписывайтесь, чтобы получать уведомления о новых материалах
+        {dict[locale].newsletter.tagline}
       </p>
       <SubscribeForm source={source} variant="brand" />
     </div>

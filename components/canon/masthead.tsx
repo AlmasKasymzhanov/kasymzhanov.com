@@ -21,7 +21,7 @@ export function Masthead({
   return (
     <Link
       href="/"
-      aria-label="A. Kasymzhanov — на главную"
+      aria-label="Kasymzhanov — на главную"
       className={`inline-flex items-baseline font-mono ${sizeCls} font-bold uppercase text-[var(--color-text)] no-underline hover:opacity-70 transition-opacity`}
     >
       {back && <span className="mr-2 font-normal not-italic">←</span>}

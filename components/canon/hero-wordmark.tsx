@@ -60,14 +60,14 @@ export function HeroWordmark({ size = "hero" }: { size?: "hero" | "header" }) {
 
   if (!done) {
     return (
-      <h1 aria-label="A. Kasymzhanov" className={`${base} tabular-nums`}>
+      <h1 aria-label="Kasymzhanov" className={`${base} tabular-nums`}>
         {text}
       </h1>
     );
   }
 
   return (
-    <h1 aria-label="A. Kasymzhanov" className={`${base} inline-flex items-baseline`}>
+    <h1 aria-label="Kasymzhanov" className={`${base} inline-flex items-baseline`}>
       <span>A</span>
       {/* square dot = period */}
       <span

@@ -1,51 +1,44 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { LOCALES, type Locale, localeFromPathname, pathForLocale, dict } from "@/lib/i18n";
 
-// EN / RU language switch — segmented pill, both languages visible on every
-// breakpoint (compact on mobile). Visual for now (full i18n comes later);
-// stored in localStorage.
-const LANGS = ["RU", "EN"] as const;
-type Lang = (typeof LANGS)[number];
+// RU / EN language switch — segmented pill, both visible on every breakpoint.
+// Route-based: the active locale comes from the path ("/" = ru, "/en…" = en),
+// and clicking navigates to the same page in the other locale. EN therefore
+// has its own crawlable URLs (see lib/i18n).
+const LABELS: Record<Locale, string> = { ru: "RU", en: "EN" };
 
 export function LangToggle() {
-  const [lang, setLang] = useState<Lang>("RU");
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("lang") as Lang | null;
-    if (saved && LANGS.includes(saved)) setLang(saved);
-    setMounted(true);
-  }, []);
-
-  const choose = (l: Lang) => {
-    setLang(l);
-    localStorage.setItem("lang", l);
-  };
+  const pathname = usePathname() ?? "/";
+  const router = useRouter();
+  const active = localeFromPathname(pathname);
 
   return (
     <div
       role="radiogroup"
-      aria-label="Язык интерфейса"
+      aria-label={dict[active].nav.lang}
       className="inline-flex items-center gap-0.5 rounded-full border border-[var(--color-border)] p-0.5 bg-[var(--color-text)]/5"
     >
-      {LANGS.map((l) => {
-        const active = mounted && lang === l;
+      {LOCALES.map((l) => {
+        const isActive = l === active;
         return (
           <button
             key={l}
             type="button"
             role="radio"
-            aria-checked={active}
-            aria-label={l === "RU" ? "Русский" : "English"}
-            onClick={() => choose(l)}
+            aria-checked={isActive}
+            aria-label={l === "ru" ? "Русский" : "English"}
+            onClick={() => {
+              if (!isActive) router.push(pathForLocale(pathname, l));
+            }}
             className={`flex h-6 md:h-7 items-center justify-center rounded-full px-1 md:px-2.5 text-[11px] font-bold transition-colors duration-150 ease-out cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--color-brand)]/60 ${
-              active
+              isActive
                 ? "bg-[var(--color-bg)] text-[var(--color-text)] shadow-sm"
                 : "text-[var(--color-dim)] hover:text-[var(--color-text)] hover:bg-[var(--color-text)]/8"
             }`}
           >
-            {l}
+            {LABELS[l]}
           </button>
         );
       })}

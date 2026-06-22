@@ -7,7 +7,7 @@ import { MonoTable } from "@/components/canon/mono-table";
 import { PullQuote } from "@/components/canon/pull-quote";
 
 export const metadata: Metadata = {
-  title: "Canon — A. Kasymzhanov",
+  title: "Canon — Kasymzhanov",
   description: "Дизайн-канон kasymzhanov.com: монохром, моноширинная типографика, ASCII-микрографика.",
   robots: { index: false, follow: false },
 };
@@ -153,7 +153,7 @@ export default function CanonPage() {
       <AsciiRule />
 
       <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--color-dim)] text-center">
-        A. Kasymzhanov · canon v1
+        Kasymzhanov · canon v1
       </p>
     </div>
   );

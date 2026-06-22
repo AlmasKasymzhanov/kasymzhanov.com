@@ -7,10 +7,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { SocialIcon } from "@/components/social-icons";
 import { HeaderAuth } from "@/components/canon/header-auth";
 import { SOCIAL_PROFILES } from "@/lib/social";
-
-const DESCRIPTION =
-  "kasymzhanov.com — независимое издание дата-журналиста, аналитика и предпринимателя " +
-  "Алмаса Касымжанова. Аналитика рынков, событий и экономики.";
+import { type Locale, dict } from "@/lib/i18n";
 
 const SOCIAL = SOCIAL_PROFILES;
 
@@ -21,7 +18,7 @@ const PROJECTS = [
     logoBlack: "/logos/10b-black.svg",
     logoWhite: "/logos/10b-white.svg",
     logoH: "h-5",
-    desc: "Аналитика госзакупок Казахстана: тендеры, поставщики, суммы контрактов.",
+    descKey: "tenb",
   },
   {
     name: "Redstat",
@@ -29,7 +26,7 @@ const PROJECTS = [
     logoBlack: "/logos/redstat-black.png",
     logoWhite: "/logos/redstat-white.png",
     logoH: "h-4",
-    desc: "Аналитика маркетплейса Kaspi: ниши, цены, продавцы и спрос.",
+    descKey: "redstat",
   },
   {
     name: "Brock UI",
@@ -37,9 +34,9 @@ const PROJECTS = [
     logoBlack: "/logos/brockui-black.svg",
     logoWhite: "/logos/brockui-white.svg",
     logoH: "h-5",
-    desc: "Дизайн-система графиков: редактируемые React-компоненты для дата-визуализации.",
+    descKey: "brock",
   },
-];
+] as const;
 
 // Inline brand link — turns to the accent on hover.
 function SiteLink({ href, children }: { href: string; children: React.ReactNode }) {
@@ -85,19 +82,20 @@ function MailIcon({ size = 16 }: { size?: number }) {
 }
 
 /* ───── Author block sections (reused on home aside + article bottom) ───── */
-function AboutSection() {
+function AboutSection({ locale }: { locale: Locale }) {
+  const t = dict[locale];
   return (
     <div>
-      <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--color-brand)] mb-5">Обо мне</p>
+      <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--color-brand)] mb-5">{t.about.label}</p>
       <div className="relative w-20 h-20 rounded-full overflow-hidden border border-[var(--color-border)] mb-4">
-        <Image src="/avatar/almas.webp" alt="Алмас Касымжанов" fill sizes="80px" className="object-cover object-[center_24%]" />
+        <Image src="/avatar/almas.webp" alt={t.name} fill sizes="80px" className="object-cover object-[center_24%]" />
       </div>
-      <h2 className="text-[17px] font-bold tracking-tight mb-3">Алмас Касымжанов</h2>
+      <h2 className="text-[17px] font-bold tracking-tight mb-3">{t.name}</h2>
       <div className="space-y-2 text-[12.5px] text-[var(--color-dim)] leading-relaxed">
-        <p>Дата-журналист · аналитик · предприниматель</p>
-        <p>1,6 млрд заказов прошли через мои алгоритмы.</p>
+        <p>{t.about.role}</p>
+        <p>{t.about.orders}</p>
         <p>
-          Строю <SiteLink href="https://10b.kz">10b.kz</SiteLink>,{" "}
+          {t.about.building} <SiteLink href="https://10b.kz">10b.kz</SiteLink>,{" "}
           <SiteLink href="https://redstat.kz">redstat.kz</SiteLink>,{" "}
           <SiteLink href="https://brockui.com">brockui.com</SiteLink>
         </p>
@@ -106,10 +104,10 @@ function AboutSection() {
   );
 }
 
-function ProjectsSection() {
+function ProjectsSection({ locale }: { locale: Locale }) {
   return (
     <div>
-      <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--color-brand)] mb-4">Проекты</p>
+      <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--color-brand)] mb-4">{dict[locale].projects.label}</p>
       <div className="space-y-4">
         {PROJECTS.map((p) => (
           <div key={p.name}>
@@ -135,7 +133,7 @@ function ProjectsSection() {
                 <path d="M8 16L16 8M16 8H10M16 8V14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </a>
-            <p className="text-[12px] text-[var(--color-dim)] leading-relaxed mt-1">{p.desc}</p>
+            <p className="text-[12px] text-[var(--color-dim)] leading-relaxed mt-1">{dict[locale].projects[p.descKey]}</p>
           </div>
         ))}
       </div>
@@ -143,11 +141,11 @@ function ProjectsSection() {
   );
 }
 
-function ContactsSection() {
+function ContactsSection({ locale }: { locale: Locale }) {
   return (
     <div>
-      <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--color-brand)] mb-3">Контакты</p>
-      <p className="text-[12px] text-[var(--color-dim)] leading-relaxed mb-3">Есть вопрос или идея? Напишите — отвечу.</p>
+      <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--color-brand)] mb-3">{dict[locale].contact.label}</p>
+      <p className="text-[12px] text-[var(--color-dim)] leading-relaxed mb-3">{dict[locale].contact.body}</p>
       <a
         href="mailto:almas@kasymzhanov.com"
         className="inline-flex items-center gap-2 text-[13px] text-[var(--color-text)] no-underline hover:text-[var(--color-brand)] transition-colors"
@@ -159,27 +157,27 @@ function ContactsSection() {
   );
 }
 
-function SocialsSection() {
+function SocialsSection({ locale }: { locale: Locale }) {
   return (
     <div>
-      <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--color-brand)] mb-3">Социальные сети</p>
-      <p className="text-[12px] text-[var(--color-dim)] mb-4">Подписывайтесь на мои соцсети</p>
+      <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--color-brand)] mb-3">{dict[locale].social.label}</p>
+      <p className="text-[12px] text-[var(--color-dim)] mb-4">{dict[locale].social.body}</p>
       <Socials />
     </div>
   );
 }
 
 // Author block — vertical (home left aside) or horizontal band (article bottom). Same content.
-export function AuthorBlock({ variant = "vertical" }: { variant?: "vertical" | "horizontal" }) {
+export function AuthorBlock({ variant = "vertical", locale = "ru" }: { variant?: "vertical" | "horizontal"; locale?: Locale }) {
   if (variant === "horizontal") {
     return (
       <section className="border-t border-[var(--color-border)] px-6 md:px-7 py-10 md:py-12">
         <div className="grid gap-10 md:gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
-          <AboutSection />
-          <ProjectsSection />
+          <AboutSection locale={locale} />
+          <ProjectsSection locale={locale} />
           <div className="space-y-8">
-            <ContactsSection />
-            <SocialsSection />
+            <ContactsSection locale={locale} />
+            <SocialsSection locale={locale} />
           </div>
         </div>
       </section>
@@ -187,15 +185,15 @@ export function AuthorBlock({ variant = "vertical" }: { variant?: "vertical" | "
   }
   return (
     <>
-      <AboutSection />
+      <AboutSection locale={locale} />
       <div className="mt-8 pt-6 border-t border-[var(--color-border)]">
-        <ProjectsSection />
+        <ProjectsSection locale={locale} />
       </div>
       <div className="mt-8 pt-6 border-t border-[var(--color-border)]">
-        <ContactsSection />
+        <ContactsSection locale={locale} />
       </div>
       <div className="mt-8 pt-6 border-t border-[var(--color-border)]">
-        <SocialsSection />
+        <SocialsSection locale={locale} />
       </div>
     </>
   );
@@ -223,21 +221,22 @@ export function SiteHeader() {
 }
 
 // Main site footer — masthead, description, colophon, requisites + legal.
-export function SiteFooter() {
+export function SiteFooter({ locale = "ru" }: { locale?: Locale }) {
+  const t = dict[locale];
   return (
     <footer className="border-t border-[var(--color-border)]">
       <div className="px-6 md:px-7 py-10 md:py-14">
         <Masthead size="lg" surnameOnly />
         <p className="mt-5 text-[13px] md:text-[14px] text-[var(--color-dim)] leading-relaxed max-w-3xl">
-          {DESCRIPTION}
+          {t.footer.desc}
         </p>
         <p className="mt-4 text-[12px] text-[var(--color-dim)]/70">
-          Иллюстрации — Higgsfield AI · пайплайн Claude Code + MCP
+          {t.footer.colophon}
         </p>
       </div>
       <div className="border-t border-[var(--color-border)] px-6 md:px-7 py-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between text-[12px] text-[var(--color-dim)]">
         <div className="flex flex-col gap-1 leading-relaxed">
-          <span>© 2026 kasymzhanov.com · ИП «Касымжанов А.Ж.» · ИИН 930422350609</span>
+          <span>{t.footer.requisites}</span>
           <span>
             <a href="tel:+77028290908" className="no-underline hover:text-[var(--color-brand)] transition-colors">
               +7 702 829 09 08
@@ -251,10 +250,10 @@ export function SiteFooter() {
         </div>
         <nav className="flex items-center gap-5 shrink-0">
           <Link href="/privacy" className="no-underline hover:text-[var(--color-brand)] hover:underline underline-offset-4 decoration-1 transition-colors">
-            Политика конфиденциальности
+            {t.footer.privacy}
           </Link>
           <Link href="/terms" className="no-underline hover:text-[var(--color-brand)] hover:underline underline-offset-4 decoration-1 transition-colors">
-            Оферта
+            {t.footer.terms}
           </Link>
         </nav>
       </div>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import { SOCIAL_SAMEAS } from "@/lib/social";
+import { HtmlLang } from "@/components/html-lang";
 import "./globals.css";
 
 const geist = localFont({
@@ -109,7 +110,7 @@ export default function RootLayout({
           }
         `}} />
       </head>
-      <body>{children}<Analytics /></body>
+      <body><HtmlLang />{children}<Analytics /></body>
     </html>
   );
 }

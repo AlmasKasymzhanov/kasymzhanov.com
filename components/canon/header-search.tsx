@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { localeFromPathname, dict } from "@/lib/i18n";
 
 function SearchIcon({ size = 20 }: { size?: number }) {
   return (
@@ -31,6 +33,7 @@ function SearchIcon({ size = 20 }: { size?: number }) {
 export function HeaderSearch() {
   const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const t = dict[localeFromPathname(usePathname() ?? "/")].nav;
 
   useEffect(() => {
     if (open) inputRef.current?.focus();
@@ -43,7 +46,7 @@ export function HeaderSearch() {
     <>
       <button
         onClick={() => setOpen(true)}
-        aria-label="Поиск"
+        aria-label={t.search}
         className="grid place-items-center h-8 w-8 md:h-9 md:w-9 text-[var(--color-text)] hover:opacity-60 transition-opacity"
       >
         <SearchIcon size={18} />
@@ -64,7 +67,7 @@ export function HeaderSearch() {
             <input
               ref={inputRef}
               type="search"
-              placeholder="Поиск"
+              placeholder={t.search}
               className="w-full bg-transparent border-b border-[var(--color-border)] focus:border-[var(--color-text)] py-1.5 text-[14px] font-mono text-[var(--color-text)] placeholder:text-[var(--color-dim)] outline-none transition-colors"
             />
           </form>

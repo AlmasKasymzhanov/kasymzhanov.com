@@ -10,7 +10,7 @@ import { CourseSignOut } from "@/components/course-signout";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: `${COURSE.title} — A. Kasymzhanov`,
+  title: `${COURSE.title} — Kasymzhanov`,
   description: "Закрытый курс: видео-занятия и материалы.",
   robots: { index: false, follow: false },
 };

@@ -8,26 +8,37 @@ import {
   getViews,
   getEngagement,
   withEngagement,
+  localizeArticle,
 } from "@/components/articles";
 
 export const metadata: Metadata = {
-  title: "Kasymzhanov — дата-журнал о маркетплейсах",
+  title: "Kasymzhanov — Data Journalism on Marketplaces",
   description:
-    "Разборы ниш маркетплейсов Казахстана, юнит-экономика и ошибки брендов. Данные вместо мнений.",
+    "Deep dives into Kazakhstan's marketplace niches, unit economics, and where brands go wrong. Data, not opinions.",
   alternates: {
-    canonical: "/",
+    canonical: "/en",
     languages: { "ru-RU": "/", "en-US": "/en", "x-default": "/" },
+  },
+  openGraph: {
+    title: "Kasymzhanov — Data Journalism on Marketplaces",
+    description:
+      "Deep dives into Kazakhstan's marketplace niches, unit economics, and where brands go wrong. Data, not opinions.",
+    url: "https://kasymzhanov.com/en",
+    locale: "en_US",
   },
 };
 
 // Refresh view counts periodically (ISR) without per-request cost.
 export const revalidate = 120;
 
-export default async function Home() {
+const L = "en" as const;
+
+export default async function HomeEn() {
   const [LEAD, LICK, MCP] = ARTICLES;
   const slugs = [LEAD.slug, LICK.slug, MCP.slug];
   const [views, eng] = await Promise.all([getViews(slugs), getEngagement(slugs)]);
   const v = (slug: string) => views[slug] ?? 0;
+  const en = (a: typeof LEAD) => localizeArticle(withEngagement(a, eng), L);
 
   return (
     <div className="font-mono text-[var(--color-text)]">
@@ -39,24 +50,24 @@ export default async function Home() {
         <section className="grid grid-cols-1 md:grid-cols-[minmax(0,2fr)_minmax(0,5fr)_minmax(0,3fr)] border-b border-[var(--color-border)]">
           {/* LEFT — about the author */}
           <aside className="min-w-0 md:border-r border-[var(--color-border)] p-6 md:p-7 order-2 md:order-none border-t md:border-t-0">
-            <AuthorBlock variant="vertical" />
+            <AuthorBlock variant="vertical" locale={L} />
           </aside>
 
           {/* CENTER — flagship */}
           <div className="min-w-0 p-6 md:p-10 order-1 md:order-none">
-            <ArticleCard a={withEngagement(LEAD, eng)} views={v(LEAD.slug)} featured />
+            <ArticleCard a={en(LEAD)} views={v(LEAD.slug)} featured locale={L} />
           </div>
 
           {/* RIGHT — market story + tools (same anatomy) */}
           <aside className="min-w-0 md:border-l border-[var(--color-border)] order-3 md:order-none border-t md:border-t-0 flex flex-col">
             <div className="p-6 md:p-7 border-b border-[var(--color-border)]">
-              <ArticleCard a={withEngagement(LICK, eng)} views={v(LICK.slug)} />
+              <ArticleCard a={en(LICK)} views={v(LICK.slug)} locale={L} />
             </div>
             <div className="p-6 md:p-7 border-b border-[var(--color-border)]">
-              <CompactCard a={withEngagement(MCP, eng)} views={v(MCP.slug)} />
+              <CompactCard a={en(MCP)} views={v(MCP.slug)} locale={L} />
             </div>
             <div className="p-6 md:p-7">
-              <NewsletterCard source="home" />
+              <NewsletterCard source="home-en" locale={L} />
             </div>
           </aside>
         </section>
@@ -64,7 +75,7 @@ export default async function Home() {
         <div className="flex-1" aria-hidden />
 
         {/* ── Footer ── */}
-        <SiteFooter />
+        <SiteFooter locale={L} />
       </div>
     </div>
   );
