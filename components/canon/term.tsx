@@ -44,6 +44,29 @@ function useTip() {
     setOpen((o) => !o);
   }, [cancelClose]);
 
+  // Touch: handle the tap on pointerdown and preventDefault, which suppresses
+  // the synthesized mouseenter→click cascade that otherwise opened-then-toggled
+  // the tip closed on the same tap (so it only appeared on the SECOND tap).
+  // Mouse keeps hover (mouseenter) + click; keyboard keeps focus/blur.
+  const touched = useRef(false);
+  const onPointerDown = useCallback(
+    (e: React.PointerEvent) => {
+      if (e.pointerType !== "mouse") {
+        touched.current = true;
+        e.preventDefault();
+        toggle();
+      }
+    },
+    [toggle],
+  );
+  const onClick = useCallback(() => {
+    if (touched.current) {
+      touched.current = false; // swallow the synthetic click that may follow a touch
+      return;
+    }
+    toggle();
+  }, [toggle]);
+
   useEffect(() => () => cancelClose(), [cancelClose]);
 
   const place = useCallback(() => {
@@ -87,7 +110,7 @@ function useTip() {
     };
   }, [open]);
 
-  return { open, triggerRef, popRef, pos, openNow, closeSoon, cancelClose, toggle };
+  return { open, triggerRef, popRef, pos, openNow, closeSoon, cancelClose, onClick, onPointerDown };
 }
 
 function Popover({
@@ -135,7 +158,7 @@ export function Term({
    *  put a focusable node in a hidden subtree — hover/tap still work. */
   focusable?: boolean;
 }) {
-  const { open, triggerRef, popRef, pos, openNow, closeSoon, cancelClose, toggle } = useTip();
+  const { open, triggerRef, popRef, pos, openNow, closeSoon, cancelClose, onClick, onPointerDown } = useTip();
   return (
     <span className="relative inline">
       <span
@@ -143,7 +166,8 @@ export function Term({
         tabIndex={focusable ? 0 : undefined}
         role="button"
         aria-expanded={open}
-        onClick={toggle}
+        onPointerDown={onPointerDown}
+        onClick={onClick}
         onMouseEnter={openNow}
         onMouseLeave={closeSoon}
         onFocus={openNow}
@@ -175,7 +199,7 @@ export function Term({
 
 /** Footnote marker — small superscript number; shows `tip` on hover/tap. */
 export function Fn({ n, tip }: { n: number; tip: React.ReactNode }) {
-  const { open, triggerRef, popRef, pos, openNow, closeSoon, cancelClose, toggle } = useTip();
+  const { open, triggerRef, popRef, pos, openNow, closeSoon, cancelClose, onClick, onPointerDown } = useTip();
   return (
     <span className="relative inline">
       <span
@@ -185,7 +209,8 @@ export function Fn({ n, tip }: { n: number; tip: React.ReactNode }) {
         role="button"
         aria-expanded={open}
         aria-label={`Сноска ${n}`}
-        onClick={toggle}
+        onPointerDown={onPointerDown}
+        onClick={onClick}
         onMouseEnter={openNow}
         onMouseLeave={closeSoon}
         onFocus={openNow}
