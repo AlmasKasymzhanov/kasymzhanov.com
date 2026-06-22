@@ -215,7 +215,11 @@ export default function SiliconOnCoalArticle() {
                 <Term tip="NVIDIA's future AI-chip generation (after GB300). Named for astronomer Vera Rubin - it's the model name, not a person.">
                   Vera Rubin
                 </Term>
-                ) and to advise technically. The company puts no money into construction. And here - a separate, underrated risk: chips of this class require an individual US export license. The question is complicated by the fact that Kazakh companies have already faced US sanctions designations for re-export to Russia, and under that pressure Kazakhstan tightened its own export controls in late 2024. For a hundred thousand chips worth $10 billion, this isn&apos;t background but Washington&apos;s central question: are there guarantees they won&apos;t leak onward? Firebird has a precedent for approval - the US granted the license for the Armenian project. But Armenia isn&apos;t Kazakhstan, and at the time of signing the Kazakh license wasn&apos;t publicly confirmed.
+                ) and to advise technically. The company puts no money into construction. And here - a separate, underrated risk: chips of this class require an individual US export license. The question is complicated by the fact that Kazakh companies have already faced US sanctions designations for re-export to Russia, and under that pressure Kazakhstan tightened its own export controls in late 2024. For a hundred thousand chips worth $10 billion, this isn&apos;t background but a question of{" "}
+                <Term tip="Sanctions compliance - meeting export-control and sanctions rules (here, the US): the procedures and guarantees that the goods (chips) won't reach a prohibited end-user. Breaches risk fines and revoked licenses.">
+                  sanctions compliance
+                </Term>{" "}
+                - and Washington&apos;s central one: are there guarantees they won&apos;t leak onward? Firebird has a precedent for approval - the US granted the license for the Armenian project. But Armenia isn&apos;t Kazakhstan, and at the time of signing the Kazakh license wasn&apos;t publicly confirmed.
               </P>
               <P className="mt-5">
                 None of this makes the project a fiction. Framework agreements are a normal first step for big builds; real gigawatts have started this way too. But between &quot;signed for ten billion&quot; and &quot;invested ten billion&quot; lies a distance measured not in press releases but in executed contracts and poured concrete. So far a framework agreement and a term sheet are signed - the concrete isn&apos;t poured yet.
@@ -471,7 +475,11 @@ export default function SiliconOnCoalArticle() {
                 <strong className="text-[var(--color-text)]">But the jobs aren&apos;t where they seem.</strong> Here data journalism is obliged to cool the enthusiasm with a number. A hyperscale data center isn&apos;t a factory. By industry norms, 100 MW supports 20–30 permanent staff. A gigawatt - a few hundred people, which matches the government&apos;s &quot;more than 250&quot; estimate. Ten billion put into ordinary industry would have yielded tens of thousands of jobs. A data center&apos;s real payoff isn&apos;t direct employment but an ecosystem: talent, skills, adjacent services. That&apos;s valuable. But it&apos;s something other than &quot;the build will give the city work.&quot;
               </P>
               <P>
-                And from that, a question without an answer: the preferential tariff (officials didn&apos;t disclose the exact rate) is almost certainly below the cost of new coal generation. Someone subsidizes the difference. If it&apos;s the budget or other consumers - then part of the &quot;investment appeal&quot; is paid out of the common pocket.
+                And from that, a question without an answer: the preferential tariff (officials didn&apos;t disclose the exact rate) is almost certainly below the cost of new coal generation. Someone subsidizes the difference. If it lands on the budget or other consumers, that&apos;s{" "}
+                <Term tip="Cross-subsidization - when one group (here, the data center on a preferential tariff) is made cheaper at another's expense (the budget, or ordinary consumers who pay more). The discount doesn't vanish - someone else just covers it.">
+                  cross-subsidization
+                </Term>
+                : part of the &quot;investment appeal&quot; is paid out of the common pocket.
               </P>
             </div>
 
