@@ -128,7 +128,7 @@ export function Grafik3() {
         { label: "Старые блоки Экибастуза", value: 950, pattern: "hatched" },
         { label: "ГРЭС-3 («чистый уголь»)", value: 800, pattern: "hatched" },
         { label: "Казахстан (сеть)", value: 604 },
-        { label: "Мир (средн.)", value: 480, color: NEUTRAL },
+        { label: "Мир (средн.)", value: 450, color: NEUTRAL },
         { label: "США", value: 385, color: NEUTRAL },
         { label: "ЕС (средн.)", value: 250, color: NEUTRAL },
         { label: "Ветер / солнце", value: 35, color: NEUTRAL },

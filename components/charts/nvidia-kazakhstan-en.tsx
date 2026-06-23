@@ -111,7 +111,7 @@ export function Grafik3() {
         { label: "Old Ekibastuz units", value: 950, pattern: "hatched" },
         { label: 'GRES-3 ("clean coal")', value: 800, pattern: "hatched" },
         { label: "Kazakhstan (grid)", value: 604 },
-        { label: "World (avg.)", value: 480, color: NEUTRAL },
+        { label: "World (avg.)", value: 450, color: NEUTRAL },
         { label: "USA", value: 385, color: NEUTRAL },
         { label: "EU (avg.)", value: 250, color: NEUTRAL },
         { label: "Wind / solar", value: 35, color: NEUTRAL },
