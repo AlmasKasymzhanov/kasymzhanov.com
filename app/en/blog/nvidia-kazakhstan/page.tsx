@@ -200,7 +200,10 @@ export default function SiliconOnCoalArticle() {
               </ChartSlot>
 
               <P className="mb-5">
-                Who is Firebird? An American company out of San Francisco that only emerged from stealth
+                Who is Firebird? An American company out of San Francisco that only emerged from{" "}
+                <Term tip="Stealth (stealth mode) - when a startup deliberately operates in secret, revealing neither its product nor its investors, sometimes not even the fact that it exists. To 'come out of stealth' is to go public for the first time.">
+                  stealth
+                </Term>
                 <Fn n={2} tip="Stealth (stealth mode) - when a startup deliberately operates in secret, revealing neither its product nor its investors, sometimes not even the fact that it exists. To 'come out of stealth' is to go public for the first time. Firebird emerged from stealth already attached to a $500 million project, so it had almost no public track record or reputation by the time of the deal." />
                 {" "}in June 2025 - less than a year before the Kazakh signing. There&apos;s almost no public record of it: at the time of the announcement, so little was known that its website was a single page with no explanation. Its co-founder and CEO, Razmig Hovaghimian, previously built not data centers but video streaming - the service Viki, which Rakuten bought. At the signing, Firebird had exactly one announced project - a center in Armenia. It has since grown on paper from $500 million to $4 billion (a second phase, for 41,000 NVIDIA chips, was announced in February 2026 during a visit by the US vice president), and in March 2026 six Armenian financial institutions signed a{" "}
                 <Term tip="A large loan issued not by one bank but several at once, splitting the sum and the risk among them.">
