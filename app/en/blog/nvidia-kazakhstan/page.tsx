@@ -200,11 +200,13 @@ export default function SiliconOnCoalArticle() {
               </ChartSlot>
 
               <P className="mb-5">
-                Who is Firebird? An American company headquartered in San Francisco, founded in early 2025. Its co-founder and CEO, Razmig Hovaghimian, previously built not data centers but video streaming - the service Viki, which Rakuten bought. At the time of the Kazakh signing, Firebird had exactly one announced project - a center in Armenia (100 MW, $500 million); by the summer of 2026 it hadn&apos;t yet entered commercial operation, but its financing was already closed: in March 2026 six Armenian banks signed a{" "}
+                Who is Firebird? An American company out of San Francisco that only emerged from stealth
+                <Fn n={2} tip="Stealth (stealth mode) - when a startup deliberately operates in secret, revealing neither its product nor its investors, sometimes not even the fact that it exists. To 'come out of stealth' is to go public for the first time. Firebird emerged from stealth already attached to a $500 million project, so it had almost no public track record or reputation by the time of the deal." />
+                {" "}in June 2025 - less than a year before the Kazakh signing. There&apos;s almost no public record of it: at the time of the announcement, so little was known that its website was a single page with no explanation. Its co-founder and CEO, Razmig Hovaghimian, previously built not data centers but video streaming - the service Viki, which Rakuten bought. At the signing, Firebird had exactly one announced project - a center in Armenia. It has since grown on paper from $500 million to $4 billion (a second phase, for 41,000 NVIDIA chips, was announced in February 2026 during a visit by the US vice president), and in March 2026 six Armenian financial institutions signed a{" "}
                 <Term tip="A large loan issued not by one bank but several at once, splitting the sum and the risk among them.">
                   syndicated loan
                 </Term>{" "}
-                of $300 million. So the company&apos;s résumé isn&apos;t empty - but it isn&apos;t long either: one financed project, not yet proven in operation.
+                of $300 million behind it. But even the first phase is only now coming online, as of summer 2026. So the company&apos;s résumé is short: one country, one project, still proving itself in operation.
               </P>
               <P>
                 NVIDIA, in this scheme, isn&apos;t an investor. Its role is to supply chips (the current{" "}
@@ -248,7 +250,7 @@ export default function SiliconOnCoalArticle() {
                 <Term tip="How many grams of CO₂ are emitted per kilowatt-hour generated. The dirtier the fuel (coal is dirtiest), the higher the number.">
                   Carbon intensity
                 </Term>
-                <Fn n={2} tip="Carbon intensity - how many grams of CO₂ are emitted per kilowatt-hour of electricity generated. The dirtier the fuel (coal is dirtiest), the higher the number." />
+                <Fn n={3} tip="Carbon intensity - how many grams of CO₂ are emitted per kilowatt-hour of electricity generated. The dirtier the fuel (coal is dirtiest), the higher the number." />
                 {" "}for all of Kazakhstan&apos;s grid is about 604 grams of CO₂ per kilowatt-hour (Ember data for 2025), with coal making up more than half. That&apos;s twice the European average and roughly twelve times that of wind or solar. And because the &quot;Valley&quot; runs not off the averaged grid but directly off coal units, its real footprint will be heavier still:{" "}
                 <Term tip="Older coal units with low steam parameters and low efficiency: more fuel burned, more emissions per kWh.">
                   old subcritical units
@@ -329,12 +331,12 @@ export default function SiliconOnCoalArticle() {
                 <Term tip="Coal units running on steam at very high temperature and pressure: efficiency is higher, less fuel per unit of power, somewhat fewer emissions - but it's still coal.">
                   ultra-supercritical unit
                 </Term>
-                <Fn n={3} tip="Ultra-supercritical units - coal units running on steam at very high temperature and pressure. Efficiency is higher and less fuel is burned per unit of power, so emissions are somewhat lower - but it's still coal." />
+                <Fn n={4} tip="Ultra-supercritical units - coal units running on steam at very high temperature and pressure. Efficiency is higher and less fuel is burned per unit of power, so emissions are somewhat lower - but it's still coal." />
                 {" "}technology does cut emissions - by roughly 8–13% against the old units. But &quot;cuts&quot; isn&apos;t &quot;zeroes out&quot;: without{" "}
                 <Term tip="Technology that 'catches' CO₂ at the plant's exhaust and pumps it underground. Expensive, not yet used in Kazakhstan; without it 'clean coal' stays coal.">
                   carbon capture
                 </Term>
-                <Fn n={4} tip="Carbon capture (CCS) - technology that 'catches' CO₂ at the plant's exhaust and pumps it underground instead of releasing it. Expensive and not yet used in Kazakhstan; without it, 'clean coal' stays coal." />
+                <Fn n={5} tip="Carbon capture (CCS) - technology that 'catches' CO₂ at the plant's exhaust and pumps it underground instead of releasing it. Expensive and not yet used in Kazakhstan; without it, 'clean coal' stays coal." />
                 {" "}a plant like this still emits about 800 grams per kilowatt-hour. Whether GRES-3 will have that capture is publicly unknown. And without it, &quot;clean coal&quot; is mostly an adjective.
               </P>
             </div>
@@ -352,8 +354,8 @@ export default function SiliconOnCoalArticle() {
                 <Term tip="How many times more energy a data center uses than goes to the computing itself. PUE 1.2 = for each 'useful' kilowatt, another 200 watts on cooling. The closer to 1.0, the more efficient.">
                   PUE of 1.2
                 </Term>
-                <Fn n={5} tip="PUE - how many times more energy a data center uses than goes to the computing itself. PUE 1.2 means: for every 'useful' kilowatt, another 200 watts for cooling and infrastructure. The closer to 1.0, the more efficient." />
-                {" "}(realistic for a hot climate) and 85% utilization. That comes to about 8.9 terawatt-hours a year. At grid intensity, that&apos;s roughly <strong className="text-[var(--color-text)]">5.3 million tonnes of CO₂ a year</strong>. On direct coal power - closer to <strong className="text-[var(--color-text)]">8 million</strong>. To feel the scale: 5.3 million tonnes is the annual carbon footprint of a city of four hundred thousand. A single compute campus breathes like an entire regional capital.
+                <Fn n={6} tip="PUE - how many times more energy a data center uses than goes to the computing itself. PUE 1.2 means: for every 'useful' kilowatt, another 200 watts for cooling and infrastructure. The closer to 1.0, the more efficient." />
+                {" "}(realistic for a hot climate) and 85% utilization. That comes to about 8.9 terawatt-hours a year. At grid intensity, that&apos;s roughly <strong className="text-[var(--color-text)]">5.3 million tonnes of CO₂ a year</strong>. On direct coal power - closer to <strong className="text-[var(--color-text)]">8 million</strong>. To feel the scale: 5.3 million tonnes is the annual carbon footprint of a city of roughly four hundred thousand - measured by Kazakhstan&apos;s per-capita emissions (about 12-13 tonnes a year); at the global average it would be a city of over a million. A single compute campus breathes like an entire regional capital.
               </P>
               <P className="mb-5">
                 <strong className="text-[var(--color-text)]">Share of the country.</strong> Those same 8.9 TWh are about <strong className="text-[var(--color-text)]">7% of all of Kazakhstan&apos;s electricity generation</strong> (in 2024 the country generated 117.9 billion kWh, per KEGOC). A single facility takes nearly every fourteenth kilowatt-hour in the country - and the share will only grow the longer the &quot;Valley&quot; runs at full tilt. Today all the country&apos;s data centers together draw under one percent.
@@ -383,12 +385,12 @@ export default function SiliconOnCoalArticle() {
                 <Term tip="A market where you must pay for the right to emit a tonne of CO₂, to make polluting unprofitable. In the EU a tonne costs dozens of euros; in Kazakhstan about a dollar, and even that effectively doesn't work.">
                   Kazakhstan&apos;s emissions-trading system
                 </Term>
-                <Fn n={6} tip="Emissions-trading system (ETS) - a market where you must pay for the right to emit a tonne of CO₂. The idea is to make pollution expensive so cleaner options win. In the EU a tonne costs dozens of euros; in Kazakhstan about a dollar, and even that effectively doesn't work." />
+                <Fn n={7} tip="Emissions-trading system (ETS) - a market where you must pay for the right to emit a tonne of CO₂. The idea is to make pollution expensive so cleaner options win. In the EU a tonne costs dozens of euros; in Kazakhstan about a dollar, and even that effectively doesn't work." />
                 {" "}costs about <strong className="text-[var(--color-text)]">one dollar</strong>. In the EU it&apos;s several dozen euros - on the order of seventy for the same tonne. And in Kazakhstan the quotas are handed out free, with trading itself suspended back in 2022. A dollar a tonne isn&apos;t a brake on coal. It&apos;s a brake pedal that&apos;s gone through the floor: press all you want, the car won&apos;t slow.
               </P>
               <P>
                 <strong className="text-[var(--color-text)]">Promises against trajectory.</strong> Kazakhstan has written carbon neutrality by 2060 into law and filed with the UN a target to cut emissions by 2035
-                <Fn n={7} tip="NDC - 'Nationally Determined Contribution': a country's official Paris-Agreement pledge for how much it will cut emissions by a given year." />
+                <Fn n={8} tip="NDC - 'Nationally Determined Contribution': a country's official Paris-Agreement pledge for how much it will cut emissions by a given year." />
                 . And Climate Action Tracker - an international monitor of climate policy - rates the country&apos;s course &quot;Insufficient&quot; and projects emissions will keep <em>rising</em> at least until 2030. CO₂ emissions per capita here are 12.55 tonnes against a global 4.67. A new coal plant lives 30–40 years - that&apos;s a{" "}
                 <Term tip="A decision made today (a new coal plant lives 30–40 years) that 'locks in' emissions for decades - exactly the period the country promised to zero them out.">
                   &quot;carbon lock-in&quot;
@@ -552,7 +554,7 @@ export default function SiliconOnCoalArticle() {
                 <Term tip="Papers confirming that somewhere a renewable kilowatt-hour entered the grid. The buyer may call their consumption 'green', though the same shared electrons flow to them over the wires. An accounting tool, not a separate clean wire.">
                   &quot;guarantees of origin&quot;
                 </Term>
-                <Fn n={8} tip="Guarantees of Origin - papers confirming that somewhere a renewable kilowatt-hour entered the grid. The buyer may call their consumption 'green', though the same shared electrons flow to them over the wires. An accounting tool, not a separate clean line." />
+                <Fn n={9} tip="Guarantees of Origin - papers confirming that somewhere a renewable kilowatt-hour entered the grid. The buyer may call their consumption 'green', though the same shared electrons flow to them over the wires. An accounting tool, not a separate clean line." />
                 {" "}- accounting on paper, not a separate clean wire. Though in the Norwegian case, where the grid is already almost all hydro, that discrepancy changes almost nothing.
               </P>
               <P>
@@ -665,13 +667,14 @@ export default function SiliconOnCoalArticle() {
               <h2 className="text-[16px] font-bold tracking-tight text-[var(--color-text)] mb-4">Footnotes: term explanations</h2>
               <ol className="font-mono text-[12px] text-[var(--color-dim)] leading-[1.7] space-y-3">
                 <li id="fn-1"><span className="text-[var(--color-text)]">1. Term sheet</span> - a document of preliminary deal terms. It records intent and key parameters but doesn&apos;t itself obligate anyone to build and doesn&apos;t guarantee money; real obligations come later, in full contracts.</li>
-                <li id="fn-2"><span className="text-[var(--color-text)]">2. Carbon intensity</span> - how many grams of CO₂ are emitted per kilowatt-hour of electricity generated. The dirtier the fuel (coal is dirtiest), the higher the number.</li>
-                <li id="fn-3"><span className="text-[var(--color-text)]">3. Ultra-supercritical units</span> - coal units running on steam at very high temperature and pressure. Efficiency is higher and less fuel is burned per unit of power, so emissions are somewhat lower - but it&apos;s still coal.</li>
-                <li id="fn-4"><span className="text-[var(--color-text)]">4. Carbon capture (CCS)</span> - technology that &quot;catches&quot; CO₂ at the plant&apos;s exhaust and pumps it underground instead of releasing it. Expensive and not yet used in Kazakhstan; without it, &quot;clean coal&quot; stays coal.</li>
-                <li id="fn-5"><span className="text-[var(--color-text)]">5. PUE</span> - how many times more energy a data center uses than goes to the computing itself. PUE 1.2 means: for every &quot;useful&quot; kilowatt, another 200 watts for cooling and infrastructure. The closer to 1.0, the more efficient.</li>
-                <li id="fn-6"><span className="text-[var(--color-text)]">6. Emissions-trading system (ETS)</span> - a market where you must pay for the right to emit a tonne of CO₂. The idea is to make pollution expensive so cleaner options win. In the EU a tonne costs dozens of euros; in Kazakhstan about a dollar, and even that effectively doesn&apos;t work.</li>
-                <li id="fn-7"><span className="text-[var(--color-text)]">7. NDC</span> - &quot;Nationally Determined Contribution&quot;: a country&apos;s official Paris-Agreement pledge for how much it will cut emissions by a given year.</li>
-                <li id="fn-8"><span className="text-[var(--color-text)]">8. Guarantees of Origin</span> - papers confirming that somewhere a renewable kilowatt-hour entered the grid. The buyer may call their consumption &quot;green,&quot; though the same shared electrons flow to them over the wires. An accounting tool, not a separate clean line.</li>
+                <li id="fn-2"><span className="text-[var(--color-text)]">2. Stealth (stealth mode)</span> - when a startup deliberately operates in secret, revealing neither its product nor its investors, sometimes not even the fact that it exists. To &quot;come out of stealth&quot; is to go public for the first time. Firebird emerged from stealth already attached to a $500 million project, so it had almost no public track record or reputation by the time of the deal.</li>
+                <li id="fn-3"><span className="text-[var(--color-text)]">3. Carbon intensity</span> - how many grams of CO₂ are emitted per kilowatt-hour of electricity generated. The dirtier the fuel (coal is dirtiest), the higher the number.</li>
+                <li id="fn-4"><span className="text-[var(--color-text)]">4. Ultra-supercritical units</span> - coal units running on steam at very high temperature and pressure. Efficiency is higher and less fuel is burned per unit of power, so emissions are somewhat lower - but it&apos;s still coal.</li>
+                <li id="fn-5"><span className="text-[var(--color-text)]">5. Carbon capture (CCS)</span> - technology that &quot;catches&quot; CO₂ at the plant&apos;s exhaust and pumps it underground instead of releasing it. Expensive and not yet used in Kazakhstan; without it, &quot;clean coal&quot; stays coal.</li>
+                <li id="fn-6"><span className="text-[var(--color-text)]">6. PUE</span> - how many times more energy a data center uses than goes to the computing itself. PUE 1.2 means: for every &quot;useful&quot; kilowatt, another 200 watts for cooling and infrastructure. The closer to 1.0, the more efficient.</li>
+                <li id="fn-7"><span className="text-[var(--color-text)]">7. Emissions-trading system (ETS)</span> - a market where you must pay for the right to emit a tonne of CO₂. The idea is to make pollution expensive so cleaner options win. In the EU a tonne costs dozens of euros; in Kazakhstan about a dollar, and even that effectively doesn&apos;t work.</li>
+                <li id="fn-8"><span className="text-[var(--color-text)]">8. NDC</span> - &quot;Nationally Determined Contribution&quot;: a country&apos;s official Paris-Agreement pledge for how much it will cut emissions by a given year.</li>
+                <li id="fn-9"><span className="text-[var(--color-text)]">9. Guarantees of Origin</span> - papers confirming that somewhere a renewable kilowatt-hour entered the grid. The buyer may call their consumption &quot;green,&quot; though the same shared electrons flow to them over the wires. An accounting tool, not a separate clean line.</li>
               </ol>
             </div>
 
