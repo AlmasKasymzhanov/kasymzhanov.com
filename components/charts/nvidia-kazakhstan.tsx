@@ -53,6 +53,9 @@ const LABEL_TIPS: Record<string, string> = {
   "Лифт, энергоблок №7": "Замена лифта на энергоблоке №7 - лот 4443640",
   "Рекультивация золоотвала": "Рекультивация накопителя промотходов (золоотвала) - лот 4451958",
   "Капремонт трансформатора": "Капитальный ремонт резервного трансформатора",
+  // График 8
+  "Казахстан": "Казахстан - цена квоты в национальной системе торговли (KZ ETS) около $1 за тонну; квоты раздают бесплатно, биржевую торговлю приостановили в 2022 году.",
+  "Евросоюз": "Евросоюз - цена квоты в системе EU ETS, порядка €70 за тонну.",
 };
 
 const labelTip = (label: string): React.ReactNode => {
@@ -87,7 +90,9 @@ export function Grafik1() {
         { label: "Этап 1 (заявлен)", value: 5, color: NEUTRAL, pattern: "hatched" },
         { label: "Названо твёрдо", value: 1 },
       ]}
-      formatValue={(v: number) => `$${num(v)} млрд`}
+      formatValue={(v: number) =>
+        v === 1 ? "$1 млрд · Казахтелеком (гос.)" : `$${num(v)} млрд`
+      }
     />
   );
 }
@@ -259,6 +264,27 @@ export function Grafik7() {
         { label: "Капремонт трансформатора", value: 11.3, color: NEUTRAL },
       ]}
       formatValue={(v: number) => `${num(v)} млн ₸`}
+    />
+  );
+}
+
+/* ── График 8. Цена тонны CO₂ - регуляторный арбитраж ($1 vs €70) ── */
+export function Grafik8() {
+  return (
+    <BarChart
+      barThickness={40}
+      gap={16}
+      barRadius={2}
+      labelWidth={120}
+      xAxis={{ max: 82 }}
+      slots={{ tooltip: () => null }}
+      formatLabel={labelTip}
+      labelInteractive={hasTip}
+      data={[
+        { label: "Казахстан", value: 1 },
+        { label: "Евросоюз", value: 70, color: NEUTRAL },
+      ]}
+      formatValue={(v: number) => (v === 1 ? "~$1" : "~€70")}
     />
   );
 }

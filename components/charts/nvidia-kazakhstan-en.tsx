@@ -38,6 +38,9 @@ const LABEL_TIPS: Record<string, string> = {
   "Lift, power unit #7": "Lift replacement on power unit #7 — lot 4443640",
   "Ash-dump remediation": "Remediation of the industrial-waste (ash) dump — lot 4451958",
   "Backup-transformer overhaul": "Major overhaul of the backup transformer",
+  // Chart 8
+  "Kazakhstan": "Kazakhstan — the allowance price in the national trading system (KZ ETS) is about $1 a tonne; permits are handed out free and exchange trading has been suspended since 2022.",
+  "EU": "European Union — the allowance price in the EU ETS, around €70 a tonne.",
 };
 
 const labelTip = (label: string): React.ReactNode => {
@@ -70,7 +73,9 @@ export function Grafik1() {
         { label: "Stage 1 (stated)", value: 5, color: NEUTRAL, pattern: "hatched" },
         { label: "Firmly named", value: 1 },
       ]}
-      formatValue={(v: number) => `$${num(v)}bn`}
+      formatValue={(v: number) =>
+        v === 1 ? "$1bn · Kazakhtelecom (state)" : `$${num(v)}bn`
+      }
     />
   );
 }
@@ -242,6 +247,27 @@ export function Grafik7() {
         { label: "Backup-transformer overhaul", value: 11.3, color: NEUTRAL },
       ]}
       formatValue={(v: number) => `₸${num(v)}M`}
+    />
+  );
+}
+
+/* ── Chart 8. The price of a tonne of CO₂ — regulatory arbitrage ($1 vs €70) ── */
+export function Grafik8() {
+  return (
+    <BarChart
+      barThickness={40}
+      gap={16}
+      barRadius={2}
+      labelWidth={120}
+      xAxis={{ max: 82 }}
+      slots={{ tooltip: () => null }}
+      formatLabel={labelTip}
+      labelInteractive={hasTip}
+      data={[
+        { label: "Kazakhstan", value: 1 },
+        { label: "EU", value: 70, color: NEUTRAL },
+      ]}
+      formatValue={(v: number) => (v === 1 ? "~$1" : "~€70")}
     />
   );
 }

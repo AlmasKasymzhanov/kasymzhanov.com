@@ -16,6 +16,7 @@ import {
   Grafik5,
   Grafik6,
   Grafik7,
+  Grafik8,
 } from "@/components/charts/nvidia-kazakhstan-en";
 
 function Src({ href, children }: { href: string; children: React.ReactNode }) {
@@ -391,6 +392,23 @@ export default function SiliconOnCoalArticle() {
                 <Fn n={7} tip="Emissions-trading system (ETS) - a market where you must pay for the right to emit a tonne of CO₂. The idea is to make pollution expensive so cleaner options win. In the EU a tonne costs dozens of euros; in Kazakhstan about a dollar, and even that effectively doesn't work." />
                 {" "}costs about <strong className="text-[var(--color-text)]">one dollar</strong>. In the EU it&apos;s several dozen euros - on the order of seventy for the same tonne. And in Kazakhstan the quotas are handed out free, with trading itself suspended back in 2022. A dollar a tonne isn&apos;t a brake on coal. It&apos;s a brake pedal that&apos;s gone through the floor: press all you want, the car won&apos;t slow.
               </P>
+
+              <ChartSlot
+                n={8}
+                type="horizontal bars"
+                title="A tonne of CO₂ costs a dollar here - seventy euros in the EU"
+                caption={
+                  <>
+                    Source: KZ ETS
+                    <Dot />
+                    <Src href="https://tradingeconomics.com/commodity/carbon">EU ETS</Src>
+                  </>
+                }
+                note="Price per tonne of CO₂: Kazakhstan in dollars (KZ ETS), the EU in euros (EU ETS). Permits in Kazakhstan are handed out free; trading has been suspended since 2022."
+              >
+                <Grafik8 />
+              </ChartSlot>
+
               <P>
                 <strong className="text-[var(--color-text)]">Promises against trajectory.</strong> Kazakhstan has written carbon neutrality by 2060 into law and filed with the UN a target to cut emissions by 2035
                 <Fn n={8} tip="NDC - 'Nationally Determined Contribution': a country's official Paris-Agreement pledge for how much it will cut emissions by a given year." />
