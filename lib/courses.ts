@@ -195,6 +195,15 @@ export const STREAM3: CourseConfig = {
         { name: "Алгоритм поиска товара · факторы тренда", type: "doc", file: "algoritm-poiska-tovara.docx" },
       ],
     },
+    {
+      n: 5,
+      slug: "session-5",
+      title: "Сессия 5",
+      desc: "Пятая сессия третьего потока — внешний трафик: Facebook, Instagram и блогеры на карточку.",
+      bunny:
+        "https://player.mediadelivery.net/embed/677544/a9fd3f71-2b8a-41c0-80fc-8ccad498ab14?responsive=true",
+      files: [{ name: "Слайды сессии", type: "slides", file: "slides.html" }],
+    },
   ],
 };
 
