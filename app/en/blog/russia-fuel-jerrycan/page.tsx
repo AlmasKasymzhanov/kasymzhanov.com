@@ -418,7 +418,8 @@ export default function JerrycanArticleEn() {
 
               <P className="mt-8">
                 And the shortage leaves one more fingerprint, visible only from two storefronts at once: it pulled neighbouring markets&rsquo; prices apart. The same 20-litre plastic jerrycan on Kaspi (article 109030553) costs 4,900 tenge &mdash;{" "}
-                <Term tip="4,900 ₸ × 0.159 = ≈780 ₽. CBR rate, 27.06.2026.">about 780 rubles</Term>; on Wildberries the same one goes for roughly 1,200 rubles in normal times and ran up to 2,400 in the crisis week. One-and-a-half to three times the difference across a single border. And somebody earns on gaps like that: big players arbitrage the fuel itself, an enterprising seller &mdash; the can, hauling 20-litre jerrycans in from Kazakhstan at the hottest moment. This is not investment advice: the spread is eaten by marketplace fees and the logistics of a bulky good, and the Russian markup is temporary. But the gap itself is one more trace of the shortage: for a short while the market made even carrying an empty can across a border worth it.
+                <Term tip="4,900 ₸ × 0.159 = ≈780 ₽. CBR rate, 27.06.2026.">about 780 rubles</Term>; on Wildberries the same one goes for roughly 1,200 rubles in normal times and ran up to 2,400 in the crisis week. One-and-a-half to three times the difference across a single border. And somebody earns on gaps like that: big players arbitrage the fuel itself, an enterprising seller &mdash; the can, hauling 20-litre jerrycans in from Kazakhstan at the hottest moment. You can see the full Kaspi analytics &mdash; these same jerrycans &mdash; on my own service,{" "}
+                <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-brand)] hover:underline">Redstat.kz</a>. The gap itself is one more trace of the shortage: for a short while the market made even carrying an empty can across a border worth it.
               </P>
 
               <ChartSlot
@@ -426,10 +427,14 @@ export default function JerrycanArticleEn() {
                 type="two lines"
                 title="The crisis pulled prices apart: in Russia the jerrycan climbs, in Kazakhstan it doesn&rsquo;t"
                 caption={<>Source: MPStats (Wildberries) <Dot /> Redstat (Kaspi) <Dot /> CBR rate 0.159 ₽/₸</>}
-                note="The same 20 L plastic jerrycan. The gap between markets grows from ×1.5 in normal times to ×3 in the crisis week. Not investment advice."
+                note="The same 20 L plastic jerrycan. The gap between markets grows from ×1.5 in normal times to ×3 in the crisis week."
               >
                 <GrafikArbitrage />
               </ChartSlot>
+
+              <p className="mt-6 text-[12px] italic text-[var(--color-dim)] leading-relaxed">
+                This article is for informational purposes only and is not investment advice.
+              </p>
             </div>
 
             <hr className="border-[var(--color-border)] mb-12" />
