@@ -31,6 +31,9 @@ export type Article = {
   img: string;
   // object-position for the cover crop (e.g. "center 62%"); defaults to center.
   imgPosition?: string;
+  // When set, the cover is shown whole (object-contain) on this background colour
+  // instead of being cropped to fill — for art whose own text would otherwise clip.
+  coverBg?: string;
   rubric: string;
   title: string;
   subtitle: string;
@@ -64,6 +67,7 @@ export const ARTICLES: Article[] = [
     href: "/blog/russia-fuel-jerrycan",
     slug: "russia-fuel-jerrycan",
     img: "/blog/russia-fuel-jerrycan/cover.webp",
+    coverBg: "#f9ecd7",
     rubric: "Аналитика",
     title: "Государство закрыло статистику. Рынок открыл канистру",
     subtitle:
@@ -310,7 +314,10 @@ export function ArticleCard({
   const Heading = headingLevel ?? (featured ? "h1" : "h2");
   return (
     <Link href={a.href} className="group block">
-      <div className="relative aspect-video border border-[var(--color-border)] overflow-hidden mb-5 bg-[var(--color-surface)]">
+      <div
+        className="relative aspect-video border border-[var(--color-border)] overflow-hidden mb-5 bg-[var(--color-surface)]"
+        style={a.coverBg ? { backgroundColor: a.coverBg } : undefined}
+      >
         {a.img ? (
           <Image
             src={a.img}
@@ -318,7 +325,7 @@ export function ArticleCard({
             fill
             sizes={featured ? "(min-width:768px) 700px, 100vw" : "(min-width:768px) 360px, 100vw"}
             style={a.imgPosition ? { objectPosition: a.imgPosition } : undefined}
-            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+            className={`${a.coverBg ? "object-contain" : "object-cover"} transition-transform duration-500 ease-out group-hover:scale-[1.04]`}
             priority={featured}
           />
         ) : (

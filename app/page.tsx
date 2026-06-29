@@ -24,8 +24,8 @@ export const metadata: Metadata = {
 export const revalidate = 120;
 
 export default async function Home() {
-  const [LEAD, LICK, MCP] = ARTICLES;
-  const slugs = [LEAD.slug, LICK.slug, MCP.slug];
+  const [LEAD, SUB, LICK, MCP] = ARTICLES;
+  const slugs = [LEAD.slug, SUB.slug, LICK.slug, MCP.slug];
   const [views, eng] = await Promise.all([getViews(slugs), getEngagement(slugs)]);
   const v = (slug: string) => views[slug] ?? 0;
 
@@ -42,12 +42,17 @@ export default async function Home() {
             <AuthorBlock variant="vertical" />
           </aside>
 
-          {/* CENTER — flagship */}
-          <div className="min-w-0 p-6 md:p-10 order-1 md:order-none">
-            <ArticleCard a={withEngagement(LEAD, eng)} views={v(LEAD.slug)} featured />
+          {/* CENTER — lead (flagship) + sub-lead stacked, FT-style */}
+          <div className="min-w-0 order-1 md:order-none flex flex-col">
+            <div className="p-6 md:p-10">
+              <ArticleCard a={withEngagement(LEAD, eng)} views={v(LEAD.slug)} featured />
+            </div>
+            <div className="p-6 md:p-10 border-t border-[var(--color-border)]">
+              <ArticleCard a={withEngagement(SUB, eng)} views={v(SUB.slug)} />
+            </div>
           </div>
 
-          {/* RIGHT — market story + tools (same anatomy) */}
+          {/* RIGHT — market story + tools + newsletter (rail) */}
           <aside className="min-w-0 md:border-l border-[var(--color-border)] order-3 md:order-none border-t md:border-t-0 flex flex-col">
             <div className="p-6 md:p-7 border-b border-[var(--color-border)]">
               <ArticleCard a={withEngagement(LICK, eng)} views={v(LICK.slug)} />
