@@ -61,6 +61,31 @@ export function localizeArticle(a: Article, locale: Locale): Article {
 
 export const ARTICLES: Article[] = [
   {
+    href: "/blog/russia-fuel-jerrycan",
+    slug: "russia-fuel-jerrycan",
+    img: "/blog/russia-fuel-jerrycan/cover.webp",
+    rubric: "Аналитика",
+    title: "Государство закрыло статистику. Рынок открыл канистру",
+    subtitle:
+      "Дефицит топлива в России нельзя объявить — но можно посчитать. Как продажи пустых канистр на Wildberries стали барометром кризиса, когда статистику погасили.",
+    date: "29 Июн 2026",
+    datePublished: "2026-06-29",
+    readMin: 12,
+    likes: 0,
+    comments: 0,
+    shares: 0,
+    credit: "Иллюстрация: Алмас Касымжанов · Higgsfield AI",
+    en: {
+      rubric: "Analysis",
+      title: "The State Closed the Statistics. The Market Opened a Jerrycan.",
+      subtitle:
+        "Russia's fuel shortage can't be announced — but it can be counted. How sales of empty jerrycans on Wildberries became the crisis barometer once the official numbers went dark.",
+      date: "Jun 29, 2026",
+      credit: "Illustration: Almas Kasymzhanov · Higgsfield AI",
+    },
+    enReady: true,
+  },
+  {
     href: "/blog/nvidia-kazakhstan",
     slug: "nvidia-kazakhstan",
     img: "/blog/nvidia-kazakhstan/cover.webp",

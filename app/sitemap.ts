@@ -5,7 +5,7 @@ const BASE_URL = "https://kasymzhanov.com";
 /* Editorial pages that exist in both languages (RU at "/", EN at "/en").
    Each is emitted twice — once per language URL — with hreflang `alternates`
    so Google pairs them. Course pages stay RU-only and are not mirrored. */
-const BILINGUAL = ["", "/blog/nvidia-kazakhstan", "/blog/why-blogger-brands-fail", "/blog/kaspi-mcp"];
+const BILINGUAL = ["", "/blog/russia-fuel-jerrycan", "/blog/nvidia-kazakhstan", "/blog/why-blogger-brands-fail", "/blog/kaspi-mcp"];
 
 /* RU-only routes (no EN counterpart). */
 const RU_ONLY = [
