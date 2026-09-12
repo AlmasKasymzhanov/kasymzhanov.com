@@ -65,7 +65,7 @@ export function Socials({ className = "" }: { className?: string }) {
           rel="noopener noreferrer"
           aria-label={s.label}
           title={s.label}
-          className="text-[var(--color-dim)] hover:text-[var(--color-brand)] transition-colors"
+          className="text-[var(--personal-muted)] hover:text-[var(--personal-text)] transition-colors duration-[120ms] no-underline focus-visible:outline-2 focus-visible:outline-offset-4"
         >
           <SocialIcon name={s.icon} size={18} />
         </a>

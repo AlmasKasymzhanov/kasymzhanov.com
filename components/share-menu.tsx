@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { track } from "@vercel/analytics";
-import { IconlyShare, IconlyCopy, IconlyTelegram, IconlyX, IconlyInstagram, IconlyLinkedIn, IconlyEmail, IconlyWhatsApp, IconlyFacebook, IconlyThreads, IconlyVK } from "@/components/iconly-icons";
+import { IconlyShare, IconlyCopy, IconlyEmail } from "@/components/iconly-icons";
+import { SocialIcon } from "@/components/social-icons";
 import { localeFromPathname, dict } from "@/lib/i18n";
 import { contentSlug, contentShareUrl } from "@/lib/content-identity";
 
@@ -35,49 +36,49 @@ const CHANNELS: Channel[] = [
   {
     id: "telegram",
     label: "Telegram",
-    icon: <IconlyTelegram size={18} />,
+    icon: <SocialIcon name="telegram" size={18} />,
     href: (u, t) => `https://t.me/share/url?url=${eu(u)}&text=${eu(t)}`,
   },
   {
     id: "whatsapp",
     label: "WhatsApp",
-    icon: <IconlyWhatsApp size={18} />,
+    icon: <SocialIcon name="whatsapp" size={18} />,
     href: (u, t) => `https://wa.me/?text=${eu(`${t}\n${u}`)}`,
   },
   {
     id: "vk",
     label: "ВКонтакте",
-    icon: <IconlyVK size={18} />,
+    icon: <SocialIcon name="vk" size={18} />,
     href: (u, t) => `https://vk.com/share.php?url=${eu(u)}&title=${eu(t)}`,
   },
   {
     id: "instagram",
     label: "Instagram",
     native: true,
-    icon: <IconlyInstagram size={18} />,
+    icon: <SocialIcon name="instagram" size={18} />,
   },
   {
     id: "threads",
     label: "Threads",
-    icon: <IconlyThreads size={18} />,
+    icon: <SocialIcon name="threads" size={18} />,
     href: (u, t) => `https://www.threads.net/intent/post?text=${eu(`${t}\n${u}`)}`,
   },
   {
     id: "x",
     label: "X (Twitter)",
-    icon: <IconlyX size={18} />,
+    icon: <SocialIcon name="x" size={18} />,
     href: (u, t) => `https://twitter.com/intent/tweet?url=${eu(u)}&text=${eu(t)}`,
   },
   {
     id: "facebook",
     label: "Facebook",
-    icon: <IconlyFacebook size={18} />,
+    icon: <SocialIcon name="facebook" size={18} />,
     href: (u) => `https://www.facebook.com/sharer/sharer.php?u=${eu(u)}`,
   },
   {
     id: "linkedin",
     label: "LinkedIn",
-    icon: <IconlyLinkedIn size={18} />,
+    icon: <SocialIcon name="linkedin" size={18} />,
     href: (u) => `https://www.linkedin.com/sharing/share-offsite/?url=${eu(u)}`,
   },
   {
@@ -262,17 +263,17 @@ export function ShareMenu({ count = 0, onShare, slug }: { count?: number; onShar
         >
           {canNative && (
             <button onClick={() => nativeShare("native")} className={item} role="menuitem">
-              <span className="shrink-0 opacity-70"><IconlyShare size={18} /></span>
+              <span className="shrink-0"><IconlyShare size={18} /></span>
               <span className="flex-1">{t.shareNative}</span>
             </button>
           )}
           <button onClick={() => doCopy("copy")} className={item} role="menuitem">
-            <span className="shrink-0 opacity-70">{copiedId === "copy" ? <IconlyCopy size={18} /> : <IconlyCopy size={18} />}</span>
+            <span className="shrink-0">{copiedId === "copy" ? <IconlyCopy size={18} /> : <IconlyCopy size={18} />}</span>
             <span className="flex-1">{copiedId === "copy" ? t.copied : t.copyLink}</span>
           </button>
           {CHANNELS.map((ch) => (
             <button key={ch.id} onClick={() => activate(ch)} className={item} role="menuitem">
-              <span className="shrink-0 opacity-70">{copiedId === ch.id ? <IconlyCopy size={18} /> : ch.icon}</span>
+              <span className="shrink-0">{copiedId === ch.id ? <IconlyCopy size={18} /> : ch.icon}</span>
               <span className="flex-1">{copiedId === ch.id ? t.linkCopied : chLabel(ch)}</span>
             </button>
           ))}
