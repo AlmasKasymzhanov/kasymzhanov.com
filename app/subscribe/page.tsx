@@ -4,7 +4,7 @@ import { SubscribeForm } from "@/components/subscribe-form";
 import { GoogleButton } from "@/components/google-button";
 
 export const metadata: Metadata = {
-  title: "Подписка — Almas Kasymzhanov",
+  title: "Подписка — Алмас Касымжанов",
   description:
     "Подпишитесь на рассылку: разборы ниш маркетплейсов, юнит-экономика и аналитика — на почту. Бесплатно.",
 };

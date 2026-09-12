@@ -1,51 +1,7 @@
-import Link from "next/link";
+import { PersonalArticleList } from "@/components/personal-article-list";
+import { getPublishedArticles } from "@/components/articles";
 import type { Metadata } from "next";
-import { SiteHeader, SiteFooter } from "@/components/canon/site-chrome";
-import { Term } from "@/components/canon/term";
-
-const SOON_TIP = {
-  ru: "Автор сейчас дорабатывает этот материал. Скоро будет доступно.",
-  en: "The author is currently working on this. Coming soon.",
-};
-
-function ToolCard({ title, desc, href, badge }: { title: string; desc: string; href: string; badge: string }) {
-  return (
-    <Link
-      href={href}
-      className="group block p-6 border border-[var(--color-border)] bg-[var(--color-surface)] hover:bg-[var(--color-surface-hover)] transition-all no-underline"
-    >
-      <div className="flex items-center gap-2.5 mb-3">
-        <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider text-[var(--color-brand)] border border-[var(--color-brand)]/30">
-          {badge}
-        </span>
-      </div>
-      <h3 className="text-base font-bold text-[var(--color-text)] group-hover:text-[var(--color-brand)] transition-colors mb-2">
-        {title}
-      </h3>
-      <p className="text-[13px] text-[var(--color-dim)] leading-relaxed">{desc}</p>
-    </Link>
-  );
-}
-
-function SoonCard({ title, desc, badge, locale }: { title: string; desc: string; badge: string; locale: "ru" | "en" }) {
-  return (
-    <div className="group relative block p-6 border border-[var(--color-border)] bg-[var(--color-surface)]/60 text-[var(--color-dim)]/80 cursor-not-allowed overflow-hidden">
-      <div className="absolute inset-0 bg-[var(--color-bg)]/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-6">
-        <p className="text-center text-[13px] font-medium text-[var(--color-text)] leading-relaxed">
-          {SOON_TIP[locale]}
-        </p>
-      </div>
-      <div className="flex items-center gap-2.5 mb-3">
-        <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider text-[var(--color-dim)] border border-[var(--color-border)]">
-          {badge}
-        </span>
-      </div>
-      <h3 className="text-base font-bold text-[var(--color-text)] mb-2">{title}</h3>
-      <p className="text-[13px] text-[var(--color-dim)] leading-relaxed">{desc}</p>
-    </div>
-  );
-}
-
+import { PersonalDocument } from "@/components/personal-document";
 const TOOLS = [
   {
     title: "MCP-коннектор для Kaspi",
@@ -78,7 +34,7 @@ const TOOLS = [
 ];
 
 export const metadata: Metadata = {
-  title: "Практика — Kasymzhanov",
+  title: "Инструменты — Kasymzhanov",
   description: "Инструменты, гайды и практические кейсы для аналитики маркетплейсов.",
   alternates: {
     canonical: "/tools",
@@ -86,41 +42,16 @@ export const metadata: Metadata = {
   },
 };
 
+
 export default function ToolsPage() {
-  return (
-    <div className="font-body text-[var(--color-text)]">
-      <div className="max-w-[1400px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">
-        <SiteHeader locale="ru" />
-
-        <main id="main-content" className="w-full max-w-[1040px] mx-auto px-6 py-12 md:py-16">
-          <header className="mb-10">
-            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--color-brand)] mb-4">
-              Рубрика
-            </p>
-            <h1 className="text-[32px] md:text-[44px] font-bold tracking-tight text-[var(--color-text)] leading-[1.05] mb-4">
-              Практика
-            </h1>
-            <p className="text-[15px] md:text-[16px] text-[var(--color-dim)] leading-relaxed max-w-[640px]">
-              Инструменты, гайды и практические кейсы для работы с данными маркетплейсов.
-            </p>
-          </header>
-
-          <hr className="border-[var(--color-border)] mb-10" />
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            {TOOLS.map((tool) =>
-              tool.soon ? (
-                <SoonCard key={tool.title} title={tool.title} desc={tool.desc} badge={tool.badge} locale="ru" />
-              ) : (
-                <ToolCard key={tool.title} title={tool.title} desc={tool.desc} href={tool.href} badge={tool.badge} />
-              )
-            )}
-          </div>
-        </main>
-
-        <div className="flex-1" aria-hidden />
-        <SiteFooter locale="ru" />
-      </div>
-    </div>
-  );
+ return <PersonalDocument locale="ru">
+   <header className="pb-8"><h1>Инструменты</h1><p className="mt-6 text-[var(--personal-muted)]">Инструменты, гайды и практические кейсы для работы с данными маркетплейсов.</p></header>
+   <PersonalArticleList locale="ru" articles={getPublishedArticles("ru").filter(article => article.slug === "kaspi-mcp")} />
+   <p className="personal-kicker mt-10 mb-3">В работе</p>
+   <ul className="">
+    {TOOLS.filter(tool => tool.soon).map(tool => <li key={tool.title} className="py-5">
+      <div><div className="flex flex-wrap items-center gap-2"><h2 className="!text-[17px]">{tool.title}</h2><span className="rounded-full bg-[var(--personal-rail-hover)] px-2 py-0.5 text-[12px] text-[var(--personal-muted)]">Скоро</span></div><p className="personal-caption mt-2">{tool.desc}</p></div>
+    </li>)}
+   </ul>
+ </PersonalDocument>;
 }

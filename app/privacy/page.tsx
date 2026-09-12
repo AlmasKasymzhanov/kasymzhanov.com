@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { LegalDoc } from "@/components/canon/legal-doc";
 
 export const metadata: Metadata = {
-  title: "Политика конфиденциальности — Almas Kasymzhanov",
+  title: "Политика конфиденциальности — Алмас Касымжанов",
   description:
     "Политика конфиденциальности kasymzhanov.com: какие данные собираются, Google Sign-In, cookies, права субъекта данных (RU/EN). Privacy Policy.",
 };

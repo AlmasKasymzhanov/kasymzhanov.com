@@ -1,4 +1,6 @@
 "use client";
+import { MaterialViews } from "@/components/engagement/material-views";
+import { IconlyArrowRight, IconlyArrowLeft, IconlyChevronDown } from "@/components/iconly-icons";
 
 import { useState, useMemo, useCallback, useRef } from "react";
 import Link from "next/link";
@@ -411,15 +413,15 @@ function exportCSV(rows: NicheRow[], filename: string) {
 /* ───────────────────── styles ────────────────────────────── */
 
 const C = {
-  bg: "#0a0a0f",
-  surface: "#111119",
-  border: "#1e1e30",
-  accent: "#6c5ce7",
-  green: "#00d2a0",
-  text: "#e8e8f0",
-  dim: "#999",
-  faint: "#444",
-  hoverRow: "rgba(108,92,231,0.06)",
+  bg: "var(--personal-paper)",
+  surface: "var(--report-surface)",
+  border: "var(--personal-border)",
+  accent: "var(--report-accent)",
+  green: "var(--report-green)",
+  text: "var(--personal-text)",
+  dim: "var(--personal-muted)",
+  faint: "var(--personal-border)",
+  hoverRow: "var(--personal-rail-hover)",
 };
 
 /* ──────────────────── column config ──────────────────────── */
@@ -445,7 +447,7 @@ function scoreColor(score: number): string {
 }
 
 const COLUMNS: ColDef[] = [
-  { label: "#", key: "rank", align: "center", w: 42, render: (r) => <span style={{ color: rankColor(r.rank), fontWeight: 700, fontSize: 12 }}>{r.rank}</span> },
+  { label: "#", key: "rank", align: "center", w: 42, render: (r) => <span style={{ color: rankColor(r.rank), fontWeight: 500, fontSize: 12 }}>{r.rank}</span> },
   { label: "Предмет", key: "product", align: "left", w: 150, render: (r) => <span title={r.name} style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", display: "block" }}>{r.product}</span> },
   { label: "Подгруппа", key: "subgroup", align: "left", w: 120, render: (r) => <span style={{ color: C.dim, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", display: "block" }}>{r.subgroup}</span> },
   { label: "Сезон", key: "seasonLabel", align: "center", w: 70, render: (r) => <span style={{ fontSize: 11, color: r.seasonLabel === "Высокая" ? "#f59e0b" : r.seasonLabel === "Умеренная" ? "#a29bfe" : C.dim }}>{r.seasonLabel}</span> },
@@ -456,7 +458,7 @@ const COLUMNS: ColDef[] = [
   { label: "% с прод.", key: "pctSalesMoving", align: "right", w: 62, render: (r) => fmtPct(r.pctSalesMoving) },
   { label: "% выкупа", key: "buyoutPct", align: "right", w: 62, render: (r) => fmtPct(r.buyoutPct) },
   { label: "Оборач.", key: "turnoverDays", align: "right", w: 55, render: (r) => String(r.turnoverDays) },
-  { label: "Выручка", key: "revenue", align: "right", w: 88, render: (r) => <span style={{ fontWeight: 600 }}>{fmtMoney(r.revenue)}</span> },
+  { label: "Выручка", key: "revenue", align: "right", w: 88, render: (r) => <span style={{ fontWeight: 500 }}>{fmtMoney(r.revenue)}</span> },
   { label: "Выр/тов", key: "revPerItem", align: "right", w: 78, render: (r) => fmtNum(Math.round(r.revPerItem)) },
   { label: "% упущ.", key: "lostRevPct", align: "right", w: 58, render: (r) => fmtPct(r.lostRevPct) },
   { label: "Потенциал", key: "potential", align: "right", w: 88, render: (r) => fmtMoney(r.potential) },
@@ -470,7 +472,7 @@ const COLUMNS: ColDef[] = [
   { label: "Клики", key: "clicks", align: "right", w: 52, render: (r) => fmtNum(r.clicks) },
   { label: "% корз.", key: "cartPct", align: "right", w: 55, render: (r) => fmtDec(r.cartPct, 1) },
   { label: "% заказ.", key: "orderPct", align: "right", w: 55, render: (r) => fmtDec(r.orderPct, 1) },
-  { label: "Балл", key: "score", align: "right", w: 48, render: (r) => <span style={{ color: scoreColor(r.score), fontWeight: 700 }}>{fmtDec(r.score, 1)}</span> },
+  { label: "Балл", key: "score", align: "right", w: 48, render: (r) => <span style={{ color: scoreColor(r.score), fontWeight: 500 }}>{fmtDec(r.score, 1)}</span> },
 ];
 
 /* ───────────────────── components ────────────────────────── */
@@ -500,7 +502,7 @@ function SlicerPanel({
           const active = activeFilters[f.key] || new Set();
           return (
             <div key={f.key} style={{ minWidth: 120, background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 10px", flexShrink: 0 }}>
-              <div style={{ fontSize: 10, color: C.dim, marginBottom: 6, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div style={{ fontSize: 10, color: C.dim, marginBottom: 6, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.05em", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 {f.label}
                 {active.size > 0 && (
                   <span onClick={() => active.forEach((v) => onToggle(f.key, v))} style={{ cursor: "pointer", color: C.accent, fontSize: 12 }}>✕</span>
@@ -521,7 +523,7 @@ function SlicerPanel({
                       display: "flex",
                       justifyContent: "space-between",
                       gap: 6,
-                      background: isActive ? "rgba(108,92,231,0.2)" : "transparent",
+                      background: isActive ? "var(--personal-rail-hover)" : "transparent",
                       color: isActive ? "#fff" : cnt > 0 ? C.text : C.faint,
                     }}
                   >
@@ -543,7 +545,7 @@ function SlicerPanel({
         const active = activeFilters[f.key] || new Set();
         return (
           <div key={f.key} style={{ minWidth: 130, background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 10px", flexShrink: 0 }}>
-            <div style={{ fontSize: 10, color: C.dim, marginBottom: 6, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ fontSize: 10, color: C.dim, marginBottom: 6, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.05em", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               {f.label}
               {active.size > 0 && (
                 <span onClick={() => active.forEach((v) => onToggle(f.key, v))} style={{ cursor: "pointer", color: C.accent, fontSize: 12 }}>✕</span>
@@ -564,7 +566,7 @@ function SlicerPanel({
                     display: "flex",
                     justifyContent: "space-between",
                     gap: 6,
-                    background: isActive ? "rgba(108,92,231,0.2)" : "transparent",
+                    background: isActive ? "var(--personal-rail-hover)" : "transparent",
                     color: isActive ? "#fff" : cnt > 0 ? C.text : C.faint,
                   }}
                 >
@@ -728,13 +730,14 @@ export default function WbAnalyzerPage() {
         style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 24, background: C.bg }}
       >
         <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <h1 style={{ fontSize: 28, fontWeight: 700, margin: "0 0 8px", color: C.text }}>
+          <h1 style={{ fontSize: 28, fontWeight: 500, margin: "0 0 8px", color: C.text }}>
             WB Niche Analyzer
           </h1>
+          <MaterialViews />
           <p style={{ color: C.dim, fontSize: 14, margin: 0 }}>
             Загрузите CSV из MPStats (Внешняя аналитика → Выбор ниши)
           </p>
-          <div style={{ display: "inline-block", marginTop: 8, padding: "3px 10px", borderRadius: 4, background: "rgba(108,92,231,0.15)", color: C.accent, fontSize: 11, fontWeight: 600 }}>
+          <div style={{ display: "inline-block", marginTop: 8, padding: "3px 10px", borderRadius: 4, background: "var(--personal-rail-hover)", color: C.accent, fontSize: 11, fontWeight: 500 }}>
             Инсайт — данные продаж/выручки используются напрямую
           </div>
           <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 8 }}>
@@ -742,13 +745,13 @@ export default function WbAnalyzerPage() {
               href="/tools/wb-analyzer/guide"
               style={{ fontSize: 13, color: C.accent, textDecoration: "none", fontWeight: 500 }}
             >
-              Инструкция: как анализировать ниши →
+              Инструкция: как анализировать ниши <IconlyArrowRight size={17} className="reading-inline-icon" />
             </Link>
             <Link
               href="/tools/mpstats-api"
               style={{ fontSize: 13, color: C.green, textDecoration: "none", fontWeight: 500 }}
             >
-              API Гайд: выгрузка данных из MPStats →
+              API Гайд: выгрузка данных из MPStats <IconlyArrowRight size={17} className="reading-inline-icon" />
             </Link>
           </div>
         </div>
@@ -760,7 +763,7 @@ export default function WbAnalyzerPage() {
             width: 420,
             maxWidth: "90vw",
             border: `2px dashed ${C.border}`,
-            borderRadius: 12,
+            borderRadius: 3,
             padding: "48px 24px",
             textAlign: "center",
             cursor: "pointer",
@@ -797,8 +800,8 @@ export default function WbAnalyzerPage() {
       {/* toolbar */}
       <div style={{ position: "sticky", top: 0, zIndex: 20, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "10px 16px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-          <span style={{ fontWeight: 700, fontSize: 15, marginRight: 4 }}>WB Niche Analyzer</span>
-          <span style={{ padding: "2px 8px", borderRadius: 4, background: "rgba(108,92,231,0.15)", color: C.accent, fontSize: 10, fontWeight: 600 }}>
+          <span style={{ fontWeight: 500, fontSize: 15, marginRight: 4 }}>WB Niche Analyzer</span>
+          <span style={{ padding: "2px 8px", borderRadius: 4, background: "var(--personal-rail-hover)", color: C.accent, fontSize: 10, fontWeight: 500 }}>
             Инсайт
           </span>
           <span style={{ color: C.dim, fontSize: 12 }}>{fileName}</span>
@@ -810,18 +813,18 @@ export default function WbAnalyzerPage() {
             onChange={(e) => { setSearch(e.target.value); setPage(0); }}
             style={{ width: 200, padding: "6px 10px", borderRadius: 6, border: `1px solid ${C.border}`, background: C.surface, color: C.text, fontSize: 12, outline: "none" }}
           />
-          <button onClick={() => setShowFilters(!showFilters)} style={{ padding: "6px 12px", borderRadius: 6, border: `1px solid ${C.border}`, background: showFilters ? "rgba(108,92,231,0.15)" : C.surface, color: showFilters ? C.accent : C.dim, fontSize: 12, cursor: "pointer", fontWeight: 500 }}>
-            {showFilters ? "▲" : "▼"} Фильтры {activeFilterCount > 0 && `(${activeFilterCount})`}
+          <button onClick={() => setShowFilters(!showFilters)} style={{ padding: "6px 12px", borderRadius: 6, border: `1px solid ${C.border}`, background: showFilters ? "var(--personal-rail-hover)" : C.surface, color: showFilters ? C.accent : C.dim, fontSize: 12, cursor: "pointer", fontWeight: 500 }}>
+            <IconlyChevronDown size={17} className={`reading-inline-icon ${showFilters ? "rotate-180" : ""}`} /> Фильтры {activeFilterCount > 0 && `(${activeFilterCount})`}
           </button>
           {(activeFilterCount > 0 || search) && (
             <button onClick={resetAll} style={{ padding: "6px 12px", borderRadius: 6, border: `1px solid ${C.border}`, background: C.surface, color: "#f87171", fontSize: 12, cursor: "pointer" }}>
               ✕ Сброс
             </button>
           )}
-          <Link href="/tools/wb-analyzer/guide" style={{ padding: "6px 10px", borderRadius: 6, border: `1px solid ${C.border}`, background: C.surface, color: C.dim, fontSize: 13, cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", fontWeight: 600 }}>
+          <Link href="/tools/wb-analyzer/guide" style={{ padding: "6px 10px", borderRadius: 6, border: `1px solid ${C.border}`, background: C.surface, color: C.dim, fontSize: 13, cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", fontWeight: 500 }}>
             ?
           </Link>
-          <Link href="/tools/mpstats-api" style={{ padding: "6px 10px", borderRadius: 6, border: `1px solid ${C.border}`, background: C.surface, color: C.green, fontSize: 12, cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", fontWeight: 600 }}>
+          <Link href="/tools/mpstats-api" style={{ padding: "6px 10px", borderRadius: 6, border: `1px solid ${C.border}`, background: C.surface, color: C.green, fontSize: 12, cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", fontWeight: 500 }}>
             API
           </Link>
           <button onClick={() => fileRef.current?.click()} style={{ padding: "6px 10px", borderRadius: 6, border: `1px solid ${C.border}`, background: C.surface, color: C.dim, fontSize: 14, cursor: "pointer" }}>
@@ -837,7 +840,7 @@ export default function WbAnalyzerPage() {
           {selected.size > 0 && (
             <button
               onClick={() => exportCSV(data.filter((r) => selected.has(r.rank)), "wb_niches_selected.csv")}
-              style={{ padding: "6px 12px", borderRadius: 6, border: `1px solid ${C.accent}`, background: "rgba(108,92,231,0.15)", color: C.accent, fontSize: 12, cursor: "pointer", fontWeight: 500 }}
+              style={{ padding: "6px 12px", borderRadius: 6, border: `1px solid ${C.accent}`, background: "var(--personal-rail-hover)", color: C.accent, fontSize: 12, cursor: "pointer", fontWeight: 500 }}
             >
               ⬇ Выбранные ({selected.size})
             </button>
@@ -875,7 +878,7 @@ export default function WbAnalyzerPage() {
                     padding: "8px 6px",
                     textAlign: col.align,
                     fontSize: 10,
-                    fontWeight: 600,
+                    fontWeight: 500,
                     color: sortKey === col.key ? C.accent : C.dim,
                     cursor: "pointer",
                     whiteSpace: "nowrap",
@@ -888,7 +891,7 @@ export default function WbAnalyzerPage() {
                   {col.label}
                   {sortKey === col.key && (
                     <span style={{ marginLeft: 2, fontSize: 9 }}>
-                      {sortAsc ? "▲" : "▼"}
+                      <IconlyChevronDown size={15} className={`reading-inline-icon ${sortAsc ? "rotate-180" : ""}`} />
                     </span>
                   )}
                 </th>
@@ -904,14 +907,14 @@ export default function WbAnalyzerPage() {
                   onClick={() => toggleSelect(r.rank)}
                   style={{
                     cursor: "pointer",
-                    background: isSel ? "rgba(108,92,231,0.1)" : "transparent",
+                    background: isSel ? "var(--personal-rail-hover)" : "transparent",
                     borderBottom: `1px solid ${C.border}`,
                   }}
                   onMouseEnter={(e) => {
                     if (!isSel) e.currentTarget.style.background = C.hoverRow;
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = isSel ? "rgba(108,92,231,0.1)" : "transparent";
+                    e.currentTarget.style.background = isSel ? "var(--personal-rail-hover)" : "transparent";
                   }}
                 >
                   <td style={{ textAlign: "center", padding: "6px 4px", fontSize: 12 }}>
@@ -948,7 +951,7 @@ export default function WbAnalyzerPage() {
             onClick={() => setPage(page - 1)}
             style={{ padding: "6px 14px", borderRadius: 6, border: `1px solid ${C.border}`, background: C.surface, color: page === 0 ? C.faint : C.text, fontSize: 12, cursor: page === 0 ? "default" : "pointer" }}
           >
-            ← Назад
+            <IconlyArrowLeft size={17} className="reading-inline-icon" /> Назад
           </button>
           <span style={{ padding: "6px 0", fontSize: 12, color: C.dim }}>
             {page + 1} / {totalPages}
@@ -958,7 +961,7 @@ export default function WbAnalyzerPage() {
             onClick={() => setPage(page + 1)}
             style={{ padding: "6px 14px", borderRadius: 6, border: `1px solid ${C.border}`, background: C.surface, color: page >= totalPages - 1 ? C.faint : C.text, fontSize: 12, cursor: page >= totalPages - 1 ? "default" : "pointer" }}
           >
-            Далее →
+            Далее <IconlyArrowRight size={17} className="reading-inline-icon" />
           </button>
         </div>
       )}

@@ -1,17 +1,20 @@
 "use client";
+import { ResearchSection, ResearchFact, ResearchNote, ResearchFigure } from "@/components/canon/research-editorial";
+import { ResearchReadingTime } from "@/components/canon/research-reading-time";
+
 
 const C = {
-  bg: "#0a0a0f", surface: "#111119", border: "#1e1e30",
-  accent: "#6c5ce7", green: "#00d2a0", text: "#e8e8f0",
-  dim: "#999", red: "#f87171", amber: "#f59e0b",
-  blue: "#60a5fa", pink: "#f472b6", cyan: "#22d3ee",
-  kaspi: "#f14635",
+  bg: "var(--personal-paper)", surface: "var(--report-surface)", border: "var(--personal-border)",
+  accent: "var(--personal-text)", green: "var(--personal-text)", text: "var(--personal-text)",
+  dim: "var(--personal-muted)", red: "var(--personal-text)", amber: "var(--personal-text)",
+  blue: "var(--personal-text)", pink: "var(--personal-text)", cyan: "var(--personal-text)",
+  kaspi: "var(--personal-text)",
 };
 
-const sP: React.CSSProperties = { fontSize: 14, lineHeight: 1.75, color: "#ccc", margin: "0 0 12px" };
-const sCard: React.CSSProperties = { background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, padding: "24px", marginBottom: 16 };
-const sBadge = (color: string): React.CSSProperties => ({ display: "inline-block", padding: "3px 10px", borderRadius: 20, background: `${color}18`, color, fontSize: 11, fontWeight: 600, letterSpacing: "0.03em" });
-const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 700, color: C.accent, margin: "28px 0 16px" };
+const sP: React.CSSProperties = { fontSize: "var(--reading-body-size)", lineHeight: 1.75, color: "var(--personal-text)", margin: "0 0 12px" };
+const sCard: React.CSSProperties = { margin: "24px 0", padding: 0 };
+const sBadge = (_color: string): React.CSSProperties => ({ display: "inline", color: "var(--personal-muted)", fontSize: 12, fontWeight: 400 });
+const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 500, color: C.accent, margin: "28px 0 16px" };
 
 function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (string | number)[][]; highlight?: number }) {
   return (
@@ -19,14 +22,14 @@ function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (str
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
         <thead>
           <tr>{headers.map((h, i) => (
-            <th key={i} style={{ padding: "10px 12px", textAlign: "left", color: C.dim, fontWeight: 600, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>
+            <th key={i} style={{ padding: "10px 12px", textAlign: "left", color: C.dim, fontWeight: 500, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>
           ))}</tr>
         </thead>
         <tbody>
           {rows.map((row, ri) => (
-            <tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `${C.accent}12` : "transparent" }}>
+            <tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `color-mix(in srgb, ${C.accent} 7%, transparent)` : "transparent" }}>
               {row.map((cell, ci) => (
-                <td key={ci} style={{ padding: "10px 12px", textAlign: "left", color: ci === 0 ? C.text : "#ccc", borderBottom: `1px solid ${C.border}20`, fontWeight: ci === 0 ? 500 : 400, whiteSpace: ci === 0 ? "nowrap" : "normal" }}>{cell}</td>
+                <td key={ci} style={{ padding: "10px 12px", textAlign: "left", color: ci === 0 ? C.text : "var(--personal-text)", borderBottom: `1px solid color-mix(in srgb, ${C.border} 13%, transparent)`, fontWeight: ci === 0 ? 500 : 400, whiteSpace: ci === 0 ? "nowrap" : "normal" }}>{cell}</td>
               ))}
             </tr>
           ))}
@@ -36,46 +39,39 @@ function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (str
   );
 }
 
-function Section({ id, num, title, children }: { id: string; num: string; title: string; children: React.ReactNode }) {
-  return (
-    <div id={id} style={{ marginBottom: 56 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24, paddingBottom: 12, borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ width: 44, height: 44, borderRadius: 10, background: `${C.accent}15`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 800, color: C.accent, flexShrink: 0 }}>{num}</div>
-        <h2 style={{ fontSize: 22, fontWeight: 800, color: C.text, margin: 0, letterSpacing: "-0.01em", lineHeight: 1.2 }}>{title}</h2>
-      </div>
-      {children}
-    </div>
-  );
-}
+function Section({ id, num, title, children }: { id: string; num: string; title: string; children: React.ReactNode }) { return <ResearchSection id={id} title={title}>{children}</ResearchSection>; }
 
 export default function KaspiPreorderGuidePage() {
   return (
-    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "'Inter', -apple-system, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "var(--font-body)" }}>
       <div style={{ maxWidth: 920, margin: "0 auto", padding: "48px 24px 80px" }}>
 
         {/* HEADER */}
-        <div style={{ marginBottom: 48 }}>
+        <div className="research-header" style={{ marginBottom: 48 }}>
           <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
             <span style={sBadge(C.kaspi)}>Kaspi.kz</span>
             <span style={sBadge(C.amber)}>Предзаказ</span>
             <span style={sBadge(C.green)}>Без вложений</span>
             <span style={sBadge(C.accent)}>Enterprise гайд</span>
           </div>
-          <h1 style={{ fontSize: 32, fontWeight: 800, margin: "0 0 16px", letterSpacing: "-0.02em", lineHeight: 1.15 }}>
+          <h1 style={{ fontSize: 32, fontWeight: 500, margin: "0 0 16px", letterSpacing: "-0.02em", lineHeight: 1.15 }}>
             Как запустить бизнес на Kaspi через Предзаказ
           </h1>
-          <p style={{ fontSize: 16, color: C.dim, margin: 0, lineHeight: 1.6 }}>
+          <p className="research-lead" style={{ fontSize: 16, color: C.dim, margin: 0, lineHeight: 1.6 }}>
             Полное enterprise-руководство: механика Kaspi.kz Предзаказа, условия 2026 года, реальные кейсы топ-селлеров, ниши с доказанным спросом, комиссии, лайфхаки, риски и пошаговая инструкция запуска без склада и больших вложений.
           </p>
           <div style={{ fontSize: 12, color: C.dim, marginTop: 12 }}>
-            Дата публикации: 10 апреля 2026 · Источники: официальный Kaspi Гид, vc.ru, habr.com, AlgaTop, материалы Артёма Бухонина
+            Дата публикации: 10 апреля 2026 · Источники: официальный Kaspi Гид, vc.ru, habr.com, практические материалы для продавцов, материалы Артёма Бухонина
           </div>
-        </div>
+
+<a href="/authors/almas-kasymzhanov" className="research-author">Алмас Касымжанов</a>
+<ResearchReadingTime />
+</div>
 
         {/* TOC */}
-        <div style={{ ...sCard, borderLeft: `4px solid ${C.accent}` }}>
-          <h3 style={{ fontSize: 14, fontWeight: 700, color: C.accent, margin: "0 0 12px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Содержание</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 8 }}>
+        <div style={{ ...sCard }}>
+          <h2 style={{ fontSize: 14, fontWeight: 400, color: C.accent, margin: "0 0 12px", textTransform: "none", letterSpacing: "0.05em" }}>Содержание</h2>
+          <div style={{ display: "block", marginBottom: 24 }}>
             {[
               ["1", "Что такое Предзаказ на Kaspi"],
               ["2", "Почему это лучший вход на маркетплейс"],
@@ -90,9 +86,9 @@ export default function KaspiPreorderGuidePage() {
               ["11", "Юнит-экономика на практике"],
               ["12", "Чек-лист первых 30 дней"],
             ].map(([n, t]) => (
-              <div key={n} style={{ display: "flex", gap: 10, fontSize: 13, color: "#ccc", padding: "6px 0" }}>
-                <span style={{ color: C.accent, fontWeight: 700, minWidth: 20 }}>{n}.</span>
-                <a href={`#s${n}`} style={{ color: "#ccc", textDecoration: "none" }}>{t}</a>
+              <div key={n} style={{ display: "flex", gap: 10, fontSize: 13, color: "var(--personal-text)", padding: "6px 0" }}>
+                <span style={{ color: C.accent, fontWeight: 400, minWidth: 20 }}>{n}.</span>
+                <a href={`#s${n}`} style={{ color: "var(--personal-text)", textDecoration: "none" }}>{t}</a>
               </div>
             ))}
           </div>
@@ -104,9 +100,9 @@ export default function KaspiPreorderGuidePage() {
             Предзаказ — это официальная функция Магазина на Kaspi.kz, которая позволяет продавцу <strong style={{ color: C.text }}>выставить на продажу товар, которого ещё нет в наличии</strong>. Покупатель видит карточку, оформляет заказ, оплачивает (или резервирует через Kaspi Red / Kaspi Kredit), а продавец после получения заказа закупает товар у поставщика и отправляет его в указанный срок.
           </p>
 
-          <div style={{ ...sCard, background: `${C.green}06`, border: `1px solid ${C.green}30` }}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: C.green, margin: "0 0 10px" }}>Прямая цитата из Kaspi Гид для партнёров</h3>
-            <p style={{ fontSize: 13, color: "#ccc", lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>
+          <div style={{ ...sCard }}>
+            <h3 style={{ fontSize: 14, fontWeight: 400, color: C.green, margin: "0 0 10px" }}>Прямая цитата из Kaspi Гид для партнёров</h3>
+            <p style={{ fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>
               «Предзаказ — возможность продать товар, которого ещё нет в наличии. Например, если вы закупаете товар под заказ, можете предложить покупателям купить его до того, как он поступит на склад».
             </p>
           </div>
@@ -122,17 +118,17 @@ export default function KaspiPreorderGuidePage() {
               { step: "5", color: C.pink, title: "Передача в Kaspi Доставку или самовывоз", text: "Покупатель получает уведомление в приложении Kaspi о готовности заказа" },
               { step: "6", color: C.green, title: "Получение денег", text: "После завершения заказа Kaspi перечисляет деньги селлеру на Kaspi Pay (за вычетом комиссии)" },
             ].map((s, i) => (
-              <div key={i} style={{ display: "flex", gap: 14, padding: "14px 16px", background: C.surface, border: `1px solid ${C.border}`, borderRadius: 10 }}>
-                <div style={{ width: 32, height: 32, borderRadius: "50%", background: `${s.color}20`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700, color: s.color, flexShrink: 0 }}>{s.step}</div>
+              <div key={i} style={{ display: "flex", gap: 14, padding: "16px 0" }}>
+
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 2 }}>{s.title}</div>
-                  <div style={{ fontSize: 12, color: "#ccc", lineHeight: 1.6 }}>{s.text}</div>
+                  <div style={{ fontSize: 13, fontWeight: 400, color: C.text, marginBottom: 2 }}>{s.title}</div>
+                  <div style={{ fontSize: 12, color: "var(--personal-text)", lineHeight: 1.6 }}>{s.text}</div>
                 </div>
               </div>
             ))}
           </div>
 
-          <div style={{ borderLeft: `3px solid ${C.kaspi}`, paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "#ccc", lineHeight: 1.7 }}>
+          <div style={{ paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7 }}>
             <strong style={{ color: C.kaspi }}>Главное отличие от обычной продажи: </strong>деньги клиента приходят к селлеру <strong style={{ color: C.text }}>до того, как селлер их потратил</strong> на закупку. Это перевёрнутая бизнес-модель — никакого складского запаса, никаких заморозок капитала, никакого риска неликвидов.
           </div>
         </Section>
@@ -151,16 +147,16 @@ export default function KaspiPreorderGuidePage() {
 
           <h3 style={sH3}>Что говорят эксперты</h3>
 
-          <div style={{ ...sCard, background: `${C.amber}06`, border: `1px solid ${C.amber}30` }}>
-            <div style={{ fontSize: 12, color: C.amber, fontWeight: 700, marginBottom: 8 }}>AlgaTop — обучающая платформа для Kaspi-селлеров</div>
-            <p style={{ fontSize: 13, color: "#ccc", lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>
+          <div style={{ ...sCard }}>
+            <div style={{ fontSize: 12, color: C.amber, fontWeight: 400, marginBottom: 8 }}>практические материалы для продавцов — обучающая платформа для Kaspi-селлеров</div>
+            <p style={{ fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>
               «Предзаказ — оптимальная стратегия продаж для тех, кто только тестирует выбранную нишу или не готов к большим вложениям. Схема работы с предзаказом выгодна тем, что селлер не замораживает свои деньги в товаре».
             </p>
           </div>
 
-          <div style={{ ...sCard, background: `${C.blue}06`, border: `1px solid ${C.blue}30` }}>
-            <div style={{ fontSize: 12, color: C.blue, fontWeight: 700, marginBottom: 8 }}>Артём Бухонин — топ-селлер, автор курсов по Kaspi (1 000+ учеников)</div>
-            <p style={{ fontSize: 13, color: "#ccc", lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>
+          <div style={{ ...sCard }}>
+            <div style={{ fontSize: 12, color: C.blue, fontWeight: 400, marginBottom: 8 }}>Артём Бухонин — топ-селлер, автор курсов по Kaspi (1 000+ учеников)</div>
+            <p style={{ fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>
               Бухонин построил отдельную методику «Схема Kaspi Предзаказы» и обучает её в курсах. Из его учеников 7 человек вышли на оборот более 5 000 000 ₸/мес. Сам Бухонин начинал с завода в Петропавловске → за полгода после освоения Kaspi Предзаказа купил квартиру в Алматы без ипотеки.
             </p>
           </div>
@@ -189,7 +185,7 @@ export default function KaspiPreorderGuidePage() {
             ["Подделки", "Полный запрет", "Немедленная блокировка"],
           ]} />
 
-          <div style={{ borderLeft: `3px solid ${C.red}`, paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "#ccc", lineHeight: 1.7 }}>
+          <div style={{ paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7 }}>
             <strong style={{ color: C.red }}>Важно: </strong>
             Kaspi <strong style={{ color: C.text }}>не штрафует деньгами</strong> (в отличие от Wildberries). Сначала идёт предупреждение, потом блокировка. Но если селлер опаздывает с передачей заказа — Kaspi автоматически добавляет «штрафные дни» к сроку, что ухудшает позиции карточки в выдаче.
           </div>
@@ -202,27 +198,27 @@ export default function KaspiPreorderGuidePage() {
           </p>
 
           <DataTable headers={["Категория", "Комиссия (без НДС)", "Подходит для предзаказа?"]} rows={[
-            ["Продукты питания", "6.4%", "✅ — но скоропортящиеся товары рискованно"],
-            ["Аптека", "6.4% – 10.9%", "🟡 — нужны сертификаты"],
-            ["Товары для животных", "6.4% – 10.9%", "✅ — отличная ниша"],
-            ["Автотовары", "10.9%", "✅"],
-            ["Бытовая техника", "10.9%", "✅ — топ-ниша для предзаказа из Китая"],
-            ["Детские товары", "10.9%", "✅ — высокий спрос круглый год"],
-            ["Досуг, книги", "10.9%", "✅"],
-            ["Канцелярские товары", "10.9%", "✅"],
-            ["Компьютеры", "10.9%", "🟡 — высокий чек, риск отказов"],
-            ["Красота и здоровье", "10.9%", "✅ — лучшая ниша по обороту"],
-            ["Мебель", "10.9%", "🟡 — крупногабарит = логистика"],
-            ["Обувь", "10.9%", "✅"],
-            ["Одежда", "10.9%", "✅"],
-            ["Подарки, товары для праздников", "10.9%", "✅ — сезонные хиты"],
-            ["Спорт, туризм", "10.9%", "✅"],
-            ["Строительство, ремонт", "10.9%", "✅"],
-            ["Товары для дома и дачи", "10.9%", "✅✅ — топ для новичков"],
-            ["Аксессуары", "10.9% – 13.5%", "✅"],
-            ["ТВ, Аудио, Видео", "10.9% – 13.5%", "🟡"],
-            ["Телефоны и гаджеты", "10.9% – 13.5%", "🟡 — высокая конкуренция"],
-            ["Украшения", "13.5%", "🟡 — нужны разрешения"],
+            ["Продукты питания", "6.4%", " — но скоропортящиеся товары рискованно"],
+            ["Аптека", "6.4% – 10.9%", " — нужны сертификаты"],
+            ["Товары для животных", "6.4% – 10.9%", " — отличная ниша"],
+            ["Автотовары", "10.9%", ""],
+            ["Бытовая техника", "10.9%", " — топ-ниша для предзаказа из Китая"],
+            ["Детские товары", "10.9%", " — высокий спрос круглый год"],
+            ["Досуг, книги", "10.9%", ""],
+            ["Канцелярские товары", "10.9%", ""],
+            ["Компьютеры", "10.9%", " — высокий чек, риск отказов"],
+            ["Красота и здоровье", "10.9%", " — лучшая ниша по обороту"],
+            ["Мебель", "10.9%", " — крупногабарит = логистика"],
+            ["Обувь", "10.9%", ""],
+            ["Одежда", "10.9%", ""],
+            ["Подарки, товары для праздников", "10.9%", " — сезонные хиты"],
+            ["Спорт, туризм", "10.9%", ""],
+            ["Строительство, ремонт", "10.9%", ""],
+            ["Товары для дома и дачи", "10.9%", " — топ для новичков"],
+            ["Аксессуары", "10.9% – 13.5%", ""],
+            ["ТВ, Аудио, Видео", "10.9% – 13.5%", ""],
+            ["Телефоны и гаджеты", "10.9% – 13.5%", " — высокая конкуренция"],
+            ["Украшения", "13.5%", " — нужны разрешения"],
           ]} />
 
           <h3 style={sH3}>Дополнительные расходы (помимо комиссии)</h3>
@@ -234,7 +230,7 @@ export default function KaspiPreorderGuidePage() {
             ["Бесплатная доставка для покупателя", "От 5 000 ₸ — за счёт селлера / Kaspi", "Влияет на цену товара"],
           ]} />
 
-          <div style={{ borderLeft: `3px solid ${C.green}`, paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "#ccc", lineHeight: 1.7 }}>
+          <div style={{ paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7 }}>
             <strong style={{ color: C.green }}>Важно для расчёта маржи: </strong>
             при предзаказе вы НЕ платите за хранение, аренду склада и риск неликвида. Это означает, что фактическая прибыль с предзаказа выше, чем с обычной продажи на ту же сумму. Комиссия одинаковая, а скрытых издержек у вас нет.
           </div>
@@ -246,8 +242,8 @@ export default function KaspiPreorderGuidePage() {
             История из публикации МойСклад на habr.com — селлер из Казахстана, который начал с 2 000 ₽ выручки в первый месяц и за 4 года вышел на оборот 5 000 000 ₽/мес (≈60 миллионов в год), причём <strong style={{ color: C.text }}>4.5 млн из 5 — это Kaspi.kz</strong>.
           </p>
 
-          <div style={{ ...sCard, background: `${C.green}06`, border: `1px solid ${C.green}30` }}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: C.green, margin: "0 0 16px" }}>Ключевые факты</h3>
+          <div style={{ ...sCard }}>
+            <h3 style={{ fontSize: 14, fontWeight: 400, color: C.green, margin: "0 0 16px" }}>Ключевые факты</h3>
             <DataTable headers={["Параметр", "Значение"]} rows={[
               ["Стартовая точка", "2021 год, после увольнения по болезни"],
               ["Стартовый капитал", "Сайт за 2 800 ₽/мес, товар брал в долг у партнёра"],
@@ -273,14 +269,14 @@ export default function KaspiPreorderGuidePage() {
               { title: "Постоянный клиент важнее цены", text: "У Фархата средний клиент возвращается 6 раз. Многие просто нажимают «повторить заказ», потому что доверяют продавцу. Это работает только при качественном сервисе." },
               { title: "Электроинструмент — тяжёлая ниша", text: "Маржинальность 25–30% при высокой конкуренции и серьёзных обязательствах. Для предзаказа лучше выбирать ниши с маржой 40%+." },
             ].map((item, i) => (
-              <div key={i} style={{ borderLeft: `3px solid ${C.accent}40`, paddingLeft: 14, marginBottom: 16 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 4 }}>{item.title}</div>
-                <div style={{ fontSize: 12, color: "#ccc", lineHeight: 1.6 }}>{item.text}</div>
+              <div key={i} style={{ paddingLeft: 14, marginBottom: 16 }}>
+                <div style={{ fontSize: 13, fontWeight: 400, color: C.text, marginBottom: 4 }}>{item.title}</div>
+                <div style={{ fontSize: 12, color: "var(--personal-text)", lineHeight: 1.6 }}>{item.text}</div>
               </div>
             ))}
           </div>
 
-          <div style={{ borderLeft: `3px solid ${C.amber}`, paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "#ccc", lineHeight: 1.7 }}>
+          <div style={{ paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7 }}>
             <strong style={{ color: C.amber }}>Цитата Фархата: </strong>
             «Если вы не Леруа Мерлен, в живую розницу лучше не лезть. В эпоху цифровых продаж лучше идти на маркетплейсы. Когда конкуренты занижают цены, приходится брать сервисом и качеством. Мы не первые в выдаче, но у нас всё равно много берут, причём по несколько раз».
           </div>
@@ -315,8 +311,8 @@ export default function KaspiPreorderGuidePage() {
               "Реинвестировать первую прибыль не в склад, а в новые карточки и больше SKU",
               "Вести учёт через МойСклад / Kaspi кабинет — с первого месяца, не «потом»",
             ].map((item, i) => (
-              <div key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "#ccc", marginBottom: 10, lineHeight: 1.6 }}>
-                <span style={{ color: C.accent, fontWeight: 700, flexShrink: 0 }}>→</span>
+              <div key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "var(--personal-text)", marginBottom: 10, lineHeight: 1.6 }}>
+                <span style={{ color: C.accent, fontWeight: 400, flexShrink: 0 }}>→</span>
                 <div>{item}</div>
               </div>
             ))}
@@ -358,7 +354,7 @@ export default function KaspiPreorderGuidePage() {
 
           <h3 style={sH3}>Идеальный профиль товара для предзаказа</h3>
 
-          <div style={sCard}>
+          <div className="research-facts">
             {[
               { metric: "Закупочная цена", value: "1 000 – 15 000 ₸", reason: "Низкий порог — быстрее закупить под заказ" },
               { metric: "Розничная цена на Kaspi", value: "4 000 – 40 000 ₸", reason: "Хороший массовый сегмент с маржой 50–150%" },
@@ -368,11 +364,7 @@ export default function KaspiPreorderGuidePage() {
               { metric: "Тренд / сезонность", value: "Восходящий или сезонный", reason: "Растущий спрос = больше заказов на ту же карточку" },
               { metric: "Конкуренция в карточке", value: "1 – 5 продавцов", reason: "Меньше демпинга, выше шанс попасть в топ выдачи" },
             ].map((item, i) => (
-              <div key={i} style={{ display: "flex", gap: 14, padding: "12px 0", borderBottom: i < 6 ? `1px solid ${C.border}30` : "none" }}>
-                <div style={{ minWidth: 180, fontSize: 12, color: C.dim }}>{item.metric}</div>
-                <div style={{ minWidth: 180, fontSize: 13, fontWeight: 700, color: C.green }}>{item.value}</div>
-                <div style={{ flex: 1, fontSize: 12, color: "#ccc" }}>{item.reason}</div>
-              </div>
+              <ResearchFact key={i} label={item.metric} value={item.value} note={item.reason} />
             ))}
           </div>
         </Section>
@@ -408,8 +400,8 @@ export default function KaspiPreorderGuidePage() {
               {
                 num: "05",
                 color: C.cyan,
-                title: "Связка с Group Buy SEO + Minea",
-                text: "Найдите залетевший товар в Minea (TikTok-реклама) → проверьте, есть ли он на Kaspi → если нет или конкуренция малая, выставите по предзаказу. Так работает «арбитраж трендов»: тренд из TikTok → быстро на Kaspi → 1 000+ заказов до того, как конкуренты заметят.",
+                title: "Связка с Group Buy SEO + библиотеки рекламных креативов",
+                text: "Найдите залетевший товар в библиотеки рекламных креативов (TikTok-реклама) → проверьте, есть ли он на Kaspi → если нет или конкуренция малая, выставите по предзаказу. Так работает «арбитраж трендов»: тренд из TikTok → быстро на Kaspi → 1 000+ заказов до того, как конкуренты заметят.",
               },
               {
                 num: "06",
@@ -421,7 +413,7 @@ export default function KaspiPreorderGuidePage() {
                 num: "07",
                 color: C.accent,
                 title: "Цена ниже на 20–40% против лидера + предзаказ",
-                text: "AlgaTop рекомендует: ставьте цену на 20–40% ниже самого дорогого конкурента в карточке. У вас предзаказ — клиент готов подождать 1–2 недели за выгоду. Это автоматически выводит вас в топ списка продавцов.",
+                text: "практические материалы для продавцов рекомендует: ставьте цену на 20–40% ниже самого дорогого конкурента в карточке. У вас предзаказ — клиент готов подождать 1–2 недели за выгоду. Это автоматически выводит вас в топ списка продавцов.",
               },
               {
                 num: "08",
@@ -442,11 +434,11 @@ export default function KaspiPreorderGuidePage() {
                 text: "Ваш товар на предзаказе → создаёте deeplink через Mobs.io → запускаете TikTok / Reels / Shorts видео с этим deeplink. Внешний трафик прямо в карточку Kaspi. Конверсия x3 относительно браузерных переходов.",
               },
             ].map((h, i) => (
-              <div key={i} style={{ display: "flex", gap: 16, padding: "16px 0", borderBottom: i < 9 ? `1px solid ${C.border}30` : "none" }}>
-                <div style={{ width: 36, height: 36, borderRadius: 8, background: `${h.color}15`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 800, color: h.color, flexShrink: 0 }}>{h.num}</div>
+              <div key={i} style={{ display: "flex", gap: 16, padding: "16px 0", borderBottom: i < 9 ? `1px solid color-mix(in srgb, ${C.border} 19%, transparent)` : "none" }}>
+
                 <div>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 4 }}>{h.title}</div>
-                  <div style={{ fontSize: 12, color: "#ccc", lineHeight: 1.6 }}>{h.text}</div>
+                  <div style={{ fontSize: 14, fontWeight: 400, color: C.text, marginBottom: 4 }}>{h.title}</div>
+                  <div style={{ fontSize: 12, color: "var(--personal-text)", lineHeight: 1.6 }}>{h.text}</div>
                 </div>
               </div>
             ))}
@@ -458,7 +450,7 @@ export default function KaspiPreorderGuidePage() {
           <DataTable headers={["Риск", "Что произойдёт", "Как избежать"]} rows={[
             ["Поставщик подвёл — товара нет в срок", "Срыв заказа, отмена, рост % отмен → блокировка", "1) Брать поставщиков, проверенных по 3+ заказам. 2) Иметь резервный поставщик. 3) Срок предзаказа задавать с запасом 5–7 дней"],
             ["Курс юаня скакнул вверх", "Маржа схлопывается, теряете деньги на каждом заказе", "Закладывать 10–15% запас в цене, обновлять прайс-лист еженедельно"],
-            ["Конкурент вышел дешевле", "Ваши заказы перестали приходить", "Мониторить позиции через iBot.kz / AlgaTop ежедневно. Менять цену или SKU"],
+            ["Конкурент вышел дешевле", "Ваши заказы перестали приходить", "Мониторить позиции через инструменты мониторинга / практические материалы для продавцов ежедневно. Менять цену или SKU"],
             ["Покупатель отменил заказ", "Комиссия возвращается, но карточка падает в выдаче если процент отмен растёт", "Своевременно подтверждать и отгружать. Не оправдываться перед клиентом, если хочет отменить — отпускать"],
             ["Брак при доставке от поставщика", "Возврат от покупателя, ухудшение метрик", "Обязательная проверка перед отправкой клиенту. Своя приёмка"],
             ["Превышение % отмен по вине селлера", "Блокировка магазина", "Жёстко держать % отмен ниже 3%. Не продавать товар, в наличии которого не уверены"],
@@ -468,7 +460,7 @@ export default function KaspiPreorderGuidePage() {
             ["Большое число SKU без аналитики", "Распыление внимания, потеря качества", "Не больше 30–50 SKU на старте. Каждое — обоснованно"],
           ]} />
 
-          <div style={{ borderLeft: `3px solid ${C.amber}`, paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "#ccc", lineHeight: 1.7 }}>
+          <div style={{ paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7 }}>
             <strong style={{ color: C.amber }}>Главный совет: </strong>
             предзаказ работает только при дисциплине. Это не «выложил и забыл» — это ежедневная работа: проверка кабинета утром и вечером, подтверждение заказов, контроль поставщиков, обновление прайса. Если игнорировать — Kaspi заблокирует магазин за неделю-две.
           </div>
@@ -506,7 +498,7 @@ export default function KaspiPreorderGuidePage() {
                 steps: [
                   "Выбрать 1–2 категории по принципам из раздела 7 (дом, спорт, красота, дет.товары)",
                   "Найти 30–50 товаров для тестирования через 1688.com / Alibaba / локальных поставщиков",
-                  "По каждому товару проверить через RedStat / iBot.kz / Kaspi.kz: есть ли спрос, кто конкуренты, какая цена",
+                  "По каждому товару проверить спрос, конкурентов и цену на одном сопоставимом рыночном срезе",
                   "Просчитать юнит-экономику по каждому товару с учётом комиссии 10.9% + НДС + Kaspi Pay 0.95%",
                   "Договориться с поставщиком об отгрузке без или с минимальной предоплатой",
                   "Получить от поставщика прайс с фото, описанием, штрихкодами",
@@ -545,16 +537,16 @@ export default function KaspiPreorderGuidePage() {
                   "Снимать неработающие карточки",
                   "Договариваться с поставщиками о лучших ценах при росте объёмов",
                   "При выходе на 30+ заказов в день — нанимать первого помощника на упаковку",
-                  "Подключать аналитику (МойСклад, iBot, AlgaTop)",
+                  "Подключать аналитику (МойСклад, iBot, практические материалы для продавцов)",
                   "При выходе на 50+ заказов в день — выходить с предзаказа на склад по топовым SKU",
                 ],
               },
             ].map((phase, i) => (
               <div key={i} style={{ marginBottom: 24 }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: phase.color, marginBottom: 12 }}>{phase.phase}</div>
+                <div style={{ fontSize: 14, fontWeight: 400, color: phase.color, marginBottom: 12 }}>{phase.phase}</div>
                 {phase.steps.map((step, j) => (
-                  <div key={j} style={{ display: "flex", gap: 10, fontSize: 13, color: "#ccc", marginBottom: 6, lineHeight: 1.6 }}>
-                    <span style={{ color: phase.color, fontWeight: 700, minWidth: 20 }}>{j + 1}.</span>
+                  <div key={j} style={{ display: "flex", gap: 10, fontSize: 13, color: "var(--personal-text)", marginBottom: 6, lineHeight: 1.6 }}>
+                    <span style={{ color: phase.color, fontWeight: 400, minWidth: 20 }}>{j + 1}.</span>
                     <div>{step}</div>
                   </div>
                 ))}
@@ -585,7 +577,7 @@ export default function KaspiPreorderGuidePage() {
             ["Наценка", "1 575 / 1 009", "156%"],
           ]} highlight={13} />
 
-          <div style={{ borderLeft: `3px solid ${C.green}`, paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "#ccc", lineHeight: 1.7 }}>
+          <div style={{ paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7 }}>
             <strong style={{ color: C.green }}>На предзаказе это означает: </strong>
             при первом заказе клиент платит 2 990 ₸ → деньги уходят на Kaspi Pay → вы платите поставщику 600 ₸ + 285 ₸ карго + 124 ₸ таможни и упаковки = 1 009 ₸. Через 14 дней (срок предзаказа) товар у вас → нажимаете «Прибыл» → передаёте в Kaspi Доставку → через 7 дней деньги на ИП. <strong style={{ color: C.text }}>Чистая прибыль 1 575 ₸ с одной продажи. Без склада. Без замораживания капитала.</strong>
           </div>
@@ -604,42 +596,42 @@ export default function KaspiPreorderGuidePage() {
 
         {/* ═══ 12. CHECKLIST ═══ */}
         <Section id="s12" num="12" title="Чек-лист первых 30 дней">
-          <div style={{ ...sCard, borderLeft: `4px solid ${C.green}` }}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: C.green, margin: "0 0 16px" }}>Неделя 1: Подготовка</h3>
+          <div style={{ ...sCard }}>
+            <h3 style={{ fontSize: 14, fontWeight: 400, color: C.green, margin: "0 0 16px" }}>Неделя 1: Подготовка</h3>
             {[
               "Открыть ИП через egov.kz",
               "Установить Kaspi Pay для бизнеса, подтвердить аккаунт",
               "Принять первые платежи через Kaspi Pay (для активации 20-дневного срока)",
               "Изучить раздел Магазина в Kaspi Гид (guide.kaspi.kz/partner)",
-              "Зарегистрироваться в RedStat / iBot.kz / AlgaTop для аналитики",
+              "Подготовить рабочую таблицу для регулярной проверки спроса, цены и конкурентов",
               "Выбрать 1–2 целевые категории по принципам из раздела 7",
             ].map((s, i) => (
-              <div key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "#ccc", marginBottom: 8 }}>
-                <div style={{ width: 18, height: 18, border: `1px solid ${C.green}`, borderRadius: 4, flexShrink: 0 }} />
+              <div key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "var(--personal-text)", marginBottom: 8 }}>
+
                 <div>{s}</div>
               </div>
             ))}
           </div>
 
-          <div style={{ ...sCard, borderLeft: `4px solid ${C.amber}` }}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: C.amber, margin: "0 0 16px" }}>Неделя 2: Подбор товаров и поставщиков</h3>
+          <div style={{ ...sCard }}>
+            <h3 style={{ fontSize: 14, fontWeight: 400, color: C.amber, margin: "0 0 16px" }}>Неделя 2: Подбор товаров и поставщиков</h3>
             {[
               "Найти 30–50 кандидатов на товары через 1688.com / Alibaba / локальных оптовиков",
-              "По каждому проверить спрос и конкуренцию через RedStat",
+              "По каждому товару проверить спрос, цену и конкуренцию",
               "Просчитать юнит-экономику в Excel или калькуляторе AkasymZhanov",
               "Связаться с топ-10 поставщиками — узнать срок поставки и условия",
               "Выбрать поставщика с отгрузкой без или с минимальной предоплатой",
               "Получить прайс-лист с фото, описаниями, штрихкодами",
             ].map((s, i) => (
-              <div key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "#ccc", marginBottom: 8 }}>
-                <div style={{ width: 18, height: 18, border: `1px solid ${C.amber}`, borderRadius: 4, flexShrink: 0 }} />
+              <div key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "var(--personal-text)", marginBottom: 8 }}>
+
                 <div>{s}</div>
               </div>
             ))}
           </div>
 
-          <div style={{ ...sCard, borderLeft: `4px solid ${C.blue}` }}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: C.blue, margin: "0 0 16px" }}>Неделя 3: Подключение и загрузка</h3>
+          <div style={{ ...sCard }}>
+            <h3 style={{ fontSize: 14, fontWeight: 400, color: C.blue, margin: "0 0 16px" }}>Неделя 3: Подключение и загрузка</h3>
             {[
               "Получить одобрение Kaspi Магазина (после 20 дней Kaspi Pay)",
               "Скачать шаблон прайс-листа в кабинете Магазина",
@@ -648,15 +640,15 @@ export default function KaspiPreorderGuidePage() {
               "Проверить корректность отображения каждой карточки",
               "Зарегистрироваться в Mobs.io для deeplinks (пункт под трафик)",
             ].map((s, i) => (
-              <div key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "#ccc", marginBottom: 8 }}>
-                <div style={{ width: 18, height: 18, border: `1px solid ${C.blue}`, borderRadius: 4, flexShrink: 0 }} />
+              <div key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "var(--personal-text)", marginBottom: 8 }}>
+
                 <div>{s}</div>
               </div>
             ))}
           </div>
 
-          <div style={{ ...sCard, borderLeft: `4px solid ${C.accent}` }}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: C.accent, margin: "0 0 16px" }}>Неделя 4: Первые продажи и оптимизация</h3>
+          <div style={{ ...sCard }}>
+            <h3 style={{ fontSize: 14, fontWeight: 400, color: C.accent, margin: "0 0 16px" }}>Неделя 4: Первые продажи и оптимизация</h3>
             {[
               "Каждый день проверять кабинет — обработка новых заказов",
               "Связь с поставщиком при каждом заказе → закупка под клиента",
@@ -666,8 +658,8 @@ export default function KaspiPreorderGuidePage() {
               "Реинвестировать первую прибыль в следующие 20–30 SKU",
               "Подготовить план на месяц 2 (расширение ассортимента, первый контент, deeplinks)",
             ].map((s, i) => (
-              <div key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "#ccc", marginBottom: 8 }}>
-                <div style={{ width: 18, height: 18, border: `1px solid ${C.accent}`, borderRadius: 4, flexShrink: 0 }} />
+              <div key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "var(--personal-text)", marginBottom: 8 }}>
+
                 <div>{s}</div>
               </div>
             ))}
@@ -675,40 +667,40 @@ export default function KaspiPreorderGuidePage() {
         </Section>
 
         {/* ═══ KEY TAKEAWAYS ═══ */}
-        <div style={{ ...sCard, borderLeft: `4px solid ${C.green}`, marginTop: 32 }}>
-          <h3 style={{ fontSize: 18, fontWeight: 700, color: C.green, margin: "0 0 20px" }}>Ключевые выводы</h3>
+        <div style={{ ...sCard, marginTop: 32 }}>
+          <h3 style={{ fontSize: 18, fontWeight: 400, color: C.green, margin: "0 0 20px" }}>Ключевые выводы</h3>
           {[
-            { icon: "🎯", title: "Предзаказ — это самый дешёвый вход на Kaspi", text: "Стартовый капитал ≈ 0 ₸ (только ИП и Kaspi Pay). Никакого склада, никаких заморозок капитала, никакого риска неликвида. Идеальная модель для теста ниш и для новичков." },
-            { icon: "📅", title: "Срок предзаказа — до 30 дней (в отдельных категориях до 45)", text: "Этого хватает чтобы заказать товар у китайского поставщика, привезти карго до Алматы и отправить покупателю. Главное — задавать срок с запасом 5–7 дней под форс-мажоры." },
-            { icon: "💰", title: "Комиссия Kaspi 6.4 – 13.5% по категориям", text: "Большинство ниш (дом, спорт, красота, детские, одежда) — 10.9%. Плюс НДС 16% от комиссии и Kaspi Pay 0.95%. Итого — около 14% от выручки." },
-            { icon: "👥", title: "Топ-кейсы доказывают модель", text: "Фархат (60M ₽/год, 90% с Kaspi), Артём Бухонин (1 000+ учеников, 7 на 5+M ₸/мес), кейс Labubu (рост в 45 раз за 2 месяца) — все начинали или активно использовали предзаказ." },
-            { icon: "🔥", title: "Нишевые тренды важнее ассортимента", text: "Лучше 5 правильно подобранных SKU с растущим спросом, чем 50 случайных. Используйте Minea + RedStat + TikTok тренды → ищите товары до того, как они станут массовыми." },
-            { icon: "⚠️", title: "Дисциплина важнее всего", text: "Kaspi не штрафует деньгами, но блокирует за пропуски. % отмен < 3%, задержек < 10%, возвратов < 2%. Каждый день проверка кабинета, своевременный «Прибыл», честный сервис." },
-            { icon: "📈", title: "Связка с внешним трафиком даёт x3", text: "Предзаказ → Mobs.io deeplink → TikTok / Reels / Shorts видео по найденным трендам. Это даёт независимость от внутреннего трафика Kaspi и кратный рост заказов." },
+            { icon: "", title: "Предзаказ — это самый дешёвый вход на Kaspi", text: "Стартовый капитал ≈ 0 ₸ (только ИП и Kaspi Pay). Никакого склада, никаких заморозок капитала, никакого риска неликвида. Идеальная модель для теста ниш и для новичков." },
+            { icon: "", title: "Срок предзаказа — до 30 дней (в отдельных категориях до 45)", text: "Этого хватает чтобы заказать товар у китайского поставщика, привезти карго до Алматы и отправить покупателю. Главное — задавать срок с запасом 5–7 дней под форс-мажоры." },
+            { icon: "", title: "Комиссия Kaspi 6.4 – 13.5% по категориям", text: "Большинство ниш (дом, спорт, красота, детские, одежда) — 10.9%. Плюс НДС 16% от комиссии и Kaspi Pay 0.95%. Итого — около 14% от выручки." },
+            { icon: "", title: "Топ-кейсы доказывают модель", text: "Фархат (60M ₽/год, 90% с Kaspi), Артём Бухонин (1 000+ учеников, 7 на 5+M ₸/мес), кейс Labubu (рост в 45 раз за 2 месяца) — все начинали или активно использовали предзаказ." },
+            { icon: "", title: "Нишевые тренды важнее ассортимента", text: "Лучше 5 правильно подобранных SKU с растущим спросом, чем 50 случайных. Используйте библиотеки рекламных креативов + агрегированные рыночные данные + TikTok тренды → ищите товары до того, как они станут массовыми." },
+            { icon: "", title: "Дисциплина важнее всего", text: "Kaspi не штрафует деньгами, но блокирует за пропуски. % отмен < 3%, задержек < 10%, возвратов < 2%. Каждый день проверка кабинета, своевременный «Прибыл», честный сервис." },
+            { icon: "", title: "Связка с внешним трафиком даёт x3", text: "Предзаказ → Mobs.io deeplink → TikTok / Reels / Shorts видео по найденным трендам. Это даёт независимость от внутреннего трафика Kaspi и кратный рост заказов." },
           ].map((item, i) => (
-            <div key={i} style={{ borderLeft: `3px solid ${C.green}40`, paddingLeft: 16, marginBottom: 20 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 4 }}>{item.icon} {item.title}</div>
-              <div style={{ fontSize: 13, color: "#ccc", lineHeight: 1.7 }}>{item.text}</div>
+            <div key={i} style={{ paddingLeft: 16, marginBottom: 20 }}>
+              <div style={{ fontSize: 14, fontWeight: 400, color: C.text, marginBottom: 4 }}>{item.icon} {item.title}</div>
+              <div style={{ fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7 }}>{item.text}</div>
             </div>
           ))}
         </div>
 
         {/* ═══ SOURCES ═══ */}
         <div style={{ ...sCard, marginTop: 32 }}>
-          <h3 style={{ fontSize: 14, fontWeight: 700, color: C.dim, margin: "0 0 12px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Источники</h3>
+          <h3 style={{ fontSize: 14, fontWeight: 400, color: C.dim, margin: "0 0 12px", textTransform: "none", letterSpacing: "0.05em" }}>Источники</h3>
           <div style={{ fontSize: 12, color: C.dim, lineHeight: 1.8 }}>
-            <div>• <strong style={{ color: "#ccc" }}>Kaspi Гид для партнёров</strong> — guide.kaspi.kz/partner/ru/shop/ (официальная документация: предзаказ, обработка заказов, комиссии, правила)</div>
-            <div>• <strong style={{ color: "#ccc" }}>vc.ru, статья</strong> «Главные фишки работы по предзаказу в Каспи магазине. Скрытые возможности» (vc.ru/marketing/1295972)</div>
-            <div>• <strong style={{ color: "#ccc" }}>habr.com, кейс Фархата Абдикадырова</strong> «Каспи магазин: как я случайно создал бизнес на 60 млн рублей в год» (habr.com/ru/companies/moysklad/articles/854022)</div>
-            <div>• <strong style={{ color: "#ccc" }}>buhonin.com / bukhonin.kz</strong> — Артём Бухонин, методика «Схема 2.0 Kaspi Предзаказы» и обучающие материалы</div>
-            <div>• <strong style={{ color: "#ccc" }}>algatop.kz/blog</strong> — AlgaTop, обзоры ниш, аналитика, рекомендации новичкам</div>
-            <div>• <strong style={{ color: "#ccc" }}>moysklad.kz</strong> — гайды по запуску магазина и работе с предзаказом</div>
-            <div>• <strong style={{ color: "#ccc" }}>finratings.kz, sm1.kz</strong> — материалы о селлерах Kaspi и обучении</div>
+            <div>• <strong style={{ color: "var(--personal-text)" }}>Kaspi Гид для партнёров</strong> — guide.kaspi.kz/partner/ru/shop/ (официальная документация: предзаказ, обработка заказов, комиссии, правила)</div>
+            <div>• <strong style={{ color: "var(--personal-text)" }}>vc.ru, статья</strong> «Главные фишки работы по предзаказу в Каспи магазине. Скрытые возможности» (vc.ru/marketing/1295972)</div>
+            <div>• <strong style={{ color: "var(--personal-text)" }}>habr.com, кейс Фархата Абдикадырова</strong> «Каспи магазин: как я случайно создал бизнес на 60 млн рублей в год» (habr.com/ru/companies/moysklad/articles/854022)</div>
+            <div>• <strong style={{ color: "var(--personal-text)" }}>buhonin.com / bukhonin.kz</strong> — Артём Бухонин, методика «Схема 2.0 Kaspi Предзаказы» и обучающие материалы</div>
+            <div>• <strong style={{ color: "var(--personal-text)" }}>практические материалы для продавцов.kz/blog</strong> — практические материалы для продавцов, обзоры ниш, аналитика, рекомендации новичкам</div>
+            <div>• <strong style={{ color: "var(--personal-text)" }}>moysklad.kz</strong> — гайды по запуску магазина и работе с предзаказом</div>
+            <div>• <strong style={{ color: "var(--personal-text)" }}>finratings.kz, sm1.kz</strong> — материалы о селлерах Kaspi и обучении</div>
           </div>
         </div>
 
         {/* FOOTER */}
-        <div style={{ padding: "20px 24px", background: `${C.kaspi}08`, borderRadius: 12, border: `1px solid ${C.kaspi}30`, marginTop: 32 }}>
+        <div style={{ padding: "16px 0", marginTop: 32 }}>
           <p style={{ ...sP, margin: 0, fontSize: 13, color: C.dim }}>
             Гайд составлен на основе открытых публикаций, официальной документации Kaspi и реальных кейсов селлеров. Все данные актуальны на апрель 2026 года. Комиссии и условия Kaspi могут меняться — перед запуском всегда проверяйте актуальные правила в Kaspi Гид для партнёров.
           </p>

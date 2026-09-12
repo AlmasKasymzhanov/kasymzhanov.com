@@ -1,3 +1,4 @@
+import { PersonalDocument } from "@/components/personal-document";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function QALayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return <PersonalDocument report>{children}</PersonalDocument>;
 }

@@ -1,4 +1,5 @@
 "use client";
+import { IconlyArrowRight } from "@/components/iconly-icons";
 
 /**
  * Brock UI charts for "Государство закрыло статистику. Рынок открыл канистру"
@@ -68,7 +69,7 @@ const labelTip = (label: string): React.ReactNode => {
  * `faint` = a translucent swatch (for the shaded zone). */
 function Legend({ items }: { items: { color: string; label: string; faint?: boolean }[] }) {
   return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-3.5 font-mono text-[11px] leading-snug text-[var(--color-dim)]">
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-3.5 font-mono text-[12px] leading-snug text-[var(--color-dim)]">
       {items.map((it) => (
         <span key={it.label} className="inline-flex items-center gap-1.5">
           <span
@@ -86,7 +87,7 @@ function Legend({ items }: { items: { color: string; label: string; faint?: bool
 /* Small sub-caption for the composite (chart-on-top, bars-below) chart 3. */
 function SubLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--color-dim)] mb-2">
+    <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[var(--color-dim)] mb-2">
       {children}
     </p>
   );
@@ -102,27 +103,7 @@ function PhraseBars({
 }: {
   items: { label: string; value: number; accent?: boolean }[];
   valueFmt?: (v: number) => string;
-}) {
-  const max = Math.max(...items.map((i) => i.value));
-  return (
-    <div className="space-y-3">
-      {items.map((it) => (
-        <div key={it.label}>
-          <div className="flex items-baseline justify-between gap-3 mb-1.5">
-            <span className="font-mono text-[12.5px] text-[var(--color-text)] leading-snug">{it.label}</span>
-            <span className="font-mono text-[12px] text-[var(--color-dim)] tabular-nums shrink-0">{valueFmt(it.value)}</span>
-          </div>
-          <div className="h-1.5 rounded-full bg-[var(--color-border)]/50 overflow-hidden">
-            <div
-              className="h-full rounded-full"
-              style={{ width: `${(it.value / max) * 100}%`, background: it.accent ? ACCENT : NEUTRAL }}
-            />
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
+}) { return <dl className="research-query-list">{items.map(it => <div key={it.label}><dt>{it.label}</dt><dd>{valueFmt(it.value)}</dd></div>)}</dl>; }
 
 /* ── График 1 (ГЕРОЙ). Канистры взлетели в день, когда запретили топливо ── */
 export function Grafik1() {
@@ -166,7 +147,7 @@ export function Grafik2a() {
         barRadius={2}
         labelWidth={56}
         xAxis={{ max: 4, hideTicks: true }}
-        slots={{ tooltip: () => null }}
+
         data={[
           { label: "2025", value: 1.88, color: NEUTRAL },
           { label: "2026", value: 3.51 },
@@ -297,7 +278,7 @@ export function Grafik4() {
           { label: "Июнь", value: 4161 },
         ]}
         yAxis={{ max: 4600 }}
-        slots={{ tooltip: () => null }}
+
         formatValue={(v: number) => num(v)}
       />
       <Legend
@@ -328,7 +309,7 @@ export function Grafik5() {
         barRadius={2}
         labelWidth={1}
         xAxis={{ max, hideTicks: true }}
-        slots={{ tooltip: () => null }}
+
         data={[{ label: "", value, ...(accent ? {} : { color: NEUTRAL }) }]}
         dataLabels={{ show: true, format: fmt }}
         formatValue={fmt}
@@ -371,7 +352,7 @@ export function Grafik6() {
           { label: "Май", value: 1976, color: NEUTRAL },
         ]}
         yAxis={{ max: 2200 }}
-        slots={{ tooltip: () => null }}
+
         formatValue={(v: number) => num(v)}
       />
       <Legend
@@ -422,9 +403,9 @@ export function GrafikArtikuly() {
         href={`https://www.wildberries.ru/catalog/${sku}/detail.aspx`}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-[var(--color-brand)] hover:underline"
+        className="text-[var(--color-brand)] "
       >
-        Карточка на WB →
+        Карточка на WB <IconlyArrowRight size={17} className="reading-inline-icon" />
       </a>
     </>
   );
@@ -444,7 +425,7 @@ export function GrafikArtikuly() {
         yAxis={{ title: "продаж/мес", max: 4200 }}
         formatValue={(v: number) => num(Math.round(v))}
       />
-      <div className="flex flex-col gap-1.5 mt-3.5 font-mono text-[11px] leading-snug text-[var(--color-dim)]">
+      <div className="flex flex-col gap-1.5 mt-3.5 font-mono text-[12px] leading-snug text-[var(--color-dim)]">
         <span className="inline-flex items-start gap-1.5">
           <span aria-hidden className="inline-block w-3 h-3 rounded-[2px] shrink-0 mt-0.5" style={{ background: ACCENT }} />
           <span>

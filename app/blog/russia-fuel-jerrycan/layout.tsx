@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ArticleJsonLd } from "@/components/articles";
 
-const title = "Государство закрыло статистику. Рынок открыл канистру | Almas Kasymzhanov";
+const title = "Государство закрыло статистику. Рынок открыл канистру | Алмас Касымжанов";
 const description =
   "Дефицит топлива в России нельзя объявить — но его можно посчитать. Дата-разбор: как продажи пустых канистр на Wildberries стали честным барометром кризиса, когда официальная статистика погасла.";
 const image = "/blog/russia-fuel-jerrycan/cover.webp";

@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { PublicationHome } from "@/components/publication-home";
+import { PersonalHome } from "@/components/personal-home";
 
 export const metadata: Metadata = {
-  title: "Kasymzhanov — Data journalism on digital markets and Central Asia",
-  description: "Independent investigations, analysis, and data journalism on digital markets, technology, Kazakhstan, and Central Asia.",
+  title: "Almas Kasymzhanov · personal website",
+  description: "I build products and write about marketplaces, technology, business, and market research.",
   alternates: {
     canonical: "/en",
     languages: { "ru-RU": "/", "en-US": "/en", "x-default": "/" },
   },
   openGraph: {
-    title: "Kasymzhanov — Data journalism on digital markets and Central Asia",
-    description: "Independent investigations and analysis from Kazakhstan and Central Asia.",
+    title: "Almas Kasymzhanov · personal website",
+    description: "Products, writing, and research by Almas Kasymzhanov.",
     url: "https://kasymzhanov.com/en",
     locale: "en_US",
   },
@@ -19,5 +19,5 @@ export const metadata: Metadata = {
 export const revalidate = 120;
 
 export default function HomeEn() {
-  return <PublicationHome locale="en" />;
+  return <PersonalHome locale="en" />;
 }

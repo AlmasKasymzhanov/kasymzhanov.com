@@ -1,32 +1,35 @@
 import type { Metadata } from "next";
-import { Inter, Inter_Tight, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import { SOCIAL_SAMEAS } from "@/lib/social";
 import { HtmlLang } from "@/components/html-lang";
 import "./globals.css";
 
-// Display + UI: Inter Tight — tech-forward, works well in both RU and EN.
-const interTight = Inter_Tight({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-display",
+// One quiet sans-serif for reading and interface text.
+const geist = localFont({
+  src: "../public/fonts/Geist-Variable.woff2",
+  variable: "--font-geist-local",
   display: "swap",
-  weight: ["400", "500", "600", "700", "800"],
+  weight: "100 900",
+  style: "normal",
 });
 
-// Body: Inter — maximum readability for long-form.
-const inter = Inter({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-body",
+// Menlo is reserved for dates, numbers, and compact service labels.
+const menlo = localFont({
+  src: [
+    {
+      path: "../public/fonts/Menlo-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/Menlo-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-menlo-local",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
-});
-
-// Mono: JetBrains Mono for data labels, code, and UI metrics.
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-mono",
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -63,14 +66,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ru" className={`${interTight.variable} ${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+    <html lang="ru" className={`${geist.variable} ${menlo.variable}`} suppressHydrationWarning>
       <head>
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs.txt" />
         <link rel="alternate" type="text/plain" href="/llms-full.txt" title="LLMs Full" />
-        <link rel="alternate" type="application/rss+xml" href="/feed.xml" title="Kasymzhanov RSS" />
+        <link rel="alternate" type="application/rss+xml" href="/feed.xml" hrefLang="ru" title="Алмас Касымжанов — RSS (RU)" />
+        <link rel="alternate" type="application/rss+xml" href="/en/feed.xml" hrefLang="en" title="Almas Kasymzhanov — RSS (EN)" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

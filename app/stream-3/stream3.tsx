@@ -2,84 +2,85 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { SiteHeader, SiteFooter } from "@/components/canon/site-chrome";
+import { IconlyArrowUpRight } from "@/components/iconly-icons";
+import { PersonalDocument } from "@/components/personal-document";
 
 const CSS = `
   .s3{
     color:var(--color-text);
-    font-family:var(--font-mono);
+    font-family:var(--font-body);
     -webkit-font-smoothing:antialiased;
     line-height:1.8;
   }
-  .s3-wrap{max-width:680px;margin:0 auto;padding:48px 24px 96px}
+  .s3-wrap{max-width:720px;margin:0;padding:0}
   .s3-arr{color:var(--color-dim);opacity:.55;padding:0 2px}
-  .s3-eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;
+  .s3-eyebrow{font-family:var(--font-body);font-size:11px;letter-spacing:.2em;
     text-transform:uppercase;color:var(--color-brand);margin-bottom:16px}
-  .s3 h1{font-size:33px;line-height:1.18;letter-spacing:-.02em;font-weight:700;
+  .s3 h1{font-size:38px;line-height:1.18;letter-spacing:-.02em;font-weight:400;
     color:var(--color-text);margin:0 0 20px}
   .s3-lead{font-size:16px;color:var(--color-dim);line-height:1.8;margin:0 0 16px}
   .s3-lead.dim{color:var(--color-dim);opacity:.85}
-  .s3-rule{border:none;border-top:1px solid var(--color-border);margin:48px 0 0}
+  .s3-rule{display:none}
   .s3-sec{padding:48px 0 0}
-  .s3-kicker{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;
+  .s3-kicker{font-family:var(--font-body);font-size:11px;letter-spacing:.2em;
     text-transform:uppercase;color:var(--color-dim);margin-bottom:16px}
-  .s3 h2{font-size:20px;line-height:1.25;letter-spacing:-.01em;font-weight:650;
+  .s3 h2{font-size:20px;line-height:1.25;letter-spacing:-.01em;font-weight:400;
     color:var(--color-text);margin:0 0 16px}
-  .s3 p{font-size:15px;color:var(--color-dim);line-height:1.8;margin:14px 0}
-  .s3 p b,.s3 li b{color:var(--color-text);font-weight:600}
-  .s3-card{border:1px solid var(--color-border);border-radius:3px;padding:26px 24px;margin:16px 0}
-  .s3-card h3{font-size:16px;font-weight:600;letter-spacing:-.01em;color:var(--color-text);margin:0}
+  .s3 p{font-size:17px;color:var(--color-dim);line-height:1.8;margin:14px 0}
+  .s3 p b,.s3 li b{color:var(--color-text);font-weight:400}
+  .s3-card{border:0;background:var(--reading-offer-surface);border-radius:14px;padding:26px 24px;margin:16px 0}
+  .s3-card h3{font-size:16px;font-weight:400;letter-spacing:-.01em;color:var(--color-text);margin:0}
   .s3-card p{margin:10px 0 0}
-  .s3-num{font-family:var(--font-mono);font-size:12px;color:var(--color-dim)}
+  .s3-num{font-family:var(--font-body);font-size:12px;color:var(--color-dim)}
   .s3-head-row{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:10px}
   .s3-res{font-size:15px;color:var(--color-text);background:var(--color-surface);
-    border-left:2px solid var(--color-border);padding:12px 16px;margin-top:16px;
-    border-radius:0 3px 3px 0;line-height:1.7}
-  .s3-res b{font-weight:700}
+    border:0;padding:12px 16px;margin-top:16px;
+    border-radius:10px;line-height:1.7}
+  .s3-res b{font-weight:400}
   .s3 ul{margin:14px 0 0;padding:0 0 0 20px;list-style:disc}
-  .s3 ul li{font-size:15px;color:var(--color-dim);line-height:1.8;padding:3px 0}
+  .s3 ul li{font-size:17px;color:var(--color-dim);line-height:1.8;padding:3px 0}
   .s3 ul li::marker{color:var(--color-dim)}
-  .s3-tablewrap{overflow-x:auto;margin:18px 0;border:1px solid var(--color-border);border-radius:3px}
+  .s3-tablewrap{overflow-x:auto;margin:18px 0;border:1px solid var(--color-border);border-radius:14px}
   .s3-table{width:100%;border-collapse:collapse;font-size:13px;min-width:420px}
-  .s3-table th{text-align:left;font-family:var(--font-mono);font-weight:500;color:var(--color-dim);
+  .s3-table th{text-align:left;font-family:var(--font-body);font-weight:500;color:var(--color-dim);
     padding:10px 16px;border-bottom:1px solid var(--color-border);font-size:11px;
     text-transform:uppercase;letter-spacing:.05em}
   .s3-table td{padding:11px 16px;border-bottom:1px solid var(--color-border);
     color:var(--color-text);vertical-align:top;font-size:13px}
   .s3-table tr:last-child td{border-bottom:none}
-  .s3-table td:last-child,.s3-table th:last-child{text-align:right;white-space:nowrap;font-family:var(--font-mono)}
+  .s3-table td:last-child,.s3-table th:last-child{text-align:right;white-space:nowrap;font-family:var(--font-body)}
   .s3-table td.free{color:var(--color-text)}
-  .s3-cta{border:1px solid var(--color-border);border-radius:3px;padding:26px 24px;margin:24px 0 0}
+  .s3-cta{border:0;background:var(--reading-offer-surface);border-radius:14px;padding:26px 24px;margin:24px 0 0}
   .s3-cta p{color:var(--color-text)}
   .s3-wa{display:inline-flex;align-items:center;gap:6px;margin-top:18px;
-    font-family:var(--font-mono);font-size:13px;font-weight:500;color:var(--color-brand);
-    text-decoration:none;border:1px solid var(--color-brand);border-radius:3px;
+    font-family:var(--font-body);font-size:13px;font-weight:500;color:var(--color-brand);
+    text-decoration:none;border:1px solid var(--color-brand);border-radius:14px;
     padding:11px 18px;transition:background .15s,color .15s}
   .s3-wa:hover{background:var(--color-brand);color:var(--color-bg)}
   .s3-ghost{display:inline-flex;align-items:center;gap:6px;margin-top:14px;
-    font-family:var(--font-mono);font-size:13px;color:var(--color-text);
-    text-decoration:none;border-bottom:1px solid var(--color-text);padding-bottom:2px;
+    font-family:var(--font-body);font-size:13px;color:var(--color-text);
+    text-decoration:none;border:0;min-height:44px;
     transition:color .15s,border-color .15s}
   .s3-ghost:hover{color:var(--color-brand);border-color:var(--color-brand)}
   .s3-toolcard{display:block;text-decoration:none}
-  .s3-toolimg{border:1px solid var(--color-border);border-radius:3px;overflow:hidden;
+  .s3-toolimg{border:1px solid var(--color-border);border-radius:14px;overflow:hidden;
     margin-bottom:18px;background:var(--color-surface)}
   .s3-toolimg img{display:block;width:100%;height:auto}
   .s3-toolcard h2{transition:color .15s}
   .s3-toolcard:hover h2{color:var(--color-brand)}
   .s3-toolcard:hover .s3-ghost{color:var(--color-brand);border-color:var(--color-brand)}
-  .s3-banner{border:1px solid var(--color-text);border-radius:3px;padding:18px 20px;margin:0 0 40px;
+  .s3-banner{border:0;background:var(--reading-offer-surface);border-radius:14px;padding:18px 20px;margin:0 0 40px;
     display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
   .s3-banner-txt{font-size:14px;color:var(--color-text);line-height:1.5}
-  .s3-banner-txt b{font-weight:700}
+  .s3-banner-txt b{font-weight:400}
   .s3-banner-btn{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
-    font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--color-bg);
+    font-family:var(--font-body);font-size:13px;font-weight:400;color:var(--color-bg);
     background:var(--color-text);text-decoration:none;border:1px solid var(--color-text);
-    border-radius:3px;padding:11px 18px;transition:opacity .15s}
+    border-radius:14px;padding:11px 18px;transition:opacity .15s}
   .s3-banner-btn:hover{opacity:.85}
   @media (max-width:480px){
-    .s3-wrap{padding:32px 18px 64px}
-    .s3 h1{font-size:27px}
+    .s3-wrap{padding:0}
+    .s3 h1{font-size:32px}
     .s3-card,.s3-cta{padding:20px 18px}
     .s3-sec{padding:40px 0 0}
     .s3-rule{margin-top:40px}
@@ -240,9 +241,7 @@ const WA = `https://wa.me/77028290908?text=${encodeURIComponent(
 
 export function Stream3Page() {
   return (
-    <div className="font-mono text-[var(--color-text)]">
-      <div className="max-w-[1400px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">
-        <SiteHeader />
+    <PersonalDocument>
         <div className="s3">
           <style dangerouslySetInnerHTML={{ __html: CSS }} />
           <div className="s3-wrap">
@@ -471,7 +470,7 @@ export function Stream3Page() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Написать в WhatsApp →
+            Написать в WhatsApp <IconlyArrowUpRight size={17} />
           </a>
         </div>
 
@@ -593,7 +592,7 @@ export function Stream3Page() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Написать в WhatsApp →
+            Написать в WhatsApp <IconlyArrowUpRight size={17} />
           </a>
         </div>
 
@@ -632,9 +631,6 @@ export function Stream3Page() {
 
           </div>
         </div>
-        <div className="flex-1" aria-hidden />
-        <SiteFooter />
-      </div>
-    </div>
+        </PersonalDocument>
   );
 }

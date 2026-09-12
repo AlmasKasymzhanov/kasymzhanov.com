@@ -1,3 +1,4 @@
+import { IconlyArrowRight } from "@/components/iconly-icons";
 import Image from "next/image";
 import { ArticleHeader } from "@/components/canon/article-header";
 import { ArticleLayout } from "@/components/canon/article-layout";
@@ -20,7 +21,7 @@ function Src({ href, children }: { href: string; children: React.ReactNode }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors"
+      className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors"
     >
       {children}
     </a>
@@ -30,23 +31,7 @@ function Src({ href, children }: { href: string; children: React.ReactNode }) {
 const Dot = () => <span className="text-[var(--color-border)] mx-1.5">·</span>;
 
 /* Iconly — Arrow Right 2 (Light). Inline SVG; inherits currentColor. */
-function IconlyArrowRight({ className = "w-3.5 h-3.5" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <path d="M14.43 5.93L20.5 12L14.43 18.07" />
-      <path d="M3.5 12H20.33" />
-    </svg>
-  );
-}
+
 
 /*
  * Chart placeholder. The BrockUI agent replaces the inner <div data-chart-canvas>
@@ -75,10 +60,10 @@ function ChartSlot({
       id={`grafik-${n}`}
       data-chart-slot={n}
       data-chart-type={type}
-      className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-5"
+      className="research-figure"
     >
       <figcaption className="mb-4">
-        <span className="block text-[15px] font-bold text-[var(--color-text)] leading-snug">
+        <span className="block text-[15px] font-medium text-[var(--color-text)] leading-snug">
           {title}
         </span>
       </figcaption>
@@ -87,17 +72,17 @@ function ChartSlot({
         className={
           children
             ? ""
-            : "grid place-items-center h-[220px] border border-dashed border-[var(--color-border)] rounded-[3px] text-[11px] uppercase tracking-[0.2em] text-[var(--color-dim)]"
+            : "grid place-items-center h-[220px] border border-dashed border-[var(--color-border)] rounded-[3px] text-[12px] uppercase tracking-[0.2em] text-[var(--color-dim)]"
         }
       >
         {children ?? "[ график Brock UI ]"}
       </div>
       {note && (
-        <p className="font-mono text-[10px] italic text-[var(--color-dim)]/70 mt-3 leading-relaxed">
+        <p className="font-mono text-[12px] italic text-[var(--color-dim)]/70 mt-3 leading-relaxed">
           {note}
         </p>
       )}
-      <p className="font-mono text-[11px] text-[var(--color-dim)] mt-2 leading-relaxed">
+      <p className="font-mono text-[12px] text-[var(--color-dim)] mt-2 leading-relaxed">
         {caption}
         <span className="text-[var(--color-border)] mx-1.5">·</span>
         Графики:{" "}
@@ -105,7 +90,7 @@ function ChartSlot({
           href="https://brockui.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[var(--color-dim)] hover:text-[var(--brock-accent)] hover:underline decoration-dotted underline-offset-2 transition-colors"
+          className="text-[var(--color-dim)] hover:text-[var(--brock-accent)]    transition-colors"
         >
           Brock UI
         </a>
@@ -119,7 +104,7 @@ function P({ children, className = "" }: { children: React.ReactNode; className?
   return <p className={`text-[15px] text-[var(--color-dim)] leading-[1.8] ${className}`}>{children}</p>;
 }
 function H2({ children }: { children: React.ReactNode }) {
-  return <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">{children}</h2>;
+  return <h2 className="text-[20px] font-normal tracking-tight text-[var(--color-text)] mb-6">{children}</h2>;
 }
 
 /* ═══════════════════════════════════════════════════ */
@@ -303,7 +288,7 @@ export default function KremniyNaUgleArticle() {
                     href="https://10b.kz"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-2.5 inline-flex items-center gap-1.5 rounded-[3px] bg-[var(--color-brand)] text-[var(--color-bg)] px-2.5 py-1 text-[11px] font-medium hover:opacity-90 transition-opacity"
+                    className="mt-2.5 inline-flex items-center gap-1.5 rounded-[3px] bg-[var(--color-brand)] text-[var(--color-bg)] px-2.5 py-1 text-[12px] font-medium hover:opacity-90 transition-opacity"
                   >
                     Открыть 10b.kz
                     <IconlyArrowRight className="w-3.5 h-3.5" />
@@ -535,7 +520,7 @@ export default function KremniyNaUgleArticle() {
             22 июня 2026 года, через неделю после астанинской подписи, журнал TIME вынес на обложку слова «The AI Frontier - внутри глобальной гонки за то, чтобы запитать будущее». На фотографии - не степь. Заснеженная стройка в норвежском фьорде, за Полярным кругом. Городок Нарвик, старый порт, двадцать тысяч жителей. Там компания Nscale и норвежская Aker строят один из крупнейших в Европе кластеров для ИИ - ровно ту же гонку, в которую только что вошёл Экибастуз. С одной разницей, которая меняет всё.
           </P>
 
-          <figure className="my-8 border border-[var(--color-border)] rounded-[3px] overflow-hidden max-w-[460px] mx-auto">
+          <figure className="research-figure">
             <Image
               src="/blog/nvidia-kazakhstan/time-cover.webp"
               alt="Обложка журнала TIME от 22 июня 2026 — «The AI Frontier», заснеженная стройка дата-центра Nscale в Нарвике"
@@ -543,11 +528,11 @@ export default function KremniyNaUgleArticle() {
               height={1599}
               className="w-full h-auto"
             />
-            <figcaption className="font-mono text-[11px] text-[var(--color-dim)] text-left px-4 py-2.5 leading-relaxed">
+            <figcaption className="font-mono text-[12px] text-[var(--color-dim)] text-left px-4 py-2.5 leading-relaxed">
               Обложка журнала TIME, 22 июня 2026
               <Dot />
               Дата-центр Nscale, Нарвик, Норвегия
-              <Dot />© TIME
+              <Dot /> TIME
             </figcaption>
           </figure>
 
@@ -638,12 +623,12 @@ export default function KremniyNaUgleArticle() {
         <hr className="border-[var(--color-border)] mb-12" />
 
         {/* ─── Источники ─── */}
-        <div className="mb-12">
-          <h2 className="text-[16px] font-bold tracking-tight text-[var(--color-text)] mb-2">Источники</h2>
-          <p className="font-mono text-[11px] text-[var(--color-dim)]/70 italic mb-5 leading-relaxed">
+        <div className="reading-panel reading-sources mb-12">
+          <h2 className="text-[16px] font-medium tracking-tight text-[var(--color-text)] mb-2">Источники</h2>
+          <p className="font-mono text-[12px] text-[var(--color-dim)]/70 italic mb-5 leading-relaxed">
             Сводный перечень по темам. Гранулярные прямые ссылки на каждый факт - в двух исследовательских досье, лежащих в основе материала; ниже - ключевые первоисточники, сгруппированные по разделам.
           </p>
-          <div className="font-mono text-[11px] text-[var(--color-dim)]/80 leading-relaxed space-y-4">
+          <div className="font-mono text-[12px] text-[var(--color-dim)]/80 leading-relaxed space-y-4">
             <div>
               <p className="text-[var(--color-dim)] mb-1">Сделка (Раздел I)</p>
               <ol className="list-decimal list-inside space-y-1 marker:text-[var(--color-border)]">
@@ -705,7 +690,7 @@ export default function KremniyNaUgleArticle() {
 
         {/* ─── Сноски ─── */}
         <div className="mb-12">
-          <h2 className="text-[16px] font-bold tracking-tight text-[var(--color-text)] mb-4">Сноски: пояснения терминов</h2>
+          <h2 className="text-[16px] font-medium tracking-tight text-[var(--color-text)] mb-4">Сноски: пояснения терминов</h2>
           <ol className="font-mono text-[12px] text-[var(--color-dim)] leading-[1.7] space-y-3">
             <li id="fn-1"><span className="text-[var(--color-text)]">1. Term sheet</span> - документ о предварительных условиях сделки. Фиксирует намерения и основные параметры, но сам по себе не обязывает построить и не гарантирует деньги; настоящие обязательства возникают позже, в полноценных договорах.</li>
             <li id="fn-2"><span className="text-[var(--color-text)]">2. Стелс (stealth-режим)</span> - период, когда стартап намеренно работает скрытно: не раскрывает ни продукт, ни инвесторов, иногда и сам факт своего существования. «Выйти из стелса» - впервые публично о себе заявить. Firebird вышла из стелса сразу с проектом на $500 млн, поэтому публичной истории и репутации к моменту сделки у неё почти не было.</li>

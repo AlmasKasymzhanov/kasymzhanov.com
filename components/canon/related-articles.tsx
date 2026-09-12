@@ -16,7 +16,7 @@ function RelatedCard({ a, locale }: { a: Article; locale: Locale }) {
         />
       </div>
       <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-[var(--color-brand)] mb-1.5">{a.rubric}</p>
-      <h3 className="text-[15px] md:text-[16px] font-bold leading-snug text-[var(--color-text)] group-hover:text-[var(--color-brand)] transition-colors">
+      <h3 className="text-[15px] md:text-[16px] font-medium leading-snug text-[var(--color-text)] group-hover:text-[var(--color-brand)] transition-colors">
         {a.title}
       </h3>
     </Link>

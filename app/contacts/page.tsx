@@ -1,9 +1,10 @@
+import { PersonalDocument } from "@/components/personal-document";
 import type { Metadata } from "next";
-import { SiteHeader, SiteFooter, AuthorBlock, Socials } from "@/components/canon/site-chrome";
+import { Socials } from "@/components/canon/site-chrome";
 import { SocialIcon } from "@/components/social-icons";
 
 export const metadata: Metadata = {
-  title: "Контакты — Almas Kasymzhanov",
+  title: "Контакты — Алмас Касымжанов",
   description:
     "Связаться с Алмасом Касымжановым: Telegram, почта, телефон. Дата-журналистика, аналитика рынков, enterprise-разборы.",
 };
@@ -60,17 +61,12 @@ const METHODS = [
 ];
 
 export default function ContactsPage() {
-  return (
-    <div className="font-mono text-[var(--color-text)]">
-      <div className="max-w-[1400px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">
-        <SiteHeader />
-
-        <main className="w-full max-w-[680px] mx-auto px-6 py-12 md:py-16">
+  return <PersonalDocument locale={"ru"}>
           <header className="mb-10">
             <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--color-brand)] mb-4">
               Связаться
             </p>
-            <h1 className="text-[28px] md:text-[38px] font-bold tracking-tight text-[var(--color-text)] leading-[1.12] mb-5">
+            <h1 className="text-[28px] md:text-[38px] font-normal tracking-tight text-[var(--color-text)] leading-[1.12] mb-5">
               Контакты
             </h1>
             <p className="text-[15px] md:text-[16px] text-[var(--color-dim)] leading-relaxed">
@@ -106,12 +102,5 @@ export default function ContactsPage() {
             <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--color-brand)] mb-4">Соцсети</p>
             <Socials />
           </div>
-        </main>
-
-        <div className="flex-1" aria-hidden />
-        <AuthorBlock variant="horizontal" />
-        <SiteFooter />
-      </div>
-    </div>
-  );
+        </PersonalDocument>;
 }

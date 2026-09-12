@@ -1,4 +1,5 @@
 import { ArticleHeader } from "@/components/canon/article-header";
+import { IconlyChevronDown } from "@/components/iconly-icons";
 import { ArticleLayout } from "@/components/canon/article-layout";
 import { Grafik1, Grafik2, SupplyCallout } from "@/components/charts/wb-dual-use";
 import { BulatEvidence, CableComparison, ProductCardGallery } from "@/components/canon/wb-evidence";
@@ -13,7 +14,7 @@ function P({ children, className = "" }: { children: React.ReactNode; className?
 }
 
 function H2({ children, id }: { children: React.ReactNode; id?: string }) {
-  return <h2 id={id} className="mb-6 text-[20px] font-bold tracking-tight text-[var(--color-text)]">{children}</h2>;
+  return <h2 id={id} className="mb-6 text-[20px] font-normal tracking-tight text-[var(--color-text)]">{children}</h2>;
 }
 
 function TaxonomyExplainer() {
@@ -38,15 +39,15 @@ function TaxonomyExplainer() {
     },
   ] as const;
   return (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-3" aria-label="Три статуса исторической видимости категорий в данных MPStats">
+    <div className="research-flow" aria-label="Три статуса исторической видимости категорий в данных MPStats">
       {cards.map((card, index) => (
-        <section key={card.title} className={`rounded-[3px] border p-4 ${card.accent ? "border-[var(--viz-wb)] bg-[color-mix(in_srgb,var(--viz-wb)_7%,transparent)]" : "border-[var(--color-border)] bg-[var(--color-surface)]"}`}>
-          <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--color-dim)]">0{index + 1}</p>
-          <h3 className="text-[13px] font-bold leading-snug text-[var(--color-text)]">{card.title}</h3>
+        <section key={card.title} className="research-note">
+
+          <h3 className="text-[13px] font-medium leading-snug text-[var(--color-text)]">{card.title}</h3>
           <p className="mt-3 text-[12px] leading-relaxed text-[var(--color-dim)]">{card.body}</p>
           <details className="mt-3 border-t border-[var(--color-border)] pt-2">
-            <summary className="cursor-pointer font-mono text-[9.5px] uppercase tracking-[0.06em] text-[var(--color-dim)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand)]">Подробнее</summary>
-            <p className="mt-2 font-mono text-[9.5px] leading-relaxed text-[var(--color-dim)]">{card.detail}</p>
+            <summary className="reading-disclosure"><span>Подробнее</span><IconlyChevronDown size={17} /></summary>
+            <p className="mt-2 font-mono text-[12px] leading-relaxed text-[var(--color-dim)]">{card.detail}</p>
           </details>
         </section>
       ))}
@@ -78,7 +79,7 @@ export default function WbDualUseArticle() {
               <P className="mb-5">В Котовске, по данным региональных властей на 18 июля, погибли семь сотрудников ночной смены, ещё 25 человек получили ранения<Cite n={1} />. В Электростали сначала сообщалось о 24 пострадавших непосредственно на территории комплекса<Cite n={2} />.</P>
               <P className="mb-5">К вечеру губернатор Московской области сообщил уже о 57 пострадавших в Электростали и ещё четырёх в Ногинске; один человек погиб<Cite n={3} />. Из этой сводки неясно, сколько людей находилось именно на складе. Это обновления одной официальной цепочки, а не несколько независимых подтверждений. Атаку двух объектов подтвердила сама <Term tip="RWB: объединённая компания Wildberries и Russ.">RWB</Term><Cite n={4} />, а сводные данные по событиям собрала Associated Press<Cite n={5} />.</P>
               <section className="my-8 border-l-2 border-[var(--viz-wb)] pl-5" aria-labelledby="update-20-july-heading">
-                <h3 id="update-20-july-heading" className="mb-5 text-[17px] font-bold tracking-tight text-[var(--color-text)]">Обновление 20 июля</h3>
+                <h3 id="update-20-july-heading" className="mb-5 text-[17px] font-medium tracking-tight text-[var(--color-text)]">Обновление 20 июля</h3>
                 <P>20 июля Подмосковье снова подверглось атаке БПЛА. Собянин сообщил о более чем 400 аппаратах в направлении региона и 85 уничтоженных на подлёте к Москве, а Минобороны за другое окно сообщило о 23 уничтоженных БПЛА. Единого официального числа нет<Cite n={22} /><Cite n={23} />. В сообщении на 09:44 мск говорилось о десяти пострадавших, включая ребёнка, и о пожаре в индустриальном парке «Южные Врата»<Cite n={24} /><Cite n={25} />. Комплекс Wildberries в Коледино эвакуировали, но RWB сообщила, что он не пострадал и вернулся к работе<Cite n={26} />. Поражение нефтебазы во Львовском российские власти не подтверждали: рядом зафиксировали тепловую аномалию, а украинская сторона заявила об ударе<Cite n={27} /><Cite n={28} />.</P>
               </section>
               <P className="mb-5">Компания объявила о поддержке семей погибших, пострадавших и продавцов<Cite n={6} /><Cite n={7} /><Cite n={8} />. Украинская сторона назвала комплексы важными логистическими объектами и заявила, что через них поставлялись подсанкционные комплектующие<Cite n={9} />. Публичных накладных, адресных остатков или независимой описи складов при этом не появилось.</P>
@@ -162,7 +163,7 @@ export default function WbDualUseArticle() {
             </section>
 
             <hr className="mb-12 border-[var(--color-border)]" />
-            <section id="methodology" className="mb-12 scroll-mt-20">
+            <section id="methodology" className="reading-panel reading-methodology mb-12 scroll-mt-20">
               <H2>Методика и источники данных</H2>
               <P className="mb-4">Все рублёвые показатели являются оценками MPStats. GMV означает суммарную стоимость заказов, а не выручку Wildberries. Продажи в штуках тоже рассчитаны внешним сервисом, а не взяты из отчётности площадки.</P>
               <ul className="list-disc space-y-3 pl-5 text-[13px] leading-[1.7] text-[var(--color-dim)] marker:text-[var(--color-border)]">

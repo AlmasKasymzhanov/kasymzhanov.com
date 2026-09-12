@@ -1,35 +1,38 @@
 "use client";
+import { MaterialViews } from "@/components/engagement/material-views";
+import { IconlyArrowLeft } from "@/components/iconly-icons";
+import { ResearchSection, ResearchFact } from "@/components/canon/research-editorial";
 
 import Link from "next/link";
 import { useState } from "react";
 
 /* ───── design tokens ───── */
 const C = {
-  bg: "#0a0a0f",
-  surface: "#111119",
-  border: "#1e1e30",
-  accent: "#6c5ce7",
-  green: "#00d2a0",
-  text: "#e8e8f0",
-  dim: "#999",
-  faint: "#444",
-  red: "#f87171",
-  amber: "#f59e0b",
-  pink: "#e84393",
+  bg: "var(--personal-paper)",
+  surface: "var(--report-surface)",
+  border: "var(--personal-border)",
+  accent: "var(--personal-text)",
+  green: "var(--personal-text)",
+  text: "var(--personal-text)",
+  dim: "var(--personal-muted)",
+  faint: "var(--personal-border)",
+  red: "var(--personal-text)",
+  amber: "var(--personal-text)",
+  pink: "var(--personal-text)",
 };
 
 /* ───── style helpers ───── */
 const sSection: React.CSSProperties = { marginBottom: 48 };
-const sH2: React.CSSProperties = { fontSize: 22, fontWeight: 700, margin: "0 0 20px", color: C.text, letterSpacing: "-0.01em" };
-const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 600, margin: "28px 0 12px", color: C.text };
-const sP: React.CSSProperties = { fontSize: 14, lineHeight: 1.7, color: "#ccc", margin: "0 0 12px" };
-const sCard: React.CSSProperties = { background: C.surface, border: `1px solid ${C.border}`, borderRadius: 10, padding: "20px 24px", marginBottom: 16 };
-const sCode: React.CSSProperties = { background: "rgba(108,92,231,0.12)", color: C.accent, padding: "2px 7px", borderRadius: 4, fontSize: 12, fontFamily: "monospace" };
-const sCodeBlock: React.CSSProperties = { background: "#0d0d18", border: `1px solid ${C.border}`, borderRadius: 8, padding: "16px 20px", fontSize: 12, fontFamily: "'JetBrains Mono', 'Fira Code', monospace", color: "#c8c8d8", lineHeight: 1.6, overflowX: "auto", whiteSpace: "pre", marginBottom: 12, position: "relative" };
-const sBadge = (color: string): React.CSSProperties => ({ display: "inline-block", padding: "3px 10px", borderRadius: 6, fontSize: 11, fontWeight: 600, background: `${color}18`, color, marginRight: 6 });
-const sStepNum: React.CSSProperties = { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 28, height: 28, borderRadius: "50%", background: `${C.accent}22`, color: C.accent, fontSize: 13, fontWeight: 700, marginRight: 10, flexShrink: 0 };
-const sTip: React.CSSProperties = { background: `${C.green}10`, borderRadius: 8, padding: "14px 16px", fontSize: 13, color: "#ccc", marginTop: 12, marginBottom: 12 };
-const sWarn: React.CSSProperties = { background: `${C.amber}10`, borderRadius: 8, padding: "14px 16px", fontSize: 13, color: "#ccc", marginTop: 12, marginBottom: 12 };
+const sH2: React.CSSProperties = { fontSize: 22, fontWeight: 500, margin: "0 0 20px", color: C.text, letterSpacing: "-0.01em" };
+const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 500, margin: "28px 0 12px", color: C.text };
+const sP: React.CSSProperties = { fontSize: 17, lineHeight: 1.7, color: "var(--personal-text)", margin: "0 0 12px" };
+const sCard: React.CSSProperties = { margin: "28px 0", padding: 0 };
+const sCode: React.CSSProperties = { background: "var(--personal-rail-hover)", color: C.accent, padding: "2px 7px", borderRadius: 4, fontSize: 12, fontFamily: "var(--font-mono)" };
+const sCodeBlock: React.CSSProperties = { background: "var(--personal-paper)", border: `1px solid ${C.border}`, borderRadius: 8, padding: "16px 20px", fontSize: 12, fontFamily: "var(--font-mono)", color: "var(--personal-text)", lineHeight: 1.6, overflowX: "auto", whiteSpace: "pre", marginBottom: 12, position: "relative" };
+const sBadge = (color: string): React.CSSProperties => ({ display: "inline-block", padding: "3px 10px", borderRadius: 6, fontSize: 11, fontWeight: 500, background: `color-mix(in srgb, ${color} 9%, transparent)`, color, marginRight: 6 });
+const sStepNum: React.CSSProperties = { display: "none" };
+const sTip: React.CSSProperties = { margin: "20px 0", fontSize: 16, lineHeight: 1.75, color: "var(--personal-text)" };
+const sWarn: React.CSSProperties = { margin: "20px 0", fontSize: 16, lineHeight: 1.75, color: "var(--personal-text)" };
 
 /* ───── CopyBtn ───── */
 function CopyBtn({ text }: { text: string }) {
@@ -37,7 +40,7 @@ function CopyBtn({ text }: { text: string }) {
   return (
     <button
       onClick={() => { navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
-      style={{ position: "absolute", top: 8, right: 8, background: copied ? `${C.green}22` : `${C.accent}22`, color: copied ? C.green : C.accent, border: "none", borderRadius: 6, padding: "4px 10px", fontSize: 11, cursor: "pointer", fontWeight: 600, transition: "all 0.2s" }}
+      style={{ position: "absolute", top: 8, right: 8, background: copied ? `color-mix(in srgb, ${C.green} 13%, transparent)` : `color-mix(in srgb, ${C.accent} 13%, transparent)`, color: copied ? C.green : C.accent, border: "none", borderRadius: 6, padding: "4px 10px", fontSize: 11, cursor: "pointer", fontWeight: 500, transition: "all 0.2s" }}
     >
       {copied ? "Скопировано!" : "Копировать"}
     </button>
@@ -63,8 +66,8 @@ function Collapsible({ title, children, defaultOpen = false }: { title: string; 
 
 /* ───── Comparison table ───── */
 function CompareTable({ rows }: { rows: { feature: string; claude: string; notebook: string; combo: string }[] }) {
-  const th: React.CSSProperties = { padding: "8px 12px", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.04em", color: C.dim, borderBottom: `1px solid ${C.border}`, textAlign: "left" };
-  const td: React.CSSProperties = { padding: "8px 12px", fontSize: 13, color: "#ccc", borderBottom: `1px solid ${C.border}08` };
+  const th: React.CSSProperties = { padding: "8px 12px", fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.04em", color: C.dim, borderBottom: `1px solid ${C.border}`, textAlign: "left" };
+  const td: React.CSSProperties = { padding: "8px 12px", fontSize: 13, color: "var(--personal-text)", borderBottom: `1px solid color-mix(in srgb, ${C.border} 3%, transparent)` };
   return (
     <div style={{ overflowX: "auto", marginBottom: 16 }}>
       <table style={{ width: "100%", borderCollapse: "collapse", background: C.surface, borderRadius: 10, overflow: "hidden" }}>
@@ -115,7 +118,7 @@ export default function AiSellerGuidePage() {
 3. Средний чек и маржинальность
 4. Рейтинг — есть ли проблемы с качеством (низкий рейтинг = возможность)
 
-Выведи результат в таблице с колонками: Подкатегория | Выручка | Продажи | Товаров | % с продажами | Ср.цена | Рейтинг | Вердикт (🟢/🟡/🔴)
+Выведи результат в таблице с колонками: Подкатегория | Выручка | Продажи | Товаров | % с продажами | Ср.цена | Рейтинг | Вердикт (подходит / требует проверки / не подходит)
 
 В конце дай ТОП-3 рекомендации: в какую подкатегорию лучше всего зайти и почему.`;
 
@@ -174,14 +177,15 @@ export default function AiSellerGuidePage() {
 - Главное преимущество новичка: ...`;
 
   return (
-    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "'Inter', -apple-system, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "var(--font-body)" }}>
 
       {/* ───── header ───── */}
-      <div style={{ background: "linear-gradient(135deg, #0a0a1a 0%, #1a1040 50%, #0a0a1a 100%)", padding: "60px 20px 48px", textAlign: "center" }}>
-        <Link href="/tools" style={{ color: C.dim, fontSize: 12, textDecoration: "none", display: "inline-block", marginBottom: 16, border: `1px solid ${C.border}`, borderRadius: 6, padding: "4px 12px" }}>← Все инструменты</Link>
-        <h1 style={{ fontSize: 28, fontWeight: 800, margin: "0 0 12px", letterSpacing: "-0.02em", lineHeight: 1.3 }}>
+      <div style={{ background: "transparent", padding: "60px 20px 48px", textAlign: "center" }}>
+        <Link href="/tools" style={{ color: C.dim, fontSize: 12, textDecoration: "none", display: "inline-block", marginBottom: 16, border: `1px solid ${C.border}`, borderRadius: 6, padding: "4px 12px" }}><IconlyArrowLeft size={17} className="reading-inline-icon" /> Все инструменты</Link>
+        <h1 style={{ fontSize: 28, fontWeight: 500, margin: "0 0 12px", letterSpacing: "-0.02em", lineHeight: 1.3 }}>
           AI для продавцов маркетплейсов
         </h1>
+          <MaterialViews />
         <p style={{ fontSize: 15, color: C.dim, maxWidth: 600, margin: "0 auto" }}>
           NotebookLM — ваша персональная база знаний с AI-аналитиком. Загружайте данные, получайте ответы.
         </p>
@@ -210,15 +214,15 @@ export default function AiSellerGuidePage() {
           </p>
 
           <div style={sCard}>
-            <p style={{ fontSize: 14, fontWeight: 600, color: C.text, margin: "0 0 12px" }}>Простая аналогия:</p>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-              <div style={{ background: `${C.accent}10`, borderRadius: 8, padding: 14 }}>
-                <p style={{ fontSize: 12, fontWeight: 600, color: C.accent, margin: "0 0 6px" }}>Claude</p>
-                <p style={{ fontSize: 13, color: "#ccc", margin: 0 }}>Гениальный аналитик с маленьким рабочим столом. Может обработать один документ за раз, но делает это блестяще.</p>
+            <p style={{ fontSize: 14, fontWeight: 500, color: C.text, margin: "0 0 12px" }}>Простая аналогия:</p>
+            <div style={{ display: "block" }}>
+              <div style={{ padding: "16px 0" }}>
+                <p style={{ fontSize: 12, fontWeight: 500, color: C.accent, margin: "0 0 6px" }}>Claude</p>
+                <p style={{ fontSize: 13, color: "var(--personal-text)", margin: 0 }}>Гениальный аналитик с маленьким рабочим столом. Может обработать один документ за раз, но делает это блестяще.</p>
               </div>
-              <div style={{ background: `${C.green}10`, borderRadius: 8, padding: 14 }}>
-                <p style={{ fontSize: 12, fontWeight: 600, color: C.green, margin: "0 0 6px" }}>NotebookLM</p>
-                <p style={{ fontSize: 13, color: "#ccc", margin: 0 }}>Огромный архив со своим библиотекарем. Храните все данные, спрашивайте — он найдёт и покажет.</p>
+              <div style={{ padding: "16px 0" }}>
+                <p style={{ fontSize: 12, fontWeight: 500, color: C.green, margin: "0 0 6px" }}>NotebookLM</p>
+                <p style={{ fontSize: 13, color: "var(--personal-text)", margin: 0 }}>Огромный архив со своим библиотекарем. Храните все данные, спрашивайте — он найдёт и покажет.</p>
               </div>
             </div>
           </div>
@@ -242,9 +246,9 @@ export default function AiSellerGuidePage() {
             <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 14 }}>
               <span style={sStepNum}>1</span>
               <div>
-                <p style={{ fontSize: 14, fontWeight: 600, color: C.text, margin: "0 0 4px" }}>Откройте NotebookLM</p>
-                <p style={{ fontSize: 13, color: "#ccc", margin: 0 }}>
-                  Перейдите на <a href="https://notebooklm.google.com" target="_blank" rel="noopener" style={{ color: C.green, textDecoration: "none", borderBottom: `1px solid ${C.green}44` }}>notebooklm.google.com</a> и войдите через Google-аккаунт. Ничего скачивать не нужно — всё работает в браузере.
+                <p style={{ fontSize: 14, fontWeight: 500, color: C.text, margin: "0 0 4px" }}>Откройте NotebookLM</p>
+                <p style={{ fontSize: 13, color: "var(--personal-text)", margin: 0 }}>
+                  Перейдите на <a href="https://notebooklm.google.com" target="_blank" rel="noopener" style={{ color: C.green, textDecoration: "none" }}>notebooklm.google.com</a> и войдите через Google-аккаунт. Ничего скачивать не нужно — всё работает в браузере.
                 </p>
               </div>
             </div>
@@ -252,8 +256,8 @@ export default function AiSellerGuidePage() {
             <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 14 }}>
               <span style={sStepNum}>2</span>
               <div>
-                <p style={{ fontSize: 14, fontWeight: 600, color: C.text, margin: "0 0 4px" }}>Создайте ноутбук</p>
-                <p style={{ fontSize: 13, color: "#ccc", margin: 0 }}>
+                <p style={{ fontSize: 14, fontWeight: 500, color: C.text, margin: "0 0 4px" }}>Создайте ноутбук</p>
+                <p style={{ fontSize: 13, color: "var(--personal-text)", margin: 0 }}>
                   Нажмите <strong style={{ color: C.text }}>«New Notebook»</strong>. Дайте ему понятное название — например, «Анализ ниши Одежда WB» или «Выгрузки MPSTATS Март 2026».
                 </p>
               </div>
@@ -262,8 +266,8 @@ export default function AiSellerGuidePage() {
             <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 14 }}>
               <span style={sStepNum}>3</span>
               <div>
-                <p style={{ fontSize: 14, fontWeight: 600, color: C.text, margin: "0 0 4px" }}>Загрузите данные</p>
-                <p style={{ fontSize: 13, color: "#ccc", margin: 0 }}>
+                <p style={{ fontSize: 14, fontWeight: 500, color: C.text, margin: "0 0 4px" }}>Загрузите данные</p>
+                <p style={{ fontSize: 13, color: "var(--personal-text)", margin: 0 }}>
                   Нажмите <strong style={{ color: C.text }}>«Add source»</strong> и загрузите файлы. Можно загрузить до 50 источников в один ноутбук.
                 </p>
               </div>
@@ -272,8 +276,8 @@ export default function AiSellerGuidePage() {
             <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
               <span style={sStepNum}>4</span>
               <div>
-                <p style={{ fontSize: 14, fontWeight: 600, color: C.text, margin: "0 0 4px" }}>Задавайте вопросы</p>
-                <p style={{ fontSize: 13, color: "#ccc", margin: 0 }}>
+                <p style={{ fontSize: 14, fontWeight: 500, color: C.text, margin: "0 0 4px" }}>Задавайте вопросы</p>
+                <p style={{ fontSize: 13, color: "var(--personal-text)", margin: 0 }}>
                   В поле чата внизу пишите вопросы. NotebookLM ответит <strong style={{ color: C.text }}>строго по вашим данным</strong> и покажет ссылки на источники.
                 </p>
               </div>
@@ -298,26 +302,26 @@ export default function AiSellerGuidePage() {
               <thead>
                 <tr>
                   {["Формат", "Принимает?", "Что делать"].map(h => (
-                    <th key={h} style={{ padding: "8px 12px", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.04em", color: C.dim, borderBottom: `1px solid ${C.border}`, textAlign: "left" }}>{h}</th>
+                    <th key={h} style={{ padding: "8px 12px", fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.04em", color: C.dim, borderBottom: `1px solid ${C.border}`, textAlign: "left" }}>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {[
-                  { format: "PDF", ok: "✅ Да", note: "Загружайте напрямую. Идеально для отчётов PwC, презентаций, каталогов." },
-                  { format: "Google Docs", ok: "✅ Да", note: "Подключается напрямую из Google Drive." },
-                  { format: "Google Slides", ok: "✅ Да", note: "Подключается напрямую из Google Drive." },
-                  { format: "Веб-ссылки (URL)", ok: "✅ Да", note: "Вставляете ссылку — NotebookLM сам вытянет содержимое страницы." },
-                  { format: "Скопированный текст", ok: "✅ Да", note: "Вставьте текст прямо в поле «Paste text»." },
-                  { format: "YouTube видео", ok: "✅ Да", note: "Вставьте ссылку на видео — NotebookLM расшифрует аудио." },
-                  { format: "CSV / Excel", ok: "⚠️ Не напрямую", note: "Конвертируйте в Google Sheets → подключите из Drive. Или скопируйте в текст." },
-                  { format: "JSON", ok: "⚠️ Не напрямую", note: "Нужно адаптировать (инструкция ниже)." },
-                  { format: "Аудио (MP3, WAV)", ok: "✅ Да", note: "Загружайте — NotebookLM расшифрует в текст." },
+                  { format: "PDF", ok: " Да", note: "Загружайте напрямую. Идеально для отчётов PwC, презентаций, каталогов." },
+                  { format: "Google Docs", ok: " Да", note: "Подключается напрямую из Google Drive." },
+                  { format: "Google Slides", ok: " Да", note: "Подключается напрямую из Google Drive." },
+                  { format: "Веб-ссылки (URL)", ok: " Да", note: "Вставляете ссылку — NotebookLM сам вытянет содержимое страницы." },
+                  { format: "Скопированный текст", ok: " Да", note: "Вставьте текст прямо в поле «Paste text»." },
+                  { format: "YouTube видео", ok: " Да", note: "Вставьте ссылку на видео — NotebookLM расшифрует аудио." },
+                  { format: "CSV / Excel", ok: " Не напрямую", note: "Конвертируйте в Google Sheets → подключите из Drive. Или скопируйте в текст." },
+                  { format: "JSON", ok: " Не напрямую", note: "Нужно адаптировать (инструкция ниже)." },
+                  { format: "Аудио (MP3, WAV)", ok: " Да", note: "Загружайте — NotebookLM расшифрует в текст." },
                 ].map((r, i) => (
                   <tr key={i}>
-                    <td style={{ padding: "8px 12px", fontSize: 13, fontWeight: 500, color: C.text, borderBottom: `1px solid ${C.border}08` }}>{r.format}</td>
-                    <td style={{ padding: "8px 12px", fontSize: 13, color: r.ok.includes("✅") ? C.green : C.amber, borderBottom: `1px solid ${C.border}08` }}>{r.ok}</td>
-                    <td style={{ padding: "8px 12px", fontSize: 13, color: "#ccc", borderBottom: `1px solid ${C.border}08` }}>{r.note}</td>
+                    <td style={{ padding: "8px 12px", fontSize: 13, fontWeight: 500, color: C.text, borderBottom: `1px solid color-mix(in srgb, ${C.border} 3%, transparent)` }}>{r.format}</td>
+                    <td style={{ padding: "8px 12px", fontSize: 13, color: r.ok.includes("") ? C.green : C.amber, borderBottom: `1px solid color-mix(in srgb, ${C.border} 3%, transparent)` }}>{r.ok}</td>
+                    <td style={{ padding: "8px 12px", fontSize: 13, color: "var(--personal-text)", borderBottom: `1px solid color-mix(in srgb, ${C.border} 3%, transparent)` }}>{r.note}</td>
                   </tr>
                 ))}
               </tbody>
@@ -328,8 +332,8 @@ export default function AiSellerGuidePage() {
           <p style={sP}>JSON-файлы (выгрузки из MPSTATS API, Kaspi API и т.д.) NotebookLM напрямую не принимает. Но есть 3 способа:</p>
 
           <div style={sCard}>
-            <p style={{ fontSize: 14, fontWeight: 600, color: C.green, margin: "0 0 10px" }}>Способ 1: Через Google Sheets (рекомендуемый)</p>
-            <ol style={{ margin: 0, paddingLeft: 20, fontSize: 13, color: "#ccc", lineHeight: 1.8 }}>
+            <p style={{ fontSize: 14, fontWeight: 500, color: C.green, margin: "0 0 10px" }}>Способ 1: Через Google Sheets (рекомендуемый)</p>
+            <ol style={{ margin: 0, paddingLeft: 20, fontSize: 13, color: "var(--personal-text)", lineHeight: 1.8 }}>
               <li>Откройте <a href="https://sheets.google.com" target="_blank" rel="noopener" style={{ color: C.accent, textDecoration: "none" }}>Google Sheets</a> → создайте новую таблицу</li>
               <li>Скопируйте JSON-данные</li>
               <li>В Google Sheets: <strong style={{ color: C.text }}>Данные → Импорт → Вставить текст</strong></li>
@@ -339,8 +343,8 @@ export default function AiSellerGuidePage() {
           </div>
 
           <div style={sCard}>
-            <p style={{ fontSize: 14, fontWeight: 600, color: C.accent, margin: "0 0 10px" }}>Способ 2: Конвертировать JSON → текст</p>
-            <ol style={{ margin: 0, paddingLeft: 20, fontSize: 13, color: "#ccc", lineHeight: 1.8 }}>
+            <p style={{ fontSize: 14, fontWeight: 500, color: C.accent, margin: "0 0 10px" }}>Способ 2: Конвертировать JSON → текст</p>
+            <ol style={{ margin: 0, paddingLeft: 20, fontSize: 13, color: "var(--personal-text)", lineHeight: 1.8 }}>
               <li>Откройте JSON-файл в любом текстовом редакторе (Блокнот, VS Code)</li>
               <li>Скопируйте всё содержимое</li>
               <li>В NotebookLM нажмите «Add source» → «Paste text»</li>
@@ -349,8 +353,8 @@ export default function AiSellerGuidePage() {
           </div>
 
           <div style={sCard}>
-            <p style={{ fontSize: 14, fontWeight: 600, color: C.pink, margin: "0 0 10px" }}>Способ 3: Попросить Claude конвертировать</p>
-            <p style={{ fontSize: 13, color: "#ccc", margin: 0 }}>
+            <p style={{ fontSize: 14, fontWeight: 500, color: C.pink, margin: "0 0 10px" }}>Способ 3: Попросить Claude конвертировать</p>
+            <p style={{ fontSize: 13, color: "var(--personal-text)", margin: 0 }}>
               Загрузите JSON в Claude и попросите: <em style={{ color: C.dim }}>«Конвертируй этот JSON в читаемую таблицу текстом»</em>. Затем скопируйте результат в NotebookLM как текст.
             </p>
           </div>
@@ -368,8 +372,8 @@ export default function AiSellerGuidePage() {
           <p style={sP}>Создайте ноутбук для каждой задачи и загрузите туда все релевантные данные:</p>
 
           <div style={sCard}>
-            <p style={{ fontSize: 14, fontWeight: 600, color: C.text, margin: "0 0 12px" }}>📊 Ноутбук «Анализ ниш»</p>
-            <ul style={{ margin: 0, paddingLeft: 20, fontSize: 13, color: "#ccc", lineHeight: 1.8 }}>
+            <p style={{ fontSize: 14, fontWeight: 500, color: C.text, margin: "0 0 12px" }}> Ноутбук «Анализ ниш»</p>
+            <ul style={{ margin: 0, paddingLeft: 20, fontSize: 13, color: "var(--personal-text)", lineHeight: 1.8 }}>
               <li>Выгрузки из MPSTATS по подкатегориям (CSV или через Google Sheets)</li>
               <li>Отчёты PwC / Data Insight / Similar Web по рынку e-commerce (PDF)</li>
               <li>Скриншоты топ-товаров конкурентов</li>
@@ -378,8 +382,8 @@ export default function AiSellerGuidePage() {
           </div>
 
           <div style={sCard}>
-            <p style={{ fontSize: 14, fontWeight: 600, color: C.text, margin: "0 0 12px" }}>💰 Ноутбук «Мой бизнес»</p>
-            <ul style={{ margin: 0, paddingLeft: 20, fontSize: 13, color: "#ccc", lineHeight: 1.8 }}>
+            <p style={{ fontSize: 14, fontWeight: 500, color: C.text, margin: "0 0 12px" }}> Ноутбук «Мой бизнес»</p>
+            <ul style={{ margin: 0, paddingLeft: 20, fontSize: 13, color: "var(--personal-text)", lineHeight: 1.8 }}>
               <li>Отчёты продаж из личного кабинета WB/Kaspi (Excel → Google Sheets)</li>
               <li>Себестоимости товаров</li>
               <li>Рекламные расходы</li>
@@ -388,8 +392,8 @@ export default function AiSellerGuidePage() {
           </div>
 
           <div style={sCard}>
-            <p style={{ fontSize: 14, fontWeight: 600, color: C.text, margin: "0 0 12px" }}>🔍 Ноутбук «Конкуренты»</p>
-            <ul style={{ margin: 0, paddingLeft: 20, fontSize: 13, color: "#ccc", lineHeight: 1.8 }}>
+            <p style={{ fontSize: 14, fontWeight: 500, color: C.text, margin: "0 0 12px" }}> Ноутбук «Конкуренты»</p>
+            <ul style={{ margin: 0, paddingLeft: 20, fontSize: 13, color: "var(--personal-text)", lineHeight: 1.8 }}>
               <li>Карточки конкурентов (веб-ссылки на товары)</li>
               <li>Отзывы конкурентов — скопировать текстом (находите слабые места!)</li>
               <li>Ценовая история из MPSTATS</li>
@@ -409,29 +413,29 @@ export default function AiSellerGuidePage() {
           <h2 style={sH2}>5. Главные фишки NotebookLM</h2>
 
           <div style={sCard}>
-            <p style={{ fontSize: 14, fontWeight: 600, color: C.green, margin: "0 0 8px" }}>🎙 Audio Overview — AI-подкаст по вашим данным</p>
-            <p style={{ fontSize: 13, color: "#ccc", margin: 0 }}>
+            <p style={{ fontSize: 14, fontWeight: 500, color: C.green, margin: "0 0 8px" }}> Audio Overview — AI-подкаст по вашим данным</p>
+            <p style={{ fontSize: 13, color: "var(--personal-text)", margin: 0 }}>
               NotebookLM может сгенерировать <strong style={{ color: C.text }}>подкаст-обсуждение</strong> на основе ваших загруженных данных. Два AI-ведущих обсуждают ваши отчёты, выделяют главное, спорят. Можно слушать на ходу — например, в дороге на склад.
             </p>
           </div>
 
           <div style={sCard}>
-            <p style={{ fontSize: 14, fontWeight: 600, color: C.accent, margin: "0 0 8px" }}>📋 Автоматическое саммари</p>
-            <p style={{ fontSize: 13, color: "#ccc", margin: 0 }}>
+            <p style={{ fontSize: 14, fontWeight: 500, color: C.accent, margin: "0 0 8px" }}> Автоматическое саммари</p>
+            <p style={{ fontSize: 13, color: "var(--personal-text)", margin: 0 }}>
               При загрузке документов NotebookLM сам генерирует краткое содержание каждого источника. Полезно когда у вас 20 файлов и нужно быстро понять, что где.
             </p>
           </div>
 
           <div style={sCard}>
-            <p style={{ fontSize: 14, fontWeight: 600, color: C.pink, margin: "0 0 8px" }}>🔗 Ссылки на источники</p>
-            <p style={{ fontSize: 13, color: "#ccc", margin: 0 }}>
+            <p style={{ fontSize: 14, fontWeight: 500, color: C.pink, margin: "0 0 8px" }}> Ссылки на источники</p>
+            <p style={{ fontSize: 13, color: "var(--personal-text)", margin: 0 }}>
               Каждый ответ NotebookLM содержит <strong style={{ color: C.text }}>ссылки на конкретные места в документах</strong>, откуда взята информация. Можно кликнуть и проверить.
             </p>
           </div>
 
           <div style={sCard}>
-            <p style={{ fontSize: 14, fontWeight: 600, color: C.amber, margin: "0 0 8px" }}>📌 Заметки и закладки</p>
-            <p style={{ fontSize: 13, color: "#ccc", margin: 0 }}>
+            <p style={{ fontSize: 14, fontWeight: 500, color: C.amber, margin: "0 0 8px" }}> Заметки и закладки</p>
+            <p style={{ fontSize: 13, color: "var(--personal-text)", margin: 0 }}>
               Можно сохранять ответы как заметки прямо в ноутбуке. Создавайте свою базу инсайтов по нишам.
             </p>
           </div>
@@ -453,9 +457,9 @@ export default function AiSellerGuidePage() {
             { q: "Есть ли товары без бренда с хорошими продажами?", desc: "Шанс зайти без раскрученного бренда" },
           ].map((item, i) => (
             <div key={i} style={{ ...sCard, display: "flex", alignItems: "flex-start", gap: 12 }}>
-              <span style={{ ...sStepNum, background: `${C.green}22`, color: C.green, fontSize: 11 }}>?</span>
+              <span style={{ ...sStepNum, background: `color-mix(in srgb, ${C.green} 13%, transparent)`, color: C.green, fontSize: 11 }}>?</span>
               <div>
-                <p style={{ fontSize: 13, fontWeight: 600, color: C.text, margin: "0 0 4px" }}>«{item.q}»</p>
+                <p style={{ fontSize: 13, fontWeight: 500, color: C.text, margin: "0 0 4px" }}>«{item.q}»</p>
                 <p style={{ fontSize: 12, color: C.dim, margin: 0 }}>{item.desc}</p>
               </div>
             </div>
@@ -512,16 +516,16 @@ export default function AiSellerGuidePage() {
             <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 14 }}>
               <span style={sStepNum}>A</span>
               <div>
-                <p style={{ fontSize: 14, fontWeight: 600, color: C.text, margin: "0 0 4px" }}>Создайте ноутбук</p>
-                <p style={{ fontSize: 13, color: "#ccc", margin: 0 }}>Откройте <a href="https://notebooklm.google.com" target="_blank" rel="noopener" style={{ color: C.green, textDecoration: "none", borderBottom: `1px solid ${C.green}44` }}>notebooklm.google.com</a> → «New Notebook» → назовите «Анализ: Пакет для вакууматора WB»</p>
+                <p style={{ fontSize: 14, fontWeight: 500, color: C.text, margin: "0 0 4px" }}>Создайте ноутбук</p>
+                <p style={{ fontSize: 13, color: "var(--personal-text)", margin: 0 }}>Откройте <a href="https://notebooklm.google.com" target="_blank" rel="noopener" style={{ color: C.green, textDecoration: "none" }}>notebooklm.google.com</a> → «New Notebook» → назовите «Анализ: Пакет для вакууматора WB»</p>
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 14 }}>
               <span style={sStepNum}>B</span>
               <div>
-                <p style={{ fontSize: 14, fontWeight: 600, color: C.text, margin: "0 0 4px" }}>Конвертируйте JSON</p>
-                <p style={{ fontSize: 13, color: "#ccc", margin: "0 0 6px" }}>NotebookLM не принимает JSON напрямую. Выберите один из способов:</p>
-                <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, color: "#ccc", lineHeight: 1.8 }}>
+                <p style={{ fontSize: 14, fontWeight: 500, color: C.text, margin: "0 0 4px" }}>Конвертируйте JSON</p>
+                <p style={{ fontSize: 13, color: "var(--personal-text)", margin: "0 0 6px" }}>NotebookLM не принимает JSON напрямую. Выберите один из способов:</p>
+                <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, color: "var(--personal-text)", lineHeight: 1.8 }}>
                   <li><strong style={{ color: C.green }}>Быстрый:</strong> откройте JSON в Блокноте → Ctrl+A (выделить всё) → Ctrl+C (копировать) → в NotebookLM нажмите «Add source» → «Paste text» → Ctrl+V (вставить)</li>
                   <li><strong style={{ color: C.accent }}>Через Google Sheets:</strong> импортируйте JSON в Google Sheets → подключите Sheets как источник</li>
                   <li><strong style={{ color: C.pink }}>Через Claude:</strong> загрузите JSON в Claude → попросите «Конвертируй в читаемую таблицу» → скопируйте результат в NotebookLM</li>
@@ -531,8 +535,8 @@ export default function AiSellerGuidePage() {
             <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
               <span style={sStepNum}>C</span>
               <div>
-                <p style={{ fontSize: 14, fontWeight: 600, color: C.text, margin: "0 0 4px" }}>Задайте промт</p>
-                <p style={{ fontSize: 13, color: "#ccc", margin: 0 }}>После загрузки — вставьте промт из раздела ниже в чат NotebookLM. Он проанализирует все товары и даст вердикт.</p>
+                <p style={{ fontSize: 14, fontWeight: 500, color: C.text, margin: "0 0 4px" }}>Задайте промт</p>
+                <p style={{ fontSize: 13, color: "var(--personal-text)", margin: 0 }}>После загрузки — вставьте промт из раздела ниже в чат NotebookLM. Он проанализирует все товары и даст вердикт.</p>
               </div>
             </div>
           </div>
@@ -631,16 +635,16 @@ export default function AiSellerGuidePage() {
           <h2 style={sH2}>9. Готовые аналитические отчёты</h2>
           <p style={sP}>Детальные отчёты по нишам Wildberries, подготовленные с помощью MPSTATS + AI-анализа:</p>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <div style={{ display: "block" }}>
             <Link href="/reports/kaspi-clothing" style={{ textDecoration: "none" }}>
               <div style={{ ...sCard, marginBottom: 0, cursor: "pointer", transition: "all 0.2s", borderColor: C.border }}>
-                <p style={{ fontSize: 14, fontWeight: 600, color: C.text, margin: "0 0 6px" }}>👗 Отчёт: Одежда на Kaspi</p>
+                <p style={{ fontSize: 14, fontWeight: 500, color: C.text, margin: "0 0 6px" }}> Отчёт: Одежда на Kaspi</p>
                 <p style={{ fontSize: 12, color: C.dim, margin: 0 }}>Полный разбор ниши: выручка, бренды, монополизация, ценовые сегменты, точки входа</p>
               </div>
             </Link>
             <Link href="/reports/optics-guide" style={{ textDecoration: "none" }}>
               <div style={{ ...sCard, marginBottom: 0, cursor: "pointer", transition: "all 0.2s", borderColor: C.border }}>
-                <p style={{ fontSize: 14, fontWeight: 600, color: C.text, margin: "0 0 6px" }}>🕶 Разбор: Оптика (сезонный товар)</p>
+                <p style={{ fontSize: 14, fontWeight: 500, color: C.text, margin: "0 0 6px" }}> Разбор: Оптика (сезонный товар)</p>
                 <p style={{ fontSize: 12, color: C.dim, margin: 0 }}>Пример анализа сезонного товара: 3 сегмента, SWOT, план входа, прогноз выручки</p>
               </div>
             </Link>
@@ -655,7 +659,7 @@ export default function AiSellerGuidePage() {
         {/*  SECTION 10: Продвинутый уровень — MCP   */}
         {/* ══════════════════════════════════════ */}
         <div style={sSection}>
-          <div style={{ background: `linear-gradient(135deg, ${C.accent}08, ${C.pink}08)`, border: `1px solid ${C.border}`, borderRadius: 12, padding: "24px 24px 4px" }}>
+          <div style={{ padding: "16px 0" }}>
             <h2 style={{ ...sH2, margin: "0 0 8px" }}>
               <span style={sBadge(C.pink)}>Дополнение</span> Интеграция NotebookLM + Claude Desktop
             </h2>
@@ -673,15 +677,15 @@ export default function AiSellerGuidePage() {
             <h3 style={sH3}>Что нужно установить</h3>
 
             <div style={sCard}>
-              <p style={{ fontSize: 14, fontWeight: 600, color: C.text, margin: "0 0 10px" }}>1. Node.js — движок для запуска скриптов</p>
-              <p style={{ fontSize: 13, color: "#ccc", margin: "0 0 8px" }}>
+              <p style={{ fontSize: 14, fontWeight: 500, color: C.text, margin: "0 0 10px" }}>1. Node.js — движок для запуска скриптов</p>
+              <p style={{ fontSize: 13, color: "var(--personal-text)", margin: "0 0 8px" }}>
                 <strong style={{ color: C.text }}>Что это:</strong> Node.js — это программа, которая позволяет запускать JavaScript-код на вашем компьютере. Она нужна для MCP-серверов, которые связывают Claude с другими сервисами.
               </p>
-              <p style={{ fontSize: 13, color: "#ccc", margin: "0 0 8px" }}>
+              <p style={{ fontSize: 13, color: "var(--personal-text)", margin: "0 0 8px" }}>
                 <strong style={{ color: C.text }}>Скачать:</strong>{" "}
-                <a href="https://nodejs.org" target="_blank" rel="noopener" style={{ color: C.green, textDecoration: "none", borderBottom: `1px solid ${C.green}44` }}>nodejs.org</a> → нажмите большую зелёную кнопку «LTS» (стабильная версия)
+                <a href="https://nodejs.org" target="_blank" rel="noopener" style={{ color: C.green, textDecoration: "none" }}>nodejs.org</a> → нажмите большую зелёную кнопку «LTS» (стабильная версия)
               </p>
-              <p style={{ fontSize: 13, color: "#ccc", margin: "0 0 8px" }}>
+              <p style={{ fontSize: 13, color: "var(--personal-text)", margin: "0 0 8px" }}>
                 <strong style={{ color: C.text }}>Установка:</strong> запустите скачанный файл → жмите «Next» на каждом шаге → «Install» → «Finish». На шаге «Tools for Native Modules» галочку <strong style={{ color: C.text }}>НЕ ставьте</strong> — это не нужно.
               </p>
               <p style={{ fontSize: 13, color: C.dim, margin: 0 }}>
@@ -690,15 +694,15 @@ export default function AiSellerGuidePage() {
             </div>
 
             <div style={sCard}>
-              <p style={{ fontSize: 14, fontWeight: 600, color: C.text, margin: "0 0 10px" }}>2. Claude Desktop — приложение Claude на компьютер</p>
-              <p style={{ fontSize: 13, color: "#ccc", margin: "0 0 8px" }}>
+              <p style={{ fontSize: 14, fontWeight: 500, color: C.text, margin: "0 0 10px" }}>2. Claude Desktop — приложение Claude на компьютер</p>
+              <p style={{ fontSize: 13, color: "var(--personal-text)", margin: "0 0 8px" }}>
                 <strong style={{ color: C.text }}>Что это:</strong> обычный Claude, но в виде приложения на компьютере. Обычного сайта claude.ai в браузере будет недостаточно — MCP работает только в приложении.
               </p>
-              <p style={{ fontSize: 13, color: "#ccc", margin: "0 0 8px" }}>
+              <p style={{ fontSize: 13, color: "var(--personal-text)", margin: "0 0 8px" }}>
                 <strong style={{ color: C.text }}>Скачать:</strong>{" "}
-                <a href="https://claude.ai/download" target="_blank" rel="noopener" style={{ color: C.accent, textDecoration: "none", borderBottom: `1px solid ${C.accent}44` }}>claude.ai/download</a> → нажмите «Download for Windows» (или Mac)
+                <a href="https://claude.ai/download" target="_blank" rel="noopener" style={{ color: C.accent, textDecoration: "none" }}>claude.ai/download</a> → нажмите «Download for Windows» (или Mac)
               </p>
-              <p style={{ fontSize: 13, color: "#ccc", margin: 0 }}>
+              <p style={{ fontSize: 13, color: "var(--personal-text)", margin: 0 }}>
                 Установите, войдите в аккаунт и закройте приложение — оно создаст нужную папку для настроек.
               </p>
             </div>
@@ -709,16 +713,16 @@ export default function AiSellerGuidePage() {
               <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 16 }}>
                 <span style={sStepNum}>1</span>
                 <div>
-                  <p style={{ fontSize: 14, fontWeight: 600, color: C.text, margin: "0 0 4px" }}>Найдите файл настроек Claude Desktop</p>
-                  <p style={{ fontSize: 13, color: "#ccc", margin: "0 0 8px" }}>
+                  <p style={{ fontSize: 14, fontWeight: 500, color: C.text, margin: "0 0 4px" }}>Найдите файл настроек Claude Desktop</p>
+                  <p style={{ fontSize: 13, color: "var(--personal-text)", margin: "0 0 8px" }}>
                     Откройте Claude Desktop → Меню (☰) → <strong style={{ color: C.text }}>Settings</strong> → в левом меню внизу найдите <strong style={{ color: C.text }}>Developer</strong> → нажмите <strong style={{ color: C.text }}>Edit Config</strong>
                   </p>
-                  <p style={{ fontSize: 13, color: "#ccc", margin: "0 0 8px" }}>
+                  <p style={{ fontSize: 13, color: "var(--personal-text)", margin: "0 0 8px" }}>
                     Откроется папка с файлом <span style={sCode}>claude_desktop_config.json</span> — это и есть файл настроек.
                   </p>
 
                   <Collapsible title="Если кнопка Edit Config не открывает файл">
-                    <div style={{ fontSize: 13, color: "#ccc", lineHeight: 1.8 }}>
+                    <div style={{ fontSize: 13, color: "var(--personal-text)", lineHeight: 1.8 }}>
                       <p style={{ margin: "0 0 8px" }}><strong style={{ color: C.text }}>Способ 1 (Windows):</strong> Нажмите <span style={sCode}>Win + R</span>, введите <span style={sCode}>%APPDATA%\Claude</span> и нажмите Enter.</p>
                       <p style={{ margin: "0 0 8px" }}><strong style={{ color: C.text }}>Способ 2 (ручной путь):</strong> Откройте Проводник → в адресной строке введите:<br /><span style={sCode}>C:\Users\[ВАШЕ_ИМЯ]\AppData\Roaming\Claude</span><br />Замените [ВАШЕ_ИМЯ] на имя вашего пользователя Windows (например, Almas, Arman и т.д.)</p>
                       <p style={{ margin: "0 0 8px" }}><strong style={{ color: C.text }}>Не видите папку AppData?</strong> Она скрыта по умолчанию. В Проводнике нажмите «Вид» (вверху) → поставьте галочку «Скрытые элементы».</p>
@@ -732,11 +736,11 @@ export default function AiSellerGuidePage() {
               <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 16 }}>
                 <span style={sStepNum}>2</span>
                 <div>
-                  <p style={{ fontSize: 14, fontWeight: 600, color: C.text, margin: "0 0 4px" }}>Откройте файл в текстовом редакторе</p>
-                  <p style={{ fontSize: 13, color: "#ccc", margin: "0 0 8px" }}>
+                  <p style={{ fontSize: 14, fontWeight: 500, color: C.text, margin: "0 0 4px" }}>Откройте файл в текстовом редакторе</p>
+                  <p style={{ fontSize: 13, color: "var(--personal-text)", margin: "0 0 8px" }}>
                     Правая кнопка мыши на файле <span style={sCode}>claude_desktop_config.json</span> → «Открыть с помощью» → выберите:
                   </p>
-                  <ul style={{ margin: "0 0 8px", paddingLeft: 20, fontSize: 13, color: "#ccc", lineHeight: 1.8 }}>
+                  <ul style={{ margin: "0 0 8px", paddingLeft: 20, fontSize: 13, color: "var(--personal-text)", lineHeight: 1.8 }}>
                     <li><strong style={{ color: C.text }}>Блокнот (Notepad)</strong> — уже встроен в Windows, ничего ставить не нужно</li>
                     <li><strong style={{ color: C.text }}>Notepad++</strong> — бесплатный, удобнее для JSON (<a href="https://notepad-plus-plus.org/downloads/" target="_blank" rel="noopener" style={{ color: C.accent, textDecoration: "none" }}>скачать</a>)</li>
                     <li><strong style={{ color: C.text }}>VS Code</strong> — если хотите идти дальше в автоматизацию (<a href="https://code.visualstudio.com" target="_blank" rel="noopener" style={{ color: C.accent, textDecoration: "none" }}>скачать</a>)</li>
@@ -747,15 +751,15 @@ export default function AiSellerGuidePage() {
               <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 16 }}>
                 <span style={sStepNum}>3</span>
                 <div>
-                  <p style={{ fontSize: 14, fontWeight: 600, color: C.text, margin: "0 0 4px" }}>Вставьте настройки MCP</p>
-                  <p style={{ fontSize: 13, color: "#ccc", margin: "0 0 8px" }}>
+                  <p style={{ fontSize: 14, fontWeight: 500, color: C.text, margin: "0 0 4px" }}>Вставьте настройки MCP</p>
+                  <p style={{ fontSize: 13, color: "var(--personal-text)", margin: "0 0 8px" }}>
                     Если файл пустой или содержит <span style={sCode}>{`{}`}</span>, замените всё содержимое на:
                   </p>
                   <div style={{ ...sCodeBlock, whiteSpace: "pre-wrap" }}>
                     <CopyBtn text={mcpConfig} />
                     {mcpConfig}
                   </div>
-                  <p style={{ fontSize: 13, color: "#ccc", margin: "0 0 8px" }}>
+                  <p style={{ fontSize: 13, color: "var(--personal-text)", margin: "0 0 8px" }}>
                     Если в файле уже есть содержимое (например, <span style={sCode}>{`"preferences": {...}`}</span>), добавьте блок <span style={sCode}>mcpServers</span> через запятую:
                   </p>
                   <div style={{ ...sCodeBlock, whiteSpace: "pre-wrap" }}>
@@ -789,16 +793,16 @@ export default function AiSellerGuidePage() {
               <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
                 <span style={sStepNum}>4</span>
                 <div>
-                  <p style={{ fontSize: 14, fontWeight: 600, color: C.text, margin: "0 0 4px" }}>Сохраните и перезапустите Claude Desktop</p>
-                  <p style={{ fontSize: 13, color: "#ccc", margin: "0 0 8px" }}>
+                  <p style={{ fontSize: 14, fontWeight: 500, color: C.text, margin: "0 0 4px" }}>Сохраните и перезапустите Claude Desktop</p>
+                  <p style={{ fontSize: 13, color: "var(--personal-text)", margin: "0 0 8px" }}>
                     Сохраните файл (<span style={sCode}>Ctrl + S</span>). Затем <strong style={{ color: C.text }}>полностью закройте</strong> Claude Desktop:
                   </p>
-                  <ul style={{ margin: "0 0 8px", paddingLeft: 20, fontSize: 13, color: "#ccc", lineHeight: 1.8 }}>
+                  <ul style={{ margin: "0 0 8px", paddingLeft: 20, fontSize: 13, color: "var(--personal-text)", lineHeight: 1.8 }}>
                     <li>Найдите иконку Claude в трее (внизу справа, рядом с часами)</li>
                     <li>Нажмите стрелочку <span style={sCode}>^</span> чтобы показать скрытые значки</li>
                     <li>Правая кнопка по иконке Claude → <strong style={{ color: C.text }}>Quit</strong> или <strong style={{ color: C.text }}>Закрыть окно</strong></li>
                   </ul>
-                  <p style={{ fontSize: 13, color: "#ccc", margin: 0 }}>
+                  <p style={{ fontSize: 13, color: "var(--personal-text)", margin: 0 }}>
                     Откройте Claude Desktop заново. Зайдите в Settings → Developer — должен появиться сервер <strong style={{ color: C.green }}>notebooklm</strong>.
                   </p>
                 </div>
@@ -812,7 +816,7 @@ export default function AiSellerGuidePage() {
         </div>
 
         {/* ───── footer ───── */}
-        <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 32, textAlign: "center" }}>
+        <div style={{ paddingTop: 32, textAlign: "center" }}>
           <p style={{ fontSize: 12, color: C.faint }}>kasymzhanov.com · AI для продавцов маркетплейсов · 2026</p>
         </div>
       </div>

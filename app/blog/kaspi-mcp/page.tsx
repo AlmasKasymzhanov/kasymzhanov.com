@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { CopyField } from "@/components/canon/copy-field";
+import { IconlyChevronDown, IconlyArrowUpRight } from "@/components/iconly-icons";
 import Image from "next/image";
 import { ArticleHeader } from "@/components/canon/article-header";
 import { ArticleLayout } from "@/components/canon/article-layout";
@@ -13,13 +15,13 @@ const CONNECTOR_URL = "https://mcp.redstat.kz/mcp";
 function Shot({ src, alt, caption, w, h, maxWidth }: { src: string; alt: string; caption: React.ReactNode; w: number; h: number; maxWidth?: number }) {
   return (
     <figure
-      className="my-6 border border-[var(--color-border)] rounded-[3px] overflow-hidden mx-auto bg-[var(--color-surface)]"
+      className="research-figure"
       style={maxWidth ? { maxWidth } : undefined}
     >
       <Image src={src} alt={alt} width={w} height={h} className="w-full h-auto" />
       {/* Full-width shots get a left caption (editorial canon); small capped UI
           screenshots stay centered under their narrow frame. */}
-      <figcaption className={`font-mono text-[11px] text-[var(--color-dim)] px-4 py-2.5 ${maxWidth ? "text-center" : "text-left"}`}>{caption}</figcaption>
+      <figcaption className={`font-mono text-[12px] text-[var(--color-dim)] px-4 py-2.5 ${maxWidth ? "text-center" : "text-left"}`}>{caption}</figcaption>
     </figure>
   );
 }
@@ -29,43 +31,16 @@ function Step({ n, title, children }: { n: number; title: string; children: Reac
   return (
     <div className="mb-10">
       <div className="flex items-baseline gap-3 mb-3">
-        <span className="font-mono text-[13px] font-bold text-[var(--color-dim)] shrink-0">{String(n).padStart(2, "0")}</span>
-        <h3 className="text-[16px] font-bold tracking-tight text-[var(--color-text)]">{title}</h3>
+        <span className="font-mono text-[13px] font-normal text-[var(--color-dim)] shrink-0">{String(n).padStart(2, "0")}</span>
+        <h3 className="text-[16px] font-normal tracking-tight text-[var(--color-text)]">{title}</h3>
       </div>
-      <div className="pl-[34px]">{children}</div>
+      <div className="sm:pl-[34px]">{children}</div>
     </div>
   );
 }
 
 /* ───── Copy field ───── */
-function CopyField({ value }: { value: string }) {
-  const [copied, setCopied] = useState(false);
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(value);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1600);
-    } catch {}
-  };
-  return (
-    <div className="group relative border border-[var(--color-border)] rounded-[3px] bg-[var(--color-surface)] pl-4 pr-12 py-3">
-      <code className="font-mono text-[12px] text-[var(--color-text)] break-all select-all">{value}</code>
-      <button
-        type="button"
-        onClick={copy}
-        aria-label={copied ? "Скопировано" : "Скопировать ссылку"}
-        title={copied ? "Скопировано" : "Скопировать"}
-        className="absolute right-2 top-2 inline-flex items-center justify-center w-8 h-8 rounded-[3px] text-[var(--color-dim)] hover:text-[var(--color-text)] hover:bg-[var(--color-bg)] transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100"
-      >
-        {copied ? (
-          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5" /></svg>
-        ) : (
-          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" /><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" /></svg>
-        )}
-      </button>
-    </div>
-  );
-}
+
 
 /* ═══════════════════════════════════════════════════ */
 
@@ -109,7 +84,7 @@ export default function KaspiMcpArticle() {
 
         {/* ─── Пошаговая настройка ─── */}
         <div className="mb-12">
-          <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-8">Как развернуть аналитика у себя за 5 минут</h2>
+          <h2 className="text-[20px] font-normal tracking-tight text-[var(--color-text)] mb-8">Как развернуть аналитика у себя за 5 минут</h2>
 
           <Step n={1} title="Заходим в настройки">
             <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">
@@ -158,7 +133,7 @@ export default function KaspiMcpArticle() {
 
         {/* ─── Первый запрос ─── */}
         <div className="mb-12">
-          <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">Запросы</h2>
+          <h2 className="text-[20px] font-normal tracking-tight text-[var(--color-text)] mb-6">Запросы</h2>
           <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
             Открой <strong className="text-[var(--color-text)]">новый чат</strong> и просто напиши задачу своими словами. Например:
           </p>
@@ -179,9 +154,9 @@ export default function KaspiMcpArticle() {
         <hr className="border-[var(--color-border)] mb-12" />
 
         {/* ─── Третий поток ─── */}
-        <div className="mb-12 border border-[var(--color-border)] rounded-[3px] p-6 md:p-8">
-          <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--color-brand)] mb-3">Набор на третий поток · AI-аналитика Kaspi</p>
-          <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-4">Вы дали магазину зрение. Дайте ему мозг</h2>
+        <div className="reading-panel reading-offer mb-12">
+          <p className="font-mono text-[12px] uppercase tracking-widest text-[var(--color-brand)] mb-3">Набор на третий поток · AI-аналитика Kaspi</p>
+          <h2 className="text-[20px] font-normal tracking-tight text-[var(--color-text)] mb-4">Вы дали магазину зрение. Дайте ему мозг</h2>
           <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
             Вы только что настроили инструмент, который даёт зрение там, где конкуренты ещё блуждают вслепую. Но признайтесь: что вы будете делать, когда конкуренты вас догонят? Как масштабируете это до сотен товаров на разных маркетплейсах?
           </p>
@@ -195,27 +170,16 @@ export default function KaspiMcpArticle() {
           <button
             type="button"
             onClick={() => setShowProgram((v) => !v)}
-            className="inline-flex items-center gap-1.5 font-mono text-[13px] text-[var(--color-text)] border-b border-[var(--color-text)] pb-0.5 hover:text-[var(--color-brand)] hover:border-[var(--color-brand)] transition-colors"
+            aria-expanded={showProgram}
+            aria-controls="mcp-program"
+            className="inline-flex items-center gap-1.5 font-mono text-[13px] text-[var(--color-text)] min-h-11 hover:text-[var(--color-brand)]  transition-colors"
           >
             {showProgram ? "Свернуть" : "Подробнее"}
-            <svg
-              width="11"
-              height="11"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden
-              className={`shrink-0 transition-transform duration-200 ${showProgram ? "rotate-180" : ""}`}
-            >
-              <path d="M6 9l6 6 6-6" />
-            </svg>
+            <IconlyChevronDown size={14} className={`transition-transform duration-150 ${showProgram ? "rotate-180" : ""}`} />
           </button>
 
           {showProgram && (
-            <div className="mt-6 flex flex-col gap-5">
+            <div id="mcp-program" className="mt-6 flex flex-col gap-5">
               <div>
                 <p className="text-[15px] font-medium text-[var(--color-text)] mb-1">Модуль 1. Kaspi и Redstat через MCP</p>
                 <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">Redstat знает, сколько зарабатывает ниша, кто топ-продавец и куда уходит маржа. Вы перестаёте рыться в графиках: спрашиваете словами, кто топ в категории, какая сезонность и где ниша свободна, и получаете ответ данными, не открывая сервис. Готовый коннектор я отдаю вам.</p>
@@ -249,9 +213,9 @@ export default function KaspiMcpArticle() {
 
           <Link
             href="/stream-3"
-            className="inline-flex items-center font-mono text-[12px] font-medium no-underline rounded-[3px] px-4 py-2.5 bg-[var(--color-text)] text-[var(--color-bg)] hover:opacity-85 transition-opacity"
+            className="reading-text-action reading-offer-action"
           >
-            Ознакомиться с полной программой
+            Ознакомиться с полной программой <IconlyArrowUpRight size={16} />
           </Link>
         </div>
     </ArticleLayout>

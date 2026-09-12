@@ -84,6 +84,7 @@ import {
   type ExportSeries,
   type SynthesisContext,
 } from "./line-chart-export";
+import { ChartTooltipPortal, ChartTooltipContent } from "./chart-tooltip";
 import { ChartExportMenu } from "./chart-toolbar";
 
 /* ─── Public enums / unions ─────────────────────────────────────────── */
@@ -369,7 +370,7 @@ export type LineChartProps = {
   height?: number;
 
   /**
-   * Decimal trend e.g. `0.184` → "↗ +18.4%" (accent if positive, muted if
+   * Decimal trend e.g. `0.184` → " +18.4%" (accent if positive, muted if
    * negative). Rendered top-right above the chart.
    */
   trend?: number;
@@ -809,8 +810,8 @@ function isPointForm(
   );
 }
 
-/** A restrained categorical greyscale ramp for non-emphasized series. */
-const GREY_RAMP = ["#3f3f46", "#71717a", "#a1a1aa", "#d4d4d8"];
+/** Theme-aware categorical colors; explicit context colors take precedence. */
+const SERIES_PALETTE = ["var(--chart-secondary)", "var(--chart-tertiary)", "var(--chart-fourth)", "var(--brock-neutral)"];
 
 /**
  * Normalize the three `data` forms into a uniform series list with resolved
@@ -908,7 +909,7 @@ function normalize(
 
     const color = emphasis
       ? (s.color ?? accent ?? "var(--brock-accent)")
-      : (s.color ?? GREY_RAMP[si % GREY_RAMP.length]);
+      : (s.color ?? SERIES_PALETTE[si % SERIES_PALETTE.length]);
 
     return {
       name: s.name,
@@ -1206,14 +1207,14 @@ export function LineChart({
       const v = getComputedStyle(root).getPropertyValue(varName).trim();
       return v || fallback;
     };
-    const resolvedAccent = accent ?? resolve("--brock-accent", "#F54900");
+    const resolvedAccent = accent ?? resolve("--brock-accent", "var(--personal-text)");
     const seriesMuted = resolve("--muted-foreground", "#a1a1aa");
     const exportSeries: ExportSeries[] = series.map((s, si) => ({
       name: s.name,
       key: s.key,
       color: s.emphasis
         ? (s.source.color ?? resolvedAccent)
-        : (s.source.color ?? GREY_RAMP[si % GREY_RAMP.length]),
+        : (s.source.color ?? SERIES_PALETTE[si % SERIES_PALETTE.length]),
       dashed: s.dashed,
       emphasis: s.emphasis,
       points: s.points.map((p) => ({
@@ -1819,7 +1820,7 @@ function EmptyState({
       <div
         className="flex flex-col items-center justify-center gap-2 border-b border-l border-border"
         style={{ height }}
-        role="img"
+        role="group"
         aria-label="No data available for this period"
       >
         <EmptyChartIcon className="h-7 w-7 text-muted-foreground/40" />
@@ -2223,6 +2224,9 @@ function Plot({
   // Touch: a pinned x (tap to pin, re-tap to dismiss).
   const [pinnedX, setPinnedX] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const tooltipLeaveTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const keepTooltip = () => clearTimeout(tooltipLeaveTimer.current);
+  useEffect(() => () => clearTimeout(tooltipLeaveTimer.current), []);
 
   useEffect(() => {
     if (pinnedX === null) return;
@@ -2255,6 +2259,7 @@ function Plot({
   }
 
   function handleMove(e: ReactMouseEvent<HTMLDivElement>) {
+    keepTooltip();
     const x = nearestX(e.clientX);
     setHoverX(x);
     if (x !== null && onPointHover) {
@@ -2264,7 +2269,8 @@ function Plot({
     }
   }
   function handleLeave() {
-    setHoverX(null);
+    keepTooltip();
+    tooltipLeaveTimer.current = setTimeout(() => setHoverX(null), 120);
     onPointHover?.(null);
   }
   function handleTap(e: ReactMouseEvent<HTMLDivElement>) {
@@ -2352,7 +2358,7 @@ function Plot({
         ref={containerRef}
         className={`brock-plot relative ${animationEnabled ? "brock-plot-animated" : ""}`}
         style={{ height }}
-        role="img"
+        role="group"
         aria-label={ariaLabel}
         onMouseMove={handleMove}
         onMouseLeave={handleLeave}
@@ -2592,29 +2598,10 @@ function Plot({
         {directLabels && <DirectLabels series={series} yMin={yMin} yMax={yMax} yScale={yScale} formatValue={formatValue} withValues={directLabelValues} />}
 
         {/* Crosshair tooltip. */}
-        {tooltipData &&
-          (tooltipSlot ? (
-            (() => {
-              const TooltipSlot = tooltipSlot;
-              return (
-                <div
-                  className="pointer-events-none absolute top-2 z-30"
-                  style={tooltipPosition(activeX!, xMin, xMax)}
-                  aria-hidden
-                >
-                  <TooltipSlot {...tooltipData} />
-                </div>
-              );
-            })()
-          ) : (
-            <div
-              className="pointer-events-none absolute top-2 z-30"
-              style={tooltipPosition(activeX!, xMin, xMax)}
-              aria-hidden
-            >
-              <CrosshairTooltip data={tooltipData} />
-            </div>
-          ))}
+        {tooltipData && <ChartTooltipPortal anchor={containerRef.current} align={xMax === xMin ? 0.5 : (activeX! - xMin) / (xMax - xMin)} onDismiss={() => { setPinnedX(null); setHoverX(null); }} onPointerEnter={keepTooltip} onPointerLeave={handleLeave}>
+          {tooltipSlot ? (() => { const Slot = tooltipSlot; return <Slot {...tooltipData} />; })() :
+            <ChartTooltipContent title={tooltipData.xLabel} rows={tooltipData.points.map(pt => ({ label: pt.series, value: pt.formatted, color: pt.color }))} />}
+        </ChartTooltipPortal>}
       </div>
 
       {showXTicks && xTicks.length > 0 && (
@@ -2701,32 +2688,7 @@ function DirectLabels({
   );
 }
 
-function CrosshairTooltip({ data }: { data: LineChartTooltipSlotProps }) {
-  return (
-    <div className="flex flex-col gap-1 rounded-md border border-border bg-background px-2.5 py-1.5 shadow-md">
-      <span className="font-mono text-[10px] tabular-nums text-muted-foreground">
-        {data.xLabel}
-      </span>
-      {data.points.map((pt) => (
-        <span
-          key={pt.series}
-          className="flex items-center gap-1.5 whitespace-nowrap"
-        >
-          <span
-            className="inline-block h-2 w-2 shrink-0 rounded-full"
-            style={{ backgroundColor: pt.color }}
-          />
-          <span className="font-sans text-xs text-muted-foreground">
-            {pt.series}
-          </span>
-          <span className="ms-auto ps-3 font-mono text-xs tabular-nums text-foreground">
-            {pt.formatted}
-          </span>
-        </span>
-      ))}
-    </div>
-  );
-}
+
 
 function ChartSource({ source }: { source: string }) {
   return (

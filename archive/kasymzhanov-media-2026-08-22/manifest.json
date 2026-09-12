@@ -1,0 +1,9 @@
+{
+  "snapshot": "kasymzhanov-media-home",
+  "createdAt": "2026-08-22",
+  "baseCommit": "2c6fb41d6bfd68e69b54a91ff191e2b04a1241b1",
+  "branch": "main",
+  "sourceHashes": [{"path":"components\\publication-home.tsx","sha256":"D528ECDCE77A09CFE9E5CA79707642DAF849A78486EAE2664602E0EAA2C5A454"},{"path":"components\\articles.tsx","sha256":"B7E115DFF5F6BB7682E651AAB520E7C588EEEDB7A624D1ECEC39CB48C1A45F04"},{"path":"components\\canon\\site-chrome.tsx","sha256":"FCFC07A4D4156E69B2DFF1F2E31A74928BB217095E45C2822EE012FC0068DE0E"},{"path":"components\\canon\\mobile-menu.tsx","sha256":"422F4E1E8A3968B0910B39143A01041C9EFDCB102281F1D6057E54B9CDADED6F"},{"path":"app\\globals.css","sha256":"825F404B1C814E7720649BE5C12EE14339474F0EDA63F1719C712842B5556FFF"}],
+  "notes": "Design/code snapshot only. Article and report assets remain in the project public directory."
+}
+

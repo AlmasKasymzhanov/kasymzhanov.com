@@ -1,17 +1,20 @@
 "use client";
+import { ResearchSection, ResearchFact, ResearchNote, ResearchFigure } from "@/components/canon/research-editorial";
+import { ResearchReadingTime } from "@/components/canon/research-reading-time";
+
 
 const C = {
-  bg: "#0a0a0f", surface: "#111119", border: "#1e1e30",
-  accent: "#6c5ce7", green: "#00d2a0", text: "#e8e8f0",
-  dim: "#999", red: "#f87171", amber: "#f59e0b",
-  blue: "#60a5fa", pink: "#f472b6", cyan: "#22d3ee",
-  kaspi: "#f14635",
+  bg: "var(--personal-paper)", surface: "var(--report-surface)", border: "var(--personal-border)",
+  accent: "var(--personal-text)", green: "var(--personal-text)", text: "var(--personal-text)",
+  dim: "var(--personal-muted)", red: "var(--personal-text)", amber: "var(--personal-text)",
+  blue: "var(--personal-text)", pink: "var(--personal-text)", cyan: "var(--personal-text)",
+  kaspi: "var(--personal-text)",
 };
 
-const sP: React.CSSProperties = { fontSize: 14, lineHeight: 1.75, color: "#ccc", margin: "0 0 12px" };
-const sCard: React.CSSProperties = { background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, padding: "24px", marginBottom: 16 };
-const sBadge = (color: string): React.CSSProperties => ({ display: "inline-block", padding: "3px 10px", borderRadius: 20, background: `${color}18`, color, fontSize: 11, fontWeight: 600, letterSpacing: "0.03em" });
-const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 700, color: C.accent, margin: "28px 0 16px" };
+const sP: React.CSSProperties = { fontSize: "var(--reading-body-size)", lineHeight: 1.75, color: "var(--personal-text)", margin: "0 0 12px" };
+const sCard: React.CSSProperties = { margin: "24px 0", padding: 0 };
+const sBadge = (_color: string): React.CSSProperties => ({ display: "inline", color: "var(--personal-muted)", fontSize: 12, fontWeight: 400 });
+const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 500, color: C.accent, margin: "28px 0 16px" };
 
 function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (string | number)[][]; highlight?: number }) {
   return (
@@ -19,14 +22,14 @@ function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (str
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
         <thead>
           <tr>{headers.map((h, i) => (
-            <th key={i} style={{ padding: "10px 12px", textAlign: "left", color: C.dim, fontWeight: 600, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>
+            <th key={i} style={{ padding: "10px 12px", textAlign: "left", color: C.dim, fontWeight: 500, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>
           ))}</tr>
         </thead>
         <tbody>
           {rows.map((row, ri) => (
-            <tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `${C.accent}12` : "transparent" }}>
+            <tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `color-mix(in srgb, ${C.accent} 7%, transparent)` : "transparent" }}>
               {row.map((cell, ci) => (
-                <td key={ci} style={{ padding: "10px 12px", textAlign: "left", color: ci === 0 ? C.text : "#ccc", borderBottom: `1px solid ${C.border}20`, fontWeight: ci === 0 ? 500 : 400, whiteSpace: ci === 0 ? "nowrap" : "normal" }}>{cell}</td>
+                <td key={ci} style={{ padding: "10px 12px", textAlign: "left", color: ci === 0 ? C.text : "var(--personal-text)", borderBottom: `1px solid color-mix(in srgb, ${C.border} 13%, transparent)`, fontWeight: ci === 0 ? 500 : 400, whiteSpace: ci === 0 ? "nowrap" : "normal" }}>{cell}</td>
               ))}
             </tr>
           ))}
@@ -36,17 +39,7 @@ function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (str
   );
 }
 
-function Section({ id, num, title, children }: { id: string; num: string; title: string; children: React.ReactNode }) {
-  return (
-    <div id={id} style={{ marginBottom: 56 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24, paddingBottom: 12, borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ width: 44, height: 44, borderRadius: 10, background: `${C.accent}15`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 800, color: C.accent, flexShrink: 0 }}>{num}</div>
-        <h2 style={{ fontSize: 22, fontWeight: 800, color: C.text, margin: 0, letterSpacing: "-0.01em", lineHeight: 1.2 }}>{title}</h2>
-      </div>
-      {children}
-    </div>
-  );
-}
+function Section({ id, num, title, children }: { id: string; num: string; title: string; children: React.ReactNode }) { return <ResearchSection id={id} title={title}>{children}</ResearchSection>; }
 
 function NicheCard({ slug, title, subtitle, metrics, brandSplit, verdict, verdictColor }: {
   slug: string;
@@ -60,22 +53,19 @@ function NicheCard({ slug, title, subtitle, metrics, brandSplit, verdict, verdic
   return (
     <div id={slug} style={sCard}>
       <div style={{ marginBottom: 14 }}>
-        <div style={{ fontSize: 11, color: C.dim, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 4 }}>{subtitle}</div>
-        <h3 style={{ fontSize: 18, fontWeight: 700, color: C.text, margin: 0 }}>{title}</h3>
+        <div style={{ fontSize: 11, color: C.dim, fontWeight: 400, textTransform: "none", letterSpacing: "0.08em", marginBottom: 4 }}>{subtitle}</div>
+        <h3 style={{ fontSize: 18, fontWeight: 400, color: C.text, margin: 0 }}>{title}</h3>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12, marginBottom: 16 }}>
+      <div className="research-facts">
         {metrics.map(([k, v], i) => (
-          <div key={i} style={{ padding: "10px 12px", background: `${C.bg}`, border: `1px solid ${C.border}`, borderRadius: 8 }}>
-            <div style={{ fontSize: 10, color: C.dim, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 4 }}>{k}</div>
-            <div style={{ fontSize: 14, color: C.text, fontWeight: 700 }}>{v}</div>
-          </div>
+          <ResearchFact key={i} label={k} value={v} />
         ))}
       </div>
-      <div style={{ fontSize: 12, color: "#ccc", lineHeight: 1.7, marginBottom: 14 }}>
+      <div style={{ fontSize: 12, color: "var(--personal-text)", lineHeight: 1.7, marginBottom: 14 }}>
         {brandSplit}
       </div>
-      <div style={{ padding: "12px 14px", background: `${verdictColor}10`, borderLeft: `3px solid ${verdictColor}`, borderRadius: 6 }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: verdictColor, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 4 }}>Вердикт для Предзаказа</div>
+      <div style={{ padding: "16px 0" }}>
+        <div style={{ fontSize: 11, fontWeight: 400, color: verdictColor, textTransform: "none", letterSpacing: "0.05em", marginBottom: 4 }}>Вердикт для Предзаказа</div>
         <div style={{ fontSize: 13, color: C.text, lineHeight: 1.6 }}>{verdict}</div>
       </div>
     </div>
@@ -84,34 +74,37 @@ function NicheCard({ slug, title, subtitle, metrics, brandSplit, verdict, verdic
 
 export default function KaspiPreorderNichesPage() {
   return (
-    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "'Inter', -apple-system, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "var(--font-body)" }}>
       <div style={{ maxWidth: 920, margin: "0 auto", padding: "48px 24px 80px" }}>
 
         {/* HEADER */}
-        <div style={{ marginBottom: 48 }}>
+        <div className="research-header" style={{ marginBottom: 48 }}>
           <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
             <span style={sBadge(C.kaspi)}>Kaspi.kz</span>
             <span style={sBadge(C.amber)}>Предзаказ</span>
             <span style={sBadge(C.accent)}>Enterprise-анализ</span>
-            <span style={sBadge(C.green)}>RedStat + live</span>
+            <span style={sBadge(C.green)}>агрегированные рыночные данные + live</span>
           </div>
-          <h1 style={{ fontSize: 32, fontWeight: 800, margin: "0 0 16px", letterSpacing: "-0.02em", lineHeight: 1.15 }}>
+          <h1 style={{ fontSize: 32, fontWeight: 500, margin: "0 0 16px", letterSpacing: "-0.02em", lineHeight: 1.15 }}>
             Enterprise-анализ 28 SKU для запуска по Предзаказу
           </h1>
-          <p style={{ fontSize: 16, color: C.dim, margin: 0, lineHeight: 1.6 }}>
-            Разбор 28 реальных товаров с Kaspi.kz через линзу модели Предзаказа: анализ 6 ниш в RedStat, вердикт по каждому SKU, топ-2 кандидата на немедленный запуск, чек-лист действий.
+          <p className="research-lead" style={{ fontSize: 16, color: C.dim, margin: 0, lineHeight: 1.6 }}>
+            Разбор 28 реальных товаров с Kaspi.kz через линзу модели Предзаказа: анализ 6 ниш в доступном рыночном срезе, вердикт по каждому SKU, топ-2 кандидата на немедленный запуск, чек-лист действий.
           </p>
           <div style={{ fontSize: 12, color: C.dim, marginTop: 12 }}>
-            Дата публикации: 16 апреля 2026 · Срез данных: 1 февраля 2026 · Источники: RedStat Backend API (16 мес), live Kaspi, Kaspi Гид, vc.ru, habr
+            Дата публикации: 16 апреля 2026 · Срез данных: 1 февраля 2026 · Источники: агрегированные рыночные данные (16 мес), live Kaspi, Kaspi Гид, vc.ru, habr
           </div>
-        </div>
+
+<a href="/authors/almas-kasymzhanov" className="research-author">Алмас Касымжанов</a>
+<ResearchReadingTime />
+</div>
 
         {/* TOC */}
-        <div style={{ ...sCard, borderLeft: `4px solid ${C.accent}` }}>
-          <h3 style={{ fontSize: 14, fontWeight: 700, color: C.accent, margin: "0 0 12px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Содержание</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 8 }}>
+        <div style={{ ...sCard }}>
+          <h2 style={{ fontSize: 14, fontWeight: 400, color: C.accent, margin: "0 0 12px", textTransform: "none", letterSpacing: "0.05em" }}>Содержание</h2>
+          <div style={{ display: "block", marginBottom: 24 }}>
             {[
-              ["0", "Executive Summary"],
+              ["0", "Обзор"],
               ["1", "Механика Предзаказа 2026 (актуализация)"],
               ["2", "Анализ 6 ниш"],
               ["3", "Оценка 28 SKU"],
@@ -121,53 +114,53 @@ export default function KaspiPreorderNichesPage() {
               ["7", "Чек-лист запуска"],
               ["8", "Следующий шаг — 1688"],
             ].map(([n, t]) => (
-              <div key={n} style={{ display: "flex", gap: 10, fontSize: 13, color: "#ccc", padding: "6px 0" }}>
-                <span style={{ color: C.accent, fontWeight: 700, minWidth: 20 }}>{n}.</span>
-                <a href={`#s${n}`} style={{ color: "#ccc", textDecoration: "none" }}>{t}</a>
+              <div key={n} style={{ display: "flex", gap: 10, fontSize: 13, color: "var(--personal-text)", padding: "6px 0" }}>
+                <span style={{ color: C.accent, fontWeight: 400, minWidth: 20 }}>{n}.</span>
+                <a href={`#s${n}`} style={{ color: "var(--personal-text)", textDecoration: "none" }}>{t}</a>
               </div>
             ))}
           </div>
         </div>
 
         {/* ═══ 0. EXEC SUMMARY ═══ */}
-        <Section id="s0" num="0" title="Executive Summary">
+        <Section id="s0" num="0" title="Обзор">
           <p style={sP}>
-            Проанализирован 91 скрин с детальными страницами RedStat, извлечены <strong style={{ color: C.text }}>28 уникальных SKU</strong> из 17 разных ниш маркетплейса Kaspi.kz. Каждый товар пропущен через фильтр модели Предзаказа 2026: 30-дневный лимит доставки, габариты ≤ 5 кг, комиссия 12.5–13% с НДС, маржа ≥ 50%, минимум демпинга.
+            Проанализирован 91 скрин с детальными страницами агрегированные рыночные данные, извлечены <strong style={{ color: C.text }}>28 уникальных SKU</strong> из 17 разных ниш маркетплейса Kaspi.kz. Каждый товар пропущен через фильтр модели Предзаказа 2026: 30-дневный лимит доставки, габариты ≤ 5 кг, комиссия 12.5–13% с НДС, маржа ≥ 50%, минимум демпинга.
           </p>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 20 }}>
+          <div style={{ display: "block", marginBottom: 20 }}>
             {[
-              { label: "✅ Идеально подходят", count: "2", pct: "7%", color: C.green },
-              { label: "⚠ С оговорками", count: "6", pct: "21%", color: C.amber },
-              { label: "❌ Не подходят", count: "20", pct: "72%", color: C.red },
+              { label: " Идеально подходят", count: "2", pct: "7%", color: C.green },
+              { label: " С оговорками", count: "6", pct: "21%", color: C.amber },
+              { label: " Не подходят", count: "20", pct: "72%", color: C.red },
             ].map((v, i) => (
-              <div key={i} style={{ padding: 16, background: `${v.color}10`, border: `1px solid ${v.color}30`, borderRadius: 10 }}>
-                <div style={{ fontSize: 11, color: v.color, fontWeight: 700, marginBottom: 6 }}>{v.label}</div>
-                <div style={{ fontSize: 28, fontWeight: 800, color: C.text, lineHeight: 1 }}>{v.count}</div>
+              <div key={i} style={{ padding: "16px 0" }}>
+                <div style={{ fontSize: 11, color: v.color, fontWeight: 400, marginBottom: 6 }}>{v.label}</div>
+                <div style={{ fontSize: 16, fontWeight: 400, color: C.text, lineHeight: 1 }}>{v.count}</div>
                 <div style={{ fontSize: 12, color: C.dim, marginTop: 2 }}>{v.pct} из 28</div>
               </div>
             ))}
           </div>
 
-          <div style={{ ...sCard, background: `${C.green}06`, border: `1px solid ${C.green}30` }}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: C.green, margin: "0 0 12px" }}>Топ-2 кандидата на немедленный запуск</h3>
+          <div style={{ ...sCard }}>
+            <h3 style={{ fontSize: 14, fontWeight: 400, color: C.green, margin: "0 0 12px" }}>Топ-2 кандидата на немедленный запуск</h3>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              <div style={{ padding: "12px 14px", background: C.bg, borderRadius: 8 }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 4 }}>#1 Ортопедическая подушка для беременных 60×150 см</div>
-                <div style={{ fontSize: 12, color: "#ccc", lineHeight: 1.6 }}>
+              <div style={{ padding: "16px 0" }}>
+                <div style={{ fontSize: 14, fontWeight: 400, color: C.text, marginBottom: 4 }}>#1 Ортопедическая подушка для беременных 60×150 см</div>
+                <div style={{ fontSize: 12, color: "var(--personal-text)", lineHeight: 1.6 }}>
                   Розница 5 000 ₸, +93% MoM, 3 продавца, лёгкая (1–2 кг), текстиль из Китая с маржой 300–500%. Ниша фрагментирована (No-brand держит 21% выручки категории).
                 </div>
               </div>
-              <div style={{ padding: "12px 14px", background: C.bg, borderRadius: 8 }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 4 }}>#2 Блендер погружной PRO2942</div>
-                <div style={{ fontSize: 12, color: "#ccc", lineHeight: 1.6 }}>
+              <div style={{ padding: "16px 0" }}>
+                <div style={{ fontSize: 14, fontWeight: 400, color: C.text, marginBottom: 4 }}>#2 Блендер погружной PRO2942</div>
+                <div style={{ fontSize: 12, color: "var(--personal-text)", lineHeight: 1.6 }}>
                   Розница 35 000 ₸, <strong style={{ color: C.green }}>всего 1 продавец на карточке</strong>, +400% MoM, компактный, новичок. Окно для второго продавца — 2–3 месяца.
                 </div>
               </div>
             </div>
           </div>
 
-          <div style={{ borderLeft: `3px solid ${C.red}`, paddingLeft: 14, margin: "20px 0", fontSize: 13, color: "#ccc", lineHeight: 1.7 }}>
+          <div style={{ paddingLeft: 14, margin: "20px 0", fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7 }}>
             <strong style={{ color: C.red }}>Ключевой риск 2026: </strong>
             «штрафные дни» от Kaspi вместо денежных штрафов — опоздание передачи заказа в ПВЗ увеличивает срок доставки в карточке, позиция в выдаче рушится. Для предзаказа это критично: 30-дневный лимит не оставляет буфера.
           </div>
@@ -182,12 +175,12 @@ export default function KaspiPreorderNichesPage() {
           <DataTable
             headers={["Параметр", "Старая формулировка", "Актуально на 16 апр 2026", "Статус"]}
             rows={[
-              ["Макс. срок предзаказа", "«30 дней, в отдельных до 45»", "30 календарных дней (Kaspi Гид q3346)", "🔴 Исправить"],
-              ["Комиссия с 05.01.2026", "6.4–13.5% без НДС", "Подтверждено, +НДС 16% отдельной строкой", "✅"],
-              ["Kaspi Pay", "0.95%", "Подтверждено", "✅"],
-              ["Штрафные дни", "Упомянуто как лайфхак", "Основной механизм давления в 2026", "🟡 Усилить"],
-              ["Запрет общения вне Kaspi", "Не было", "НОВОЕ: блокировка за Telegram/WhatsApp", "🟡 Добавить"],
-              ["Ограниченные категории", "Кратко", "Расширен список (детская литература, ортопедия, оптика, шугаринг)", "🟡 Добавить"],
+              ["Макс. срок предзаказа", "«30 дней, в отдельных до 45»", "30 календарных дней (Kaspi Гид q3346)", " Исправить"],
+              ["Комиссия с 05.01.2026", "6.4–13.5% без НДС", "Подтверждено, +НДС 16% отдельной строкой", ""],
+              ["Kaspi Pay", "0.95%", "Подтверждено", ""],
+              ["Штрафные дни", "Упомянуто как лайфхак", "Основной механизм давления в 2026", " Усилить"],
+              ["Запрет общения вне Kaspi", "Не было", "НОВОЕ: блокировка за Telegram/WhatsApp", " Добавить"],
+              ["Ограниченные категории", "Кратко", "Расширен список (детская литература, ортопедия, оптика, шугаринг)", " Добавить"],
             ]}
           />
 
@@ -201,16 +194,16 @@ export default function KaspiPreorderNichesPage() {
               ["3", "Lead-time от 1688 ≤ 14 дней", "Укладывается в 30-дневный лимит с буфером 16 дней"],
               ["4", "Маржа ≥ 50%, в идеале 100%+", "После всех комиссий Kaspi (12.5–13% с НДС) + Kaspi Pay 0.95%"],
               ["5", "Конкуренция 1–5 продавцов в карточке", "Больше — демпинг съест маржу. Идеально — 1 продавец (закрытая карточка)"],
-              ["6", "Растущий или сезонный тренд", "YoY > 0%, MoM > 0%, kaspi_juma_index в плюсе"],
+              ["6", "Растущий или сезонный тренд", "Рост год к году и месяц к месяцу положительный, сезонный сигнал в плюсе"],
               ["7", "Без сертификационных заморочек", "Не аптека, не БАДы, не медтехника, не оптика — они требуют разрешений до старта"],
             ]}
           />
         </Section>
 
         {/* ═══ 2. 6 NICHES ═══ */}
-        <Section id="s2" num="2" title="Анализ 6 ключевых ниш (RedStat срез 2026-02-01)">
+        <Section id="s2" num="2" title="Анализ 6 ключевых ниш (срез на 1 февраля 2026 года)">
           <p style={sP}>
-            Для каждой ниши выгружены с backend: детали, 16-месячная история, прогноз с сезонностью, распределение по 5 ценовым сегментам, топ брендов и топ-20 SKU. Данные агрегированы на срез 1 февраля 2026.
+            Для каждой ниши собраны детали, 16-месячная история, сезонность, распределение по пяти ценовым сегментам, ведущие бренды и топ-20 SKU. Все показатели приведены к одному срезу на 1 февраля 2026 года.
           </p>
 
           <NicheCard
@@ -219,14 +212,14 @@ export default function KaspiPreorderNichesPage() {
             title="Степперы"
             metrics={[
               ["Выручка/мес", "335,7 млн ₸"],
-              ["YoY рост", "+954,6% 🚀"],
+              ["YoY рост", "+954,6% "],
               ["SKU", "75"],
               ["Продавцов", "51"],
               ["Пик сезона", "Январь"],
               ["No-brand доля", "16,2%"],
             ]}
             brandSplit="Ниша-дуополия: GENAU (3 SKU, 1 продавец, 56М ₸, 50,8% лифа) vs «Без бренда» (9 SKU, 13 продавцов, 54М ₸, 49,2%). №1 SKU лифа — наш 120861000 «Степпер 120кг балансировочный» (Без бренда, 35,9М ₸, 2 566 продаж, 20 продавцов). Прогноз: mar 210M → apr 115M → may 101M → jun 267M (Juma)."
-            verdict="❌ для нашего Степпера 120кг через ПЗ: 15–20 кг, не помещается в короб, 20 продавцов = демпинг. Категория интересна для обычной продажи со складом или контейнером — рост огромный."
+            verdict=" для нашего Степпера 120кг через ПЗ: 15–20 кг, не помещается в короб, 20 продавцов = демпинг. Категория интересна для обычной продажи со складом или контейнером — рост огромный."
             verdictColor={C.red}
           />
 
@@ -243,7 +236,7 @@ export default function KaspiPreorderNichesPage() {
               ["No-brand доля", "8,2%"],
             ]}
             brandSplit="Жёсткая монополия GENAU — 786М ₸ = 70,2% лифа (21 SKU, 1 продавец, карточки закрыты). Остальные 30% делят Без бренда, UNIQKID, LUKOSPORT, Xiaomi. Сегмент Премиум 22% / 354 тыс ₸ медиана — для no-brand не пройти."
-            verdict="❌ для ПЗ: беговые 70–200 тыс ₸, 25+ кг, GENAU закрыл карточки. Если делать — только белое через контейнер + собственный бренд. Для ПЗ не подходит."
+            verdict=" для ПЗ: беговые 70–200 тыс ₸, 25+ кг, GENAU закрыл карточки. Если делать — только белое через контейнер + собственный бренд. Для ПЗ не подходит."
             verdictColor={C.red}
           />
 
@@ -257,10 +250,10 @@ export default function KaspiPreorderNichesPage() {
               ["SKU", "308"],
               ["Продавцов", "158"],
               ["Пик сезона", "Ноябрь (Juma)"],
-              ["No-brand доля", "47,1% 🎯"],
+              ["No-brand доля", "47,1% "],
             ]}
             brandSplit="Наиболее фрагментированная ниша из 6. «Без бренда» держит 400М (47,1%) через 124 SKU у 89 продавцов. Топ-SKU: Стул Чили (30,9М, 24 продавца), Стул Oleandro (27,5М, 20 продавцов — наш 1477960827), JASA QAZ (24,5М, 1 продавец). Прогноз: 700М–1B/мес плато."
-            verdict="⚠ с оговорками: стул в разобранном виде ~5–8 кг, коробка 60×60×20 см — помещается в короб. Наш OleandroW +610% рост. Закупка на август–октябрь, вход к Juma (ноябрь). Риск — логистика хрупкого/деревянного."
+            verdict=" с оговорками: стул в разобранном виде ~5–8 кг, коробка 60×60×20 см — помещается в короб. Наш OleandroW +610% рост. Закупка на август–октябрь, вход к Juma (ноябрь). Риск — логистика хрупкого/деревянного."
             verdictColor={C.amber}
           />
 
@@ -277,7 +270,7 @@ export default function KaspiPreorderNichesPage() {
               ["No-brand доля", "20,9%"],
             ]}
             brandSplit="«Без бренда» №1 (54М ₸, 150 SKU, 127 продавцов), NikStory №2 (47М, 31 SKU, 1 продавец — закрытый бренд = модель для подражания). Подниши: memory-foam, для беременных (CEMILE 75×140 — 2,8М ₸, 181 продажа), бамбук, микрофибра. Прогноз: mar 241М → apr 209М → may 229М → jun 291М (Juma)."
-            verdict="✅✅✅ идеально для ПЗ. Средний чек 4,5 тыс ₸, текстиль из Китая — лёгкий, компактный, себестоимость 100–300 ₸/единица, маржа 500%+. Фрагментированная ниша, NikStory-модель закрытого бренда доказана."
+            verdict=" идеально для ПЗ. Средний чек 4,5 тыс ₸, текстиль из Китая — лёгкий, компактный, себестоимость 100–300 ₸/единица, маржа 500%+. Фрагментированная ниша, NikStory-модель закрытого бренда доказана."
             verdictColor={C.green}
           />
 
@@ -294,7 +287,7 @@ export default function KaspiPreorderNichesPage() {
               ["No-brand доля", "6,8%"],
             ]}
             brandSplit="Брендовая ниша: Xiaomi, Braun, Tefal, DEMIAND держат топ-5. No-brand отнимает всего 6,8%. Премиум 39% / 102 тыс ₸ (139 SKU, 96% branded), Дорогой 27% / 56 тыс. Наш AIR 12л (58 тыс, 2 продавца) — в сегменте Дорогой но без бренда. EL-8L (18 тыс, 21 продавец) — адский демпинг."
-            verdict="⚠ только через собственный закрытый бренд в Бюджетном (10–25 тыс) или Среднем (25–40 тыс) сегменте. Как просто ещё один no-brand SKU — не зайти, рынок забит."
+            verdict=" только через собственный закрытый бренд в Бюджетном (10–25 тыс) или Среднем (25–40 тыс) сегменте. Как просто ещё один no-brand SKU — не зайти, рынок забит."
             verdictColor={C.amber}
           />
 
@@ -311,7 +304,7 @@ export default function KaspiPreorderNichesPage() {
               ["No-brand доля", "64,9%"],
             ]}
             brandSplit="Tiny niche: всего 7 SKU. №1 AS1038829 (10,1М ₸, 9 продавцов — наш 1165279527), №2 OEM Aiberry WAX (9,0М, 7 продавцов — наш 114238909), №3 Air WAX-5002 (4,2М). Топ-3 = 77% лифа. Прогноз резко затухает: mar 18,8М → apr 6,7М → may 7М → jun 5М — схлопывание в 6 раз."
-            verdict="⚠ строго сезонное окно Январь–Март (готовятся к «пляжному» сезону). В апреле 2026 окно уже закрыто. Повторный заход — октябрь 2026 через контейнер, старт продаж январь 2027."
+            verdict=" строго сезонное окно Январь–Март (готовятся к «пляжному» сезону). В апреле 2026 окно уже закрыто. Повторный заход — октябрь 2026 через контейнер, старт продаж январь 2027."
             verdictColor={C.amber}
           />
         </Section>
@@ -322,7 +315,7 @@ export default function KaspiPreorderNichesPage() {
             Для каждого SKU применён чек-лист: цена в sweet spot (10–30 тыс), вес/габарит, конкуренция (≤5 продавцов = ок), YoY рост, сезонность. Итог — три группы.
           </p>
 
-          <h3 style={{ ...sH3, color: C.green }}>✅ Идеально подходят (2 SKU)</h3>
+          <h3 style={{ ...sH3, color: C.green }}> Идеально подходят (2 SKU)</h3>
           <DataTable
             headers={["SKU", "Ниша", "Цена", "Продавцы", "YoY", "Ключ"]}
             rows={[
@@ -331,7 +324,7 @@ export default function KaspiPreorderNichesPage() {
             ]}
           />
 
-          <h3 style={{ ...sH3, color: C.amber }}>⚠ С оговорками (6 SKU)</h3>
+          <h3 style={{ ...sH3, color: C.amber }}> С оговорками (6 SKU)</h3>
           <DataTable
             headers={["SKU", "Ниша", "Цена", "Продавцы", "YoY", "Оговорка"]}
             rows={[
@@ -344,7 +337,7 @@ export default function KaspiPreorderNichesPage() {
             ]}
           />
 
-          <h3 style={{ ...sH3, color: C.red }}>❌ Не подходят для ПЗ (20 SKU)</h3>
+          <h3 style={{ ...sH3, color: C.red }}> Не подходят для ПЗ (20 SKU)</h3>
           <DataTable
             headers={["SKU", "Ниша", "Цена", "Продавцы", "YoY", "Причина"]}
             rows={[
@@ -375,12 +368,12 @@ export default function KaspiPreorderNichesPage() {
         {/* ═══ 4. TOP CANDIDATES ═══ */}
         <Section id="s4" num="4" title="Топ-2 кандидата — детальный план запуска">
 
-          <div style={{ ...sCard, background: `${C.green}06`, border: `1px solid ${C.green}30` }}>
+          <div style={{ ...sCard }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
               <span style={sBadge(C.green)}>Кандидат #1</span>
               <span style={sBadge(C.accent)}>Запустить в апреле</span>
             </div>
-            <h3 style={{ fontSize: 18, fontWeight: 700, color: C.text, margin: "0 0 12px" }}>
+            <h3 style={{ fontSize: 18, fontWeight: 400, color: C.text, margin: "0 0 12px" }}>
               Ортопедическая подушка для беременных 60×150 см
             </h3>
 
@@ -401,12 +394,12 @@ export default function KaspiPreorderNichesPage() {
             />
           </div>
 
-          <div style={{ ...sCard, background: `${C.blue}06`, border: `1px solid ${C.blue}30` }}>
+          <div style={{ ...sCard }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
               <span style={sBadge(C.blue)}>Кандидат #2</span>
               <span style={sBadge(C.amber)}>Окно 2–3 месяца</span>
             </div>
-            <h3 style={{ fontSize: 18, fontWeight: 700, color: C.text, margin: "0 0 12px" }}>
+            <h3 style={{ fontSize: 18, fontWeight: 400, color: C.text, margin: "0 0 12px" }}>
               Блендер погружной PRO2942 (или аналог no-name)
             </h3>
 
@@ -427,7 +420,7 @@ export default function KaspiPreorderNichesPage() {
             />
           </div>
 
-          <div style={{ borderLeft: `3px solid ${C.accent}`, paddingLeft: 14, margin: "20px 0", fontSize: 13, color: "#ccc", lineHeight: 1.7 }}>
+          <div style={{ paddingLeft: 14, margin: "20px 0", fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7 }}>
             <strong style={{ color: C.accent }}>Что делать с 6 условно-годными SKU: </strong>
             Стул OleandroW — закупка на август-октябрь, вход к Juma. Костюм женский — только если уже есть опыт в одежде. WAX-нагреватели (2 SKU) — заморозить до октября 2026. Степпер 438490658 — мониторить. Камера TTG — не запускать.
           </div>
@@ -446,11 +439,11 @@ export default function KaspiPreorderNichesPage() {
               { title: "Карточки закрытого моно-бренда с доминированием", text: "GENAU держит 70% лифа беговых — no-brand не пробьётся. NikStory в подушках — модель для подражания, не для конкуренции" },
               { title: "Сезонные окна, которые уже закрылись", text: "WAX-нагреватели (пик январь–февраль, апрель-май схлопывается в 6 раз) — ждать следующего января" },
             ].map((v, i) => (
-              <div key={i} style={{ display: "flex", gap: 14, padding: "14px 16px", background: C.surface, border: `1px solid ${C.red}30`, borderRadius: 10 }}>
-                <div style={{ width: 28, height: 28, borderRadius: "50%", background: `${C.red}20`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, color: C.red, flexShrink: 0 }}>✕</div>
+              <div key={i} style={{ display: "flex", gap: 14, padding: "16px 0" }}>
+
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 4 }}>{v.title}</div>
-                  <div style={{ fontSize: 12, color: "#ccc", lineHeight: 1.6 }}>{v.text}</div>
+                  <div style={{ fontSize: 13, fontWeight: 400, color: C.text, marginBottom: 4 }}>{v.title}</div>
+                  <div style={{ fontSize: 12, color: "var(--personal-text)", lineHeight: 1.6 }}>{v.text}</div>
                 </div>
               </div>
             ))}
@@ -476,7 +469,7 @@ export default function KaspiPreorderNichesPage() {
           <DataTable
             headers={["Риск", "Митигация"]}
             rows={[
-              ["Курсовой риск (юань ↔ тенге)", "Закладывать 10–15% буфер в цене закупки"],
+              ["Курсовой риск (юань  тенге)", "Закладывать 10–15% буфер в цене закупки"],
               ["Задержки на таможне (3–7 дней)", "preorder = 14 дней (а не 10), оставляет запас до 30-дневного лимита"],
               ["Брак/недовложение 2–5% партии", "Закладывать буфер в unit-экономике, заказывать на 5% больше"],
               ["Сертификация (ТР ТС, СТ РК)", "Оформить до старта продаж — иначе риск блокировки"],
@@ -488,7 +481,7 @@ export default function KaspiPreorderNichesPage() {
             headers={["Риск", "Митигация"]}
             rows={[
               ["Карточка-клон с лучшим контентом", "Инвестировать в профессиональные фото + видео + инфографику"],
-              ["Сезонный обвал", "Использовать RedStat forecast, выходить из ниши до спада"],
+              ["Сезонный обвал", "Использовать агрегированные рыночные данные forecast, выходить из ниши до спада"],
               ["«Забитая» карточка (10+ продавцов за 2 мес)", "Перейти на закрытый бренд (свой артикул, свой штрихкод)"],
             ]}
           />
@@ -514,7 +507,7 @@ export default function KaspiPreorderNichesPage() {
               duration: "1 неделя",
               color: C.blue,
               items: [
-                "Проверить по RedStat: ниша растёт, доля Без бренда ≥ 20%, в карточке ≤ 5 продавцов",
+                "Проверить по агрегированные рыночные данные: ниша растёт, доля Без бренда ≥ 20%, в карточке ≤ 5 продавцов",
                 "Проверить цену на Kaspi (live): медиана, разброс, state продавцов",
                 "Посчитать unit-экономику: закупка 1688 (с курсом +15%) + доставка + сертификат + комиссия Kaspi (10.9–13% с НДС) + Kaspi Pay 0.95%",
                 "Маржа должна быть ≥ 50% на финальном розничном чеке",
@@ -578,15 +571,15 @@ export default function KaspiPreorderNichesPage() {
               ],
             },
           ].map((p, i) => (
-            <div key={i} style={{ ...sCard, borderLeft: `4px solid ${p.color}` }}>
+            <div key={i} style={{ ...sCard }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-                <h3 style={{ fontSize: 16, fontWeight: 700, color: p.color, margin: 0 }}>{p.phase}</h3>
-                <span style={{ fontSize: 11, color: C.dim, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>{p.duration}</span>
+                <h3 style={{ fontSize: 16, fontWeight: 400, color: p.color, margin: 0 }}>{p.phase}</h3>
+                <span style={{ fontSize: 11, color: C.dim, fontWeight: 400, textTransform: "none", letterSpacing: "0.05em" }}>{p.duration}</span>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {p.items.map((item, j) => (
-                  <div key={j} style={{ display: "flex", gap: 10, fontSize: 13, color: "#ccc", lineHeight: 1.6 }}>
-                    <span style={{ color: p.color, fontWeight: 700, flexShrink: 0 }}>☐</span>
+                  <div key={j} style={{ display: "flex", gap: 10, fontSize: 13, color: "var(--personal-text)", lineHeight: 1.6 }}>
+                    <span style={{ color: p.color, fontWeight: 400, flexShrink: 0 }}>☐</span>
                     <span>{item}</span>
                   </div>
                 ))}
@@ -602,8 +595,8 @@ export default function KaspiPreorderNichesPage() {
             По топ-2 SKU (Подушка для беременных + Блендер погружной) — написать поставщикам на 1688 с одним и тем же шаблоном запроса.
           </p>
 
-          <div style={{ ...sCard, background: `${C.green}06`, border: `1px solid ${C.green}30` }}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: C.green, margin: "0 0 12px" }}>Что запросить у поставщика</h3>
+          <div style={{ ...sCard }}>
+            <h3 style={{ fontSize: 14, fontWeight: 400, color: C.green, margin: "0 0 12px" }}>Что запросить у поставщика</h3>
             <DataTable
               headers={["№", "Запрос"]}
               rows={[
@@ -626,8 +619,8 @@ export default function KaspiPreorderNichesPage() {
               "Проверить живую конкуренцию на Kaspi ещё раз на день старта — ниша быстро меняется",
               "Подготовить XML-прайс с полем preorder и тестовую карточку",
             ].map((item, i) => (
-              <div key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "#ccc", lineHeight: 1.7, marginBottom: 8 }}>
-                <span style={{ color: C.accent, fontWeight: 700, flexShrink: 0 }}>→</span>
+              <div key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7, marginBottom: 8 }}>
+                <span style={{ color: C.accent, fontWeight: 400, flexShrink: 0 }}>→</span>
                 <span>{item}</span>
               </div>
             ))}

@@ -1,4 +1,5 @@
 "use client";
+import { IconlyArrowUpRight } from "@/components/iconly-icons";
 
 import Image from "next/image";
 import { ArticleHeader } from "@/components/canon/article-header";
@@ -9,33 +10,31 @@ import { LineChart } from "@/components/charts/line-chart";
 import { DataTable } from "@/components/charts/data-table";
 
 const BROCK_LINK = (
-  <a href="https://brockui.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">Brock UI</a>
+  <a href="https://brockui.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">Brock UI</a>
 );
 
 const REDSTAT = (
-  <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">redstat.kz</a>
+  <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">redstat.kz</a>
 );
 
-/* Article palette (scoped here — NOT in globals.css). Decline = a clean,
-   confident red, the deliberate Tailwind-500 counterpart to the growth green;
-   context series = graphite. One bright value for both themes (FT canon). */
-const LICK_RED = "#ef4444";
+/* Shared chart roles: violet for decline, teal for growth; graphite for context. */
+const LICK_COLOR = "var(--chart-below)";
 const NEUTRAL = "var(--brock-neutral)";
 
 function RevenueChart() {
   return (
-    <figure className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-5">
+    <figure className="research-figure">
       <ColumnChart
         height={240}
         barRadius={2}
-        accent={LICK_RED}
+        accent={LICK_COLOR}
         header={{ title: "Every month worse than the last", subtitle: "Lick Beauty revenue, all SKUs · −92% from peak in six months" }}
-        slots={{ tooltip: () => null }}
+
         data={[
           { label: "Aug 2025", value: 43.6, color: NEUTRAL },
           { label: "Dec 2025", value: 16.0, color: NEUTRAL },
           { label: "Jan 2026", value: 6.3, color: NEUTRAL },
-          { label: "Feb 2026", value: 3.3, color: LICK_RED },
+          { label: "Feb 2026", value: 3.3, color: LICK_COLOR },
         ]}
         dataLabels={{
           show: true,
@@ -46,8 +45,8 @@ function RevenueChart() {
         yAxis={{ max: 55 }}
         caption="* September–November 2025: no data"
       />
-      <figcaption className="font-mono text-[11px] text-[var(--color-dim)] mt-4">
-        Source: <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2">redstat.kz</a>
+      <figcaption className="font-mono text-[12px] text-[var(--color-dim)] mt-4">
+        Source: <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]   ">redstat.kz</a>
         <span className="text-[var(--color-border)] mx-1.5">·</span>Charts: {BROCK_LINK}
       </figcaption>
     </figure>
@@ -59,17 +58,17 @@ const pctFmt = (v: number) => `${v > 0 ? "+" : v < 0 ? "−" : ""}${Math.abs(v)}
 
 function NicheChangeChart() {
   return (
-    <figure className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-5">
+    <figure className="research-figure">
       <BarChart
-        accent={LICK_RED}
+        accent={LICK_COLOR}
         barRadius={2}
         labelWidth={132}
         barThickness={22}
         gap={10}
         header={{ title: "February dipped for everyone. Lick — twice as hard", subtitle: "Revenue change, Jan → Feb 2026" }}
-        slots={{ tooltip: () => null }}
+
         data={[
-          { label: "Lick / LICK", value: -48, color: LICK_RED },
+          { label: "Lick / LICK", value: -48, color: LICK_COLOR },
           { label: "Sen Sulu (leader)", value: -18, color: NEUTRAL },
           { label: "LUXVISAGE", value: -14, color: NEUTRAL },
           { label: "Romand", value: -6, color: NEUTRAL },
@@ -80,8 +79,8 @@ function NicheChangeChart() {
         formatValue={pctFmt}
         xAxis={{ hideTicks: true }}
       />
-      <figcaption className="font-mono text-[11px] text-[var(--color-dim)] mt-4">
-        Source: <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2">redstat.kz</a>
+      <figcaption className="font-mono text-[12px] text-[var(--color-dim)] mt-4">
+        Source: <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]   ">redstat.kz</a>
         <span className="text-[var(--color-border)] mx-1.5">·</span>Charts: {BROCK_LINK}
       </figcaption>
     </figure>
@@ -89,7 +88,7 @@ function NicheChangeChart() {
 }
 
 /* ───── PUSY Revenue Chart ───── */
-const PUSY_GREEN = "#22c55e";
+const PUSY_COLOR = "var(--chart-above)";
 const fmtRub = (v: number) =>
   v >= 1000
     ? `₽${(v / 1000).toLocaleString("en-US", { maximumFractionDigits: 2 })}bn`
@@ -97,10 +96,10 @@ const fmtRub = (v: number) =>
 
 function PusyRevenueChart() {
   return (
-    <figure className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-5">
+    <figure className="research-figure">
       <LineChart
         height={240}
-        accent={PUSY_GREEN}
+        accent={PUSY_COLOR}
         curve="linear"
         markers="auto"
         lastValueDot
@@ -108,7 +107,7 @@ function PusyRevenueChart() {
         xScale="point"
         header={{ title: "Revenue up 18× in three years", subtitle: "PUSY · Drozh Beauty LLC · 2022 → 2024" }}
         x={["2022", "2023", "2024"]}
-        data={[{ name: "PUSY", data: [176, 1540, 3250], color: PUSY_GREEN, emphasis: true }]}
+        data={[{ name: "PUSY", data: [176, 1540, 3250], color: PUSY_COLOR, emphasis: true }]}
         formatValue={fmtRub}
         yAxisFormat={(v) =>
           v >= 1000
@@ -116,8 +115,8 @@ function PusyRevenueChart() {
             : `₽${v}M`
         }
       />
-      <figcaption className="font-mono text-[11px] text-[var(--color-dim)] mt-4">
-        Source: <a href="https://spark-interfax.ru" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2">SPARK-Interfax</a>
+      <figcaption className="font-mono text-[12px] text-[var(--color-dim)] mt-4">
+        Source: <a href="https://spark-interfax.ru" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]   ">SPARK-Interfax</a>
         <span className="text-[var(--color-border)] mx-1.5">·</span>Charts: {BROCK_LINK}
       </figcaption>
     </figure>
@@ -175,11 +174,11 @@ export default function LiqBeautyArticleEn() {
       <div className="flex flex-col gap-4 my-8">
         <div className="border border-[var(--color-border)] rounded-[3px] overflow-hidden">
           <Image src="/blog/why-blogger-brands-fail/lick-beauty.webp" alt="Lick beauty on Redstat — revenue and units, February 2026" width={1200} height={800} className="w-full h-auto" />
-          <p className="font-mono text-[11px] text-[var(--color-dim)] text-left px-4 py-2.5">Screenshot: <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">redstat.kz</a> <span className="text-[var(--color-border)] mx-1.5">·</span> brand «Lick beauty» <span className="text-[var(--color-border)] mx-1.5">·</span> February 2026</p>
+          <p className="font-mono text-[12px] text-[var(--color-dim)] text-left px-4 py-2.5">Screenshot: <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">redstat.kz</a> <span className="text-[var(--color-border)] mx-1.5">·</span> brand «Lick beauty» <span className="text-[var(--color-border)] mx-1.5">·</span> February 2026</p>
         </div>
         <div className="border border-[var(--color-border)] rounded-[3px] overflow-hidden">
           <Image src="/blog/why-blogger-brands-fail/lick.webp" alt="LICK on Redstat — revenue and units, February 2026" width={1200} height={800} className="w-full h-auto" />
-          <p className="font-mono text-[11px] text-[var(--color-dim)] text-left px-4 py-2.5">Screenshot: <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">redstat.kz</a> <span className="text-[var(--color-border)] mx-1.5">·</span> brand «LICK» <span className="text-[var(--color-border)] mx-1.5">·</span> February 2026</p>
+          <p className="font-mono text-[12px] text-[var(--color-dim)] text-left px-4 py-2.5">Screenshot: <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">redstat.kz</a> <span className="text-[var(--color-border)] mx-1.5">·</span> brand «LICK» <span className="text-[var(--color-border)] mx-1.5">·</span> February 2026</p>
         </div>
       </div>
     </div>
@@ -188,7 +187,7 @@ export default function LiqBeautyArticleEn() {
 
     {/* ─── Behind the launch ─── */}
     <div className="mb-12">
-      <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">Behind a beautiful launch</h2>
+      <h2 className="text-[20px] font-medium tracking-tight text-[var(--color-text)] mb-6">Behind a beautiful launch</h2>
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
         For those out of the loop - and I suspect there aren&apos;t many - let me explain. Arman Yusupov and Karina Oksukpaeva are arguably the most recognizable couple in Kazakh Instagram. He has around two million followers. She has around five. They created Yuframe, a team that started shooting vines back in 2015 and became a cultural phenomenon long before Kazakhstan learned to say the word «influencer» without a smirk. Serial entrepreneurs - the production studio 2ANY1, the «Potok» project, a franchise business across several cities.
       </p>
@@ -200,7 +199,7 @@ export default function LiqBeautyArticleEn() {
       </p>
       <div className="my-8 border border-[var(--color-border)] rounded-[3px] overflow-hidden max-w-[520px] mx-auto">
         <Image src="/blog/why-blogger-brands-fail/lick-insta.webp" alt="Lick Beauty launch post on Instagram — «How we created LICK?»" width={1200} height={1200} className="w-full h-auto" />
-        <p className="font-mono text-[11px] text-[var(--color-dim)] text-left px-4 py-2.5">Lick Beauty launch post <span className="text-[var(--color-border)] mx-1.5">·</span> Instagram <a href="https://www.instagram.com/yusupov21/" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">@yusupov21</a></p>
+        <p className="font-mono text-[12px] text-[var(--color-dim)] text-left px-4 py-2.5">Lick Beauty launch post <span className="text-[var(--color-border)] mx-1.5">·</span> Instagram <a href="https://www.instagram.com/yusupov21/" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">@yusupov21</a></p>
       </div>
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-6">
         In December they added three shades - Twinkle, Cocoa, and Marshmallow at <span className="font-mono">₸5,990</span>. And here&apos;s what happened next.
@@ -220,7 +219,7 @@ export default function LiqBeautyArticleEn() {
           ["Feb 2026", "More of the same", "₸3.3M", "596"],
         ]}
         highlightRow={3}
-        accent={LICK_RED}
+        accent={LICK_COLOR}
         source={REDSTAT}
       />
 
@@ -239,7 +238,7 @@ export default function LiqBeautyArticleEn() {
 
     {/* ─── Seasonality ─── */}
     <div className="mb-12">
-      <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">February&apos;s fault? Let&apos;s ask the competitors</h2>
+      <h2 className="text-[20px] font-medium tracking-tight text-[var(--color-text)] mb-6">February&apos;s fault? Let&apos;s ask the competitors</h2>
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-6">
         When I showed these numbers to colleagues, the first reaction was predictable: «February&apos;s short, the holidays are over, everyone&apos;s down.» A fair hypothesis. Reasonable. And completely testable - because we have data on more than just Lick Beauty.
       </p>
@@ -255,7 +254,7 @@ export default function LiqBeautyArticleEn() {
 
     {/* ─── 420 tenge ─── */}
     <div className="mb-12">
-      <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">Four hundred twenty tenge</h2>
+      <h2 className="text-[20px] font-medium tracking-tight text-[var(--color-text)] mb-6">Four hundred twenty tenge</h2>
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
         Now - the fact that may have been the whole reason to sit down and write this.
       </p>
@@ -268,7 +267,7 @@ export default function LiqBeautyArticleEn() {
 
       <div className="my-6 border border-[var(--color-border)] rounded-[3px] overflow-hidden">
         <Image src="/blog/why-blogger-brands-fail/rhode-redstat.webp" alt="Rhode Espresso on Redstat — ₸1.6M revenue, February 2026" width={1200} height={800} className="w-full h-auto" />
-        <p className="font-mono text-[11px] text-[var(--color-dim)] text-left px-4 py-2.5">Rhode Espresso on Kaspi.kz <span className="text-[var(--color-border)] mx-1.5">·</span> Screenshot: <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">redstat.kz</a></p>
+        <p className="font-mono text-[12px] text-[var(--color-dim)] text-left px-4 py-2.5">Rhode Espresso on Kaspi.kz <span className="text-[var(--color-border)] mx-1.5">·</span> Screenshot: <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">redstat.kz</a></p>
       </div>
 
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
@@ -287,11 +286,11 @@ export default function LiqBeautyArticleEn() {
         ]}
         source={REDSTAT}
         rows={[
-          [<a key="e" href="https://kaspi.kz/shop/p/rhode-blesk-dlja-gub-espresso-142386324" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)] hover:underline decoration-dotted underline-offset-2 transition-colors">Rhode Espresso <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>, "₸421", "₸1,600,604", "3,274"],
-          [<a key="t" href="https://kaspi.kz/shop/p/rhode-blesk-dlja-gub-toast-144626391" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)] hover:underline decoration-dotted underline-offset-2 transition-colors">Rhode Toast <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>, "₸515", "₸525,066", "990"],
-          [<a key="r" href="https://kaspi.kz/shop/p/rhode-blesk-dlja-gub-ribbon-145296485" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)] hover:underline decoration-dotted underline-offset-2 transition-colors">Rhode Ribbon <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>, "₸498", "₸403,578", "745"],
-          [<a key="f" href="https://kaspi.kz/shop/p/blesk-dlja-gub-blesk-dlja-gub-fruktovyi-blesk-1-sht-152798242" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)] hover:underline decoration-dotted underline-offset-2 transition-colors">«Fruit Gloss» (no-name) <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>, "₸298", "₸361,685", "1,368"],
-          [<a key="rj" href="https://kaspi.kz/shop/p/rhode-blesk-dlja-gub-raspberry-jelly-142387040" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)] hover:underline decoration-dotted underline-offset-2 transition-colors">Rhode Raspberry Jelly <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>, "₸403", "₸293,371", "661"],
+          [<a key="e" href="https://kaspi.kz/shop/p/rhode-blesk-dlja-gub-espresso-142386324" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)]    transition-colors">Rhode Espresso <IconlyArrowUpRight size={14} className="opacity-60" /></a>, "₸421", "₸1,600,604", "3,274"],
+          [<a key="t" href="https://kaspi.kz/shop/p/rhode-blesk-dlja-gub-toast-144626391" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)]    transition-colors">Rhode Toast <IconlyArrowUpRight size={14} className="opacity-60" /></a>, "₸515", "₸525,066", "990"],
+          [<a key="r" href="https://kaspi.kz/shop/p/rhode-blesk-dlja-gub-ribbon-145296485" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)]    transition-colors">Rhode Ribbon <IconlyArrowUpRight size={14} className="opacity-60" /></a>, "₸498", "₸403,578", "745"],
+          [<a key="f" href="https://kaspi.kz/shop/p/blesk-dlja-gub-blesk-dlja-gub-fruktovyi-blesk-1-sht-152798242" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)]    transition-colors">«Fruit Gloss» (no-name) <IconlyArrowUpRight size={14} className="opacity-60" /></a>, "₸298", "₸361,685", "1,368"],
+          [<a key="rj" href="https://kaspi.kz/shop/p/rhode-blesk-dlja-gub-raspberry-jelly-142387040" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)]    transition-colors">Rhode Raspberry Jelly <IconlyArrowUpRight size={14} className="opacity-60" /></a>, "₸403", "₸293,371", "661"],
         ]}
       />
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
@@ -306,7 +305,7 @@ export default function LiqBeautyArticleEn() {
 
     {/* ─── A launch isn't a business ─── */}
     <div className="mb-12">
-      <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">A launch isn&apos;t a business. It&apos;s applause</h2>
+      <h2 className="text-[20px] font-medium tracking-tight text-[var(--color-text)] mb-6">A launch isn&apos;t a business. It&apos;s applause</h2>
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
         In theater it goes like this: the show ends, the audience claps, the actors bow, everyone&apos;s happy. Then tomorrow comes. You have to walk back on stage. And the day after. And next month. And next year. And the audience is new every time. And they couldn&apos;t care less that last night was a sellout.
       </p>
@@ -325,7 +324,7 @@ export default function LiqBeautyArticleEn() {
 
     {/* ─── 19 sellers ─── */}
     <div className="mb-12">
-      <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">Nineteen sellers for one jar</h2>
+      <h2 className="text-[20px] font-medium tracking-tight text-[var(--color-text)] mb-6">Nineteen sellers for one jar</h2>
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
         Here I went deeper than usual. I looked past the sales and into a specific SKU. 143562625: «Lick beauty Lip Gloss, cherry, Cherry 01». One listing on Kaspi. One product. The same jar.
       </p>
@@ -335,7 +334,7 @@ export default function LiqBeautyArticleEn() {
 
       <div className="my-6 border border-[var(--color-border)] rounded-[3px] overflow-hidden">
         <Image src="/blog/why-blogger-brands-fail/lick-lip-gloss.webp" alt="Cherry 01 on Kaspi — 19 sellers, prices from ₸5,800 to ₸16,995" width={1200} height={800} className="w-full h-auto" />
-        <p className="font-mono text-[11px] text-[var(--color-dim)] text-left px-4 py-2.5">Screenshot: <a href="https://kaspi.kz/shop/p/lick-beauty-lip-gloss-blesk-dlja-gub-vishnevyi-cherry-01-143562625" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">Kaspi.kz</a> <span className="text-[var(--color-border)] mx-1.5">·</span> Lick beauty Lip Gloss Cherry 01</p>
+        <p className="font-mono text-[12px] text-[var(--color-dim)] text-left px-4 py-2.5">Screenshot: <a href="https://kaspi.kz/shop/p/lick-beauty-lip-gloss-blesk-dlja-gub-vishnevyi-cherry-01-143562625" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">Kaspi.kz</a> <span className="text-[var(--color-border)] mx-1.5">·</span> Lick beauty Lip Gloss Cherry 01</p>
       </div>
 
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
@@ -367,13 +366,13 @@ export default function LiqBeautyArticleEn() {
             format: (v) => `${v > 0 ? "+" : "−"}${Math.abs(v).toFixed(1)}%`,
           },
         ]}
-        deltaDownColor={LICK_RED}
+        deltaDownColor={LICK_COLOR}
         source={REDSTAT}
         rows={[
-          [<a key="c" href="https://kaspi.kz/shop/p/lick-beauty-lip-gloss-blesk-dlja-gub-vishnevyi-cherry-01-143562625" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)] hover:underline decoration-dotted underline-offset-2 transition-colors">Cherry 01 <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>, "₸898,256", "195", -56.5],
-          [<a key="tw" href="https://kaspi.kz/shop/p/lick-lip-gloss-blesk-dlja-gub-twinkle-152237502" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)] hover:underline decoration-dotted underline-offset-2 transition-colors">Twinkle <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>, "₸1,087,278", "178", -35.3],
-          [<a key="co" href="https://kaspi.kz/shop/p/lick-lip-gloss-blesk-dlja-gub-cocoa-152237715" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)] hover:underline decoration-dotted underline-offset-2 transition-colors">Cocoa <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>, "₸942,864", "154", -36.2],
-          [<a key="ma" href="https://kaspi.kz/shop/p/lick-lip-gloss-blesk-dlja-gub-marshmallow-152237844" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)] hover:underline decoration-dotted underline-offset-2 transition-colors">Marshmallow <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>, "₸365,252", "64", -66.6],
+          [<a key="c" href="https://kaspi.kz/shop/p/lick-beauty-lip-gloss-blesk-dlja-gub-vishnevyi-cherry-01-143562625" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)]    transition-colors">Cherry 01 <IconlyArrowUpRight size={14} className="opacity-60" /></a>, "₸898,256", "195", -56.5],
+          [<a key="tw" href="https://kaspi.kz/shop/p/lick-lip-gloss-blesk-dlja-gub-twinkle-152237502" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)]    transition-colors">Twinkle <IconlyArrowUpRight size={14} className="opacity-60" /></a>, "₸1,087,278", "178", -35.3],
+          [<a key="co" href="https://kaspi.kz/shop/p/lick-lip-gloss-blesk-dlja-gub-cocoa-152237715" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)]    transition-colors">Cocoa <IconlyArrowUpRight size={14} className="opacity-60" /></a>, "₸942,864", "154", -36.2],
+          [<a key="ma" href="https://kaspi.kz/shop/p/lick-lip-gloss-blesk-dlja-gub-marshmallow-152237844" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)]    transition-colors">Marshmallow <IconlyArrowUpRight size={14} className="opacity-60" /></a>, "₸365,252", "64", -66.6],
         ]}
       />
 
@@ -386,7 +385,7 @@ export default function LiqBeautyArticleEn() {
 
     {/* ─── A product you buy once ─── */}
     <div className="mb-12">
-      <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">A product you buy once</h2>
+      <h2 className="text-[20px] font-medium tracking-tight text-[var(--color-text)] mb-6">A product you buy once</h2>
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
         The problem is the product itself.
       </p>
@@ -405,19 +404,19 @@ export default function LiqBeautyArticleEn() {
 
     {/* ─── The ones who built ─── */}
     <div className="mb-12">
-      <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">The ones who built</h2>
+      <h2 className="text-[20px] font-medium tracking-tight text-[var(--color-text)] mb-6">The ones who built</h2>
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
         Any diagnosis is only as convincing as the cure. If the problem is the model, then somewhere there must be people who built a different model and won.
       </p>
 
-      <h3 className="text-[17px] font-bold text-[var(--color-text)] mt-10 mb-4">PUSY: 500,000 followers and 3.2 billion</h3>
+      <h3 className="text-[17px] font-medium text-[var(--color-text)] mt-10 mb-4">PUSY: 500,000 followers and 3.2 billion</h3>
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
         In late 2021 Ilona Drozh - a brow-lamination specialist with around 500,000 followers - and serial entrepreneur Artyom Borodavkin founded PUSY. Borodavkin became CEO of Drozh Beauty LLC. Ilona became the face. He built the business. She gave it a face. Literally.
       </p>
 
       <div className="my-6 border border-[var(--color-border)] rounded-[3px] overflow-hidden max-w-[520px] mx-auto">
         <Image src="/blog/why-blogger-brands-fail/ilona-drozh.webp" alt="Ilona Drozh — founder of the PUSY brand" width={1200} height={1200} className="w-full h-auto" />
-        <p className="font-mono text-[11px] text-[var(--color-dim)] text-left px-4 py-2.5">Ilona Drozh <span className="text-[var(--color-border)] mx-1.5">·</span> Instagram <a href="https://www.instagram.com/ilona.drozh/" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">@ilona.drozh</a></p>
+        <p className="font-mono text-[12px] text-[var(--color-dim)] text-left px-4 py-2.5">Ilona Drozh <span className="text-[var(--color-border)] mx-1.5">·</span> Instagram <a href="https://www.instagram.com/ilona.drozh/" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">@ilona.drozh</a></p>
       </div>
 
       <PusyRevenueChart />
@@ -439,15 +438,15 @@ export default function LiqBeautyArticleEn() {
           { header: "Units", align: "right" },
         ]}
         rows={[
-          [<a key="p1" href="https://www.wildberries.ru/catalog/755406779/detail.aspx" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)] hover:underline decoration-dotted underline-offset-2 transition-colors">Brow gel, Lamination, 5 ml <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>, "₽7.85M", "16,601"],
+          [<a key="p1" href="https://www.wildberries.ru/catalog/755406779/detail.aspx" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)]    transition-colors">Brow gel, Lamination, 5 ml <IconlyArrowUpRight size={14} className="opacity-60" /></a>, "₽7.85M", "16,601"],
           ["Long-hold fixing gel", "₽5.15M", "10,822"],
-          [<a key="p3" href="https://www.wildberries.ru/catalog/211695539/detail.aspx" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)] hover:underline decoration-dotted underline-offset-2 transition-colors">Brow gel, version 2.0 <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>, "₽4.91M", "6,596"],
-          [<a key="p4" href="https://www.wildberries.ru/catalog/564679782/detail.aspx" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)] hover:underline decoration-dotted underline-offset-2 transition-colors">Shampoo &amp; conditioner <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>, "₽4.03M", "4,703"],
-          [<a key="p5" href="https://www.wildberries.ru/catalog/434888804/detail.aspx" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)] hover:underline decoration-dotted underline-offset-2 transition-colors">Mini gel, SUPER FIX <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>, "₽3.33M", "10,308"],
-          [<a key="p6" href="https://www.wildberries.ru/catalog/564580844/detail.aspx" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)] hover:underline decoration-dotted underline-offset-2 transition-colors">Keratin hair mask <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>, "₽1.71M", "3,274"],
-          [<a key="p7" href="https://www.wildberries.ru/catalog/105037347/detail.aspx" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)] hover:underline decoration-dotted underline-offset-2 transition-colors">SOS face toner <svg className="w-3 h-3 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>, "₽1.10M", "1,259"],
+          [<a key="p3" href="https://www.wildberries.ru/catalog/211695539/detail.aspx" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)]    transition-colors">Brow gel, version 2.0 <IconlyArrowUpRight size={14} className="opacity-60" /></a>, "₽4.91M", "6,596"],
+          [<a key="p4" href="https://www.wildberries.ru/catalog/564679782/detail.aspx" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)]    transition-colors">Shampoo &amp; conditioner <IconlyArrowUpRight size={14} className="opacity-60" /></a>, "₽4.03M", "4,703"],
+          [<a key="p5" href="https://www.wildberries.ru/catalog/434888804/detail.aspx" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)]    transition-colors">Mini gel, SUPER FIX <IconlyArrowUpRight size={14} className="opacity-60" /></a>, "₽3.33M", "10,308"],
+          [<a key="p6" href="https://www.wildberries.ru/catalog/564580844/detail.aspx" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)]    transition-colors">Keratin hair mask <IconlyArrowUpRight size={14} className="opacity-60" /></a>, "₽1.71M", "3,274"],
+          [<a key="p7" href="https://www.wildberries.ru/catalog/105037347/detail.aspx" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-dim)]    transition-colors">SOS face toner <IconlyArrowUpRight size={14} className="opacity-60" /></a>, "₽1.10M", "1,259"],
         ]}
-        source={<><a href="https://mpstats.io" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">MPSTATS</a> <span className="text-[var(--color-border)] mx-1.5">·</span> Wildberries</>}
+        source={<><a href="https://mpstats.io" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">MPSTATS</a> <span className="text-[var(--color-border)] mx-1.5">·</span> Wildberries</>}
       />
 
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
@@ -460,7 +459,7 @@ export default function LiqBeautyArticleEn() {
         Lick Beauty - four SKUs. One marketplace. One market.
       </p>
 
-      <h3 className="text-[17px] font-bold text-[var(--color-text)] mt-10 mb-4">VOIS: no creator at all - 2.5 billion rubles</h3>
+      <h3 className="text-[17px] font-medium text-[var(--color-text)] mt-10 mb-4">VOIS: no creator at all - 2.5 billion rubles</h3>
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
         Now a case that breaks the whole familiar scheme.
       </p>
@@ -473,7 +472,7 @@ export default function LiqBeautyArticleEn() {
 
       <div className="my-6 border border-[var(--color-border)] rounded-[3px] overflow-hidden">
         <Image src="/blog/why-blogger-brands-fail/vois-forbes.webp" alt="VOIS — Forbes «30 Under 30» 2025, ₽2.5bn revenue" width={1200} height={800} className="w-full h-auto" />
-        <p className="font-mono text-[11px] text-[var(--color-dim)] text-left px-4 py-2.5">VOIS <span className="text-[var(--color-border)] mx-1.5">·</span> <a href="https://www.wildberries.ru/brands/vois" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">Wildberries</a></p>
+        <p className="font-mono text-[12px] text-[var(--color-dim)] text-left px-4 py-2.5">VOIS <span className="text-[var(--color-border)] mx-1.5">·</span> <a href="https://www.wildberries.ru/brands/vois" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">Wildberries</a></p>
       </div>
 
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">
@@ -485,7 +484,7 @@ export default function LiqBeautyArticleEn() {
 
     {/* ─── Global cases ─── */}
     <div className="mb-12">
-      <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">From Almaty to Los Angeles: the same pattern</h2>
+      <h2 className="text-[20px] font-medium tracking-tight text-[var(--color-text)] mb-6">From Almaty to Los Angeles: the same pattern</h2>
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
         If the Lick Beauty story were unique, you could write it off as bad luck. But it isn&apos;t unique. It&apos;s the rule.
       </p>
@@ -495,7 +494,7 @@ export default function LiqBeautyArticleEn() {
 
       <div className="my-6 border border-[var(--color-border)] rounded-[3px] overflow-hidden">
         <Image src="/blog/why-blogger-brands-fail/jaclyn-hill.webp" alt="Jaclyn Cosmetics — Jaclyn Hill's brand, shut down in 2024" width={1200} height={800} className="w-full h-auto" />
-        <p className="font-mono text-[11px] text-[var(--color-dim)] text-left px-4 py-2.5">Jaclyn Cosmetics <span className="text-[var(--color-border)] mx-1.5">·</span> Source: <a href="https://cosmeticsbusiness.com/jaclyn-hill-make-up-brand-jaclyn-cosmetics-closing" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">Cosmetics Business</a></p>
+        <p className="font-mono text-[12px] text-[var(--color-dim)] text-left px-4 py-2.5">Jaclyn Cosmetics <span className="text-[var(--color-border)] mx-1.5">·</span> Source: <a href="https://cosmeticsbusiness.com/jaclyn-hill-make-up-brand-jaclyn-cosmetics-closing" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">Cosmetics Business</a></p>
       </div>
 
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
@@ -510,7 +509,7 @@ export default function LiqBeautyArticleEn() {
 
     {/* ─── The conveyor ─── */}
     <div className="mb-12">
-      <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">The conveyor</h2>
+      <h2 className="text-[20px] font-medium tracking-tight text-[var(--color-text)] mb-6">The conveyor</h2>
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
         There&apos;s one detail that, to me as an analyst, is the most telling in the whole story.
       </p>
@@ -529,7 +528,7 @@ export default function LiqBeautyArticleEn() {
 
     {/* ─── Market ─── */}
     <div className="mb-12">
-      <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">Even if you become #1 - is the market big enough?</h2>
+      <h2 className="text-[20px] font-medium tracking-tight text-[var(--color-text)] mb-6">Even if you become #1 - is the market big enough?</h2>
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
         Say it&apos;s all fixed. Distribution cleaned up, the line expanded, an operating partner found. You&apos;re number one.
       </p>
@@ -545,7 +544,7 @@ export default function LiqBeautyArticleEn() {
 
     {/* ─── What the data shows ─── */}
     <div className="mb-12">
-      <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">What the data shows but the Stories don&apos;t</h2>
+      <h2 className="text-[20px] font-medium tracking-tight text-[var(--color-text)] mb-6">What the data shows but the Stories don&apos;t</h2>
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
         These aren&apos;t accusations. They&apos;re things you see when you look at the market from behind the numbers, not from behind a phone camera.
       </p>
@@ -573,7 +572,7 @@ export default function LiqBeautyArticleEn() {
 
     {/* ─── Finale ─── */}
     <div className="mb-12">
-      <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">The hype ends. The processes don&apos;t</h2>
+      <h2 className="text-[20px] font-medium tracking-tight text-[var(--color-text)] mb-6">The hype ends. The processes don&apos;t</h2>
       <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
         Arman and Karina are talented people. That has to be said without reservation. Seven million followers can&apos;t be bought or botted. Yuframe is a cultural phenomenon. Lick&apos;s ratings are <span className="font-mono">4.8–5.0</span>. Customers are happy. These people know how to make things audiences love.
       </p>
@@ -597,16 +596,16 @@ export default function LiqBeautyArticleEn() {
     <hr className="border-[var(--color-border)] mb-12" />
 
     {/* ─── Sources ─── */}
-    <div className="mb-12">
-      <h2 className="text-[16px] font-bold tracking-tight text-[var(--color-text)] mb-4">Sources</h2>
-      <div className="font-mono text-[11px] text-[var(--color-dim)]/70 leading-relaxed space-y-3">
-        <p>Sales data for Lick Beauty, Sen Sulu, LUXVISAGE, Vivienne Sabo, Romand, Maybelline, and «No brand» products on Kaspi.kz - <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">Redstat</a>, a marketplace-analytics system.</p>
-        <p>PUSY revenue (Drozh Beauty LLC, INN 9705156525) - <a href="https://spark-interfax.ru" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">SPARK-Interfax</a>; <a href="https://shoppers.media" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">Shoppers.media</a>, Oct 31, 2025; <a href="https://saby.ru" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">Saby.ru</a>.</p>
-        <p>PUSY sales on Wildberries for Jan 26 – Feb 24, 2026 - <a href="https://mpstats.io" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">MPSTATS</a>.</p>
-        <p>VOIS revenue (Rocket Launch LLC) - <a href="https://www.forbes.ru/svoi-biznes/537023-kak-brend-kosmetiki-s-marketplejsov-zarabatyvaet-milliardy-za-scet-stata-blogerov" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">Forbes.ru</a>, Jul 1, 2025; <a href="https://spark-interfax.ru" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">SPARK-Interfax</a>.</p>
-        <p>Corporate structure of StartUp Studio and Glam Me - <a href="https://finratings.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">Finratings.kz</a>, Aug 8, 2025.</p>
-        <p>Jaclyn Cosmetics / Forma Brands - <a href="https://cosmeticsbusiness.com/jaclyn-hill-make-up-brand-jaclyn-cosmetics-closing" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">Cosmetics Business</a>; <a href="https://www.businessoffashion.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">Business of Fashion</a>, Jan 1, 2024; <a href="https://www.retaildive.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">Retail Dive</a>, Jan 5, 2024.</p>
-        <p>Russian cosmetics market - <a href="https://www.kommersant.ru" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">Kommersant FM</a>, Oct 30, 2025; <a href="https://style.rbc.ru" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors">RBC Style</a>, Apr 23, 2025.</p>
+    <div className="reading-panel reading-sources mb-12">
+      <h2 className="text-[16px] font-medium tracking-tight text-[var(--color-text)] mb-4">Sources</h2>
+      <div className="font-mono text-[12px] text-[var(--color-dim)]/70 leading-relaxed space-y-3">
+        <p>Sales data for Lick Beauty, Sen Sulu, LUXVISAGE, Vivienne Sabo, Romand, Maybelline, and «No brand» products on Kaspi.kz - <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">Redstat</a>, a marketplace-analytics system.</p>
+        <p>PUSY revenue (Drozh Beauty LLC, INN 9705156525) - <a href="https://spark-interfax.ru" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">SPARK-Interfax</a>; <a href="https://shoppers.media" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">Shoppers.media</a>, Oct 31, 2025; <a href="https://saby.ru" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">Saby.ru</a>.</p>
+        <p>PUSY sales on Wildberries for Jan 26 – Feb 24, 2026 - <a href="https://mpstats.io" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">MPSTATS</a>.</p>
+        <p>VOIS revenue (Rocket Launch LLC) - <a href="https://www.forbes.ru/svoi-biznes/537023-kak-brend-kosmetiki-s-marketplejsov-zarabatyvaet-milliardy-za-scet-stata-blogerov" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">Forbes.ru</a>, Jul 1, 2025; <a href="https://spark-interfax.ru" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">SPARK-Interfax</a>.</p>
+        <p>Corporate structure of StartUp Studio and Glam Me - <a href="https://finratings.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">Finratings.kz</a>, Aug 8, 2025.</p>
+        <p>Jaclyn Cosmetics / Forma Brands - <a href="https://cosmeticsbusiness.com/jaclyn-hill-make-up-brand-jaclyn-cosmetics-closing" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">Cosmetics Business</a>; <a href="https://www.businessoffashion.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">Business of Fashion</a>, Jan 1, 2024; <a href="https://www.retaildive.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">Retail Dive</a>, Jan 5, 2024.</p>
+        <p>Russian cosmetics market - <a href="https://www.kommersant.ru" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">Kommersant FM</a>, Oct 30, 2025; <a href="https://style.rbc.ru" target="_blank" rel="noopener noreferrer" className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors">RBC Style</a>, Apr 23, 2025.</p>
       </div>
     </div>
 

@@ -9,9 +9,8 @@
  *  - Header row in Hack mono, uppercase, dim — labels, not chrome.
  *  - First column is the entity (sans, foreground); numeric columns are Hack
  *    mono, right-aligned, tabular-nums so digits line up vertically.
- *  - First-class `delta` column: a signed % that colours green (up) / red
- *    (down) — the single sanctioned use of a second colour, because direction
- *    IS the datum.
+ *  - Signed deltas use teal / violet around zero; magnitude heatmaps are
+ *    opt-in with explicit domains. Color supplements the visible number.
  *  - Optional `highlightRow` tinted with the chart accent (the row that
  *    carries the story), optional methodology `caption`, and a `source` line
  *    in the FT footer position.
@@ -23,11 +22,13 @@
  */
 
 import type { ReactNode } from "react";
+import { heatEncoding, finiteValue, type HeatScale } from "@/lib/chart-encoding";
+import { HeatLegend, InlineDataBar } from "./table-visuals";
 import { usePathname } from "next/navigation";
 import { localeFromPathname, dict } from "@/lib/i18n";
 
-const DELTA_UP = "#22c55e";
-const DELTA_DOWN = "#fb3b4e";
+const DELTA_UP = "var(--chart-above)";
+const DELTA_DOWN = "var(--chart-below)";
 
 export type DataTableAlign = "left" | "right";
 
@@ -40,7 +41,7 @@ export type DataTableColumn = {
   mono?: boolean;
   /**
    * Column kind. `"delta"` expects a numeric cell and renders a signed,
-   * colour-coded percentage (green up / red down). `"text"` (default) renders
+   * colour-coded percentage (above / below zero). `"text"` (default) renders
    * the cell as-is.
    */
   type?: "text" | "delta";
@@ -48,6 +49,10 @@ export type DataTableColumn = {
   emphasis?: boolean;
   /** Formatter for `delta` cells. Default: one decimal + "%". */
   format?: (value: number) => string;
+  /** Quantitative scale. Pass numeric cells; do not parse formatted text. */
+  heatmap?: HeatScale;
+  /** Part-to-whole bar with a known denominator. */
+  barMax?: number;
 };
 
 export type DataTableProps = {
@@ -89,7 +94,7 @@ function DeltaCell({
   const fmt = format ?? defaultDelta;
   const color = value > 0 ? up : value < 0 ? down : "var(--color-dim)";
   return (
-    <span className="font-mono font-bold tabular-nums" style={{ color }}>
+    <span className="font-mono font-medium tabular-nums" style={{ color }}>
       {fmt(value)}
     </span>
   );
@@ -119,6 +124,7 @@ export function DataTable({
       data-testid={dataTestId}
       data-chart-type="data-table"
     >
+      {columns.filter(c => c.heatmap).map(c => <div className="px-4" key={c.header}><HeatLegend label={c.header} scale={c.heatmap!} format={c.format ?? (c.type === "delta" ? defaultDelta : undefined)} /></div>)}
       <div
         className="overflow-x-auto"
         style={{ WebkitOverflowScrolling: "touch", scrollbarWidth: "thin" }}
@@ -133,7 +139,7 @@ export function DataTable({
                 <th
                   key={i}
                   scope="col"
-                  className={`whitespace-nowrap border-b border-[var(--color-border)] px-4 py-2.5 font-mono text-[11px] font-medium tracking-wider text-[var(--color-dim)] uppercase ${
+                  className={`whitespace-nowrap border-b border-[var(--color-border)] px-4 py-2.5 font-mono text-[12px] font-medium tracking-wider text-[var(--color-dim)] uppercase ${
                     align(c, i) === "left" ? "text-left" : "text-right"
                   }`}
                 >
@@ -161,9 +167,11 @@ export function DataTable({
                     const col = columns[ci];
                     const a = align(col, ci);
                     const mono = isMono(col, ci);
+                    const heat = col.heatmap && finiteValue(cell) ? heatEncoding(cell, col.heatmap) : null;
                     return (
                       <td
                         key={ci}
+                        style={heat ? { backgroundColor: heat.backgroundColor, color: "var(--personal-text)" } : undefined}
                         className={`whitespace-nowrap px-4 py-2.5 ${
                           a === "left" ? "text-left" : "text-right"
                         } ${
@@ -174,7 +182,14 @@ export function DataTable({
                               : "text-[var(--color-dim)]"
                         } ${mono ? "font-mono tabular-nums" : ""}`}
                       >
-                        {col.type === "delta" && typeof cell === "number" ? (
+                        {col.barMax && finiteValue(cell) ? (
+                          <InlineDataBar value={cell} max={col.barMax} label={col.header}>{col.format ? col.format(cell) : cell}</InlineDataBar>
+                        ) : col.heatmap && finiteValue(cell) ? (
+                          <span tabIndex={0} data-chart-inspect data-chart-title={`${typeof row[0] === "string" ? row[0] : ""} · ${col.header}`}
+                            data-chart-rows={JSON.stringify([{ label: col.header, value: `${cell.toLocaleString("ru-RU", { maximumFractionDigits: 20 })}${col.type === "delta" ? "%" : ""}` }])}>
+                            {col.type === "delta" ? <DeltaCell value={cell} format={col.format} up="var(--personal-text)" down="var(--personal-text)" /> : col.format ? col.format(cell) : cell}
+                          </span>
+                        ) : col.type === "delta" && finiteValue(cell) ? (
                           <DeltaCell
                             value={cell}
                             format={col.format}
@@ -182,7 +197,7 @@ export function DataTable({
                             down={deltaDownColor}
                           />
                         ) : (
-                          cell
+                          col.format && finiteValue(cell) ? col.format(cell) : cell
                         )}
                       </td>
                     );
@@ -196,12 +211,12 @@ export function DataTable({
       {(caption || source) && (
         <div className="border-t border-[var(--color-border)]/60">
           {caption && (
-            <p className="border-l-2 border-[var(--color-border)] px-4 pt-2 font-sans text-[11px] text-[var(--color-dim)] italic">
+            <p className="chart-caption border-l-2 border-[var(--color-border)] px-4 pt-2 font-sans text-[12px] text-[var(--color-dim)] italic">
               {caption}
             </p>
           )}
           {source && (
-            <p className="px-4 py-2 text-left font-mono text-[11px] text-[var(--color-dim)]">
+            <p className="px-4 py-2 text-left font-mono text-[12px] text-[var(--color-dim)]">
               {t.source} {source}
             </p>
           )}

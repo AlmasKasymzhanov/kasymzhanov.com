@@ -1,84 +1,65 @@
 "use client";
+import { IconlyArrowLeft } from "@/components/iconly-icons";
+import { ResearchSection, ResearchFact, ResearchNote, ResearchFigure } from "@/components/canon/research-editorial";
+import { ResearchReadingTime } from "@/components/canon/research-reading-time";
+
 
 import { useState } from "react";
 import Link from "next/link";
 
 /* ───── design tokens (identical to kaspi-cosmetics) ───── */
 const C = {
-  bg: "#0a0a0f", surface: "#111119", border: "#1e1e30",
-  accent: "#e8729a", green: "#00d2a0", text: "#e8e8f0",
-  dim: "#999", faint: "#444", red: "#f87171", amber: "#f59e0b",
-  blue: "#60a5fa", pink: "#f472b6", cyan: "#22d3ee", purple: "#a78bfa",
+  bg: "var(--personal-paper)", surface: "var(--report-surface)", border: "var(--personal-border)",
+  accent: "var(--personal-text)", green: "var(--personal-text)", text: "var(--personal-text)",
+  dim: "var(--personal-muted)", faint: "var(--personal-border)", red: "var(--personal-text)", amber: "var(--personal-text)",
+  blue: "var(--personal-text)", pink: "var(--personal-text)", cyan: "var(--personal-text)", purple: "var(--personal-text)",
 };
 
 const sSection: React.CSSProperties = { marginBottom: 56 };
-const sH2: React.CSSProperties = { fontSize: 22, fontWeight: 700, margin: "0 0 24px", color: C.text, letterSpacing: "-0.01em", borderBottom: `1px solid ${C.border}`, paddingBottom: 12 };
-const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 600, margin: "28px 0 12px", color: C.text };
-const sP: React.CSSProperties = { fontSize: 14, lineHeight: 1.75, color: "#ccc", margin: "0 0 12px" };
-const sCard: React.CSSProperties = { background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, padding: "24px", marginBottom: 16 };
-const sBadge = (color: string): React.CSSProperties => ({ display: "inline-block", padding: "3px 10px", borderRadius: 20, background: `${color}18`, color, fontSize: 11, fontWeight: 600 });
+const sH2: React.CSSProperties = { fontSize: 22, fontWeight: 500, margin: "0 0 24px", color: C.text, letterSpacing: "-0.01em", borderBottom: `1px solid ${C.border}`, paddingBottom: 12 };
+const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 500, margin: "28px 0 12px", color: C.text };
+const sP: React.CSSProperties = { fontSize: "var(--reading-body-size)", lineHeight: 1.75, color: "var(--personal-text)", margin: "0 0 12px" };
+const sCard: React.CSSProperties = { margin: "24px 0", padding: 0 };
+const sBadge = (_color: string): React.CSSProperties => ({ display: "inline", color: "var(--personal-muted)", fontSize: 12, fontWeight: 400 });
 
-function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
-  const [open, setOpen] = useState(true);
-  return (
-    <div id={id} style={sSection}>
-      <h2 onClick={() => setOpen(!open)} style={{ ...sH2, cursor: "pointer", display: "flex", alignItems: "center", gap: 10, userSelect: "none" }}>
-        <span style={{ fontSize: 14, color: C.dim, transform: open ? "rotate(90deg)" : "rotate(0)", transition: "transform 0.2s", display: "inline-block" }}>&#9654;</span>
-        {title}
-      </h2>
-      {open && children}
-    </div>
-  );
-}
+function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) { return <ResearchSection id={id} title={title}>{children}</ResearchSection>; }
 
 function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (string | number)[][]; highlight?: number }) {
   return (
     <div style={{ overflowX: "auto", marginBottom: 16 }}>
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
-        <thead><tr>{headers.map((h, i) => (<th key={i} style={{ padding: "10px 12px", textAlign: "left", color: C.dim, fontWeight: 600, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>))}</tr></thead>
-        <tbody>{rows.map((row, ri) => (<tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `${C.accent}12` : "transparent" }}>{row.map((cell, ci) => (<td key={ci} style={{ padding: "10px 12px", textAlign: "left", color: ci === 0 ? C.text : "#ccc", borderBottom: `1px solid ${C.border}20`, fontWeight: ci === 0 ? 500 : 400, whiteSpace: ci === 0 ? "nowrap" : "normal" }}>{cell}</td>))}</tr>))}</tbody>
+        <thead><tr>{headers.map((h, i) => (<th key={i} style={{ padding: "10px 12px", textAlign: "left", color: C.dim, fontWeight: 500, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>))}</tr></thead>
+        <tbody>{rows.map((row, ri) => (<tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `color-mix(in srgb, ${C.accent} 7%, transparent)` : "transparent" }}>{row.map((cell, ci) => (<td key={ci} style={{ padding: "10px 12px", textAlign: "left", color: ci === 0 ? C.text : "var(--personal-text)", borderBottom: `1px solid color-mix(in srgb, ${C.border} 13%, transparent)`, fontWeight: ci === 0 ? 500 : 400, whiteSpace: ci === 0 ? "nowrap" : "normal" }}>{cell}</td>))}</tr>))}</tbody>
       </table>
     </div>
   );
 }
 
-function MetricCard({ label, value, sub, color }: { label: string; value: string; sub?: string; color?: string }) {
-  return (
-    <div style={{ ...sCard, padding: "16px 20px", flex: 1, minWidth: 140 }}>
-      <div style={{ fontSize: 11, color: C.dim, marginBottom: 6 }}>{label}</div>
-      <div style={{ fontSize: 22, fontWeight: 700, color: color || C.text }}>{value}</div>
-      {sub && <div style={{ fontSize: 11, color: C.dim, marginTop: 4 }}>{sub}</div>}
-    </div>
-  );
-}
+function MetricCard({ label, value, sub, color }: { label: string; value: string; sub?: string; color?: string }) { return <ResearchFact label={label} value={value} note={sub} />; }
 
-function Insight({ text, type = "info" }: { text: string; type?: "info" | "warning" | "success" }) {
-  const color = type === "warning" ? C.amber : type === "success" ? C.green : C.blue;
-  return <div style={{ borderLeft: `3px solid ${color}`, paddingLeft: 14, margin: "12px 0", fontSize: 13, color: "#ccc", lineHeight: 1.6 }}><strong style={{ color }}>Инсайт: </strong>{text}</div>;
-}
+function Insight({ text, type = "info" }: { text: string; type?: "info" | "warning" | "success" }) { return <p className="research-paragraph">{text}</p>; }
 
-function Rec({ text }: { text: string }) {
-  return <div style={{ borderLeft: `3px solid ${C.accent}`, paddingLeft: 14, margin: "12px 0", fontSize: 13, color: "#ccc", lineHeight: 1.6 }}><strong style={{ color: C.accent }}>Рекомендация: </strong>{text}</div>;
-}
+function Rec({ text }: { text: string }) { return <p className="research-paragraph">{text}</p>; }
 
 function Quote({ text, color = C.red }: { text: string; color?: string }) {
-  return <div style={{ borderLeft: `3px solid ${color}`, paddingLeft: 14, margin: "8px 0", fontSize: 13, color: "#bbb", lineHeight: 1.6, fontStyle: "italic" }}>«{text}»</div>;
+  return <div style={{ paddingLeft: 14, margin: "8px 0", fontSize: 13, color: "var(--personal-muted)", lineHeight: 1.6, fontStyle: "italic" }}>«{text}»</div>;
 }
 
 /* ═══════════════════ MAIN ═══════════════════ */
 export default function ThreeNichesReport() {
   return (
-    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "'Inter', -apple-system, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "var(--font-body)" }}>
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "40px 24px 80px" }}>
 
-        <div style={{ marginBottom: 16 }}><Link href="/" style={{ color: C.dim, fontSize: 13, textDecoration: "none" }}>&larr; kasymzhanov.com</Link></div>
+        <div style={{ marginBottom: 16 }}><Link href="/" style={{ color: C.dim, fontSize: 13, textDecoration: "none" }}><IconlyArrowLeft size={17} className="reading-inline-icon" /> kasymzhanov.com</Link></div>
 
         {/* ═══ HEADER ═══ */}
-        <div style={{ marginBottom: 48, paddingBottom: 32, borderBottom: `1px solid ${C.border}` }}>
-          <div style={sBadge(C.accent)}><span style={{ textTransform: "uppercase", letterSpacing: "0.05em" }}>Enterprise Analytics Report</span></div>
-          <h1 style={{ fontSize: 32, fontWeight: 800, margin: "16px 0 8px", letterSpacing: "-0.03em", lineHeight: 1.2 }}>
-            3 ниши Kaspi.kz:<br />текстиль, мебель, вертикальные пылесосы
+        <div className="research-header" style={{ marginBottom: 48, paddingBottom: 32, borderBottom: `1px solid ${C.border}` }}>
+          <div style={sBadge(C.accent)}><span style={{ textTransform: "none", letterSpacing: "0.05em" }}>Enterprise Analytics Report</span></div>
+          <h1 style={{ fontSize: 32, fontWeight: 500, margin: "16px 0 8px", letterSpacing: "-0.03em", lineHeight: 1.2 }}>
+            3 ниши Kaspi.kz:{" "}текстиль, мебель, вертикальные пылесосы
           </h1>
+<p className="research-lead">Сравнение текстиля, мебели и вертикальных пылесосов по спросу, конкуренции и возможностям для запуска.</p>
           <p style={{ color: C.dim, fontSize: 14, margin: "12px 0 0" }}>
             Подготовил <strong style={{ color: C.text }}>Алмас Касымжанов</strong>
           </p>
@@ -86,16 +67,18 @@ export default function ThreeNichesReport() {
             <span>Дата: <strong style={{ color: C.text }}>5 апреля 2026</strong></span>
             <span>Срез: <strong style={{ color: C.text }}>февраль 2026</strong></span>
             <span>История: <strong style={{ color: C.text }}>16 месяцев</strong></span>
-            <span>Источник: <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" style={{ color: C.text, textDecoration: "none" }}>RedStat.kz</a></span>
+            <span>Источник: агрегированные данные Kaspi.kz</span>
           </div>
-          <p style={{ ...sP, marginTop: 16, fontSize: 13, color: C.dim }}>Детальный анализ <strong style={{ color: C.text }}>трёх ниш Kaspi.kz</strong> для принятия решения о заходе: домашний текстиль, мебель и вертикальные/беспроводные пылесосы. Динамика 16 месяцев, сегменты, бренды, топ-SKU, AI-анализ отзывов бестселлеров, стратегия входа.</p>
-        </div>
+          <p className="research-lead" style={{ ...sP, marginTop: 16, fontSize: 13, color: C.dim }}>Детальный анализ <strong style={{ color: C.text }}>трёх ниш Kaspi.kz</strong> для принятия решения о заходе: домашний текстиль, мебель и вертикальные/беспроводные пылесосы. Динамика 16 месяцев, сегменты, бренды, топ-SKU, AI-анализ отзывов бестселлеров, стратегия входа.</p>
+
+<ResearchReadingTime />
+</div>
 
         {/* ═══ TOC ═══ */}
         <div style={{ ...sCard, marginBottom: 48, padding: "20px 24px" }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: C.dim, marginBottom: 12 }}>Содержание</div>
+          <div style={{ fontSize: 13, fontWeight: 400, color: C.dim, marginBottom: 12 }}>Содержание</div>
           {[
-            ["s1", "1. Executive Summary — сравнение 3 ниш"],
+            ["s1", "1. Обзор — сравнение 3 ниш"],
             ["s2", "2. Домашний текстиль — 2.84B ₸/мес (+40% YoY)"],
             ["s3", "3. Мебель — 14.63B ₸/мес (+32% YoY)"],
             ["s4", "4. Вертикальные пылесосы — DREAME против всех"],
@@ -109,15 +92,15 @@ export default function ThreeNichesReport() {
         </div>
 
         {/* ═══ 1. EXECUTIVE SUMMARY ═══ */}
-        <Section id="s1" title="1. Executive Summary">
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24 }}>
+        <Section id="s1" title="1. Обзор">
+          <div className="research-facts" >
             <MetricCard label="Мебель" value="14.63B" sub="+32% YoY · 411K заказов" color={C.accent} />
             <MetricCard label="Домашний текстиль" value="2.84B" sub="+40% YoY · 568K заказов" color={C.green} />
             <MetricCard label="Пылесосы (всё)" value="2.92B" sub="+18% YoY · 90K заказов" color={C.blue} />
             <MetricCard label="Вертикальные" value="~705M" sub="DREAME 57%" color={C.purple} />
           </div>
 
-          <p style={sP}>Из трёх ниш <strong style={{ color: C.text }}>две имеют явный потенциал входа</strong> (мебель и текстиль), а третья — вертикальные пылесосы — ограничена монополией DREAME. Ключевая находка: <strong style={{ color: C.red }}>топ-1 диван на Kaspi (62M ₸/мес) имеет средний рейтинг 2.33⭐</strong> — это сигнал системного кризиса качества и окно для захода.</p>
+          <p style={sP}>Из трёх ниш <strong style={{ color: C.text }}>две имеют явный потенциал входа</strong> (мебель и текстиль), а третья — вертикальные пылесосы — ограничена монополией DREAME. Ключевая находка: <strong style={{ color: C.red }}>топ-1 диван на Kaspi (62M ₸/мес) имеет средний рейтинг 2.33</strong> — это сигнал системного кризиса качества и окно для захода.</p>
 
           <DataTable headers={["Критерий", "Текстиль", "Мебель", "Верт. пылесосы"]} rows={[
             ["Выручка/мес (Feb'26)", "2.84B ₸", "14.63B ₸", "~0.70B ₸"],
@@ -128,18 +111,18 @@ export default function ThreeNichesReport() {
             ["Доля «Без бренда»", "~55%", "~80% топ-SKU", "<5%"],
             ["Маржа (оценка)", "30-50%", "40-60%", "15-25%"],
             ["Порог входа", "Низкий (7-9M)", "Высокий (24-30M)", "Высокий (18-25M)"],
-            ["Рычаг (рекомендация)", "🥈 Вторая линейка", "🥇 Основной заход", "🥉 Пропустить"],
+            ["Рычаг (рекомендация)", " Вторая линейка", " Основной заход", " Пропустить"],
           ]} highlight={1} />
 
           <div style={sCard}>
             <h3 style={{ ...sH3, margin: "0 0 12px" }}>Главные выводы одним списком</h3>
-            <div style={{ fontSize: 13, lineHeight: 2, color: "#ccc" }}>
-              <div>1. <strong style={{ color: C.text }}>Мебель — лучший рычаг:</strong> 14.6B рынок, кризис качества лидера (2.33⭐) = окно для захода с сервисом</div>
+            <div style={{ fontSize: 13, lineHeight: 2, color: "var(--personal-text)" }}>
+              <div>1. <strong style={{ color: C.text }}>Мебель — лучший рычаг:</strong> 14.6B рынок, кризис качества лидера (2.33) = окно для захода с сервисом</div>
               <div>2. <strong style={{ color: C.text }}>Текстиль — самый быстрый рост:</strong> +40% YoY, низкий порог, премиум-сегмент даёт маржу</div>
               <div>3. <strong style={{ color: C.text }}>Вертикальные пылесосы — зрелый рынок:</strong> DREAME держит 57%, маржа зажата, YoY всего +18%</div>
               <div>4. <strong style={{ color: C.amber }}>Моно-мерчант модель</strong> работает в обеих выгодных нишах (JASA, NikStory, formfix, Курак корпе)</div>
               <div>5. <strong style={{ color: C.red }}>Токсичные соседи по карточке</strong> губят репутацию в мебели — лучше свой бренд + свой ИП</div>
-              <div>6. <strong style={{ color: C.green }}>Кросс-сейл мебель ↔ текстиль</strong> — покупатель дивана = потенциальный покупатель пледа/подушек</div>
+              <div>6. <strong style={{ color: C.green }}>Кросс-сейл мебель  текстиль</strong> — покупатель дивана = потенциальный покупатель пледа/подушек</div>
             </div>
           </div>
         </Section>
@@ -252,7 +235,7 @@ export default function ThreeNichesReport() {
 
           <h3 style={sH3}>Топ-15 SKU мебели (февраль 2026)</h3>
           <DataTable headers={["#", "Товар", "Бренд", "Цена", "Rev/мес", "Мерч.", "Рейтинг"]} rows={[
-            ["1", "Диван Rio 400x90 велюр беж.", "Без бренда", "148 888", "62M", "57", "4.6 ⚠"],
+            ["1", "Диван Rio 400x90 велюр беж.", "Без бренда", "148 888", "62M", "57", "4.6 "],
             ["2", "Стол-трансформер Элегант 400x100", "Без бренда", "76 420", "48M", "24", "4.9"],
             ["3", "Диван Morbido Комфорт 210x80", "Morbido", "49 998", "45M", "59", "4.7"],
             ["4", "Шкаф Ваша Мебель Модерн 280x230", "Ваша Мебель", "138 499", "45M", "51", "4.8"],
@@ -270,14 +253,14 @@ export default function ThreeNichesReport() {
           ]} highlight={0} />
 
           <Insight text="80% топ-SKU мебели идут под «Без бренда». Реальные бренды (Morbido, ELDAR, Ваша Мебель) — это ИП-бренды, распространяемые через сеть 20-60 мерчантов. Исключение — JASA (стулья): 25M/мес через ОДНОГО мерчанта. Моно-бренд-модель работает." type="success" />
-          <Insight text="🚨 Диван Rio (62M/мес, топ-1) имеет СВЕЖИЙ средний рейтинг 2.33⭐ (Kaspi показывает старое взвешенное 4.6). 1151 отзыв, 157 негативных — системный кризис качества. Детали в секции 5." type="warning" />
+          <Insight text=" Диван Rio (62M/мес, топ-1) имеет СВЕЖИЙ средний рейтинг 2.33 (Kaspi показывает старое взвешенное 4.6). 1151 отзыв, 157 негативных — системный кризис качества. Детали в секции 5." type="warning" />
         </Section>
 
         {/* ═══ 4. VACUUMS ═══ */}
         <Section id="s4" title="4. Вертикальные пылесосы — DREAME против всех">
           <p style={sP}>Kaspi <strong style={{ color: C.text }}>не выделяет</strong> вертикальные пылесосы в отдельную категорию — все типы лежат в leaf «Пылесосы» <code style={{ color: C.dim, fontSize: 11 }}>00036</code>. Вертикальные/беспроводные/wet&amp;dry выделены из топ-250 SKU по названию и занимают <strong style={{ color: C.text }}>~24-32% общего рынка пылесосов</strong>.</p>
 
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 16 }}>
+          <div className="research-facts" >
             <MetricCard label="Всего пылесосов" value="2.92B" sub="Feb 2026, 90K заказов" />
             <MetricCard label="Вертикальных" value="~705M" sub="24-32% рынка" color={C.purple} />
             <MetricCard label="DREAME доля" value="57%" sub="16 SKU, 402M" color={C.accent} />
@@ -326,32 +309,32 @@ export default function ThreeNichesReport() {
         {/* ═══ 5. REVIEWS ═══ */}
         <Section id="s5" title="5. AI-анализ отзывов топ-SKU — чего реально боятся покупатели">
 
-          <h3 style={sH3}>🪑 Диван Rio (Без бренда, 62M ₸/мес, 1 151 отзыв) — 2.33⭐ 🚨</h3>
+          <h3 style={sH3}> Диван Rio (Без бренда, 62M ₸/мес, 1 151 отзыв) — 2.33 </h3>
           <p style={{ ...sP, fontSize: 13 }}>Лидер категории диванов, который собирает новые отзывы с катастрофической оценкой. AI выявил 4 блока проблем:</p>
 
-          <div style={{ ...sCard, borderLeft: `3px solid ${C.red}` }}>
-            <h4 style={{ fontSize: 14, fontWeight: 600, color: C.red, margin: "0 0 12px" }}>1. Катастрофическое качество сборки и материалов</h4>
+          <div style={{ ...sCard }}>
+            <h4 style={{ fontSize: 14, fontWeight: 400, color: C.red, margin: "0 0 12px" }}>1. Катастрофическое качество сборки и материалов</h4>
             <Quote text="Не покупайте у них диваны, качество ноль, из дивана выходит насекомые" />
             <Quote text="Диван хорош но сделали с дефектом, швы не правильно сшили и склеили с браком" />
             <Quote text="Диван өте күшті, ұнады, бірақ жеткізіп беру дамымаған... 44 лайков" />
           </div>
 
-          <div style={{ ...sCard, borderLeft: `3px solid ${C.amber}` }}>
-            <h4 style={{ fontSize: 14, fontWeight: 600, color: C.amber, margin: "0 0 12px" }}>2. Мошенничество: не тот цвет, отсутствуют подушки, брак</h4>
+          <div style={{ ...sCard }}>
+            <h4 style={{ fontSize: 14, fontWeight: 400, color: C.amber, margin: "0 0 12px" }}>2. Мошенничество: не тот цвет, отсутствуют подушки, брак</h4>
             <Quote text="Диван мен айтқан цветін әкелмеді. Өтірік айтады екен... Басқа түсін берген" color={C.amber} />
             <Quote text="Диванный сапасы жаман, отзывта мүлдем басқаша жазылған... сырты бүтін, іші түтін" color={C.amber} />
           </div>
 
-          <div style={{ ...sCard, borderLeft: `3px solid ${C.red}` }}>
-            <h4 style={{ fontSize: 14, fontWeight: 600, color: C.red, margin: "0 0 12px" }}>3. Логистика — отдельный кризис</h4>
+          <div style={{ ...sCard }}>
+            <h4 style={{ fontSize: 14, fontWeight: 400, color: C.red, margin: "0 0 12px" }}>3. Логистика — отдельный кризис</h4>
             <Quote text="газель 1 күн кеш келді, далаға тастап кетті, айдан кешке дейін далада тұрды (44 лайка)" />
             <Quote text="привезли оставили на улице под дождем и уехали... еще за то что занесли в квартиру хотели деньги взять (22 лайка)" />
             <Quote text="сатушы сборкаға 30000 тг сұрады... отказ жасап (36 лайков)" />
           </div>
 
-          <div style={{ ...sCard, borderLeft: `3px solid ${C.red}` }}>
-            <h4 style={{ fontSize: 14, fontWeight: 600, color: C.red, margin: "0 0 12px" }}>4. Токсичные ИП, генерирующие негатив</h4>
-            <p style={{ fontSize: 13, color: "#bbb", margin: "0 0 8px" }}>AI выявил конкретные магазины, портящие репутацию карточки:</p>
+          <div style={{ ...sCard }}>
+            <h4 style={{ fontSize: 14, fontWeight: 400, color: C.red, margin: "0 0 12px" }}>4. Токсичные ИП, генерирующие негатив</h4>
+            <p style={{ fontSize: 13, color: "var(--personal-muted)", margin: "0 0 8px" }}>AI выявил конкретные магазины, портящие репутацию карточки:</p>
             <div style={{ fontSize: 13, color: C.text, lineHeight: 1.8 }}>
               • <strong>Premium MATRAS</strong> — каркасы из гнилого дерева<br />
               • <strong>ИП Байтукина</strong> — продаёт дефект, отказ в возврате<br />
@@ -363,7 +346,7 @@ export default function ThreeNichesReport() {
           <Insight text="Это не «плохие отзывы у плохого товара». Это структурная болезнь мульти-мерчант карточек, где 57 продавцов сражаются за каждый заказ демпингом и экономией на всём. Клиент, заходящий с контролем качества + честной логистикой, получает моментальное преимущество." type="success" />
 
           {/* ─── VAC REVIEWS ─── */}
-          <h3 style={sH3}>🧹 DREAME H13 Pro Plus (122M ₸/мес, 2 436 отзывов) — 4.05⭐</h3>
+          <h3 style={sH3}> DREAME H13 Pro Plus (122M ₸/мес, 2 436 отзывов) — 4.05</h3>
           <p style={{ ...sP, fontSize: 13 }}>Лидер вертикальных пылесосов. Тон поляризованный: любят за скорость влажной уборки, ненавидят за ключевые недостатки.</p>
 
           <DataTable headers={["Проблема", "Лайков", "Суть"]} rows={[
@@ -378,7 +361,7 @@ export default function ThreeNichesReport() {
           <Rec text="Любой продавец DREAME, запустивший локализацию (русско-казахская инструкция, видео, наклейки на корпусе), получит конкурентное преимущество. Это простой USP, которого сейчас нет у 90% продавцов." />
 
           {/* ─── TEXTILE REVIEWS ─── */}
-          <h3 style={sH3}>🛏️ formfix Ортопедическая подушка (6M ₸/мес, 434 отзыва) — 4.74⭐</h3>
+          <h3 style={sH3}> formfix Ортопедическая подушка (6M ₸/мес, 434 отзыва) — 4.74</h3>
           <p style={{ ...sP, fontSize: 13 }}>Премиум-пример в текстиле. Проблемы мягче, но показательны:</p>
           <DataTable headers={["Проблема", "Лайков", "Суть"]} rows={[
             ["Комплектная наволочка", "9+3", "«Похожа на чехол, не входит в комплект»"],
@@ -392,19 +375,19 @@ export default function ThreeNichesReport() {
         {/* ═══ 6. SCENARIOS ═══ */}
         <Section id="s6" title="6. Сценарии входа и бюджеты">
 
-          <div style={{ ...sCard, borderTop: `3px solid ${C.green}` }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, margin: "0 0 12px" }}>Сценарий A: Консерватор — 8-10M ₸</h3>
             <p style={{ ...sP, fontSize: 13 }}>Заход: <strong style={{ color: C.text }}>Премиум-подушки или ортопед. матрасы в Домашнем текстиле</strong>. 3-5 SKU (memory foam, утяжелённая, шёлк, бамбук, подарочная). Моно-мерчант, свой бренд, средний чек 15-30K. Модель NikStory/formfix.</p>
             <p style={{ ...sP, fontSize: 12, color: C.dim }}>Ожидание: 5-15M ₸/мес к 6-му месяцу. Риски: низкие. ROI: 30-40% годовых.</p>
           </div>
 
-          <div style={{ ...sCard, borderTop: `3px solid ${C.accent}` }}>
-            <h3 style={{ ...sH3, margin: "0 0 12px" }}>Сценарий B: Амбициозный — 24-30M ₸ 🥇</h3>
-            <p style={{ ...sP, fontSize: 13 }}>Заход: <strong style={{ color: C.text }}>собственный бренд диванов 150-250K ₸</strong>. 2-3 модели × 3 цвета = 6-9 SKU. Моно-мерчант. USP — «диван без сюрпризов» на фоне 2.33⭐ у Rio. Казахстанское или турецкое производство (не Китай).</p>
+          <div style={{ ...sCard }}>
+            <h3 style={{ ...sH3, margin: "0 0 12px" }}>Сценарий B: Амбициозный — 24-30M ₸ </h3>
+            <p style={{ ...sP, fontSize: 13 }}>Заход: <strong style={{ color: C.text }}>собственный бренд диванов 150-250K ₸</strong>. 2-3 модели × 3 цвета = 6-9 SKU. Моно-мерчант. USP — «диван без сюрпризов» на фоне 2.33 у Rio. Казахстанское или турецкое производство (не Китай).</p>
             <p style={{ ...sP, fontSize: 12, color: C.dim }}>Ожидание: 30-60M ₸/мес к 9-12 месяцу. Риски: средние-высокие (капитал, логистика). ROI: 50-80% годовых при успехе.</p>
           </div>
 
-          <div style={{ ...sCard, borderTop: `3px solid ${C.purple}` }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, margin: "0 0 12px" }}>Сценарий C: Портфель — 40M+ ₸</h3>
             <p style={{ ...sP, fontSize: 13 }}>1) <strong style={{ color: C.text }}>Мебель, диваны 150-250K</strong> — 25M ₸ (основа). 2) <strong style={{ color: C.text }}>Текстиль премиум, одеяла + корпе</strong> — 8M ₸ (вторая линейка, кросс-сейл к мебели). 3) Отложенный третий ход на 2027.</p>
             <p style={{ ...sP, fontSize: 12, color: C.dim }}>Преимущество: кросс-сейл «покупатель дивана = покупатель пледа/подушек». Диверсификация сезонности: мебель = осень, текстиль = декабрь.</p>
@@ -420,36 +403,36 @@ export default function ThreeNichesReport() {
         {/* ═══ 7. RED FLAGS ═══ */}
         <Section id="s7" title="7. Red flags: чего не делать">
 
-          <div style={{ ...sCard, borderLeft: `3px solid ${C.red}` }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, margin: "0 0 12px", color: C.red }}>В мебели</h3>
-            <div style={{ fontSize: 13, lineHeight: 1.9, color: "#ccc" }}>
-              ❌ Мульти-мерчант без контроля «соседей» — токсичные ИП (Premium MATRAS, Байтукина, NEO диван) убьют ваши отзывы<br />
-              ❌ Скрытые доплаты за занос/сборку (30K ₸ сверху) — #1 причина 1-звёздных отзывов<br />
-              ❌ Несоответствие цвета/комплектации фото — топ-3 причина возвратов<br />
-              ❌ Игнорирование сообщений — путь в чёрный список Kaspi<br />
-              ❌ Отсутствие инструкции по сборке на русском/казахском в коробке
+            <div style={{ fontSize: 13, lineHeight: 1.9, color: "var(--personal-text)" }}>
+               Мульти-мерчант без контроля «соседей» — токсичные ИП (Premium MATRAS, Байтукина, NEO диван) убьют ваши отзывы<br />
+               Скрытые доплаты за занос/сборку (30K ₸ сверху) — #1 причина 1-звёздных отзывов<br />
+               Несоответствие цвета/комплектации фото — топ-3 причина возвратов<br />
+               Игнорирование сообщений — путь в чёрный список Kaspi<br />
+               Отсутствие инструкции по сборке на русском/казахском в коробке
             </div>
           </div>
 
-          <div style={{ ...sCard, borderLeft: `3px solid ${C.amber}` }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, margin: "0 0 12px", color: C.amber }}>В текстиле</h3>
-            <div style={{ fontSize: 13, lineHeight: 1.9, color: "#ccc" }}>
-              ❌ Плохая комплектная наволочка у ортопедических подушек (главный раздражитель)<br />
-              ❌ Завышенные ожидания в рекламе («memory foam = волшебство» — нужна адаптация)<br />
-              ❌ Отсутствие размерной точности (пледы 150x200 «минус 3-5 см» в реальности)<br />
-              ❌ Дешёвая упаковка для подарочного декабрьского сегмента<br />
-              ❌ Заход в массовые безбрендовые ниши (ковры 200x300, шторы 400x280) — демпинг
+            <div style={{ fontSize: 13, lineHeight: 1.9, color: "var(--personal-text)" }}>
+               Плохая комплектная наволочка у ортопедических подушек (главный раздражитель)<br />
+               Завышенные ожидания в рекламе («memory foam = волшебство» — нужна адаптация)<br />
+               Отсутствие размерной точности (пледы 150x200 «минус 3-5 см» в реальности)<br />
+               Дешёвая упаковка для подарочного декабрьского сегмента<br />
+               Заход в массовые безбрендовые ниши (ковры 200x300, шторы 400x280) — демпинг
             </div>
           </div>
 
-          <div style={{ ...sCard, borderLeft: `3px solid ${C.blue}` }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, margin: "0 0 12px", color: C.blue }}>В пылесосах</h3>
-            <div style={{ fontSize: 13, lineHeight: 1.9, color: "#ccc" }}>
-              ❌ Отсутствие видео-инструкции на русском/казахском (главная претензия к DREAME)<br />
-              ❌ Нет follow-up о сливе контейнера после уборки → запах → возврат<br />
-              ❌ Слабый аккумулятор без возможности замены через того же продавца<br />
-              ❌ Карточка обещает «мощно» — а пылесос не берёт ковры<br />
-              ❌ Заход в лоб против DREAME без уникального USP
+            <div style={{ fontSize: 13, lineHeight: 1.9, color: "var(--personal-text)" }}>
+               Отсутствие видео-инструкции на русском/казахском (главная претензия к DREAME)<br />
+               Нет follow-up о сливе контейнера после уборки → запах → возврат<br />
+               Слабый аккумулятор без возможности замены через того же продавца<br />
+               Карточка обещает «мощно» — а пылесос не берёт ковры<br />
+               Заход в лоб против DREAME без уникального USP
             </div>
           </div>
         </Section>
@@ -459,28 +442,28 @@ export default function ThreeNichesReport() {
 
           <div style={sCard}>
             <h3 style={{ ...sH3, margin: "0 0 16px" }}>Стратегический приоритет</h3>
-            <div style={{ fontSize: 13, lineHeight: 2.2, color: "#ccc" }}>
+            <div style={{ fontSize: 13, lineHeight: 2.2, color: "var(--personal-text)" }}>
               {[
-                { n: "1", t: "🥇 Мебель (диваны 150-250K)", d: "Максимальный рычаг: 14.6B рынок, 2.33⭐ у лидера = открытое окно. Требует капитала (24-30M) и логистики, но единственная ниша с реальным шансом потеснить топ-SKU за 6-9 месяцев." },
-                { n: "2", t: "🥈 Текстиль премиум (подушки/одеяла/корпе)", d: "Идеальная вторая нога: +40% YoY, низкий порог входа (7-9M), высокая маржа в премиум-сегменте. Кросс-сейл с мебелью." },
-                { n: "3", t: "🥉 Вертикальные пылесосы — пропустить", d: "DREAME держит 57%, маржа 15-25%, YoY всего +18%. Высокий гарантийный риск. Заходить только при наличии китайских связей или эксклюзивной дистрибуции DREAME." },
+                { n: "1", t: " Мебель (диваны 150-250K)", d: "Максимальный рычаг: 14.6B рынок, 2.33 у лидера = открытое окно. Требует капитала (24-30M) и логистики, но единственная ниша с реальным шансом потеснить топ-SKU за 6-9 месяцев." },
+                { n: "2", t: " Текстиль премиум (подушки/одеяла/корпе)", d: "Идеальная вторая нога: +40% YoY, низкий порог входа (7-9M), высокая маржа в премиум-сегменте. Кросс-сейл с мебелью." },
+                { n: "3", t: " Вертикальные пылесосы — пропустить", d: "DREAME держит 57%, маржа 15-25%, YoY всего +18%. Высокий гарантийный риск. Заходить только при наличии китайских связей или эксклюзивной дистрибуции DREAME." },
                 { n: "4", t: "Моно-мерчант > мульти-мерчант", d: "NikStory, formfix, JASA, Курак корпе, Euromebel доказывают: один магазин + один бренд + 100% контроль = стабильный доход без демпинга. Мульти-мерчант работает только для генерик-SKU." },
-                { n: "5", t: "Отзывы = конверсия", d: "Kaspi — рынок отзывов, а не рынок продуктов. Топ-1 диван с 2.33⭐ зарабатывает 62M только потому, что нет альтернатив. Первый продавец с нормальным качеством забирает позицию." },
+                { n: "5", t: "Отзывы = конверсия", d: "Kaspi — рынок отзывов, а не рынок продуктов. Топ-1 диван с 2.33 зарабатывает 62M только потому, что нет альтернатив. Первый продавец с нормальным качеством забирает позицию." },
                 { n: "6", t: "Сезонность разная", d: "Мебель = август-ноябрь (пик 20B), текстиль = декабрь (+47%), пылесосы = ноябрь-декабрь. Склад готовится за 2-3 месяца до сезона." },
                 { n: "7", t: "Сервис как USP", d: "В мебели — честная логистика (занос/сборка в цену или чётко в карточке), оперативный возврат, ответ на каждый отзыв <24ч. В пылесосах — локализация и follow-up." },
-                { n: "8", t: "Контроль качества обязателен", d: "Минимум 1 проверяющий на отгрузку в мебели. В текстиле — размерный контроль. Без этого — путь Диван Rio: 62M выручки при 2.33⭐ и 157 негативных отзывов." },
+                { n: "8", t: "Контроль качества обязателен", d: "Минимум 1 проверяющий на отгрузку в мебели. В текстиле — размерный контроль. Без этого — путь Диван Rio: 62M выручки при 2.33 и 157 негативных отзывов." },
               ].map((item) => (
                 <div key={item.n} style={{ marginBottom: 10 }}>
-                  <span style={{ color: C.accent, fontWeight: 700, marginRight: 8 }}>{item.n}.</span>
+                  <span style={{ color: C.accent, fontWeight: 400, marginRight: 8 }}>{item.n}.</span>
                   <strong style={{ color: C.text }}>{item.t}:</strong> {item.d}
                 </div>
               ))}
             </div>
           </div>
 
-          <div style={{ ...sCard, borderTop: `3px solid ${C.accent}` }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, margin: "0 0 12px" }}>4 вопроса для финализации</h3>
-            <div style={{ fontSize: 13, lineHeight: 1.9, color: "#ccc" }}>
+            <div style={{ fontSize: 13, lineHeight: 1.9, color: "var(--personal-text)" }}>
               1. Какой бюджет на первый заход? (сценарий A/B/C)<br />
               2. Есть ли опыт/связи в Китае? (возможен ли OEM вертикалок)<br />
               3. Есть ли логистический партнёр в КЗ для крупногабарита? (реально ли мебель)<br />
@@ -488,12 +471,12 @@ export default function ThreeNichesReport() {
             </div>
           </div>
 
-          <div style={{ marginTop: 24, padding: "20px 24px", background: `${C.accent}08`, borderRadius: 12, border: `1px solid ${C.accent}30` }}>
+          <div style={{ marginTop: 24, padding: "16px 0" }}>
             <p style={{ ...sP, margin: "0 0 8px", fontSize: 13, color: C.dim }}>
               Проанализировано: <strong style={{ color: C.text }}>3 категории · 6 751 + 5 199 + 450 SKU</strong> · <strong style={{ color: C.text }}>16 месяцев истории</strong> (нояб. 2024 — фев. 2026) · <strong style={{ color: C.text }}>4 021 отзыв</strong> топ-SKU с AI-анализом
             </p>
             <p style={{ ...sP, margin: 0, fontSize: 13, color: C.dim }}>
-              Источник данных: <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" style={{ color: C.accent, textDecoration: "none", fontWeight: 600 }}>RedStat.kz</a>
+              Источник данных: агрегированные данные Kaspi.kz
             </p>
           </div>
         </Section>

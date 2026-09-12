@@ -1,7 +1,10 @@
 "use client";
+import { IconlyArrowRight, IconlyChevronDown } from "@/components/iconly-icons";
+import { ResearchFact } from "@/components/canon/research-editorial";
+import { ChartTooltipPortal as FloatingTooltip, useTooltipHover } from "./chart-tooltip";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { useEffect, useRef, useState } from "react";
+
 import { DataTable, type DataTableColumn } from "@/components/charts/data-table";
 
 const formatExactRubles = (value: number) => `${value.toLocaleString("ru-RU")} ₽`;
@@ -11,80 +14,7 @@ const formatX = (value: number, digits = 1) =>
 const formatExactDailyIndex = (value: number) =>
   value.toLocaleString("ru-RU", { minimumFractionDigits: 6, maximumFractionDigits: 6 });
 
-function FloatingTooltip({
-  id,
-  anchor,
-  children,
-}: {
-  id: string;
-  anchor: HTMLElement | null;
-  children: React.ReactNode;
-}) {
-  const tooltipRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState(false);
-  const [position, setPosition] = useState<{ left: number; top: number; visible: boolean } | null>(null);
 
-  useEffect(() => setMounted(true), []);
-
-  useLayoutEffect(() => {
-    if (!mounted || !anchor) {
-      setPosition(null);
-      return;
-    }
-
-    const place = () => {
-      const tooltip = tooltipRef.current;
-      if (!tooltip) return;
-
-      const anchorRect = anchor.getBoundingClientRect();
-      const tooltipRect = tooltip.getBoundingClientRect();
-      const margin = 12;
-      const gap = 10;
-      const visible = anchorRect.bottom > 0 && anchorRect.top < window.innerHeight;
-      const centeredLeft = anchorRect.left + anchorRect.width / 2 - tooltipRect.width / 2;
-      const left = Math.max(margin, Math.min(centeredLeft, window.innerWidth - margin - tooltipRect.width));
-      const above = anchorRect.top - tooltipRect.height - gap;
-      const below = anchorRect.bottom + gap;
-      let top = above >= margin ? above : below;
-
-      if (top + tooltipRect.height > window.innerHeight - margin) {
-        top = Math.max(margin, window.innerHeight - margin - tooltipRect.height);
-      }
-
-      setPosition({ left, top, visible });
-    };
-
-    place();
-    window.addEventListener("resize", place);
-    window.addEventListener("scroll", place, true);
-    return () => {
-      window.removeEventListener("resize", place);
-      window.removeEventListener("scroll", place, true);
-    };
-  }, [anchor, mounted]);
-
-  if (!mounted || !anchor) return null;
-
-  return createPortal(
-    <div
-      ref={tooltipRef}
-      id={id}
-      role="tooltip"
-      style={{
-        position: "fixed",
-        left: position?.left ?? 12,
-        top: position?.top ?? 12,
-        width: "min(420px, calc(100vw - 24px))",
-        zIndex: 80,
-        visibility: position?.visible ? "visible" : "hidden",
-      }}
-      className="pointer-events-none rounded-[3px] border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-3 font-mono text-[10.5px] leading-relaxed text-[var(--color-text)] shadow-xl [overflow-wrap:anywhere]"
-    >
-      {children}
-    </div>,
-    document.body,
-  );
-}
 
 function ChartShell({
   id,
@@ -114,14 +44,14 @@ function ChartShell({
   return (
     <section
       id={id}
-      className="relative left-1/2 my-9 w-[calc(100vw-2rem)] max-w-[920px] -translate-x-1/2 rounded-[3px] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 sm:p-6"
+      className="research-figure w-full min-w-0"
       aria-labelledby={`${id}-title`}
     >
       <header className="mb-6">
-        <h3 id={`${id}-title`} className="text-[17px] font-bold leading-snug text-[var(--color-text)] sm:text-[19px]">
+        <h3 id={`${id}-title`} className="text-[17px] font-medium leading-snug text-[var(--color-text)] sm:text-[19px]">
           {title}
         </h3>
-        <p className="mt-2 font-mono text-[10.5px] leading-relaxed text-[var(--color-dim)] sm:text-[11px]">{subtitle}</p>
+        <p className="mt-2 font-mono text-[12px] leading-relaxed text-[var(--color-dim)] sm:text-[12px]">{subtitle}</p>
       </header>
 
       <div className="wb-chart-interactive">{children}</div>
@@ -149,11 +79,9 @@ function ChartShell({
         </div>
       </noscript>
 
-      <p className="mt-4 font-mono text-[10.5px] leading-relaxed text-[var(--color-dim)]">{caption}</p>
+      <p className="mt-4 font-mono text-[12px] leading-relaxed text-[var(--color-dim)]">{caption}</p>
       <details className="mt-4 border-t border-[var(--color-border)] pt-3">
-        <summary className="cursor-pointer font-mono text-[10px] font-bold uppercase tracking-[0.08em] text-[var(--color-text)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-brand)]">
-          Данные графика
-        </summary>
+        <summary className="reading-disclosure"><span>Данные графика</span><IconlyChevronDown size={17} /></summary>
         {table}
       </details>
     </section>
@@ -192,6 +120,7 @@ const growthColumns: readonly DataTableColumn[] = [
 
 function GrowthBars() {
   const [active, setActive] = useState<number | null>(null);
+  const hover = useTooltipHover(() => setActive(null));
   const [pinned, setPinned] = useState<number | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const buttonRefs = useRef<Array<HTMLButtonElement | null>>([]);
@@ -236,12 +165,10 @@ function GrowthBars() {
             aria-label={tooltip}
             aria-describedby={shown === index ? tooltipId : undefined}
             aria-pressed={pinned === index}
-            onPointerEnter={(event) => {
+            onPointerEnter={(event) => { hover.keep();
               if (event.pointerType === "mouse") setActive(index);
             }}
-            onPointerLeave={(event) => {
-              if (event.pointerType === "mouse") setActive((current) => current === index ? null : current);
-            }}
+            onPointerLeave={(event) => { if (event.pointerType === "mouse") hover.leave(); }}
             onFocus={() => setActive(index)}
             onBlur={() => setActive((current) => current === index ? null : current)}
             onClick={() => setPinned((current) => current === index ? null : index)}
@@ -256,29 +183,29 @@ function GrowthBars() {
               buttonRefs.current[target]?.focus();
             }}
           >
-            <span className="block text-[12px] font-bold leading-snug text-[var(--color-text)] sm:text-[13px]">{row.niche}</span>
-            <span className="mt-1 block font-mono text-[10px] tabular-nums text-[var(--color-dim)]">{row.baseLabel} → {row.latestLabel}</span>
+            <span className="block text-[12px] font-medium leading-snug text-[var(--color-text)] sm:text-[13px]">{row.niche}</span>
+            <span className="mt-1 block font-mono text-[12px] tabular-nums text-[var(--color-dim)]">{row.baseLabel} <IconlyArrowRight size={17} className="reading-inline-icon" /> {row.latestLabel}</span>
             <span className="mt-2 grid grid-cols-[minmax(0,1fr)_52px] items-center gap-3 sm:grid-cols-[minmax(0,1fr)_64px]">
               <span className="relative block h-8 overflow-hidden rounded-[2px] border-y border-[var(--color-border)] bg-[var(--color-bg)]">
                 {[20, 40, 60, 80].map((tick) => <i key={tick} className="absolute inset-y-0 w-px bg-[var(--color-border)]" style={{ left: `${tick / 80 * 100}%` }} aria-hidden />)}
                 <span ref={(node) => { barRefs.current[index] = node; }} className="absolute inset-y-[5px] left-0 rounded-r-[2px] bg-[var(--viz-wb)]" style={{ width: `${row.displayMultiplier / 80 * 100}%` }} aria-hidden />
               </span>
-              <span className="font-mono text-[19px] font-bold tabular-nums text-[var(--viz-wb)] sm:text-[22px]">≈×{row.displayMultiplier}</span>
+              <span className="font-mono text-[19px] font-medium tabular-nums text-[var(--viz-wb)] sm:text-[22px]">≈×{row.displayMultiplier}</span>
             </span>
-            <span className="mt-1 block font-mono text-[10px] text-[var(--color-dim)]">продажи {row.displaySalesLabel}</span>
+            <span className="mt-1 block font-mono text-[12px] text-[var(--color-dim)]">продажи {row.displaySalesLabel}</span>
           </button>
           );
         })}
       </div>
-      <div className="mt-4 grid grid-cols-5 pr-[64px] font-mono text-[9px] tabular-nums text-[var(--color-dim)]">
+      <div className="mt-4 grid grid-cols-5 pr-[64px] font-mono text-[12px] tabular-nums text-[var(--color-dim)]">
         {[0, 20, 40, 60, 80].map((tick) => <span key={tick} className={tick === 80 ? "text-right" : ""}>{tick === 0 ? "0" : `×${tick}`}</span>)}
       </div>
-      <p className="mt-3 font-mono text-[9.5px] leading-relaxed text-[var(--color-dim)]">
+      <p className="mt-3 font-mono text-[12px] leading-relaxed text-[var(--color-dim)]">
         Наведите или сфокусируйте строку. На сенсорном экране нажмите; повторное нажатие или касание вне графика закрывает подсказку.
       </p>
       {shownRow && (
-        <FloatingTooltip id={tooltipId} anchor={shown === null ? null : barRefs.current[shown]}>
-          <p className="font-bold text-[var(--color-text)]">{shownRow.niche}</p>
+        <FloatingTooltip onPointerEnter={hover.keep} onPointerLeave={hover.leave} id={tooltipId} anchor={shown === null ? null : barRefs.current[shown]}>
+          <p className="font-medium text-[var(--color-text)]">{shownRow.niche}</p>
           <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-[var(--color-dim)]">
             <dt>Среднедневной индекс GMV</dt>
             <dd className="text-right tabular-nums text-[var(--color-text)]">{formatX(shownRow.multiplier, 6)}</dd>
@@ -345,6 +272,7 @@ const anniversaryColumns: readonly DataTableColumn[] = [
 
 function AnniversaryBars() {
   const [active, setActive] = useState<number | null>(null);
+  const hover = useTooltipHover(() => setActive(null));
   const [pinned, setPinned] = useState<number | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const buttonRefs = useRef<Array<HTMLButtonElement | null>>([]);
@@ -375,13 +303,13 @@ function AnniversaryBars() {
   return (
     <div ref={rootRef} className="relative" role="group" aria-label="Разгрузочные пояса: один устойчивый ряд, пять последовательных двенадцатимесячных окон и среднедневной индекс оценочного GMV к наблюдаемой базе">
       <div className="mb-3">
-        <p className="text-[13px] font-bold text-[var(--color-text)]">Разгрузочные пояса</p>
-        <p className="mt-1 font-mono text-[10px] text-[var(--color-dim)]">4-й год: 464,4 млн ₽ · 110 796 оценочных продаж</p>
+        <p className="text-[13px] font-medium text-[var(--color-text)]">Разгрузочные пояса</p>
+        <p className="mt-1 font-mono text-[12px] text-[var(--color-dim)]">4-й год: 464,4 млн ₽ · 110 796 оценочных продаж</p>
       </div>
       <div className="relative h-[300px] border-b border-l border-[var(--color-border)] pl-2 sm:h-[330px] sm:pl-4">
         {[20, 40, 60, 80].map((tick) => (
           <div key={tick} className="absolute inset-x-0 border-t border-[var(--color-border)]" style={{ bottom: `${tick / 80 * 100}%` }}>
-            <span className="absolute -left-1 -translate-x-full -translate-y-1/2 font-mono text-[8px] text-[var(--color-dim)] sm:text-[9px]">×{tick}</span>
+            <span className="absolute -left-1 -translate-x-full -translate-y-1/2 font-mono text-[8px] text-[var(--color-dim)] sm:text-[12px]">×{tick}</span>
           </div>
         ))}
         <div className="absolute inset-x-2 bottom-0 top-0 grid grid-cols-5 items-end gap-2 sm:inset-x-5 sm:gap-5">
@@ -398,12 +326,10 @@ function AnniversaryBars() {
                   aria-label={tooltip}
                   aria-describedby={shown === index ? tooltipId : undefined}
                   aria-pressed={pinned === index}
-                  onPointerEnter={(event) => {
+                  onPointerEnter={(event) => { hover.keep();
                     if (event.pointerType === "mouse") setActive(index);
                   }}
-                  onPointerLeave={(event) => {
-                    if (event.pointerType === "mouse") setActive((current) => current === index ? null : current);
-                  }}
+                  onPointerLeave={(event) => { if (event.pointerType === "mouse") hover.leave(); }}
                   onFocus={() => setActive(index)}
                   onBlur={() => setActive((current) => current === index ? null : current)}
                   onClick={() => setPinned((current) => current === index ? null : index)}
@@ -418,7 +344,7 @@ function AnniversaryBars() {
                   }}
                 >
                   <span
-                    className="pointer-events-none absolute left-1/2 -translate-x-1/2 whitespace-nowrap font-mono text-[10px] font-bold text-[var(--viz-wb)] sm:text-[12px]"
+                    className="pointer-events-none absolute left-1/2 -translate-x-1/2 whitespace-nowrap font-mono text-[12px] font-medium text-[var(--viz-wb)] sm:text-[12px]"
                     style={{ bottom: `calc(${barHeight}% + 8px)` }}
                   >
                     {index === 0 ? "База" : `≈×${Math.round(window.index)}`}
@@ -436,15 +362,15 @@ function AnniversaryBars() {
           })}
         </div>
       </div>
-      <div className="mt-2 grid grid-cols-5 gap-2 pl-2 text-center font-mono text-[8.5px] leading-tight text-[var(--color-dim)] sm:pl-4 sm:text-[10px]">
+      <div className="mt-2 grid grid-cols-5 gap-2 pl-2 text-center font-mono text-[8.5px] leading-tight text-[var(--color-dim)] sm:pl-4 sm:text-[12px]">
         {ANNIVERSARY_WINDOWS.map((window) => <span key={window.label}>{window.label}</span>)}
       </div>
-      <p className="mt-3 font-mono text-[9.5px] leading-relaxed text-[var(--color-dim)]">
+      <p className="mt-3 font-mono text-[12px] leading-relaxed text-[var(--color-dim)]">
         Наведите или сфокусируйте столбец. На сенсорном экране нажмите; повторное нажатие или касание вне графика закрывает подсказку.
       </p>
       {shownWindow && (
-        <FloatingTooltip id={tooltipId} anchor={shown === null ? null : barRefs.current[shown]}>
-          <p className="font-bold text-[var(--color-text)]">{shownWindow.label} · {shownWindow.d1}-{shownWindow.d2}</p>
+        <FloatingTooltip onPointerEnter={hover.keep} onPointerLeave={hover.leave} id={tooltipId} anchor={shown === null ? null : barRefs.current[shown]}>
+          <p className="font-medium text-[var(--color-text)]">{shownWindow.label} · {shownWindow.d1}-{shownWindow.d2}</p>
           <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-[var(--color-dim)]">
             <dt>GMV за наблюдаемые дни</dt>
             <dd className="text-right tabular-nums text-[var(--color-text)]">{formatExactRubles(shownWindow.revenue)}</dd>
@@ -489,15 +415,12 @@ const SUPPLY_METRICS = [
 
 export function SupplyCallout() {
   return (
-    <aside className="my-8 rounded-[3px] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 sm:p-6" aria-labelledby="supply-callout-title">
-      <h3 id="supply-callout-title" className="text-[17px] font-bold leading-snug text-[var(--color-text)]">Витрина маскировочных сетей расширялась быстрее оборота</h3>
-      <p className="mt-2 font-mono text-[10px] text-[var(--color-dim)]">Маскировочные сети · последний сопоставимый период к наблюдаемой базе</p>
-      <div className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-[2px] border border-[var(--color-border)] bg-[var(--color-border)] sm:grid-cols-4">
+    <aside className="research-note" aria-labelledby="supply-callout-title">
+      <h3 id="supply-callout-title" className="text-[17px] font-medium leading-snug text-[var(--color-text)]">Витрина маскировочных сетей расширялась быстрее оборота</h3>
+      <p className="mt-2 font-mono text-[12px] text-[var(--color-dim)]">Маскировочные сети · последний сопоставимый период к наблюдаемой базе</p>
+      <div className="research-facts">
         {SUPPLY_METRICS.map((metric) => (
-          <div key={metric.label} className="min-w-0 bg-[var(--color-bg)] p-3 sm:p-4">
-            <p className={`font-mono text-[22px] font-bold tabular-nums sm:text-[26px] ${metric.accent ? "text-[var(--viz-wb)]" : "text-[var(--color-text)]"}`}>{metric.value}</p>
-            <p className="mt-2 text-[10px] leading-snug text-[var(--color-dim)] sm:text-[11px]">{metric.label}</p>
-          </div>
+          <ResearchFact key={metric.label} label={metric.label} value={metric.value} />
         ))}
       </div>
       <p className="mt-4 text-[13px] leading-relaxed text-[var(--color-dim)]">Между наблюдаемым довоенным окном и последними 12 месяцами перед атакой. Рост числа продавцов и карточек не означает, что доход каждого продавца увеличился.</p>

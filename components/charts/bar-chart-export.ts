@@ -982,7 +982,7 @@ export type RenderToHTMLOptions = {
 };
 
 const DEFAULT_RENDER_COLORS = {
-  accent: "#F54900",
+  accent: "var(--personal-text)",
   foreground: "#0a0a0a",
   muted: "#666666",
   border: "#e5e5e5",

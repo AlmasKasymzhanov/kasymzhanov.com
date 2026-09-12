@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { SiteHeader, SiteFooter } from "@/components/canon/site-chrome";
+import { PersonalDocument } from "@/components/personal-document";
 import { PreorderForm } from "@/components/preorder-form";
 
 export const metadata: Metadata = {
@@ -10,21 +10,17 @@ export const metadata: Metadata = {
 };
 
 const linkCls =
-  "inline-flex items-center gap-2 text-[14px] font-bold text-[var(--color-text)] border-b border-[var(--color-text)] pb-0.5 no-underline hover:opacity-70 transition-opacity";
+  "inline-flex items-center gap-2 text-[14px] font-normal text-[var(--color-text)] min-h-11 no-underline hover:opacity-70 transition-opacity";
 const kickerCls = "text-[11px] uppercase tracking-[0.18em] text-[var(--color-brand)] mb-3";
 const kickerDimCls = "text-[11px] uppercase tracking-[0.18em] text-[var(--color-dim)] mb-3";
 
 export default function Stream4Page() {
   return (
-    <div className="font-mono text-[var(--color-text)]">
-      <div className="max-w-[1400px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">
-        <SiteHeader />
-
-        <main className="w-full max-w-[760px] mx-auto px-6 py-12 md:py-16">
+    <PersonalDocument>
           {/* Intro */}
           <section className="mb-14">
             <p className={kickerCls}>[ AI-аналитик маркетплейсов · предзапись ]</p>
-            <h1 className="text-[28px] md:text-[40px] font-bold leading-[1.1] tracking-tight mb-5">
+            <h1 className="text-[28px] md:text-[40px] font-normal leading-[1.1] tracking-tight mb-5">
               Предзапись на 4 поток
             </h1>
             <p className="text-[15px] md:text-[16px] text-[var(--color-dim)] leading-relaxed">
@@ -43,7 +39,7 @@ export default function Stream4Page() {
           </section>
 
           {/* Программа курса */}
-          <section className="border-t border-[var(--color-border)] pt-10">
+          <section className="pt-6">
             <p className={kickerDimCls}>[ Программа ]</p>
             <p className="text-[14px] md:text-[15px] text-[var(--color-dim)] leading-relaxed max-w-2xl mb-5">
               Хотите узнать, что входит — 5 модулей, бонусы (внешний трафик, белый ввоз из Китая) и какие
@@ -53,11 +49,6 @@ export default function Stream4Page() {
               Программа курса
             </Link>
           </section>
-        </main>
-
-        <div className="flex-1" aria-hidden />
-        <SiteFooter />
-      </div>
-    </div>
+        </PersonalDocument>
   );
 }

@@ -1,38 +1,37 @@
 "use client";
+import { IconlyArrowLeft } from "@/components/iconly-icons";
+import { ResearchSection, ResearchFact, ResearchNote, ResearchFigure } from "@/components/canon/research-editorial";
+import { ResearchReadingTime } from "@/components/canon/research-reading-time";
+
 
 import { useState } from "react";
 import Link from "next/link";
 
 const C = {
-  bg: "#0a0a0f", surface: "#111119", border: "#1e1e30",
-  accent: "#e8729a", green: "#00d2a0", text: "#e8e8f0",
-  dim: "#999", faint: "#444", red: "#f87171", amber: "#f59e0b",
-  blue: "#60a5fa", pink: "#f472b6", cyan: "#22d3ee", purple: "#a78bfa",
+  bg: "var(--personal-paper)", surface: "var(--report-surface)", border: "var(--personal-border)",
+  accent: "var(--personal-text)", green: "var(--personal-text)", text: "var(--personal-text)",
+  dim: "var(--personal-muted)", faint: "var(--personal-border)", red: "var(--personal-text)", amber: "var(--personal-text)",
+  blue: "var(--personal-text)", pink: "var(--personal-text)", cyan: "var(--personal-text)", purple: "var(--personal-text)",
 };
 
 const sSection: React.CSSProperties = { marginBottom: 56 };
-const sH2: React.CSSProperties = { fontSize: 22, fontWeight: 700, margin: "0 0 24px", color: C.text, letterSpacing: "-0.01em", borderBottom: `1px solid ${C.border}`, paddingBottom: 12 };
-const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 600, margin: "28px 0 12px", color: C.text };
-const sP: React.CSSProperties = { fontSize: 14, lineHeight: 1.75, color: "#ccc", margin: "0 0 12px" };
-const sCard: React.CSSProperties = { background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, padding: "24px", marginBottom: 16 };
-const sBadge = (color: string): React.CSSProperties => ({ display: "inline-block", padding: "3px 10px", borderRadius: 20, background: `${color}18`, color, fontSize: 11, fontWeight: 600 });
+const sH2: React.CSSProperties = { fontSize: 22, fontWeight: 500, margin: "0 0 24px", color: C.text, letterSpacing: "-0.01em", borderBottom: `1px solid ${C.border}`, paddingBottom: 12 };
+const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 500, margin: "28px 0 12px", color: C.text };
+const sP: React.CSSProperties = { fontSize: "var(--reading-body-size)", lineHeight: 1.75, color: "var(--personal-text)", margin: "0 0 12px" };
+const sCard: React.CSSProperties = { margin: "24px 0", padding: 0 };
+const sBadge = (_color: string): React.CSSProperties => ({ display: "inline", color: "var(--personal-muted)", fontSize: 12, fontWeight: 400 });
 
-function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
-  const [open, setOpen] = useState(true);
-  return (<div id={id} style={sSection}><h2 onClick={() => setOpen(!open)} style={{ ...sH2, cursor: "pointer", display: "flex", alignItems: "center", gap: 10, userSelect: "none" }}><span style={{ fontSize: 14, color: C.dim, transform: open ? "rotate(90deg)" : "rotate(0)", transition: "transform 0.2s", display: "inline-block" }}>&#9654;</span>{title}</h2>{open && children}</div>);
-}
+function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) { return <ResearchSection id={id} title={title}>{children}</ResearchSection>; }
 
 function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (string | number)[][]; highlight?: number }) {
-  return (<div style={{ overflowX: "auto", marginBottom: 16 }}><table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}><thead><tr>{headers.map((h, i) => (<th key={i} style={{ padding: "10px 12px", textAlign: "left", color: C.dim, fontWeight: 600, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>))}</tr></thead><tbody>{rows.map((row, ri) => (<tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `${C.accent}12` : "transparent" }}>{row.map((cell, ci) => (<td key={ci} style={{ padding: "10px 12px", textAlign: "left", color: ci === 0 ? C.text : "#ccc", borderBottom: `1px solid ${C.border}20`, fontWeight: ci === 0 ? 500 : 400, whiteSpace: ci === 0 ? "nowrap" : "normal" }}>{cell}</td>))}</tr>))}</tbody></table></div>);
+  return (<div style={{ overflowX: "auto", marginBottom: 16 }}><table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}><thead><tr>{headers.map((h, i) => (<th key={i} style={{ padding: "10px 12px", textAlign: "left", color: C.dim, fontWeight: 500, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>))}</tr></thead><tbody>{rows.map((row, ri) => (<tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `color-mix(in srgb, ${C.accent} 7%, transparent)` : "transparent" }}>{row.map((cell, ci) => (<td key={ci} style={{ padding: "10px 12px", textAlign: "left", color: ci === 0 ? C.text : "var(--personal-text)", borderBottom: `1px solid color-mix(in srgb, ${C.border} 13%, transparent)`, fontWeight: ci === 0 ? 500 : 400, whiteSpace: ci === 0 ? "nowrap" : "normal" }}>{cell}</td>))}</tr>))}</tbody></table></div>);
 }
 
-function MetricCard({ label, value, sub, color }: { label: string; value: string; sub?: string; color?: string }) {
-  return (<div style={{ ...sCard, padding: "16px 20px", flex: 1, minWidth: 140 }}><div style={{ fontSize: 11, color: C.dim, marginBottom: 6 }}>{label}</div><div style={{ fontSize: 22, fontWeight: 700, color: color || C.text }}>{value}</div>{sub && <div style={{ fontSize: 11, color: C.dim, marginTop: 4 }}>{sub}</div>}</div>);
-}
+function MetricCard({ label, value, sub, color }: { label: string; value: string; sub?: string; color?: string }) { return <ResearchFact label={label} value={value} note={sub} />; }
 
 function Quote({ text, rating }: { text: string; rating: number }) {
   const color = rating <= 2 ? C.red : rating === 3 ? C.amber : C.green;
-  return (<div style={{ borderLeft: `3px solid ${color}`, paddingLeft: 14, margin: "8px 0", fontSize: 13, color: "#bbb", lineHeight: 1.6 }}><span style={{ ...sBadge(color), marginRight: 8, fontSize: 10 }}>{rating}/5</span>{text}</div>);
+  return (<div style={{ paddingLeft: 14, margin: "8px 0", fontSize: 13, color: "var(--personal-muted)", lineHeight: 1.6 }}><span style={{ ...sBadge(color), marginRight: 8, fontSize: 10 }}>{rating}/5</span>{text}</div>);
 }
 
 /* ───── Brand Card Component ───── */
@@ -40,10 +39,10 @@ function BrandCard({ name, tier, rev, growth, categories, bestSku, skuPrice, sku
   name: string; tier: string; rev: string; growth: string; categories: string; bestSku: string; skuPrice: string; skuRev: string; reviews: string; rating: string; negPct: string; topComplaint: string; topPraise: string; insight: string; recommendation: string; color: string;
 }) {
   return (
-    <div style={{ ...sCard, borderLeft: `4px solid ${color}` }}>
+    <div style={{ ...sCard }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12, flexWrap: "wrap", gap: 8 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ fontSize: 18, fontWeight: 700 }}>{name}</span>
+          <span style={{ fontSize: 18, fontWeight: 400 }}>{name}</span>
           <span style={sBadge(color)}>{tier}</span>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
@@ -52,22 +51,22 @@ function BrandCard({ name, tier, rev, growth, categories, bestSku, skuPrice, sku
         </div>
       </div>
       <div style={{ fontSize: 12, color: C.dim, marginBottom: 12 }}>Категории: {categories}</div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 10, marginBottom: 14 }}>
-        <div style={{ background: `${C.surface}`, border: `1px solid ${C.border}`, borderRadius: 8, padding: "10px 14px" }}>
+      <div style={{ display: "block", marginBottom: 14 }}>
+        <div style={{ padding: "16px 0" }}>
           <div style={{ fontSize: 10, color: C.dim }}>Бестселлер</div>
-          <div style={{ fontSize: 12, fontWeight: 600, color: C.text, marginTop: 2 }}>{bestSku}</div>
+          <div style={{ fontSize: 12, fontWeight: 400, color: C.text, marginTop: 2 }}>{bestSku}</div>
           <div style={{ fontSize: 11, color: C.dim, marginTop: 2 }}>{skuPrice} &middot; {skuRev}/мес</div>
         </div>
-        <div style={{ background: `${C.surface}`, border: `1px solid ${C.border}`, borderRadius: 8, padding: "10px 14px" }}>
+        <div style={{ padding: "16px 0" }}>
           <div style={{ fontSize: 10, color: C.dim }}>Отзывы</div>
-          <div style={{ fontSize: 12, fontWeight: 600, color: C.text, marginTop: 2 }}>{reviews} отзывов &middot; {rating}</div>
+          <div style={{ fontSize: 12, fontWeight: 400, color: C.text, marginTop: 2 }}>{reviews} отзывов &middot; {rating}</div>
           <div style={{ fontSize: 11, color: C.dim, marginTop: 2 }}>Негативных: {negPct}</div>
         </div>
       </div>
       {topComplaint && <Quote text={topComplaint} rating={1} />}
       {topPraise && <Quote text={topPraise} rating={5} />}
-      <div style={{ borderLeft: `3px solid ${C.blue}`, paddingLeft: 14, margin: "12px 0", fontSize: 13, color: "#ccc", lineHeight: 1.6 }}><strong style={{ color: C.blue }}>Инсайт: </strong>{insight}</div>
-      <div style={{ borderLeft: `3px solid ${C.accent}`, paddingLeft: 14, margin: "12px 0", fontSize: 13, color: "#ccc", lineHeight: 1.6 }}><strong style={{ color: C.accent }}>Рекомендация: </strong>{recommendation}</div>
+      <div style={{ paddingLeft: 14, margin: "12px 0", fontSize: 13, color: "var(--personal-text)", lineHeight: 1.6 }}><strong style={{ color: C.blue }}>Инсайт: </strong>{insight}</div>
+      <div style={{ paddingLeft: 14, margin: "12px 0", fontSize: 13, color: "var(--personal-text)", lineHeight: 1.6 }}><strong style={{ color: C.accent }}>Рекомендация: </strong>{recommendation}</div>
     </div>
   );
 }
@@ -75,16 +74,17 @@ function BrandCard({ name, tier, rev, growth, categories, bestSku, skuPrice, sku
 /* ═══════════════════ MAIN ═══════════════════ */
 export default function BrandPortfolioReport() {
   return (
-    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "'Inter', -apple-system, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "var(--font-body)" }}>
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "40px 24px 80px" }}>
 
-        <div style={{ marginBottom: 16 }}><Link href="/" style={{ color: C.dim, fontSize: 13, textDecoration: "none" }}>&larr; kasymzhanov.com</Link></div>
+        <div style={{ marginBottom: 16 }}><Link href="/" style={{ color: C.dim, fontSize: 13, textDecoration: "none" }}><IconlyArrowLeft size={17} className="reading-inline-icon" /> kasymzhanov.com</Link></div>
 
-        <div style={{ marginBottom: 48, paddingBottom: 32, borderBottom: `1px solid ${C.border}` }}>
-          <div style={sBadge(C.accent)}><span style={{ textTransform: "uppercase", letterSpacing: "0.05em" }}>Часть II — Портфель брендов</span></div>
-          <h1 style={{ fontSize: 32, fontWeight: 800, margin: "16px 0 8px", letterSpacing: "-0.03em", lineHeight: 1.2 }}>
-            Анализ портфеля<br />21 бренда на Kaspi.kz
+        <div className="research-header" style={{ marginBottom: 48, paddingBottom: 32, borderBottom: `1px solid ${C.border}` }}>
+          <div style={sBadge(C.accent)}><span style={{ textTransform: "none", letterSpacing: "0.05em" }}>Часть II — Портфель брендов</span></div>
+          <h1 style={{ fontSize: 32, fontWeight: 500, margin: "16px 0 8px", letterSpacing: "-0.03em", lineHeight: 1.2 }}>
+            Анализ портфеля{" "}21 бренда на Kaspi.kz
           </h1>
+<p className="research-lead">Сравнение 21 бренда по выручке, ассортименту и позиции на рынке. Точки роста и рекомендации по портфелю.</p>
           <p style={{ color: C.dim, fontSize: 14, margin: "12px 0 0" }}>
             Подготовил <strong style={{ color: C.text }}>Алмас Касымжанов</strong>
           </p>
@@ -94,14 +94,16 @@ export default function BrandPortfolioReport() {
             <span>SKU проанализировано: <strong style={{ color: C.text }}>40+</strong></span>
             <span>Отзывов: <strong style={{ color: C.text }}>35 000+</strong></span>
           </div>
-          <p style={{ ...sP, marginTop: 16, fontSize: 13, color: C.dim }}>Данный отчёт накладывает портфель из 21 бренда клиента на рыночные данные из <a href="/reports/kaspi-cosmetics" style={{ color: C.accent, textDecoration: "none" }}>Части I (Рынок «Красота и здоровье»)</a>. По каждому бренду: позиция на рынке, SKU-анализ, отзывы, динамика, рекомендации.</p>
-        </div>
+          <p className="research-lead" style={{ ...sP, marginTop: 16, fontSize: 13, color: C.dim }}>Данный отчёт накладывает портфель из 21 бренда клиента на рыночные данные из <a href="/reports/kaspi-cosmetics" style={{ color: C.accent, textDecoration: "none" }}>Части I (Рынок «Красота и здоровье»)</a>. По каждому бренду: позиция на рынке, SKU-анализ, отзывы, динамика, рекомендации.</p>
+
+<ResearchReadingTime />
+</div>
 
         {/* ═══ TOC ═══ */}
         <div style={{ ...sCard, marginBottom: 48, padding: "20px 24px" }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: C.dim, marginBottom: 12 }}>Содержание</div>
+          <div style={{ fontSize: 13, fontWeight: 400, color: C.dim, marginBottom: 12 }}>Содержание</div>
           {[
-            ["s1", "1. Executive Summary — портфель на карте рынка"],
+            ["s1", "1. Обзор — портфель на карте рынка"],
             ["s2", "2. Матрица присутствия: 21 бренд x категории"],
             ["s3", "3. Тир 1 — Лидеры (>50M/мес): 6 брендов"],
             ["s4", "4. Тир 2 — Средние (5-50M/мес): 7 брендов"],
@@ -119,8 +121,8 @@ export default function BrandPortfolioReport() {
         </div>
 
         {/* ═══ 1. EXECUTIVE SUMMARY ═══ */}
-        <Section id="s1" title="1. Executive Summary">
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24 }}>
+        <Section id="s1" title="1. Обзор">
+          <div className="research-facts" >
             <MetricCard label="Портфель на Kaspi" value="21/21" sub="все бренды найдены" color={C.green} />
             <MetricCard label="Суммарная выручка" value="~900M+" sub="KZT/мес (верифицировано)" color={C.accent} />
             <MetricCard label="Тир 1 (лидеры)" value="6" sub="брендов >50M" color={C.green} />
@@ -128,7 +130,7 @@ export default function BrandPortfolioReport() {
           </div>
           <div style={sCard}>
             <h3 style={{ ...sH3, margin: "0 0 12px" }}>Ключевые выводы</h3>
-            <div style={{ fontSize: 13, lineHeight: 2, color: "#ccc" }}>
+            <div style={{ fontSize: 13, lineHeight: 2, color: "var(--personal-text)" }}>
               <div>1. <strong style={{ color: C.green }}>Все 21 бренд присутствуют на Kaspi.</strong> 6 лидеров (&gt;50M), 7 средних (5-50M), 8 на начальном этапе (&lt;5M).</div>
               <div>2. <strong style={{ color: C.green }}>6 брендов — лидеры рынка</strong> (Celimax 239M, Dr. Althea 171M, Skin1004 136M, Sen Sulu/The Yeon 135M, Round Lab 86M, AXIS-Y 78M)</div>
               <div>3. <strong style={{ color: C.blue }}>Anua (49M) и VT Cosmetics (47M)</strong> — значительно крупнее, чем казалось на первый взгляд. Широкие линейки PDRN и Azelaic Acid.</div>
@@ -258,7 +260,7 @@ export default function BrandPortfolioReport() {
             ["Bohicare", "~2.6M", "SPF, бальзам, пенка, кушон, лифтинг", "20", "4.9-5.0", "Clear Glow бальзам (7.7K, 83 отз.), SPF LightAIR (9.5K, 84 отз.), Pro-Age Lifting крем (22.5K). Премиум-позиционирование."],
             ["Beplain", "~1.4M", "Mung Bean пенки, SPF, кремы, маски", "20", "4.7-5.0", "Mung Bean пенка 160мл (7.2K, 25 отз.), SPF Sunmuse (8K, 18 отз.), Cicaterol крем (9.5K, 9 отз.). Широкий ассортимент, нужны отзывы."],
           ]} />
-          <div style={{ borderLeft: `3px solid ${C.blue}`, paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "#ccc", lineHeight: 1.6 }}>
+          <div style={{ paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "var(--personal-text)", lineHeight: 1.6 }}>
             <strong style={{ color: C.blue }}>Инсайт: </strong>Bueno (3M, 21 SKU) и Bohicare (2.6M, 20 SKU) — бренды с сильной продуктовой линейкой и высокими рейтингами (4.9-5.0). При правильном маркетинге и наборе отзывов — каждый может выйти на 10M+ в течение 3-6 месяцев. Ценовой сегмент 7-22K — выше порога подделок.
           </div>
         </Section>
@@ -272,7 +274,7 @@ export default function BrandPortfolioReport() {
             ["Skinfood", "~0.3M", "20", "3-22K", "Carrot Carotene, Rice, консилер Salmon. Мало отзывов.", "10M+ (Rice = уникальное позиционирование)"],
             ["Healthy Place", "~0.04M", "1", "6.8K", "Стик для лица. Бренд не указан в карточке (как «Без бренда»).", "2M+ (при исправлении карточки и расширении SKU)"],
           ]} />
-          <div style={{ borderLeft: `3px solid ${C.green}`, paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "#ccc", lineHeight: 1.6 }}>
+          <div style={{ paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "var(--personal-text)", lineHeight: 1.6 }}>
             <strong style={{ color: C.green }}>Ключевой инсайт: </strong>Treecell = стратегическая возможность. Шампуни = 630M/мес (+80% YoY), <strong>нет сильного бренда-лидера</strong> (elline #1 с 103M — аномалия, 1 SKU). Night Collagen Shampoo — уникальное позиционирование, аналогов на Kaspi нет.
           </div>
         </Section>
@@ -280,7 +282,7 @@ export default function BrandPortfolioReport() {
         {/* ═══ 7. ADDITIONAL NOTES ═══ */}
         <Section id="s7" title="7. Дополнительные замечания по брендам">
           <div style={sCard}>
-            <div style={{ fontSize: 13, lineHeight: 2, color: "#ccc" }}>
+            <div style={{ fontSize: 13, lineHeight: 2, color: "var(--personal-text)" }}>
               <div><strong style={{ color: C.text }}>Green Monster</strong> — присутствует как суббренд MIZON (набор MIZON Green Monster Premium Collagen, 9.2K). Отдельного бренда «Green Monster» на Kaspi нет.</div>
               <div><strong style={{ color: C.text }}>The Yeon</strong> — продаётся как под брендом Sen Sulu (BB-кремы Cover Fit, ~31M), так и под собственным брендом The YEON (BB-крем 2x Calming, пилинг Vita 7, Charcoal гель, ~32M). Суммарно ~63M.</div>
               <div><strong style={{ color: C.text }}>Healthy Place</strong> — 1 SKU (стик для лица, 6 780 KZT). В карточке товара бренд указан как «Без бренда». Рекомендация: исправить карточку — указать бренд «Healthy Place» для индексации в поиске.</div>
@@ -292,18 +294,18 @@ export default function BrandPortfolioReport() {
 
         {/* ═══ 8. DEEP DIVE ═══ */}
         <Section id="s8" title="8. Deep Dive: Beplain и Skinfood">
-          <div style={{ ...sCard, borderTop: `3px solid ${C.purple}` }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, margin: "0 0 12px", color: C.purple }}>Beplain — пошаговый план активации</h3>
             <p style={sP}><strong>Текущий статус:</strong> 20 SKU, выручка ~1.4M/мес. Ассортимент: Mung Bean пенка 160мл (7.2K, 25 отз., 4.9★), масло 200мл (6.7K, 19 отз.), Cicaterol крем (9.5K, 9 отз.), SPF Sunmuse (8K, 18 отз., 5.0★), маска Pore Clay (6.5K, 17 отз.), тонер Mung Bean (8K, 5 отз.).</p>
             <h3 style={{ ...sH3, fontSize: 14 }}>Почему продажи низкие:</h3>
-            <div style={{ fontSize: 13, lineHeight: 1.8, color: "#ccc", marginBottom: 16 }}>
+            <div style={{ fontSize: 13, lineHeight: 1.8, color: "var(--personal-text)", marginBottom: 16 }}>
               <div>1. <strong>Мало отзывов</strong> — максимум 25 на топ-SKU. На Kaspi порог доверия = 50-100 отзывов.</div>
               <div>2. <strong>Нет продвижения</strong> — не участвует в акциях, нет рекламы, нет внешнего трафика.</div>
               <div>3. <strong>Цена 7-10K без узнаваемости</strong> — дороже Dr. Althea (1K), Round Lab (1K), но бренд неизвестен.</div>
               <div>4. <strong>Нет наборов</strong> — все товары поштучно. Наборы = 43% выручки категории в премиуме.</div>
             </div>
             <h3 style={{ ...sH3, fontSize: 14 }}>План активации:</h3>
-            <div style={{ fontSize: 13, lineHeight: 2, color: "#ccc" }}>
+            <div style={{ fontSize: 13, lineHeight: 2, color: "var(--personal-text)" }}>
               <div>1. <strong style={{ color: C.text }}>Создать набор Beplain Mung Bean Set</strong> (пенка + масло + тонер) по 15-18K → вход в нишу наборов (862M)</div>
               <div>2. <strong style={{ color: C.text }}>Набрать 50-100 отзывов</strong> через программу раннего доступа (скидка + бесплатный мини-продукт за отзыв)</div>
               <div>3. <strong style={{ color: C.text }}>Позиционирование:</strong> «премиум-натуральный уход» — Mung Bean = зелёная фасоль = натуральность</div>
@@ -313,11 +315,11 @@ export default function BrandPortfolioReport() {
             <p style={{ ...sP, marginTop: 12, fontSize: 12, color: C.dim }}>Потенциал: 0 → 10M/мес за 3-4 месяца при правильной активации.</p>
           </div>
 
-          <div style={{ ...sCard, borderTop: `3px solid ${C.purple}` }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, margin: "0 0 12px", color: C.purple }}>Skinfood — пошаговый план активации</h3>
             <p style={sP}><strong>Текущий статус:</strong> Carrot Carotene Calming Water Pad (10K), Rice крем (22K). 0 отзывов.</p>
             <h3 style={{ ...sH3, fontSize: 14 }}>Стратегия входа:</h3>
-            <div style={{ fontSize: 13, lineHeight: 2, color: "#ccc" }}>
+            <div style={{ fontSize: 13, lineHeight: 2, color: "var(--personal-text)" }}>
               <div>1. <strong style={{ color: C.text }}>Rice линейка = уникальная.</strong> Никто на Kaspi не предлагает «рисовый уход». Позиционирование «осветление» (brightening).</div>
               <div>2. <strong style={{ color: C.text }}>Carrot Carotene</strong> — трендовая линейка, но конкурирует с Skin1004 Madagascar. Фокус на уникальности каротина.</div>
               <div>3. <strong style={{ color: C.text }}>Набор Skinfood Rice Brightening Set</strong> (тонер + крем + маска) по 20-25K.</div>
@@ -339,7 +341,7 @@ export default function BrandPortfolioReport() {
             ["Нояб 2025", "140M", "34 600", "45", "68", "Пик SKU"],
             ["Фев 2026", "142M", "28 901", "62", "67", "Рекорд выручки"],
           ]} />
-          <div style={{ borderLeft: `3px solid ${C.amber}`, paddingLeft: 14, margin: "12px 0", fontSize: 13, color: "#ccc" }}>
+          <div style={{ paddingLeft: 14, margin: "12px 0", fontSize: 13, color: "var(--personal-text)" }}>
             <strong style={{ color: C.amber }}>Сигнал: </strong>Средний чек падает: 36M/4653 = 7.7K → 142M/28901 = 4.9K. Это признак ценовой войны между 67 продавцами.
           </div>
 
@@ -351,7 +353,7 @@ export default function BrandPortfolioReport() {
             ["Нояб 2025", "57M", "9 159", "20"],
             ["Фев 2026", "61M", "11 016", "27"],
           ]} />
-          <div style={{ borderLeft: `3px solid ${C.green}`, paddingLeft: 14, margin: "12px 0", fontSize: 13, color: "#ccc" }}>
+          <div style={{ paddingLeft: 14, margin: "12px 0", fontSize: 13, color: "var(--personal-text)" }}>
             <strong style={{ color: C.green }}>Здоровый рост: </strong>x3.2 за 16 мес. SKU с 6 до 27. Линейка расширяется — Celimax строит экосистему.
           </div>
 
@@ -361,7 +363,7 @@ export default function BrandPortfolioReport() {
             ["Авг 2025", "49M", "14 264", "3 430 KZT"],
             ["Фев 2026", "36M", "12 330", "2 920 KZT"],
           ]} />
-          <div style={{ borderLeft: `3px solid ${C.red}`, paddingLeft: 14, margin: "12px 0", fontSize: 13, color: "#ccc" }}>
+          <div style={{ paddingLeft: 14, margin: "12px 0", fontSize: 13, color: "var(--personal-text)" }}>
             <strong style={{ color: C.red }}>Тревога: </strong>Выручка стагнирует (33M → 36M), а средний чек упал на 27%. Заказы растут, но покупатели платят всё меньше. Подделки и демпинг.
           </div>
 
@@ -386,7 +388,7 @@ export default function BrandPortfolioReport() {
             ["LUXVISAGE", "~80M+", "Бюджетный декор 1-5K", "Тональные #4, Помады #2", "Конкурент Sen Sulu в декоре"],
             ["BIDALLI", "~14M", "Тоники", "Тоники #2", "Прямой конкурент Celimax"],
           ]} />
-          <div style={{ borderLeft: `3px solid ${C.blue}`, paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "#ccc" }}>
+          <div style={{ paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "var(--personal-text)" }}>
             <strong style={{ color: C.blue }}>Инсайт: </strong>MEDI-PEEL (75M) — единственный крупный бренд в уходовой косметике, которого нет в портфеле. Рассмотреть добавление или стратегию противодействия. MEDI-PEEL Peptide 9 Emulsion (4K, 19M) — конкурент Celimax Dual Barrier (2K, 32M).
           </div>
         </Section>
@@ -402,7 +404,7 @@ export default function BrandPortfolioReport() {
             ["Anua", "Azelaic Serum", "5K", "319", "4.7%", "~33% негативов"],
             ["VT Cosmetics", "PDRN Essence", "14K", "70", "1.4%", "~0% негативов"],
           ]} />
-          <div style={{ ...sCard, borderLeft: `3px solid ${C.red}` }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, margin: "0 0 8px", color: C.red }}>Корреляция: цена → подделки</h3>
             <p style={sP}>Чёткий паттерн: <strong style={{ color: C.text }}>при цене &lt;2K KZT — 50% негативов = подделки</strong>. При 5K+ — подделки падают до 10-15%. При 10K+ — практически исчезают.</p>
             <p style={sP}>Dr. Althea (1K), Round Lab (1K), AXIS-Y (1K) — три лидера по выручке и три главные жертвы подделок. <strong style={{ color: C.red }}>Парадокс: чем популярнее товар по низкой цене, тем больше подделок.</strong></p>
@@ -438,7 +440,7 @@ export default function BrandPortfolioReport() {
 
           <h3 style={sH3}>Сезонный календарь для портфеля</h3>
           <div style={sCard}>
-            <div style={{ fontSize: 13, lineHeight: 2.2, color: "#ccc" }}>
+            <div style={{ fontSize: 13, lineHeight: 2.2, color: "var(--personal-text)" }}>
               <div><strong style={{ color: C.amber }}>Январь-Февраль:</strong> Закупка наборов к 8 марта. Celimax Set, Skin1004 Set, AXIS-Y Set. Наборы пик = 1029M.</div>
               <div><strong style={{ color: C.red }}>Март (8 марта):</strong> Максимальные продажи наборов и тональных. Sen Sulu наборы = #1.</div>
               <div><strong style={{ color: C.text }}>Апрель-Май:</strong> SPF-сезон: Skin1004 Hyalu-Cica SPF50, Round Lab Birch Juice SPF50. Bohicare SPF — активация.</div>
@@ -451,7 +453,7 @@ export default function BrandPortfolioReport() {
 
           <h3 style={sH3}>Топ-10 конкретных действий (ближайшие 30 дней)</h3>
           <div style={sCard}>
-            <div style={{ fontSize: 13, lineHeight: 2.2, color: "#ccc" }}>
+            <div style={{ fontSize: 13, lineHeight: 2.2, color: "var(--personal-text)" }}>
               {[
                 { n: "1", d: "Поднять цену Dr. Althea 345 Relief с 1K до 3-5K — отсечь 80% подделок, маржа x3", p: "critical" },
                 { n: "2", d: "QR-верификация на Dr. Althea, Round Lab, AXIS-Y — 50% негативов = подделки", p: "critical" },
@@ -465,7 +467,7 @@ export default function BrandPortfolioReport() {
                 { n: "10", d: "Healthy Place: исправить карточку — указать бренд (сейчас «Без бренда»), расширить SKU", p: "medium" },
               ].map((item) => (
                 <div key={item.n} style={{ display: "flex", gap: 8, marginBottom: 4 }}>
-                  <span style={{ color: item.p === "critical" ? C.red : item.p === "high" ? C.amber : C.blue, fontWeight: 700, minWidth: 24 }}>{item.n}.</span>
+                  <span style={{ color: item.p === "critical" ? C.red : item.p === "high" ? C.amber : C.blue, fontWeight: 400, minWidth: 24 }}>{item.n}.</span>
                   <span>{item.d}</span>
                   <span style={{ ...sBadge(item.p === "critical" ? C.red : item.p === "high" ? C.amber : C.blue), marginLeft: "auto", flexShrink: 0, fontSize: 9 }}>{item.p === "critical" ? "КРИТИЧНО" : item.p === "high" ? "ВЫСОКИЙ" : "СРЕДНИЙ"}</span>
                 </div>
@@ -473,12 +475,12 @@ export default function BrandPortfolioReport() {
             </div>
           </div>
 
-          <div style={{ marginTop: 24, padding: "20px 24px", background: `${C.accent}08`, borderRadius: 12, border: `1px solid ${C.accent}30` }}>
+          <div style={{ marginTop: 24, padding: "16px 0" }}>
             <p style={{ ...sP, margin: "0 0 8px", fontSize: 13, color: C.dim }}>
               Проанализировано: <strong style={{ color: C.text }}>73 000+ ниш</strong> &middot; <strong style={{ color: C.text }}>16 месяцев данных</strong> (ноябрь 2024 — февраль 2026) &middot; <strong style={{ color: C.text }}>35 000+ отзывов</strong> покупателей Kaspi.kz &middot; <strong style={{ color: C.text }}>21 бренд</strong> &middot; <strong style={{ color: C.text }}>40+ SKU</strong>
             </p>
             <p style={{ ...sP, margin: 0, fontSize: 13, color: C.dim }}>
-              Источник данных: <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" style={{ color: C.accent, textDecoration: "none", fontWeight: 600 }}>RedStat.kz</a> &middot; Связанный документ: <a href="/reports/kaspi-cosmetics" style={{ color: C.accent, textDecoration: "none" }}>Часть I — Рынок «Красота и здоровье» на Kaspi.kz</a>
+              Источник данных: агрегированные данные Kaspi.kz &middot; Связанный документ: <a href="/reports/kaspi-cosmetics" style={{ color: C.accent, textDecoration: "none" }}>Часть I — Рынок «Красота и здоровье» на Kaspi.kz</a>
             </p>
           </div>
         </Section>

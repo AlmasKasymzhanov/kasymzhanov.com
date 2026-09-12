@@ -31,7 +31,7 @@ export function pathForLocale(pathname: string, locale: Locale): string {
 export const bcp47: Record<Locale, string> = { ru: "ru-RU", en: "en-US" };
 
 type Dict = {
-  nav: { search: string; closeSearch: string; signIn: string; account: string; signOut: string; lang: string; menu: string; openMenu: string; closeMenu: string; theme: string; themeSystem: string; themeLight: string; themeDark: string; latest: string; practice: string; market: string; technology: string; kazakhstan: string; newsletter: string; about: string };
+  nav: { search: string; closeSearch: string; signIn: string; account: string; signOut: string; lang: string; menu: string; openMenu: string; closeMenu: string; theme: string; themeSystem: string; themeLight: string; themeDark: string; latest: string; practice: string; market: string; kaspi: string; technology: string; kazakhstan: string; newsletter: string; about: string };
   about: { label: string; role: string; orders: string; building: string; title: string; subtitle: string; manifesto: string; bio: string; metrics: string; press: string; cta: string; publication: string };
   projects: { label: string; tenb: string; redstat: string; brock: string };
   contact: { label: string; body: string };
@@ -87,7 +87,7 @@ type Dict = {
 
 export const dict: Record<Locale, Dict> = {
   ru: {
-    nav: { search: "Поиск", closeSearch: "Закрыть поиск", signIn: "Войти", account: "Аккаунт", signOut: "Выйти", lang: "Язык интерфейса", menu: "Меню", openMenu: "Открыть меню", closeMenu: "Закрыть меню", theme: "Тема оформления", themeSystem: "Системная тема", themeLight: "Светлая тема", themeDark: "Тёмная тема", latest: "Последнее", practice: "Практика", market: "Рынки", technology: "Технологии", kazakhstan: "Казахстан", newsletter: "Рассылка", about: "Об издании" },
+    nav: { search: "Поиск", closeSearch: "Закрыть поиск", signIn: "Войти", account: "Аккаунт", signOut: "Выйти", lang: "Язык интерфейса", menu: "Меню", openMenu: "Открыть меню", closeMenu: "Закрыть меню", theme: "Тема оформления", themeSystem: "Системная тема", themeLight: "Светлая тема", themeDark: "Тёмная тема", latest: "Последнее", practice: "Практика", market: "Рынки", kaspi: "Kaspi Market", technology: "Технологии", kazakhstan: "Казахстан", newsletter: "Рассылка", about: "Об издании" },
     about: {
       label: "Обо мне",
       role: "Дата-журналист · аналитик · предприниматель",
@@ -111,7 +111,7 @@ export const dict: Record<Locale, Dict> = {
     contact: { label: "Контакты", body: "Есть вопрос или идея? Напишите — отвечу." },
     social: { label: "Социальные сети", body: "Подписывайтесь на мои соцсети" },
     footer: {
-      desc: "kasymzhanov.com — независимое издание дата-журналиста, аналитика и предпринимателя Алмаса Касымжанова. Аналитика рынков, событий и экономики.",
+      desc: "kasymzhanov.com — независимое издание дата-журналиста, аналитика и предпринимателя Almas Kasymzhanov. Аналитика рынков, событий и экономики.",
       colophon: "Иллюстрации — Higgsfield AI · пайплайн Claude Code + MCP",
       requisites: "© 2026 kasymzhanov.com · ИП «Касымжанов А.Ж.» · ИИН 930422350609",
       privacy: "Политика конфиденциальности",
@@ -182,7 +182,7 @@ export const dict: Record<Locale, Dict> = {
     minRead: (n) => `${n} мин`,
   },
   en: {
-    nav: { search: "Search", closeSearch: "Close search", signIn: "Sign in", account: "Account", signOut: "Sign out", lang: "Interface language", menu: "Menu", openMenu: "Open menu", closeMenu: "Close menu", theme: "Color theme", themeSystem: "System theme", themeLight: "Light theme", themeDark: "Dark theme", latest: "Latest", practice: "Practice", market: "Markets", technology: "Technology", kazakhstan: "Kazakhstan", newsletter: "Newsletter", about: "About" },
+    nav: { search: "Search", closeSearch: "Close search", signIn: "Sign in", account: "Account", signOut: "Sign out", lang: "Interface language", menu: "Menu", openMenu: "Open menu", closeMenu: "Close menu", theme: "Color theme", themeSystem: "System theme", themeLight: "Light theme", themeDark: "Dark theme", latest: "Latest", practice: "Practice", market: "Markets", kaspi: "Kaspi Market", technology: "Technology", kazakhstan: "Kazakhstan", newsletter: "Newsletter", about: "About" },
     about: {
       label: "About",
       role: "Data journalist · Analyst · Founder",

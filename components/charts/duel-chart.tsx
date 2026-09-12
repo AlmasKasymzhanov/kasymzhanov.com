@@ -48,7 +48,7 @@ function SideValue({ side, align }: { side: DuelSideValue; align: "left" | "righ
         "font-mono text-[12.5px] leading-snug tabular-nums",
         align === "right" ? "text-right" : "text-left",
         side.worse
-          ? "font-bold text-[var(--brock-accent)]"
+          ? "font-medium text-[var(--brock-accent)]"
           : "text-[var(--color-text)]",
       ].join(" ")}
     >
@@ -109,21 +109,21 @@ export function DuelChart({
       {/* Competitor zones — neutral side left, accent (subject) side right. */}
       <div className="grid grid-cols-2 items-end gap-0">
         <div className="border-r border-[var(--color-border)] pr-3 text-right">
-          <div className="text-[14px] font-bold tracking-tight text-[var(--color-text)]">
+          <div className="text-[14px] font-medium tracking-tight text-[var(--color-text)]">
             {leftLabel}
           </div>
           {leftTag ? (
-            <div className="mt-0.5 text-[10px] uppercase tracking-wider text-[var(--color-dim)]">
+            <div className="mt-0.5 text-[12px] uppercase tracking-wider text-[var(--color-dim)]">
               {leftTag}
             </div>
           ) : null}
         </div>
         <div className="pl-3 text-left">
-          <div className="text-[14px] font-bold tracking-tight text-[var(--brock-accent)]">
+          <div className="text-[14px] font-medium tracking-tight text-[var(--brock-accent)]">
             {rightLabel}
           </div>
           {rightTag ? (
-            <div className="mt-0.5 text-[10px] uppercase tracking-wider text-[var(--color-dim)]">
+            <div className="mt-0.5 text-[12px] uppercase tracking-wider text-[var(--color-dim)]">
               {rightTag}
             </div>
           ) : null}
@@ -138,8 +138,8 @@ export function DuelChart({
           const lPct = numeric ? ((row.left.n ?? 0) / rowMax) * 100 : 0;
           const rPct = numeric ? ((row.right.n ?? 0) / rowMax) * 100 : 0;
           return (
-            <div key={row.param}>
-              <div className="text-center text-[10px] uppercase tracking-wider text-[var(--color-dim)]">
+            <div key={row.param} data-chart-inspect tabIndex={0} data-chart-title={row.param} data-chart-rows={JSON.stringify([{ label: leftLabel, value: row.left.value }, { label: rightLabel, value: row.right.value }])}>
+              <div className="text-center text-[12px] uppercase tracking-wider text-[var(--color-dim)]">
                 {row.param}
               </div>
               <div className="mt-1 grid grid-cols-2 gap-0">
@@ -162,9 +162,9 @@ export function DuelChart({
       </div>
 
       {/* Verdict tally. */}
-      <div className="mt-5 border-t border-[var(--color-border)] pt-2.5 text-center text-[11px] text-[var(--color-dim)]">
+      <div className="mt-5 border-t border-[var(--color-border)] pt-2.5 text-center text-[12px] text-[var(--color-dim)]">
         {subjectLabel} {t.loses}{" "}
-        <span className="font-bold tabular-nums text-[var(--brock-accent)]">
+        <span className="font-medium tabular-nums text-[var(--brock-accent)]">
           {losses}
         </span>{" "}
         {t.of} {rows.length} {t.measures}

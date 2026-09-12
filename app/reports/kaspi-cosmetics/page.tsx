@@ -1,80 +1,61 @@
 "use client";
+import { IconlyArrowLeft } from "@/components/iconly-icons";
+import { ResearchSection, ResearchFact, ResearchNote, ResearchFigure } from "@/components/canon/research-editorial";
+import { ResearchReadingTime } from "@/components/canon/research-reading-time";
+
 
 import { useState } from "react";
 import Link from "next/link";
 
 /* ───── design tokens ───── */
 const C = {
-  bg: "#0a0a0f", surface: "#111119", border: "#1e1e30",
-  accent: "#e8729a", green: "#00d2a0", text: "#e8e8f0",
-  dim: "#999", faint: "#444", red: "#f87171", amber: "#f59e0b",
-  blue: "#60a5fa", pink: "#f472b6", cyan: "#22d3ee", purple: "#a78bfa",
+  bg: "var(--personal-paper)", surface: "var(--report-surface)", border: "var(--personal-border)",
+  accent: "var(--personal-text)", green: "var(--personal-text)", text: "var(--personal-text)",
+  dim: "var(--personal-muted)", faint: "var(--personal-border)", red: "var(--personal-text)", amber: "var(--personal-text)",
+  blue: "var(--personal-text)", pink: "var(--personal-text)", cyan: "var(--personal-text)", purple: "var(--personal-text)",
 };
 
 const sSection: React.CSSProperties = { marginBottom: 56 };
-const sH2: React.CSSProperties = { fontSize: 22, fontWeight: 700, margin: "0 0 24px", color: C.text, letterSpacing: "-0.01em", borderBottom: `1px solid ${C.border}`, paddingBottom: 12 };
-const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 600, margin: "28px 0 12px", color: C.text };
-const sP: React.CSSProperties = { fontSize: 14, lineHeight: 1.75, color: "#ccc", margin: "0 0 12px" };
-const sCard: React.CSSProperties = { background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, padding: "24px", marginBottom: 16 };
-const sBadge = (color: string): React.CSSProperties => ({ display: "inline-block", padding: "3px 10px", borderRadius: 20, background: `${color}18`, color, fontSize: 11, fontWeight: 600 });
+const sH2: React.CSSProperties = { fontSize: 22, fontWeight: 500, margin: "0 0 24px", color: C.text, letterSpacing: "-0.01em", borderBottom: `1px solid ${C.border}`, paddingBottom: 12 };
+const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 500, margin: "28px 0 12px", color: C.text };
+const sP: React.CSSProperties = { fontSize: "var(--reading-body-size)", lineHeight: 1.75, color: "var(--personal-text)", margin: "0 0 12px" };
+const sCard: React.CSSProperties = { margin: "24px 0", padding: 0 };
+const sBadge = (_color: string): React.CSSProperties => ({ display: "inline", color: "var(--personal-muted)", fontSize: 12, fontWeight: 400 });
 
-function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
-  const [open, setOpen] = useState(true);
-  return (
-    <div id={id} style={sSection}>
-      <h2 onClick={() => setOpen(!open)} style={{ ...sH2, cursor: "pointer", display: "flex", alignItems: "center", gap: 10, userSelect: "none" }}>
-        <span style={{ fontSize: 14, color: C.dim, transform: open ? "rotate(90deg)" : "rotate(0)", transition: "transform 0.2s", display: "inline-block" }}>&#9654;</span>
-        {title}
-      </h2>
-      {open && children}
-    </div>
-  );
-}
+function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) { return <ResearchSection id={id} title={title}>{children}</ResearchSection>; }
 
 function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (string | number)[][]; highlight?: number }) {
   return (
     <div style={{ overflowX: "auto", marginBottom: 16 }}>
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
-        <thead><tr>{headers.map((h, i) => (<th key={i} style={{ padding: "10px 12px", textAlign: "left", color: C.dim, fontWeight: 600, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>))}</tr></thead>
-        <tbody>{rows.map((row, ri) => (<tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `${C.accent}12` : "transparent" }}>{row.map((cell, ci) => (<td key={ci} style={{ padding: "10px 12px", textAlign: "left", color: ci === 0 ? C.text : "#ccc", borderBottom: `1px solid ${C.border}20`, fontWeight: ci === 0 ? 500 : 400, whiteSpace: ci === 0 ? "nowrap" : "normal" }}>{cell}</td>))}</tr>))}</tbody>
+        <thead><tr>{headers.map((h, i) => (<th key={i} style={{ padding: "10px 12px", textAlign: "left", color: C.dim, fontWeight: 500, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>))}</tr></thead>
+        <tbody>{rows.map((row, ri) => (<tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `color-mix(in srgb, ${C.accent} 7%, transparent)` : "transparent" }}>{row.map((cell, ci) => (<td key={ci} style={{ padding: "10px 12px", textAlign: "left", color: ci === 0 ? C.text : "var(--personal-text)", borderBottom: `1px solid color-mix(in srgb, ${C.border} 13%, transparent)`, fontWeight: ci === 0 ? 500 : 400, whiteSpace: ci === 0 ? "nowrap" : "normal" }}>{cell}</td>))}</tr>))}</tbody>
       </table>
     </div>
   );
 }
 
-function MetricCard({ label, value, sub, color }: { label: string; value: string; sub?: string; color?: string }) {
-  return (
-    <div style={{ ...sCard, padding: "16px 20px", flex: 1, minWidth: 140 }}>
-      <div style={{ fontSize: 11, color: C.dim, marginBottom: 6 }}>{label}</div>
-      <div style={{ fontSize: 22, fontWeight: 700, color: color || C.text }}>{value}</div>
-      {sub && <div style={{ fontSize: 11, color: C.dim, marginTop: 4 }}>{sub}</div>}
-    </div>
-  );
-}
+function MetricCard({ label, value, sub, color }: { label: string; value: string; sub?: string; color?: string }) { return <ResearchFact label={label} value={value} note={sub} />; }
 
-function Insight({ text, type = "info" }: { text: string; type?: "info" | "warning" | "success" }) {
-  const color = type === "warning" ? C.amber : type === "success" ? C.green : C.blue;
-  return <div style={{ borderLeft: `3px solid ${color}`, paddingLeft: 14, margin: "12px 0", fontSize: 13, color: "#ccc", lineHeight: 1.6 }}><strong style={{ color }}>Инсайт: </strong>{text}</div>;
-}
+function Insight({ text, type = "info" }: { text: string; type?: "info" | "warning" | "success" }) { return <p className="research-paragraph">{text}</p>; }
 
-function Rec({ text }: { text: string }) {
-  return <div style={{ borderLeft: `3px solid ${C.accent}`, paddingLeft: 14, margin: "12px 0", fontSize: 13, color: "#ccc", lineHeight: 1.6 }}><strong style={{ color: C.accent }}>Рекомендация: </strong>{text}</div>;
-}
+function Rec({ text }: { text: string }) { return <p className="research-paragraph">{text}</p>; }
 
 /* ═══════════════════ MAIN ═══════════════════ */
 export default function BeautyMarketReport() {
   return (
-    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "'Inter', -apple-system, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "var(--font-body)" }}>
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "40px 24px 80px" }}>
 
-        <div style={{ marginBottom: 16 }}><Link href="/" style={{ color: C.dim, fontSize: 13, textDecoration: "none" }}>&larr; kasymzhanov.com</Link></div>
+        <div style={{ marginBottom: 16 }}><Link href="/" style={{ color: C.dim, fontSize: 13, textDecoration: "none" }}><IconlyArrowLeft size={17} className="reading-inline-icon" /> kasymzhanov.com</Link></div>
 
         {/* ═══ HEADER ═══ */}
-        <div style={{ marginBottom: 48, paddingBottom: 32, borderBottom: `1px solid ${C.border}` }}>
-          <div style={sBadge(C.accent)}><span style={{ textTransform: "uppercase", letterSpacing: "0.05em" }}>Enterprise Analytics Report</span></div>
-          <h1 style={{ fontSize: 32, fontWeight: 800, margin: "16px 0 8px", letterSpacing: "-0.03em", lineHeight: 1.2 }}>
-            Рынок «Красота и здоровье»<br />на Kaspi.kz
+        <div className="research-header" style={{ marginBottom: 48, paddingBottom: 32, borderBottom: `1px solid ${C.border}` }}>
+          <div style={sBadge(C.accent)}><span style={{ textTransform: "none", letterSpacing: "0.05em" }}>Enterprise Analytics Report</span></div>
+          <h1 style={{ fontSize: 32, fontWeight: 500, margin: "16px 0 8px", letterSpacing: "-0.03em", lineHeight: 1.2 }}>
+            Рынок «Красота и здоровье»{" "}на Kaspi.kz
           </h1>
+<p className="research-lead">Рынок красоты и здоровья на Kaspi: категории, сезонность, бренды и возможности для развития ассортимента.</p>
           <p style={{ color: C.dim, fontSize: 14, margin: "12px 0 0" }}>
             Подготовил <strong style={{ color: C.text }}>Алмас Касымжанов</strong>
           </p>
@@ -82,16 +63,18 @@ export default function BeautyMarketReport() {
             <span>Дата: <strong style={{ color: C.text }}>Март 2026</strong></span>
             <span>Период: <strong style={{ color: C.text }}>Ноябрь 2024 — Февраль 2026</strong></span>
             <span>Ниш: <strong style={{ color: C.text }}>73 000+</strong></span>
-            <span>Источник: <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" style={{ color: C.text, textDecoration: "none" }}>RedStat.kz</a></span>
+            <span>Источник: агрегированные данные Kaspi.kz</span>
           </div>
-          <p style={{ ...sP, marginTop: 16, fontSize: 13, color: C.dim }}>Данный отчёт покрывает <strong style={{ color: C.text }}>весь рынок «Красота и здоровье»</strong> на Kaspi.kz: структуру, ключевые ниши, топ-бренды, сезонность, ценовые сегменты, динамику год к году, точки роста и стратегические рекомендации.</p>
-        </div>
+          <p className="research-lead" style={{ ...sP, marginTop: 16, fontSize: 13, color: C.dim }}>Данный отчёт покрывает <strong style={{ color: C.text }}>весь рынок «Красота и здоровье»</strong> на Kaspi.kz: структуру, ключевые ниши, топ-бренды, сезонность, ценовые сегменты, динамику год к году, точки роста и стратегические рекомендации.</p>
+
+<ResearchReadingTime />
+</div>
 
         {/* ═══ TOC ═══ */}
         <div style={{ ...sCard, marginBottom: 48, padding: "20px 24px" }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: C.dim, marginBottom: 12 }}>Содержание</div>
+          <div style={{ fontSize: 13, fontWeight: 400, color: C.dim, marginBottom: 12 }}>Содержание</div>
           {[
-            ["s1", "1. Executive Summary"],
+            ["s1", "1. Обзор"],
             ["s2", "2. TAM и структура рынка"],
             ["s3", "3. Уход за лицом — крупнейшая подкатегория"],
             ["s4", "4. Декоративная косметика"],
@@ -111,8 +94,8 @@ export default function BeautyMarketReport() {
         </div>
 
         {/* ═══ 1. EXECUTIVE SUMMARY ═══ */}
-        <Section id="s1" title="1. Executive Summary">
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24 }}>
+        <Section id="s1" title="1. Обзор">
+          <div className="research-facts" >
             <MetricCard label="TAM (16 мес)" value="612B" sub="KZT выручки" color={C.accent} />
             <MetricCard label="Заказов (фев 2026)" value="198M" sub="#1 на Kaspi по объёму" />
             <MetricCard label="SKU" value="1.5M" sub="товарных позиций" />
@@ -121,7 +104,7 @@ export default function BeautyMarketReport() {
           <p style={sP}>«Красота и здоровье» — <strong style={{ color: C.text }}>крупнейшая категория Kaspi по количеству заказов</strong> (198M за 16 мес — больше, чем телефоны и бытовая техника). По выручке — 7-я (612B KZT), уступая высокочековым электронике и авто.</p>
           <div style={sCard}>
             <h3 style={{ ...sH3, margin: "0 0 12px" }}>Ключевые выводы отчёта</h3>
-            <div style={{ fontSize: 13, lineHeight: 2, color: "#ccc" }}>
+            <div style={{ fontSize: 13, lineHeight: 2, color: "var(--personal-text)" }}>
               <div>1. Рынок растёт <strong style={{ color: C.green }}>+40-80% YoY</strong> по ключевым нишам (кремы, шампуни, наборы)</div>
               <div>2. <strong style={{ color: C.text }}>Уходовая косметика = 1.7x выручка</strong> декоративной, но по заказам равны</div>
               <div>3. Два пиковых сезона: <strong style={{ color: C.amber }}>8 марта</strong> (наборы 1B+, тональные 991M) и <strong style={{ color: C.amber }}>Новый год</strong> (наборы 1.1B+)</div>
@@ -375,9 +358,9 @@ export default function BeautyMarketReport() {
             ["Кремы для тела", "Рост (8М)", "Стабильно", "Стабильно", "ПИК (НГ: 432M)"],
           ]} />
 
-          <div style={{ ...sCard, borderLeft: `3px solid ${C.amber}` }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, margin: "0 0 12px", color: C.amber }}>Календарь закупок для beauty-дистрибьютора</h3>
-            <div style={{ fontSize: 13, lineHeight: 2, color: "#ccc" }}>
+            <div style={{ fontSize: 13, lineHeight: 2, color: "var(--personal-text)" }}>
               <div><strong style={{ color: C.text }}>Январь-Февраль:</strong> Закупка наборов и тональных к 8 марта. Пик #2 наборов (1029M).</div>
               <div><strong style={{ color: C.text }}>Март:</strong> Продажи 8 марта. Тональные 991M — рекорд. Кремы на пике.</div>
               <div><strong style={{ color: C.text }}>Апрель-Май:</strong> SPF-кремы, тоники, умывание — переход к летнему уходу.</div>
@@ -445,7 +428,7 @@ export default function BeautyMarketReport() {
 
         {/* ═══ 11. CARE vs DECOR ═══ */}
         <Section id="s11" title="11. Уход vs Декоративная косметика">
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 16 }}>
+          <div className="research-facts" >
             <MetricCard label="Уход за лицом" value="2 919M" sub="790K заказов, ср. чек 3.7K" color={C.green} />
             <MetricCard label="Декоративная косметика" value="1 716M" sub="759K заказов, ср. чек 2.3K" color={C.pink} />
           </div>
@@ -473,13 +456,13 @@ export default function BeautyMarketReport() {
           ]} highlight={0} />
           <div style={sCard}>
             <h3 style={{ ...sH3, margin: "0 0 8px" }}>Цитаты покупателей</h3>
-            <div style={{ borderLeft: `3px solid ${C.red}`, paddingLeft: 14, margin: "8px 0", fontSize: 13, color: "#bbb", lineHeight: 1.6 }}>
+            <div style={{ paddingLeft: 14, margin: "8px 0", fontSize: 13, color: "var(--personal-muted)", lineHeight: 1.6 }}>
               «Товар оказался подделкой. Упаковка и консистенция отличаются от оригинала, вызывает раздражение кожи.»
             </div>
-            <div style={{ borderLeft: `3px solid ${C.red}`, paddingLeft: 14, margin: "8px 0", fontSize: 13, color: "#bbb", lineHeight: 1.6 }}>
+            <div style={{ paddingLeft: 14, margin: "8px 0", fontSize: 13, color: "var(--personal-muted)", lineHeight: 1.6 }}>
               «Обожгла всё лицо, вечером умылась — на утро увидела ужас. Спас Бепантен.»
             </div>
-            <div style={{ borderLeft: `3px solid ${C.red}`, paddingLeft: 14, margin: "8px 0", fontSize: 13, color: "#bbb", lineHeight: 1.6 }}>
+            <div style={{ paddingLeft: 14, margin: "8px 0", fontSize: 13, color: "var(--personal-muted)", lineHeight: 1.6 }}>
               «Подделкасын салып жіберген» — подделку прислали.
             </div>
           </div>
@@ -489,7 +472,7 @@ export default function BeautyMarketReport() {
 
         {/* ═══ 13. GROWTH SPOTS ═══ */}
         <Section id="s13" title="13. Точки роста и белые пятна">
-          <div style={{ ...sCard, borderTop: `3px solid ${C.green}` }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, margin: "0 0 8px", color: C.green }}>Быстрорастущие ниши</h3>
             <DataTable headers={["Ниша", "Выручка (фев 2026)", "YoY рост", "Комментарий"]} rows={[
               ["Патчи", "45M", "+114%", "Маленькая, но самая быстрая. SADOER лидирует."],
@@ -500,7 +483,7 @@ export default function BeautyMarketReport() {
             ]} />
           </div>
 
-          <div style={{ ...sCard, borderTop: `3px solid ${C.cyan}` }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, margin: "0 0 8px", color: C.cyan }}>Белые пятна (ниши без сильного лидера)</h3>
             <DataTable headers={["Ниша", "Выручка (фев 2026)", "Проблема", "Возможность"]} rows={[
               ["Шампуни (630M)", "630M", "#1 = elline (103M с 1 SKU — аномалия)", "Нет бренда с широкой линейкой hair care"],
@@ -510,7 +493,7 @@ export default function BeautyMarketReport() {
             ]} />
           </div>
 
-          <div style={{ ...sCard, borderTop: `3px solid ${C.amber}` }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, margin: "0 0 8px", color: C.amber }}>Замедляющиеся ниши</h3>
             <DataTable headers={["Ниша", "Выручка (фев 2026)", "YoY", "Комментарий"]} rows={[
               ["Тональные", "536M", "+5%", "Возможно, насыщение. Или перетекание в BB/CC кремы."],
@@ -524,7 +507,7 @@ export default function BeautyMarketReport() {
 
           <div style={sCard}>
             <h3 style={{ ...sH3, margin: "0 0 16px" }}>Стратегические рекомендации для beauty-дистрибьютора на Kaspi</h3>
-            <div style={{ fontSize: 13, lineHeight: 2.2, color: "#ccc" }}>
+            <div style={{ fontSize: 13, lineHeight: 2.2, color: "var(--personal-text)" }}>
               {[
                 { n: "1", t: "Ценовая политика", d: "Оптимальная зона — 6-10K KZT за единицу (52% рынка кремов). Ниже 3K — территория подделок. Наборы — 15-35K (63% рынка наборов)." },
                 { n: "2", t: "Борьба с подделками", d: "QR-верификация, маркировка «авторизованный дистрибьютор», фото с оригинального склада, ответы на негативные отзывы." },
@@ -538,19 +521,19 @@ export default function BeautyMarketReport() {
                 { n: "10", t: "Мониторинг конкурентов", d: "Dr. Althea вырос до #1 в кремах за год (36M → 142M). Bioderma — #2 в кремах, но #1 в умывании. Рынок динамичный — лидеры меняются быстро." },
               ].map((item) => (
                 <div key={item.n} style={{ marginBottom: 8 }}>
-                  <span style={{ color: C.accent, fontWeight: 700, marginRight: 8 }}>{item.n}.</span>
+                  <span style={{ color: C.accent, fontWeight: 400, marginRight: 8 }}>{item.n}.</span>
                   <strong style={{ color: C.text }}>{item.t}:</strong> {item.d}
                 </div>
               ))}
             </div>
           </div>
 
-          <div style={{ marginTop: 24, padding: "20px 24px", background: `${C.accent}08`, borderRadius: 12, border: `1px solid ${C.accent}30` }}>
+          <div style={{ marginTop: 24, padding: "16px 0" }}>
             <p style={{ ...sP, margin: "0 0 8px", fontSize: 13, color: C.dim }}>
               Проанализировано: <strong style={{ color: C.text }}>73 000+ ниш</strong> &middot; <strong style={{ color: C.text }}>16 месяцев данных</strong> (ноябрь 2024 — февраль 2026) &middot; <strong style={{ color: C.text }}>35 000+ отзывов</strong> покупателей Kaspi.kz
             </p>
             <p style={{ ...sP, margin: 0, fontSize: 13, color: C.dim }}>
-              Источник данных: <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" style={{ color: C.accent, textDecoration: "none", fontWeight: 600 }}>RedStat.kz</a>
+              Источник данных: агрегированные данные Kaspi.kz
             </p>
           </div>
         </Section>

@@ -23,9 +23,9 @@ export async function GET(req: NextRequest) {
     .from("page_views")
     .select("count")
     .eq("slug", slug)
-    .single();
+    .maybeSingle();
 
-  if (error) return NextResponse.json({ count: 0 });
+  if (error) return NextResponse.json({ error: "Views unavailable" }, { status: 503 });
 
-  return NextResponse.json({ count: data.count });
+  return NextResponse.json({ count: data?.count ?? 0 });
 }

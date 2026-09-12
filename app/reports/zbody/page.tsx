@@ -1,67 +1,36 @@
 "use client";
+import { IconlyArrowLeft } from "@/components/iconly-icons";
+import { ResearchSection, ResearchFact, ResearchNote, ResearchFigure } from "@/components/canon/research-editorial";
+import { ResearchReadingTime } from "@/components/canon/research-reading-time";
+
+import { ResearchBars as BarChart } from "@/components/charts/research-bars";
 
 import { useState } from "react";
 import Link from "next/link";
 
 /* ───── design tokens ───── */
 const C = {
-  bg: "#0a0a0f", surface: "#111119", border: "#1e1e30",
-  accent: "#6c5ce7", green: "#00d2a0", text: "#e8e8f0",
-  dim: "#999", faint: "#444", red: "#f87171", amber: "#f59e0b",
-  blue: "#60a5fa", pink: "#f472b6", cyan: "#22d3ee",
+  bg: "var(--personal-paper)", surface: "var(--report-surface)", border: "var(--personal-border)",
+  accent: "var(--personal-text)", green: "var(--personal-text)", text: "var(--personal-text)",
+  dim: "var(--personal-muted)", faint: "var(--personal-border)", red: "var(--personal-text)", amber: "var(--personal-text)",
+  blue: "var(--personal-text)", pink: "var(--personal-text)", cyan: "var(--personal-text)",
 };
 
 /* ───── style helpers ───── */
 const sSection: React.CSSProperties = { marginBottom: 56 };
-const sH2: React.CSSProperties = { fontSize: 22, fontWeight: 700, margin: "0 0 24px", color: C.text, letterSpacing: "-0.01em", borderBottom: `1px solid ${C.border}`, paddingBottom: 12 };
-const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 600, margin: "28px 0 12px", color: C.text };
-const sP: React.CSSProperties = { fontSize: 14, lineHeight: 1.75, color: "#ccc", margin: "0 0 12px" };
-const sCard: React.CSSProperties = { background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, padding: "24px", marginBottom: 16 };
+const sH2: React.CSSProperties = { fontSize: 22, fontWeight: 500, margin: "0 0 24px", color: C.text, letterSpacing: "-0.01em", borderBottom: `1px solid ${C.border}`, paddingBottom: 12 };
+const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 500, margin: "28px 0 12px", color: C.text };
+const sP: React.CSSProperties = { fontSize: "var(--reading-body-size)", lineHeight: 1.75, color: "var(--personal-text)", margin: "0 0 12px" };
+const sCard: React.CSSProperties = { margin: "24px 0", padding: 0 };
 
 /* ───── Collapsible Section ───── */
-function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
-  const [open, setOpen] = useState(true);
-  return (
-    <div id={id} style={sSection}>
-      <h2 onClick={() => setOpen(!open)} style={{ ...sH2, cursor: "pointer", display: "flex", alignItems: "center", gap: 10, userSelect: "none" }}>
-        <span style={{ fontSize: 14, color: C.dim, transform: open ? "rotate(90deg)" : "rotate(0)", transition: "transform 0.2s", display: "inline-block" }}>&#9654;</span>
-        {title}
-      </h2>
-      {open && children}
-    </div>
-  );
-}
+function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) { return <ResearchSection id={id} title={title}>{children}</ResearchSection>; }
 
 /* ───── Metric Card ───── */
-function MetricCard({ label, value, sub, color }: { label: string; value: string; sub?: string; color: string }) {
-  return (
-    <div style={{ ...sCard, borderTop: `2px solid ${color}`, textAlign: "center", padding: "28px 20px" }}>
-      <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.08em", color: C.dim, marginBottom: 10, fontWeight: 600 }}>{label}</div>
-      <div style={{ fontSize: 28, fontWeight: 800, color, letterSpacing: "-0.02em" }}>{value}</div>
-      {sub && <div style={{ fontSize: 12, color: C.dim, marginTop: 8 }}>{sub}</div>}
-    </div>
-  );
-}
+function MetricCard({ label, value, sub, color }: { label: string; value: string; sub?: string; color: string }) { return <ResearchFact label={label} value={value} note={sub} />; }
 
 /* ───── Bar Chart (CSS) ───── */
-function BarChart({ data, maxVal, color, unit }: { data: { label: string; value: number }[]; maxVal: number; color: string; unit?: string }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-      {data.map((d, i) => (
-        <div key={i} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ fontSize: 11, color: C.dim, width: 90, textAlign: "right", flexShrink: 0 }}>{d.label}</span>
-          <div style={{ flex: 1, height: 22, background: `${color}11`, borderRadius: 4, overflow: "hidden", position: "relative" }}>
-            <div style={{ width: `${Math.max((d.value / maxVal) * 100, 1)}%`, height: "100%", background: `linear-gradient(90deg, ${color}88, ${color})`, borderRadius: 4, transition: "width 0.8s ease" }} />
-          </div>
-          <span style={{ fontSize: 11, color: C.text, width: 80, textAlign: "right", fontFamily: "monospace", flexShrink: 0 }}>
-            {d.value >= 1000000000 ? (d.value / 1000000000).toFixed(1) + "B" : d.value >= 1000000 ? (d.value / 1000000).toFixed(1) + "M" : d.value >= 1000 ? (d.value / 1000).toFixed(0) + "K" : d.value}
-            {unit ? ` ${unit}` : ""}
-          </span>
-        </div>
-      ))}
-    </div>
-  );
-}
+
 
 /* ───── Data Table ───── */
 function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (string | number)[][]; highlight?: number }) {
@@ -70,14 +39,14 @@ function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (str
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
         <thead>
           <tr>{headers.map((h, i) => (
-            <th key={i} style={{ padding: "10px 12px", textAlign: i === 0 ? "left" : "right", color: C.dim, fontWeight: 600, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>
+            <th key={i} style={{ padding: "10px 12px", textAlign: i === 0 ? "left" : "right", color: C.dim, fontWeight: 500, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>
           ))}</tr>
         </thead>
         <tbody>
           {rows.map((row, ri) => (
-            <tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `${C.accent}12` : "transparent" }}>
+            <tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `color-mix(in srgb, ${C.accent} 7%, transparent)` : "transparent" }}>
               {row.map((cell, ci) => (
-                <td key={ci} style={{ padding: "10px 12px", textAlign: ci === 0 ? "left" : "right", color: ci === 0 ? C.text : "#ccc", borderBottom: `1px solid ${C.border}20`, fontWeight: ci === 0 ? 500 : 400, whiteSpace: "nowrap" }}>{cell}</td>
+                <td key={ci} style={{ padding: "10px 12px", textAlign: ci === 0 ? "left" : "right", color: ci === 0 ? C.text : "var(--personal-text)", borderBottom: `1px solid color-mix(in srgb, ${C.border} 13%, transparent)`, fontWeight: ci === 0 ? 500 : 400, whiteSpace: "nowrap" }}>{cell}</td>
               ))}
             </tr>
           ))}
@@ -88,39 +57,29 @@ function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (str
 }
 
 /* ───── Funnel Step ───── */
-function FunnelStep({ step, label, detail, color }: { step: number; label: string; detail: string; color: string }) {
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 12 }}>
-      <div style={{ width: 36, height: 36, borderRadius: "50%", background: `${color}22`, border: `2px solid ${color}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, color, flexShrink: 0 }}>{step}</div>
-      <div>
-        <div style={{ fontSize: 14, fontWeight: 600, color: C.text }}>{label}</div>
-        <div style={{ fontSize: 12, color: C.dim }}>{detail}</div>
-      </div>
-    </div>
-  );
-}
+function FunnelStep({ step, label, detail, color }: { step: number; label: string; detail: string; color: string }) { return <ResearchNote title={label}>{detail}</ResearchNote>; }
 
 /* ═══════════════════════════════════════════════ */
 /*                  MAIN PAGE                      */
 /* ═══════════════════════════════════════════════ */
 export default function ZBodyReport() {
   return (
-    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "'Inter', -apple-system, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "var(--font-body)" }}>
       <div style={{ maxWidth: 920, margin: "0 auto", padding: "40px 24px 80px" }}>
 
         {/* ═══ Header ═══ */}
         <div style={{ marginBottom: 16 }}>
-          <Link href="/" style={{ color: C.dim, fontSize: 13, textDecoration: "none" }}>&larr; kasymzhanov.com</Link>
+          <Link href="/" style={{ color: C.dim, fontSize: 13, textDecoration: "none" }}><IconlyArrowLeft size={17} className="reading-inline-icon" /> kasymzhanov.com</Link>
         </div>
 
-        <div style={{ marginBottom: 48, paddingBottom: 32, borderBottom: `1px solid ${C.border}` }}>
-          <div style={{ display: "inline-block", padding: "4px 12px", borderRadius: 20, background: `${C.pink}18`, color: C.pink, fontSize: 11, fontWeight: 600, letterSpacing: "0.05em", marginBottom: 16, textTransform: "uppercase" }}>
+        <div className="research-header" style={{ marginBottom: 48, paddingBottom: 32, borderBottom: `1px solid ${C.border}` }}>
+          <div style={{ display: "inline-block", padding: "16px 0", color: C.pink, fontSize: 11, fontWeight: 400, letterSpacing: "0.05em", marginBottom: 16, textTransform: "none" }}>
             Enterprise-стратегия
           </div>
-          <h1 style={{ fontSize: 32, fontWeight: 800, margin: "0 0 8px", letterSpacing: "-0.03em", lineHeight: 1.2 }}>
-            ZBODY — Стратегия создания<br />Phygital-бренда
+          <h1 style={{ fontSize: 32, fontWeight: 500, margin: "0 0 8px", letterSpacing: "-0.03em", lineHeight: 1.2 }}>
+            ZBODY — Стратегия создания{" "}Phygital-бренда
           </h1>
-          <p style={{ color: "#ccc", fontSize: 15, margin: "12px 0 0" }}>
+          <p className="research-lead" style={{ color: "var(--personal-text)", fontSize: 15, margin: "12px 0 0" }}>
             HealthTech + E-commerce экосистема
           </p>
           <p style={{ color: C.dim, fontSize: 14, margin: "12px 0 0" }}>
@@ -134,13 +93,15 @@ export default function ZBodyReport() {
             <span>Дата: <strong style={{ color: C.text }}>Март 2026</strong></span>
             <span>Статус: <strong style={{ color: C.green }}>Конфиденциально</strong></span>
           </div>
-        </div>
+
+<ResearchReadingTime />
+</div>
 
         {/* ═══ TOC ═══ */}
         <div style={{ ...sCard, marginBottom: 48, padding: "20px 24px" }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: C.dim, marginBottom: 12 }}>Содержание</div>
+          <div style={{ fontSize: 13, fontWeight: 400, color: C.dim, marginBottom: 12 }}>Содержание</div>
           {[
-            ["sec-1", "1. Executive Summary"],
+            ["sec-1", "1. Обзор"],
             ["sec-2", "2. Профиль основателя"],
             ["sec-3", "3. Анализ рынка"],
             ["sec-4", "4. Конкурентный ландшафт"],
@@ -158,16 +119,16 @@ export default function ZBodyReport() {
           ))}
         </div>
 
-        {/* ═══ 1. Executive Summary ═══ */}
-        <Section id="sec-1" title="1. Executive Summary">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 24 }}>
+        {/* ═══ 1. Обзор ═══ */}
+        <Section id="sec-1" title="1. Обзор">
+          <div className="research-facts" >
             <MetricCard label="Выручка Год 1" value="₸150M+" sub="~$300K" color={C.accent} />
             <MetricCard label="Загрузки приложения" value="35 000" sub="за 12 месяцев" color={C.green} />
             <MetricCard label="LTV Phygital-клиента" value="₸42 000" sub="x5.25 vs только товары" color={C.pink} />
             <MetricCard label="LTV / CAC" value="8.4" sub="Рекуррентный доход 65%" color={C.amber} />
           </div>
 
-          <div style={{ ...sCard, borderColor: C.green, borderWidth: 2 }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, marginTop: 0, color: C.green, fontSize: 18 }}>Возможность</h3>
             <p style={sP}>
               <strong style={{ color: C.text }}>Рынок фитнес-услуг Казахстана — ₸235 млрд с ростом +28% в год.</strong> При этом ни одного казахстанского wellness-приложения не существует. Ниша полностью пустая.
@@ -192,7 +153,7 @@ export default function ZBodyReport() {
             highlight={5}
           />
 
-          <div style={{ ...sCard, background: `${C.accent}08`, borderColor: C.accent }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, marginTop: 0, color: C.accent }}>Почему именно сейчас</h3>
             <ul style={{ ...sP, paddingLeft: 20 }}>
               <li>Фитнес-рынок КЗ растёт +28% ежегодно</li>
@@ -233,7 +194,7 @@ export default function ZBodyReport() {
             ]}
           />
 
-          <div style={{ ...sCard, borderColor: C.green, borderWidth: 2 }}>
+          <div style={{ ...sCard }}>
             <p style={sP}>
               <strong style={{ color: C.green }}>Вывод:</strong> Зарина имеет <strong style={{ color: C.text }}>лучшую стартовую позицию</strong>, чем Kayla в 2013: больше подписчиков, работающий бизнес, нулевая конкуренция. Kayla из этой позиции построила бизнес на $400M.
             </p>
@@ -242,7 +203,7 @@ export default function ZBodyReport() {
 
         {/* ═══ 3. Анализ рынка ═══ */}
         <Section id="sec-3" title="3. Анализ рынка">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 24 }}>
+          <div className="research-facts" >
             <MetricCard label="Фитнес-рынок КЗ" value="₸235 млрд" sub="~$470M, 2025" color={C.accent} />
             <MetricCard label="Рост YoY" value="+28%" sub="2025 vs 2024" color={C.green} />
             <MetricCard label="Проникновение" value="3.3%" sub="в Алматы/Астане >10%" color={C.amber} />
@@ -313,7 +274,7 @@ export default function ZBodyReport() {
             ]}
           />
 
-          <div style={{ ...sCard, background: `${C.amber}08`, borderColor: C.amber }}>
+          <div style={{ ...sCard }}>
             <p style={sP}>
               <strong style={{ color: C.amber }}>Ключевой инсайт:</strong> В Казахстане прямых конкурентов нет. Аудитория использует BetterMe (англоязычный) или Instagram-марафоны без системного продукта. <strong style={{ color: C.text }}>ZBody = первое казахстанское wellness-приложение.</strong>
             </p>
@@ -385,7 +346,7 @@ export default function ZBodyReport() {
             ]}
           />
 
-          <div style={{ ...sCard, background: `${C.green}08`, borderColor: C.green }}>
+          <div style={{ ...sCard }}>
             <p style={sP}>
               <strong style={{ color: C.green }}>Ключевая связка:</strong> Каждый физический товар содержит QR-код → 1 месяц бесплатного Premium в приложении. Товар = инструмент привлечения для app.
             </p>
@@ -399,35 +360,35 @@ export default function ZBodyReport() {
           <DataTable
             headers={["Товар ZBody", "На Kaspi?", "Конкуренция", "Бренды", "Возможность"]}
             rows={[
-              ["Фитнес-резинки", "✅ Есть", "Средняя", "Много no-name, мало брендов", "🟢 Высокая"],
-              ["Леггинсы спортивные", "✅ Есть", "Средняя", "Sports Enterprise, LIMIKO, Alamata", "🟡 Средняя"],
-              ["Коврик для йоги", "✅ Есть", "Высокая (1000+ моделей)", "FLO, Nanofit, no-name", "🔴 Низкая"],
-              ["Бутылка спортивная", "✅ Есть", "Высокая (1000+ моделей)", "Sea&Sky, StatiX, no-name", "🔴 Низкая"],
-              ["Протеиновые батончики", "✅ Есть", "Средняя", "BombBar, Daribar, Pump Up, ONLYFIT", "🟡 Средняя"],
-              ["Коллаген капсулы", "✅ Есть", "Средняя", "Natural Health, GLS, Эвалар, TURAN", "🟡 Средняя"],
+              ["Фитнес-резинки", " Есть", "Средняя", "Много no-name, мало брендов", " Высокая"],
+              ["Леггинсы спортивные", " Есть", "Средняя", "Sports Enterprise, LIMIKO, Alamata", " Средняя"],
+              ["Коврик для йоги", " Есть", "Высокая (1000+ моделей)", "FLO, Nanofit, no-name", " Низкая"],
+              ["Бутылка спортивная", " Есть", "Высокая (1000+ моделей)", "Sea&Sky, StatiX, no-name", " Низкая"],
+              ["Протеиновые батончики", " Есть", "Средняя", "BombBar, Daribar, Pump Up, ONLYFIT", " Средняя"],
+              ["Коллаген капсулы", " Есть", "Средняя", "Natural Health, GLS, Эвалар, TURAN", " Средняя"],
             ]}
           />
 
           <h3 style={sH3}>Рекомендуемый порядок запуска</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 16 }}>
-            <div style={{ ...sCard, borderTop: `2px solid ${C.green}` }}>
-              <div style={{ fontSize: 11, color: C.green, fontWeight: 600, marginBottom: 8, textTransform: "uppercase" }}>Фаза 1 — Запускать первыми</div>
-              <div style={{ fontSize: 14, fontWeight: 600, color: C.text, marginBottom: 4 }}>Фитнес-резинки</div>
+          <div style={{ display: "block", marginBottom: 16 }}>
+            <div style={{ ...sCard }}>
+              <div style={{ fontSize: 11, color: C.green, fontWeight: 400, marginBottom: 8, textTransform: "none" }}>Фаза 1 — Запускать первыми</div>
+              <div style={{ fontSize: 14, fontWeight: 400, color: C.text, marginBottom: 4 }}>Фитнес-резинки</div>
               <div style={{ fontSize: 12, color: C.dim }}>Мало брендов на Kaspi, низкий MOQ, маржа 80%, идеальная связка с челленджем приседаний. Комиссия Kaspi 10.9%</div>
             </div>
-            <div style={{ ...sCard, borderTop: `2px solid ${C.blue}` }}>
-              <div style={{ fontSize: 11, color: C.blue, fontWeight: 600, marginBottom: 8, textTransform: "uppercase" }}>Фаза 2 — Запускать вторыми</div>
-              <div style={{ fontSize: 14, fontWeight: 600, color: C.text, marginBottom: 4 }}>Леггинсы + Спортпит</div>
+            <div style={{ ...sCard }}>
+              <div style={{ fontSize: 11, color: C.blue, fontWeight: 400, marginBottom: 8, textTransform: "none" }}>Фаза 2 — Запускать вторыми</div>
+              <div style={{ fontSize: 14, fontWeight: 400, color: C.text, marginBottom: 4 }}>Леггинсы + Спортпит</div>
               <div style={{ fontSize: 12, color: C.dim }}>Леггинсы «Squat Collection» = product-market fit с аудиторией. Батончики — white-label. Комиссия 13.5% / 10.9%</div>
             </div>
-            <div style={{ ...sCard, borderTop: `2px solid ${C.dim}` }}>
-              <div style={{ fontSize: 11, color: C.dim, fontWeight: 600, marginBottom: 8, textTransform: "uppercase" }}>Фаза 3 — Отложить</div>
-              <div style={{ fontSize: 14, fontWeight: 600, color: C.text, marginBottom: 4 }}>Коврики, бутылки, коллаген</div>
+            <div style={{ ...sCard }}>
+              <div style={{ fontSize: 11, color: C.dim, fontWeight: 400, marginBottom: 8, textTransform: "none" }}>Фаза 3 — Отложить</div>
+              <div style={{ fontSize: 14, fontWeight: 400, color: C.text, marginBottom: 4 }}>Коврики, бутылки, коллаген</div>
               <div style={{ fontSize: 12, color: C.dim }}>Слишком много конкурентов (1000+ моделей). Запускать когда бренд ZBody уже узнаваем</div>
             </div>
           </div>
 
-          <div style={{ ...sCard, background: `${C.amber}08`, borderColor: C.amber }}>
+          <div style={{ ...sCard }}>
             <p style={sP}>
               <strong style={{ color: C.amber }}>Ключевой инсайт:</strong> Фитнес-резинки — единственная категория с низкой конкуренцией брендов на Kaspi и идеальным product-market fit с аудиторией Зарины (челлендж приседаний). <strong style={{ color: C.text }}>Это must-have для запуска в Фазе 1.</strong>
             </p>
@@ -436,20 +397,20 @@ export default function ZBodyReport() {
 
         {/* ═══ 7. Unit-экономика ═══ */}
         <Section id="sec-7" title="7. Unit-экономика (3 сценария)">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 24 }}>
-            <div style={{ ...sCard, borderTop: `2px solid ${C.dim}` }}>
-              <div style={{ fontSize: 11, color: C.dim, fontWeight: 600, marginBottom: 8, textTransform: "uppercase" }}>Сценарий A: Товары</div>
-              <div style={{ fontSize: 24, fontWeight: 800, color: C.dim }}>₸9M</div>
+          <div style={{ display: "block", marginBottom: 24 }}>
+            <div style={{ ...sCard }}>
+              <div style={{ fontSize: 11, color: C.dim, fontWeight: 400, marginBottom: 8, textTransform: "none" }}>Сценарий A: Товары</div>
+              <div style={{ fontSize: 16, fontWeight: 400, color: C.dim }}>₸9M</div>
               <div style={{ fontSize: 12, color: C.dim, marginTop: 4 }}>LTV/CAC: 2.67</div>
             </div>
-            <div style={{ ...sCard, borderTop: `2px solid ${C.blue}` }}>
-              <div style={{ fontSize: 11, color: C.blue, fontWeight: 600, marginBottom: 8, textTransform: "uppercase" }}>Сценарий B: Товары + App</div>
-              <div style={{ fontSize: 24, fontWeight: 800, color: C.blue }}>₸26M</div>
+            <div style={{ ...sCard }}>
+              <div style={{ fontSize: 11, color: C.blue, fontWeight: 400, marginBottom: 8, textTransform: "none" }}>Сценарий B: Товары + App</div>
+              <div style={{ fontSize: 16, fontWeight: 400, color: C.blue }}>₸26M</div>
               <div style={{ fontSize: 12, color: C.dim, marginTop: 4 }}>LTV/CAC: 3.6</div>
             </div>
-            <div style={{ ...sCard, borderTop: `2px solid ${C.green}` }}>
-              <div style={{ fontSize: 11, color: C.green, fontWeight: 600, marginBottom: 8, textTransform: "uppercase" }}>Сценарий C: Phygital</div>
-              <div style={{ fontSize: 24, fontWeight: 800, color: C.green }}>₸47M</div>
+            <div style={{ ...sCard }}>
+              <div style={{ fontSize: 11, color: C.green, fontWeight: 400, marginBottom: 8, textTransform: "none" }}>Сценарий C: Phygital</div>
+              <div style={{ fontSize: 16, fontWeight: 400, color: C.green }}>₸47M</div>
               <div style={{ fontSize: 12, color: C.dim, marginTop: 4 }}>LTV/CAC: 8.4</div>
             </div>
           </div>
@@ -503,7 +464,7 @@ export default function ZBodyReport() {
             highlight={11}
           />
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 16 }}>
+          <div className="research-facts" >
             <MetricCard label="Итого выручка Год 1" value="₸104.3M" sub="~$209K" color={C.accent} />
             <MetricCard label="Итого прибыль Год 1" value="₸58.8M" sub="~$118K" color={C.green} />
           </div>
@@ -592,7 +553,7 @@ export default function ZBodyReport() {
             ]}
           />
 
-          <div style={{ ...sCard, background: `${C.cyan}08`, borderColor: C.cyan }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, marginTop: 0, color: C.cyan }}>Контент: адаптация под СНГ</h3>
             <ul style={{ ...sP, paddingLeft: 20 }}>
               <li>Планы питания: плов, бешбармак, лагман, курт, баурсаки (с расчётом КБЖУ)</li>
@@ -673,7 +634,7 @@ export default function ZBodyReport() {
             ]}
           />
 
-          <div style={{ ...sCard, borderColor: C.pink, borderWidth: 2, marginTop: 24 }}>
+          <div style={{ ...sCard, marginTop: 24 }}>
             <h3 style={{ ...sH3, marginTop: 0, color: C.pink, fontSize: 18 }}>Главный вывод</h3>
             <p style={sP}>
               <strong style={{ color: C.text }}>Зарина Гусман имеет лучшую стартовую позицию, чем Kayla Itsines в 2013:</strong> больше подписчиков, работающий бизнес (13 филиалов BodyPro), нулевая конкуренция в digital-wellness Казахстана. Kayla из схожей позиции построила бизнес на $400M.
@@ -681,7 +642,7 @@ export default function ZBodyReport() {
             <p style={sP}>
               Модель Phygital (товары + приложение + комьюнити) даёт <strong style={{ color: C.green }}>x5.25 LTV</strong> по сравнению с продажей только товаров и <strong style={{ color: C.green }}>65% рекуррентного дохода</strong>.
             </p>
-            <p style={{ ...sP, color: C.pink, fontWeight: 600, fontSize: 15 }}>
+            <p style={{ ...sP, color: C.pink, fontWeight: 400, fontSize: 15 }}>
               Рекомендация: запускать по сценарию C (Phygital) с первого дня.
             </p>
           </div>
@@ -707,9 +668,9 @@ export default function ZBodyReport() {
         {/* ═══ Footer ═══ */}
         <div style={{ marginTop: 48, paddingTop: 24, borderTop: `1px solid ${C.border}`, textAlign: "center" }}>
           <p style={{ fontSize: 13, color: C.dim }}>
-            Подготовлено <strong style={{ color: C.text }}>Алмасом Касымжановым</strong> | Март 2026
+            Подготовлено <strong style={{ color: C.text }}>Almas Kasymzhanov</strong> | Март 2026
           </p>
-          <p style={{ fontSize: 12, color: C.faint, marginTop: 4 }}>
+          <p style={{ fontSize: 12, color: "var(--personal-muted)", marginTop: 4 }}>
             Для обсуждения: @akasymzhanov
           </p>
         </div>

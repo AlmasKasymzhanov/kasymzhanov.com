@@ -36,8 +36,7 @@ export function useEngagement() {
   return c;
 }
 
-// Single source of truth for an article's likes / shares / comments, shared by
-// the top and bottom engagement bars + the comments section so they stay in sync.
+// One state for a material's bottom action row and comments.
 export function EngagementProvider({ slug, children }: { slug: string; children: React.ReactNode }) {
   const [supabase] = useState(() => createSupabaseBrowser());
   const [user, setUser] = useState<User | null>(null);
@@ -120,9 +119,10 @@ export function EngagementProvider({ slug, children }: { slug: string; children:
   const share = useCallback(async () => {
     setShareCount((c) => c + 1);
     try {
-      await supabase.rpc("increment_share", { page_slug: slug });
+      const { error } = await supabase.rpc("increment_share", { page_slug: slug });
+      if (error) setShareCount((c) => Math.max(0, c - 1));
     } catch {
-      /* counter is best-effort */
+      setShareCount((c) => Math.max(0, c - 1));
     }
   }, [supabase, slug]);
 

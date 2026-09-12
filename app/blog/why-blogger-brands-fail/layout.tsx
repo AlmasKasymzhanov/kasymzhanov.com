@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ArticleJsonLd } from "@/components/articles";
 
-const title = "Lick Beauty: семь миллионов против четырёхсот двадцати | Almas Kasymzhanov";
+const title = "Lick Beauty: семь миллионов против четырёхсот двадцати | Алмас Касымжанов";
 const description =
   "7 млн подписчиков, блески для губ, 3.3 млн тенге выручки. Разбираем на данных, почему бренды блогеров умирают после запуска.";
 const image = "/blog/why-blogger-brands-fail/likbeauty.webp";

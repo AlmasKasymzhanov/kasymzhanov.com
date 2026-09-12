@@ -25,7 +25,7 @@ function P({ children, className = "" }: { children: React.ReactNode; className?
 
 function H2({ children, id }: { children: React.ReactNode; id?: string }) {
   return (
-    <h2 id={id} className="mb-6 text-[20px] font-bold tracking-tight text-[var(--color-text)]">
+    <h2 id={id} className="mb-6 text-[20px] font-medium tracking-tight text-[var(--color-text)]">
       {children}
     </h2>
   );
@@ -301,7 +301,7 @@ export default function WildberriesKazakhstanArticle() {
 
       <hr className="mb-12 border-[var(--color-border)]" />
 
-      <section id="methodology" className="mb-12 scroll-mt-20">
+      <section id="methodology" className="reading-panel reading-methodology mb-12 scroll-mt-20">
         <H2>Как я считал остатки в Астане</H2>
         <P>
           Я использовал фиксированную панель из 40 SKU: 20 товаров с положительным остатком на складе Wildberries 324108 «Астана Карагандинское шоссе» до 18 июля и 20 сопоставимых товаров без положительного остатка. Отбор проводился только по данным до события. Даты наблюдения: 18 июня; 4, 11, 17, 20, 24, 27 и 29 июля 2026 года. Источник — MPStats API, endpoint <code className="font-mono text-[13px] text-[var(--color-text)]">GET /items/{"{sku}"}/balance/stores</code>. Я получил 319 интерпретируемых наблюдений из 320 и сравнил средние четырех дат до и четырех дат после 18 июля. Анализ описывает складскую атрибуцию MPStats, но не страну покупателя, фактическое перемещение конкретного товара или причинное влияние атак.

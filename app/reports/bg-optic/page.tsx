@@ -1,78 +1,39 @@
 "use client";
+import { IconlyArrowLeft } from "@/components/iconly-icons";
+import { ResearchSection, ResearchFact, ResearchNote, ResearchFigure } from "@/components/canon/research-editorial";
+import { ResearchReadingTime } from "@/components/canon/research-reading-time";
+
+import { ResearchBars as BarChart } from "@/components/charts/research-bars";
 
 import { useState } from "react";
 import Link from "next/link";
 
 /* ───── design tokens ───── */
 const C = {
-  bg: "#0a0a0f", surface: "#111119", border: "#1e1e30",
-  accent: "#6c5ce7", green: "#00d2a0", text: "#e8e8f0",
-  dim: "#999", faint: "#444", red: "#f87171", amber: "#f59e0b",
-  blue: "#60a5fa", pink: "#f472b6", cyan: "#22d3ee",
+  bg: "var(--personal-paper)", surface: "var(--report-surface)", border: "var(--personal-border)",
+  accent: "var(--personal-text)", green: "var(--personal-text)", text: "var(--personal-text)",
+  dim: "var(--personal-muted)", faint: "var(--personal-border)", red: "var(--personal-text)", amber: "var(--personal-text)",
+  blue: "var(--personal-text)", pink: "var(--personal-text)", cyan: "var(--personal-text)",
 };
 
 /* ───── style helpers ───── */
 const sSection: React.CSSProperties = { marginBottom: 56 };
-const sH2: React.CSSProperties = { fontSize: 22, fontWeight: 700, margin: "0 0 24px", color: C.text, letterSpacing: "-0.01em", borderBottom: `1px solid ${C.border}`, paddingBottom: 12 };
-const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 600, margin: "28px 0 12px", color: C.text };
-const sP: React.CSSProperties = { fontSize: 14, lineHeight: 1.75, color: "#ccc", margin: "0 0 12px" };
-const sCard: React.CSSProperties = { background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, padding: "24px", marginBottom: 16 };
+const sH2: React.CSSProperties = { fontSize: 22, fontWeight: 500, margin: "0 0 24px", color: C.text, letterSpacing: "-0.01em", borderBottom: `1px solid ${C.border}`, paddingBottom: 12 };
+const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 500, margin: "28px 0 12px", color: C.text };
+const sP: React.CSSProperties = { fontSize: "var(--reading-body-size)", lineHeight: 1.75, color: "var(--personal-text)", margin: "0 0 12px" };
+const sCard: React.CSSProperties = { margin: "24px 0", padding: 0 };
 
 /* ───── Collapsible Section ───── */
-function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
-  const [open, setOpen] = useState(true);
-  return (
-    <div id={id} style={sSection}>
-      <h2 onClick={() => setOpen(!open)} style={{ ...sH2, cursor: "pointer", display: "flex", alignItems: "center", gap: 10, userSelect: "none" }}>
-        <span style={{ fontSize: 14, color: C.dim, transform: open ? "rotate(90deg)" : "rotate(0)", transition: "transform 0.2s", display: "inline-block" }}>&#9654;</span>
-        {title}
-      </h2>
-      {open && children}
-    </div>
-  );
-}
+function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) { return <ResearchSection id={id} title={title}>{children}</ResearchSection>; }
 
 /* ───── Metric Card ───── */
-function MetricCard({ label, value, sub, color }: { label: string; value: string; sub?: string; color: string }) {
-  return (
-    <div style={{ ...sCard, borderTop: `2px solid ${color}`, textAlign: "center", padding: "28px 20px" }}>
-      <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.08em", color: C.dim, marginBottom: 10, fontWeight: 600 }}>{label}</div>
-      <div style={{ fontSize: 28, fontWeight: 800, color, letterSpacing: "-0.02em" }}>{value}</div>
-      {sub && <div style={{ fontSize: 12, color: C.dim, marginTop: 8 }}>{sub}</div>}
-    </div>
-  );
-}
+function MetricCard({ label, value, sub, color }: { label: string; value: string; sub?: string; color: string }) { return <ResearchFact label={label} value={value} note={sub} />; }
 
 /* ───── Score Bar ───── */
-function Stars({ count, max = 5 }: { count: number; max?: number }) {
-  return (
-    <span style={{ display: "inline-flex", gap: 3 }}>
-      {Array.from({ length: max }, (_, i) => (
-        <span key={i} style={{ width: 8, height: 8, borderRadius: 2, background: i < count ? C.accent : `${C.faint}44`, transition: "background 0.2s" }} />
-      ))}
-    </span>
-  );
-}
+function Stars({ count, max = 5 }: { count: number; max?: number }) { return <span className="research-score">{count} из {max}</span>; }
 
 /* ───── Bar Chart (CSS) ───── */
-function BarChart({ data, maxVal, color, unit }: { data: { label: string; value: number }[]; maxVal: number; color: string; unit?: string }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-      {data.map((d, i) => (
-        <div key={i} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ fontSize: 11, color: C.dim, width: 70, textAlign: "right", flexShrink: 0 }}>{d.label}</span>
-          <div style={{ flex: 1, height: 22, background: `${color}11`, borderRadius: 4, overflow: "hidden", position: "relative" }}>
-            <div style={{ width: `${Math.max((d.value / maxVal) * 100, 1)}%`, height: "100%", background: `linear-gradient(90deg, ${color}88, ${color})`, borderRadius: 4, transition: "width 0.8s ease" }} />
-          </div>
-          <span style={{ fontSize: 11, color: C.text, width: 80, textAlign: "right", fontFamily: "monospace", flexShrink: 0 }}>
-            {d.value >= 1000000 ? (d.value / 1000000).toFixed(1) + "M" : d.value >= 1000 ? (d.value / 1000).toFixed(0) + "K" : d.value}
-            {unit ? ` ${unit}` : ""}
-          </span>
-        </div>
-      ))}
-    </div>
-  );
-}
+
 
 /* ───── Data Table ───── */
 function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (string | number)[][]; highlight?: number }) {
@@ -81,14 +42,14 @@ function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (str
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
         <thead>
           <tr>{headers.map((h, i) => (
-            <th key={i} style={{ padding: "10px 12px", textAlign: i === 0 ? "left" : "right", color: C.dim, fontWeight: 600, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>
+            <th key={i} style={{ padding: "10px 12px", textAlign: i === 0 ? "left" : "right", color: C.dim, fontWeight: 500, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>
           ))}</tr>
         </thead>
         <tbody>
           {rows.map((row, ri) => (
-            <tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `${C.accent}12` : "transparent" }}>
+            <tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `color-mix(in srgb, ${C.accent} 7%, transparent)` : "transparent" }}>
               {row.map((cell, ci) => (
-                <td key={ci} style={{ padding: "10px 12px", textAlign: ci === 0 ? "left" : "right", color: ci === 0 ? C.text : "#ccc", borderBottom: `1px solid ${C.border}20`, fontWeight: ci === 0 ? 500 : 400, whiteSpace: "nowrap" }}>{cell}</td>
+                <td key={ci} style={{ padding: "10px 12px", textAlign: ci === 0 ? "left" : "right", color: ci === 0 ? C.text : "var(--personal-text)", borderBottom: `1px solid color-mix(in srgb, ${C.border} 13%, transparent)`, fontWeight: ci === 0 ? 500 : 400, whiteSpace: "nowrap" }}>{cell}</td>
               ))}
             </tr>
           ))}
@@ -101,9 +62,9 @@ function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (str
 /* ───── SWOT cell ───── */
 function SwotCell({ title, items, color }: { title: string; items: string[]; color: string }) {
   return (
-    <div style={{ ...sCard, borderLeft: `3px solid ${color}`, borderRadius: 8, padding: 20 }}>
+    <div style={{ ...sCard, padding: "16px 0" }}>
       <div style={{ marginBottom: 12 }}>
-        <span style={{ fontSize: 13, fontWeight: 700, color, textTransform: "uppercase", letterSpacing: "0.04em" }}>{title}</span>
+        <span style={{ fontSize: 13, fontWeight: 400, color, textTransform: "none", letterSpacing: "0.04em" }}>{title}</span>
       </div>
       <ul style={{ margin: 0, paddingLeft: 16, listStyle: "disc" }}>
         {items.map((item, i) => (
@@ -119,34 +80,37 @@ function SwotCell({ title, items, color }: { title: string; items: string[]; col
 /* ═══════════════════════════════════════════════ */
 export default function BgOpticReport() {
   return (
-    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "'Inter', -apple-system, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "var(--font-body)" }}>
       <div style={{ maxWidth: 920, margin: "0 auto", padding: "40px 24px 80px" }}>
 
         {/* ═══ Header ═══ */}
         <div style={{ marginBottom: 16 }}>
-          <Link href="/" style={{ color: C.dim, fontSize: 13, textDecoration: "none" }}>&larr; kasymzhanov.com</Link>
+          <Link href="/" style={{ color: C.dim, fontSize: 13, textDecoration: "none" }}><IconlyArrowLeft size={17} className="reading-inline-icon" /> kasymzhanov.com</Link>
         </div>
 
-        <div style={{ marginBottom: 48, paddingBottom: 32, borderBottom: `1px solid ${C.border}` }}>
-          <div style={{ display: "inline-block", padding: "4px 12px", borderRadius: 20, background: `${C.accent}18`, color: C.accent, fontSize: 11, fontWeight: 600, letterSpacing: "0.05em", marginBottom: 16, textTransform: "uppercase" }}>
+        <div className="research-header" style={{ marginBottom: 48, paddingBottom: 32, borderBottom: `1px solid ${C.border}` }}>
+          <div style={{ display: "inline-block", padding: "16px 0", color: C.accent, fontSize: 11, fontWeight: 400, letterSpacing: "0.05em", marginBottom: 16, textTransform: "none" }}>
             Enterprise Report
           </div>
-          <h1 style={{ fontSize: 32, fontWeight: 800, margin: "0 0 8px", letterSpacing: "-0.03em", lineHeight: 1.2 }}>
-            Выход на Kaspi.kz<br />с оптикой
+          <h1 style={{ fontSize: 32, fontWeight: 500, margin: "0 0 8px", letterSpacing: "-0.03em", lineHeight: 1.2 }}>
+            Выход на Kaspi.kz{" "}с оптикой
           </h1>
+<p className="research-lead">Рынок оптики на Kaspi, конкурентная среда и план запуска ассортимента.</p>
           <p style={{ color: C.dim, fontSize: 14, margin: "12px 0 0" }}>
             Подготовил <strong style={{ color: C.text }}>Алмас Касымжанов</strong> для <strong style={{ color: C.text }}>Данияра Шайкемелова</strong>, CEO BG Optic
           </p>
           <div style={{ display: "flex", gap: 20, marginTop: 12, fontSize: 12, color: C.dim }}>
-            <span>Данные: <strong style={{ color: C.text }}>Redstat.kz</strong></span>
+            <span>Данные: <strong style={{ color: C.text }}>агрегированные данные Kaspi.kz</strong></span>
             <span>Период: <strong style={{ color: C.text }}>Январь 2026</strong></span>
             <span>Дата: <strong style={{ color: C.text }}>5 марта 2026</strong></span>
           </div>
-        </div>
+
+<ResearchReadingTime />
+</div>
 
         {/* ═══ TOC ═══ */}
         <div style={{ ...sCard, marginBottom: 48, padding: "20px 24px" }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: C.dim, marginBottom: 12 }}>Содержание</div>
+          <div style={{ fontSize: 13, fontWeight: 400, color: C.dim, marginBottom: 12 }}>Содержание</div>
           {[
             ["sec-1", "1. Резюме для принятия решений"],
             ["sec-2", "2. Обзор трёх сегментов рынка"],
@@ -163,9 +127,9 @@ export default function BgOpticReport() {
           ))}
         </div>
 
-        {/* ═══ Section 1: Executive Summary ═══ */}
+        {/* ═══ Section 1: Обзор ═══ */}
         <Section id="sec-1" title="1. Резюме для принятия решений">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 24 }}>
+          <div className="research-facts" >
             <MetricCard label="Солнцезащитные" value="111.0M ₸" sub="55 498 заказов/мес | Gini 0.772" color={C.amber} />
             <MetricCard label="Очки для зрения" value="27.5M ₸" sub="11 370 заказов/мес | Gini 0.631" color={C.green} />
             <MetricCard label="Смарт-очки" value="110.1M ₸" sub="1 155 заказов/мес | Gini 0.777" color={C.blue} />
@@ -184,7 +148,7 @@ export default function BgOpticReport() {
             ]}
           />
 
-          <div style={{ ...sCard, borderColor: C.green, borderWidth: 2 }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, marginTop: 0, color: C.green, fontSize: 18 }}>Вердикт</h3>
             <p style={sP}><strong style={{ color: C.text }}>BG Optic следует входить на Kaspi.kz одновременно в два сегмента:</strong></p>
             <div style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 16 }}>
@@ -194,9 +158,9 @@ export default function BgOpticReport() {
                 { num: 3, color: C.blue, title: "Смарт-очки — наблюдать и готовиться", text: "Рынок монополизирован Ray-Ban (73.4%), но растёт взрывными темпами. Вход оправдан только с уникальным продуктом или эксклюзивным дистрибьюторским соглашением." },
               ].map(v => (
                 <div key={v.num} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-                  <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 32, height: 32, borderRadius: "50%", background: `${v.color}22`, color: v.color, fontSize: 15, fontWeight: 700, flexShrink: 0 }}>{v.num}</span>
+
                   <div>
-                    <div style={{ fontWeight: 600, color: v.color, marginBottom: 4 }}>{v.title}</div>
+                    <div style={{ fontWeight: 400, color: v.color, marginBottom: 4 }}>{v.title}</div>
                     <p style={{ ...sP, margin: 0 }}>{v.text}</p>
                   </div>
                 </div>
@@ -209,7 +173,7 @@ export default function BgOpticReport() {
         <Section id="sec-2" title="2. Обзор трёх сегментов рынка">
           <div style={sCard}>
             <h3 style={{ ...sH3, marginTop: 0 }}>Иерархия в каталоге Kaspi</h3>
-            <div style={{ fontFamily: "monospace", fontSize: 12, color: C.dim, lineHeight: 2, background: "#0d0d18", borderRadius: 8, padding: 16 }}>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: C.dim, lineHeight: 2, padding: "16px 0" }}>
               <div><span style={{ color: C.amber }}>Сегмент 1:</span> Аксессуары → Очки и аксессуары → Солнцезащитные очки</div>
               <div><span style={{ color: C.green }}>Сегмент 2:</span> Аптека → Оптика → Очки для зрения</div>
               <div><span style={{ color: C.blue }}>Сегмент 3:</span> Телефоны и гаджеты → Смарт-очки → Смарт-очки</div>
@@ -238,7 +202,7 @@ export default function BgOpticReport() {
 
         {/* ═══ Section 3: Sunglasses ═══ */}
         <Section id="sec-3" title="3. Сегмент: Солнцезащитные очки">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12, marginBottom: 24 }}>
+          <div style={{ display: "block", marginBottom: 24 }}>
             {[
               { label: "Выручка", value: "111.0M ₸", color: C.amber },
               { label: "Заказы", value: "55 498", color: C.amber },
@@ -247,7 +211,7 @@ export default function BgOpticReport() {
             ].map(m => (
               <div key={m.label} style={{ ...sCard, padding: "16px 14px", textAlign: "center", marginBottom: 0 }}>
                 <div style={{ fontSize: 11, color: C.dim, marginBottom: 4 }}>{m.label}</div>
-                <div style={{ fontSize: 20, fontWeight: 700, color: m.color }}>{m.value}</div>
+                <div style={{ fontSize: 16, fontWeight: 400, color: m.color }}>{m.value}</div>
               </div>
             ))}
           </div>
@@ -265,14 +229,14 @@ export default function BgOpticReport() {
                 ["Выручка/SKU", "42 189 ₸", "24 674 ₸", "Бренды 1.7×"],
               ]}
             />
-            <div style={{ background: `${C.amber}10`, border: `1px solid ${C.amber}33`, borderRadius: 8, padding: "12px 16px", fontSize: 13, color: "#ccc" }}>
+            <div style={{ padding: "16px 0", fontSize: 13, color: "var(--personal-text)" }}>
               <strong style={{ color: C.amber }}>Для BG Optic:</strong> Огромная возможность в среднем ценовом сегменте (2 000–8 000 ₸). NoBrand-покупатели берут по 883 ₸, бренды — по 5 364 ₸. Между ними — пустота, которую можно занять.
             </div>
           </div>
 
           <div style={sCard}>
             <h3 style={{ ...sH3, marginTop: 0 }}>Монополизация</h3>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12, marginBottom: 16 }}>
+            <div style={{ display: "block", marginBottom: 16 }}>
               {[
                 { label: "Gini общий", value: "0.772", verdict: "Высокая" },
                 { label: "Gini брендов", value: "0.727", verdict: "Высокая" },
@@ -281,7 +245,7 @@ export default function BgOpticReport() {
               ].map(g => (
                 <div key={g.label} style={{ textAlign: "center" }}>
                   <div style={{ fontSize: 11, color: C.dim }}>{g.label}</div>
-                  <div style={{ fontSize: 22, fontWeight: 700, color: C.red, marginTop: 4 }}>{g.value}</div>
+                  <div style={{ fontSize: 16, fontWeight: 400, color: C.red, marginTop: 4 }}>{g.value}</div>
                   <div style={{ fontSize: 10, color: C.dim }}>{g.verdict}</div>
                 </div>
               ))}
@@ -310,7 +274,7 @@ export default function BgOpticReport() {
                 ["15", "Chrome Hearts", "0.7 млн ₸", "20", "1", "86.8"],
               ]}
             />
-            <div style={{ background: `${C.accent}10`, borderRadius: 8, padding: "14px 16px", fontSize: 13, color: "#ccc" }}>
+            <div style={{ padding: "16px 0", fontSize: 13, color: "var(--personal-text)" }}>
               <strong style={{ color: C.accent }}>Ключевое:</strong> Ray-Ban — 4 SKU, 8.5M выручки = ~2.1M/SKU в месяц. Большинство лидеров (Alberto Casiano, BLUE ELEPHANT, FashionLab) = 1 продавец на бренд. <strong style={{ color: C.text }}>BG Optic может воспроизвести эту модель.</strong>
             </div>
           </div>
@@ -318,7 +282,7 @@ export default function BgOpticReport() {
 
         {/* ═══ Section 4: Prescription Glasses ═══ */}
         <Section id="sec-4" title="4. Сегмент: Очки для зрения">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12, marginBottom: 24 }}>
+          <div style={{ display: "block", marginBottom: 24 }}>
             {[
               { label: "Выручка", value: "27.5M ₸", color: C.green },
               { label: "Заказы", value: "11 370", color: C.green },
@@ -327,13 +291,13 @@ export default function BgOpticReport() {
             ].map(m => (
               <div key={m.label} style={{ ...sCard, padding: "16px 14px", textAlign: "center", marginBottom: 0 }}>
                 <div style={{ fontSize: 11, color: C.dim, marginBottom: 4 }}>{m.label}</div>
-                <div style={{ fontSize: 20, fontWeight: 700, color: m.color }}>{m.value}</div>
+                <div style={{ fontSize: 16, fontWeight: 400, color: m.color }}>{m.value}</div>
               </div>
             ))}
           </div>
 
-          <div style={{ ...sCard, borderColor: `${C.green}44` }}>
-            <div style={{ display: "inline-block", padding: "3px 10px", borderRadius: 6, background: `${C.green}18`, color: C.green, fontSize: 11, fontWeight: 600, marginBottom: 12 }}>Рекомендован для входа</div>
+          <div style={{ ...sCard }}>
+            <div style={{ display: "inline-block", padding: "16px 0", color: C.green, fontSize: 11, fontWeight: 400, marginBottom: 12 }}>Рекомендован для входа</div>
             <h3 style={{ ...sH3, marginTop: 0 }}>Почему этот сегмент — приоритет</h3>
             <ul style={{ paddingLeft: 18, margin: 0 }}>
               {[
@@ -379,7 +343,7 @@ export default function BgOpticReport() {
                 ["10", "Marcello", "0.8 млн ₸", "72", "2", "72.9"],
               ]}
             />
-            <div style={{ background: `${C.green}10`, borderRadius: 8, padding: "14px 16px", fontSize: 13, color: "#ccc" }}>
+            <div style={{ padding: "16px 0", fontSize: 13, color: "var(--personal-text)" }}>
               <strong style={{ color: C.green }}>Health Priority</strong> — самый эффективный бренд: 2.6M с 15 SKU = <strong style={{ color: C.text }}>173K ₸/SKU в месяц</strong>. Модель: узкий, но точный ассортимент. BG Optic может её воспроизвести.
             </div>
           </div>
@@ -387,7 +351,7 @@ export default function BgOpticReport() {
 
         {/* ═══ Section 5: Smart Glasses ═══ */}
         <Section id="sec-5" title="5. Сегмент: Смарт-очки">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12, marginBottom: 24 }}>
+          <div style={{ display: "block", marginBottom: 24 }}>
             {[
               { label: "Выручка", value: "110.1M ₸", color: C.blue },
               { label: "Заказы", value: "1 155", color: C.blue },
@@ -396,7 +360,7 @@ export default function BgOpticReport() {
             ].map(m => (
               <div key={m.label} style={{ ...sCard, padding: "16px 14px", textAlign: "center", marginBottom: 0 }}>
                 <div style={{ fontSize: 11, color: C.dim, marginBottom: 4 }}>{m.label}</div>
-                <div style={{ fontSize: 20, fontWeight: 700, color: m.color }}>{m.value}</div>
+                <div style={{ fontSize: 16, fontWeight: 400, color: m.color }}>{m.value}</div>
               </div>
             ))}
           </div>
@@ -440,7 +404,7 @@ export default function BgOpticReport() {
                 ["10", "LEMNISCATA", "0.2 млн ₸", "1", "1", "30 900 ₸", "42.1"],
               ]}
             />
-            <div style={{ background: `${C.red}10`, borderRadius: 8, padding: "14px 16px", fontSize: 13, color: "#ccc" }}>
+            <div style={{ padding: "16px 0", fontSize: 13, color: "var(--personal-text)" }}>
               <strong style={{ color: C.red }}>Ray-Ban = 73.4% рынка.</strong> 80.8M из 110.1M. Абсолютная монополия. Вход оправдан только с уникальным продуктом или дистрибьюторским соглашением.
             </div>
           </div>
@@ -454,7 +418,7 @@ export default function BgOpticReport() {
               <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
                 <thead>
                   <tr>{["Критерий", "Солнцезащитные", "Очки для зрения", "Смарт-очки"].map((h, i) => (
-                    <th key={i} style={{ padding: "10px 12px", textAlign: i === 0 ? "left" : "center", color: C.dim, fontWeight: 600, borderBottom: `1px solid ${C.border}`, fontSize: 11 }}>{h}</th>
+                    <th key={i} style={{ padding: "10px 12px", textAlign: i === 0 ? "left" : "center", color: C.dim, fontWeight: 500, borderBottom: `1px solid ${C.border}`, fontSize: 11 }}>{h}</th>
                   ))}</tr>
                 </thead>
                 <tbody>
@@ -469,9 +433,9 @@ export default function BgOpticReport() {
                     ["Маржинальность", 2, 3, 5],
                   ].map((row, ri) => (
                     <tr key={ri}>
-                      <td style={{ padding: "10px 12px", color: C.text, fontWeight: 500, borderBottom: `1px solid ${C.border}20` }}>{row[0]}</td>
+                      <td style={{ padding: "10px 12px", color: C.text, fontWeight: 500, borderBottom: `1px solid color-mix(in srgb, ${C.border} 13%, transparent)` }}>{row[0]}</td>
                       {[1, 2, 3].map(ci => (
-                        <td key={ci} style={{ padding: "10px 12px", textAlign: "center", borderBottom: `1px solid ${C.border}20` }}>
+                        <td key={ci} style={{ padding: "10px 12px", textAlign: "center", borderBottom: `1px solid color-mix(in srgb, ${C.border} 13%, transparent)` }}>
                           <Stars count={row[ci] as number} />
                         </td>
                       ))}
@@ -484,7 +448,7 @@ export default function BgOpticReport() {
 
           <div style={sCard}>
             <h3 style={{ ...sH3, marginTop: 0 }}>Эффективность: выручка на 1 SKU</h3>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, textAlign: "center" }}>
+            <div style={{ display: "block", textAlign: "center", marginBottom: 24 }}>
               {[
                 { seg: "Солнцезащитные", val: "42 189 ₸", color: C.amber },
                 { seg: "Очки для зрения", val: "16 853 ₸", color: C.green },
@@ -492,7 +456,7 @@ export default function BgOpticReport() {
               ].map(s => (
                 <div key={s.seg} style={{ padding: 16 }}>
                   <div style={{ fontSize: 11, color: C.dim, marginBottom: 4 }}>{s.seg} (бренды)</div>
-                  <div style={{ fontSize: 22, fontWeight: 700, color: s.color }}>{s.val}</div>
+                  <div style={{ fontSize: 16, fontWeight: 400, color: s.color }}>{s.val}</div>
                 </div>
               ))}
             </div>
@@ -568,7 +532,7 @@ export default function BgOpticReport() {
                 ["Maybach", "Премиум-копия, 67 SKU", "~55K ₸", "Низкая"],
               ]}
             />
-            <div style={{ background: `${C.amber}10`, borderRadius: 8, padding: "12px 16px", fontSize: 13, color: "#ccc" }}>
+            <div style={{ padding: "16px 0", fontSize: 13, color: "var(--personal-text)" }}>
               <strong style={{ color: C.amber }}>Свободная ниша:</strong> Средний ценовой сегмент (3 000–8 000 ₸) с сильным брендингом. Текущие лидеры — безликие масс-маркет бренды.
             </div>
           </div>
@@ -584,13 +548,13 @@ export default function BgOpticReport() {
                 ["FEDROV", "Ноунейм с объёмом", "Низкая"],
               ]}
             />
-            <div style={{ background: `${C.green}10`, borderRadius: 8, padding: "12px 16px", fontSize: 13, color: "#ccc" }}>
+            <div style={{ padding: "16px 0", fontSize: 13, color: "var(--personal-text)" }}>
               <strong style={{ color: C.green }}>Свободная ниша:</strong> «Молодёжные очки для зрения» — стильные оправы по 2 500–5 000 ₸. Текущие лидеры ориентированы на функциональность, не на дизайн.
             </div>
           </div>
 
           <h3 style={{ ...sH3, marginTop: 32 }}>SWOT-анализ входа BG Optic на Kaspi</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <div style={{ display: "block", marginBottom: 24 }}>
             <SwotCell title="Сильные стороны" color={C.green} items={[
               "Готовый бренд (BRO Glasses → BG Optic)",
               "Опыт в очковой индустрии",
@@ -616,7 +580,7 @@ export default function BgOpticReport() {
 
         {/* ═══ Section 9: Recommendations ═══ */}
         <Section id="sec-9" title="9. Рекомендации и пошаговый план">
-          <div style={{ ...sCard, borderColor: C.accent }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, marginTop: 0, color: C.accent, fontSize: 18 }}>Стратегия: «Два фронта + наблюдение»</h3>
             <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
               {[
@@ -625,10 +589,10 @@ export default function BgOpticReport() {
                 { months: "Месяц 6+", seg: "Смарт-очки", desc: "стратегический вход", color: C.blue },
               ].map((s, i) => (
                 <div key={i} style={{ display: "flex", gap: 16, padding: "16px 0", borderBottom: i < 2 ? `1px solid ${C.border}` : "none" }}>
-                  <div style={{ width: 90, fontSize: 12, fontWeight: 600, color: C.dim, flexShrink: 0 }}>{s.months}</div>
-                  <div style={{ width: 8, height: 8, borderRadius: "50%", background: s.color, marginTop: 5, flexShrink: 0 }} />
+                  <div style={{ width: 90, fontSize: 12, fontWeight: 400, color: C.dim, flexShrink: 0 }}>{s.months}</div>
+
                   <div>
-                    <div style={{ fontWeight: 600, color: s.color }}>{s.seg}</div>
+                    <div style={{ fontWeight: 400, color: s.color }}>{s.seg}</div>
                     <div style={{ fontSize: 12, color: C.dim }}>{s.desc}</div>
                   </div>
                 </div>
@@ -658,16 +622,16 @@ export default function BgOpticReport() {
             ]},
             { title: "Этап 4: Масштабирование (месяцы 3-6)", color: C.accent, items: [
               "Расширение ассортимента до 50-80 SKU в каждой категории",
-              "A/B тестирование цен на основе данных RedStat",
+              "A/B тестирование цен на основе данных агрегированные рыночные данные",
               "Работа с отзывами: быстрые ответы, QR-коды в упаковке",
-              "Мониторинг доли рынка, Gini, Rev/SKU через RedStat",
+              "Мониторинг доли рынка, Gini, Rev/SKU по агрегированным рыночным данным",
             ]},
           ].map((stage, i) => (
-            <div key={i} style={{ ...sCard, borderLeft: `3px solid ${stage.color}` }}>
+            <div key={i} style={{ ...sCard }}>
               <h3 style={{ ...sH3, marginTop: 0, color: stage.color }}>{stage.title}</h3>
               {stage.items.map((item, j) => (
                 <div key={j} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 8 }}>
-                  <span style={{ width: 6, height: 6, borderRadius: 1, background: stage.color, flexShrink: 0, marginTop: 6 }} />
+
                   <span style={{ ...sP, margin: 0 }}>{item}</span>
                 </div>
               ))}
@@ -690,15 +654,15 @@ export default function BgOpticReport() {
               ]}
               highlight={6}
             />
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 16 }}>
-              <div style={{ textAlign: "center", padding: 16, borderRadius: 8, background: `${C.dim}10` }}>
+            <div style={{ display: "block", marginTop: 16, marginBottom: 24 }}>
+              <div style={{ textAlign: "center", padding: "16px 0" }}>
                 <div style={{ fontSize: 11, color: C.dim, marginBottom: 4 }}>Консервативный</div>
-                <div style={{ fontSize: 28, fontWeight: 800, color: C.text }}>~22M ₸</div>
+                <div style={{ fontSize: 16, fontWeight: 400, color: C.text }}>~22M ₸</div>
                 <div style={{ fontSize: 12, color: C.dim }}>за 6 месяцев</div>
               </div>
-              <div style={{ textAlign: "center", padding: 16, borderRadius: 8, background: `${C.green}10` }}>
+              <div style={{ textAlign: "center", padding: "16px 0" }}>
                 <div style={{ fontSize: 11, color: C.dim, marginBottom: 4 }}>Оптимистичный</div>
-                <div style={{ fontSize: 28, fontWeight: 800, color: C.green }}>~35M ₸</div>
+                <div style={{ fontSize: 16, fontWeight: 400, color: C.green }}>~35M ₸</div>
                 <div style={{ fontSize: 12, color: C.dim }}>за 6 месяцев</div>
               </div>
             </div>
@@ -710,12 +674,12 @@ export default function BgOpticReport() {
             <DataTable
               headers={["Метрика", "Инструмент", "Частота", "Цель"]}
               rows={[
-                ["Выручка BG Optic", "Kaspi Seller + RedStat", "Еженедельно", "Рост MoM"],
-                ["Доля рынка", "RedStat (бренд / ниша)", "Ежемесячно", "> 1% за 3 мес"],
-                ["Средний чек", "RedStat", "Ежемесячно", "Выше NoBrand"],
+                ["Выручка BG Optic", "Kaspi Seller + агрегированные рыночные данные", "Еженедельно", "Рост MoM"],
+                ["Доля рынка", "агрегированные рыночные данные (бренд / ниша)", "Ежемесячно", "> 1% за 3 мес"],
+                ["Средний чек", "агрегированные рыночные данные", "Ежемесячно", "Выше NoBrand"],
                 ["Кол-во отзывов", "Kaspi", "Еженедельно", "> 5 на SKU за 2 мес"],
-                ["Rev/SKU", "RedStat", "Ежемесячно", "> среднего по нише"],
-                ["Позиция в рейтинге", "RedStat", "Ежемесячно", "ТОП-10 за 6 мес"],
+                ["Rev/SKU", "агрегированные рыночные данные", "Ежемесячно", "> среднего по нише"],
+                ["Позиция в рейтинге", "агрегированные рыночные данные", "Ежемесячно", "ТОП-10 за 6 мес"],
               ]}
             />
           </div>
@@ -725,7 +689,7 @@ export default function BgOpticReport() {
         <Section id="sec-10" title="10. Приложение: Источники и методология">
           <div style={sCard}>
             <h3 style={{ ...sH3, marginTop: 0 }}>Источник данных</h3>
-            <p style={sP}><strong style={{ color: C.text }}>Redstat.kz</strong> — данные за январь 2026 (факт), история за 12-14 месяцев</p>
+            <p style={sP}><strong style={{ color: C.text }}>агрегированные данные Kaspi.kz</strong> — данные за январь 2026 (факт), история за 12-14 месяцев</p>
           </div>
 
           <div style={sCard}>
@@ -747,8 +711,8 @@ export default function BgOpticReport() {
 
         {/* ═══ Footer ═══ */}
         <div style={{ paddingTop: 32, borderTop: `1px solid ${C.border}`, textAlign: "center" }}>
-          <p style={{ ...sP, fontSize: 12, color: C.faint }}>
-            Подготовил Алмас Касымжанов | <Link href="/" style={{ color: C.accent, textDecoration: "none" }}>kasymzhanov.com</Link>
+          <p style={{ ...sP, fontSize: 12, color: "var(--personal-muted)" }}>
+            Подготовил Almas Kasymzhanov | <Link href="/" style={{ color: C.accent, textDecoration: "none" }}>kasymzhanov.com</Link>
           </p>
         </div>
       </div>

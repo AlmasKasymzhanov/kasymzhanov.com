@@ -1,3 +1,4 @@
+import { PersonalDocument } from "@/components/personal-document";
 import type { Metadata } from "next";
 
 const title = "Что запускать в косметике на Kaspi.kz осенью 2026";
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
     type: "article",
     locale: "ru_RU",
     url: "https://kasymzhanov.com/reports/cosmetics-autumn-2026",
-    siteName: "Almas Kasymzhanov",
+    siteName: "Алмас Касымжанов",
   },
   twitter: {
     card: "summary",
@@ -38,5 +39,5 @@ export const metadata: Metadata = {
 export default function CosmeticsAutumn2026Layout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  return children;
+  return <PersonalDocument report>{children}</PersonalDocument>;
 }

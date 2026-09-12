@@ -1,17 +1,19 @@
+import { MaterialViews } from "@/components/engagement/material-views";
+import { IconlyArrowLeft, IconlyArrowRight } from "@/components/iconly-icons";
 import Link from "next/link";
 
 /* ───── design tokens (same as analyzer) ───── */
 const C = {
-  bg: "#0a0a0f",
-  surface: "#111119",
-  border: "#1e1e30",
-  accent: "#6c5ce7",
-  green: "#00d2a0",
-  text: "#e8e8f0",
-  dim: "#999",
-  faint: "#444",
-  red: "#f87171",
-  amber: "#f59e0b",
+  bg: "var(--personal-paper)",
+  surface: "var(--personal-rail-hover)",
+  border: "var(--personal-border)",
+  accent: "var(--personal-text)",
+  green: "var(--personal-text)",
+  text: "var(--personal-text)",
+  dim: "var(--personal-muted)",
+  faint: "var(--personal-border)",
+  red: "var(--personal-text)",
+  amber: "var(--personal-text)",
 };
 
 /* ───── reusable style helpers ───── */
@@ -21,7 +23,7 @@ const sSection: React.CSSProperties = {
 
 const sH2: React.CSSProperties = {
   fontSize: 22,
-  fontWeight: 700,
+  fontWeight: 500,
   margin: "0 0 20px",
   color: C.text,
   letterSpacing: "-0.01em",
@@ -29,15 +31,15 @@ const sH2: React.CSSProperties = {
 
 const sH3: React.CSSProperties = {
   fontSize: 16,
-  fontWeight: 600,
+  fontWeight: 500,
   margin: "28px 0 12px",
   color: C.text,
 };
 
 const sP: React.CSSProperties = {
-  fontSize: 14,
+  fontSize: 17,
   lineHeight: 1.7,
-  color: "#ccc",
+  color: "var(--personal-text)",
   margin: "0 0 12px",
 };
 
@@ -50,12 +52,12 @@ const sCard: React.CSSProperties = {
 };
 
 const sCode: React.CSSProperties = {
-  background: "rgba(108,92,231,0.12)",
+  background: "var(--personal-rail-hover)",
   color: C.accent,
   padding: "2px 7px",
   borderRadius: 4,
   fontSize: 12,
-  fontFamily: "monospace",
+  fontFamily: "var(--font-mono)",
 };
 
 const sBadge = (color: string): React.CSSProperties => ({
@@ -63,8 +65,8 @@ const sBadge = (color: string): React.CSSProperties => ({
   padding: "3px 10px",
   borderRadius: 6,
   fontSize: 11,
-  fontWeight: 600,
-  background: `${color}18`,
+  fontWeight: 500,
+  background: `color-mix(in srgb, ${color} 9%, transparent)`,
   color,
   marginRight: 6,
 });
@@ -92,13 +94,13 @@ function FilterTable({
             textAlign: "left",
           }}
         >
-          <th style={{ padding: "8px 12px", color: C.dim, fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+          <th style={{ padding: "8px 12px", color: C.dim, fontWeight: 500, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.04em" }}>
             Фильтр
           </th>
-          <th style={{ padding: "8px 12px", color: C.dim, fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+          <th style={{ padding: "8px 12px", color: C.dim, fontWeight: 500, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.04em" }}>
             Значение
           </th>
-          <th style={{ padding: "8px 12px", color: C.dim, fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+          <th style={{ padding: "8px 12px", color: C.dim, fontWeight: 500, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.04em" }}>
             Почему
           </th>
         </tr>
@@ -112,7 +114,7 @@ function FilterTable({
             <td style={{ padding: "8px 12px", color: C.accent, fontWeight: 500 }}>
               {r.filter}
             </td>
-            <td style={{ padding: "8px 12px", color: C.text, fontWeight: 600 }}>
+            <td style={{ padding: "8px 12px", color: C.text, fontWeight: 500 }}>
               {r.value}
             </td>
             <td style={{ padding: "8px 12px", color: "#aaa", fontSize: 12 }}>
@@ -142,13 +144,13 @@ function Step({
           width: 32,
           height: 32,
           borderRadius: "50%",
-          background: "rgba(108,92,231,0.15)",
+          background: "var(--personal-rail-hover)",
           color: C.accent,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           fontSize: 14,
-          fontWeight: 700,
+          fontWeight: 500,
           flexShrink: 0,
           marginTop: 2,
         }}
@@ -156,7 +158,7 @@ function Step({
         {num}
       </div>
       <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 14, fontWeight: 600, color: C.text, marginBottom: 4 }}>
+        <div style={{ fontSize: 14, fontWeight: 500, color: C.text, marginBottom: 4 }}>
           {title}
         </div>
         <div style={{ fontSize: 13, color: "#bbb", lineHeight: 1.6 }}>
@@ -181,7 +183,7 @@ function WeightBar({
     <div style={{ marginBottom: 10 }}>
       <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 4 }}>
         <span style={{ color: C.text, fontWeight: 500 }}>{label}</span>
-        <span style={{ color: C.accent, fontWeight: 700 }}>{weight} баллов</span>
+        <span style={{ color: C.accent, fontWeight: 500 }}>{weight} баллов</span>
       </div>
       <div style={{ height: 6, borderRadius: 3, background: C.border }}>
         <div
@@ -212,18 +214,19 @@ export default function GuidePage() {
             href="/tools/wb-analyzer"
             style={{ fontSize: 12, color: C.dim, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4, marginBottom: 16 }}
           >
-            ← Назад к анализатору
+            <IconlyArrowLeft size={17} className="reading-inline-icon" /> Назад к анализатору
           </Link>
           <h1
             style={{
               fontSize: 30,
-              fontWeight: 700,
+              fontWeight: 500,
               margin: "0 0 8px",
               letterSpacing: "-0.02em",
             }}
           >
             Инструкция: WB Niche Analyzer
           </h1>
+          <MaterialViews />
           <p style={{ fontSize: 15, color: C.dim, margin: 0 }}>
             Как находить прибыльные ниши на Wildberries с помощью данных MPStats
           </p>
@@ -262,11 +265,11 @@ export default function GuidePage() {
           <div
             style={{
               ...sCard,
-              borderColor: "rgba(108,92,231,0.3)",
-              background: "rgba(108,92,231,0.06)",
+              borderColor: "var(--personal-rail-hover)",
+              background: "var(--personal-rail-hover)",
             }}
           >
-            <div style={{ fontSize: 13, color: C.accent, fontWeight: 600, marginBottom: 6 }}>
+            <div style={{ fontSize: 13, color: C.accent, fontWeight: 500, marginBottom: 6 }}>
               Метод «Инсайт»
             </div>
             <p style={{ ...sP, margin: 0 }}>
@@ -296,7 +299,7 @@ export default function GuidePage() {
               { name: "Балл (Score)", desc: "Комплексная оценка 0–100 баллов по 7 метрикам. Учитывает выручку, эффективность, дефицит, оборачиваемость, конкуренцию и рейтинг." },
             ].map((m) => (
               <div key={m.name} style={sCard}>
-                <div style={{ fontSize: 13, fontWeight: 600, color: C.accent, marginBottom: 4 }}>
+                <div style={{ fontSize: 13, fontWeight: 500, color: C.accent, marginBottom: 4 }}>
                   {m.name}
                 </div>
                 <div style={{ fontSize: 12, color: "#bbb", lineHeight: 1.55 }}>
@@ -335,9 +338,9 @@ export default function GuidePage() {
           >
             <p style={{ ...sP, margin: 0, fontSize: 13 }}>
               <strong style={{ color: C.green }}>Ориентиры:</strong>{" "}
-              Балл <span style={{ color: C.green, fontWeight: 700 }}>60+</span> — отличная ниша,{" "}
-              <span style={{ color: "#a29bfe", fontWeight: 700 }}>40–60</span> — хорошая с оговорками,{" "}
-              <span style={{ color: C.dim, fontWeight: 700 }}>&lt; 40</span> — слабая или перегретая.
+              Балл <span style={{ color: C.green, fontWeight: 500 }}>60+</span> — отличная ниша,{" "}
+              <span style={{ color: "#a29bfe", fontWeight: 500 }}>40–60</span> — хорошая с оговорками,{" "}
+              <span style={{ color: C.dim, fontWeight: 500 }}>&lt; 40</span> — слабая или перегретая.
             </p>
           </div>
         </section>
@@ -494,7 +497,7 @@ export default function GuidePage() {
                 },
               ].map((f, i) => (
                 <div key={i}>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: C.red, marginBottom: 4 }}>
+                  <div style={{ fontSize: 13, fontWeight: 500, color: C.red, marginBottom: 4 }}>
                     {f.flag}
                   </div>
                   <div style={{ fontSize: 12, color: "#aaa", lineHeight: 1.5 }}>
@@ -515,7 +518,7 @@ export default function GuidePage() {
               Новичок, средний или крупный продавец? От этого зависит набор фильтров.
               Если сомневаетесь — начните с «Новичок».
             </Step>
-            <Step num={2} title="Нажмите «▼ Фильтры» и установите значения">
+            <Step num={2} title="Нажмите «Фильтры» и установите значения">
               Кликайте по диапазонам в каждом слайсере. Можно выбрать несколько
               значений в одном фильтре. Число справа от диапазона показывает
               количество ниш, которые попадут в этот бакет.
@@ -616,11 +619,11 @@ export default function GuidePage() {
               background: C.accent,
               color: "#fff",
               fontSize: 13,
-              fontWeight: 600,
+              fontWeight: 500,
               textDecoration: "none",
             }}
           >
-            Открыть анализатор →
+            Открыть анализатор <IconlyArrowRight size={17} className="reading-inline-icon" />
           </Link>
           <Link
             href="/"

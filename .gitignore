@@ -157,3 +157,7 @@ next-env.d.ts
 
 .vercel
 .screenshots/
+
+# Local checkouts and production verification output
+.worktrees/
+.next-production/

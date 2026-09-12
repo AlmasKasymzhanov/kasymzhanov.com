@@ -72,6 +72,7 @@ import {
   type ExportPoint,
   type SynthesisContext,
 } from "./column-chart-export";
+import { ChartTooltipPortal, ChartTooltipContent } from "./chart-tooltip";
 import { ChartExportMenu } from "./chart-toolbar";
 
 /** Fill pattern for a bar — solid accent fill, or hatched stripe pattern. */
@@ -365,7 +366,7 @@ export type ColumnChartProps = {
   gap?: number;
 
   /**
-   * Decimal trend e.g. `0.184` → "↗ +18.4%" (orange if positive, muted if negative).
+   * Decimal trend e.g. `0.184` → " +18.4%" (orange if positive, muted if negative).
    * Rendered top-right above the chart.
    */
   trend?: number;
@@ -1090,8 +1091,8 @@ export function ColumnChart({
   hatchUntilIndex,
   hatchFromIndex,
   patternStyle = "diagonal",
-  minBarWidth = 4,
-  scroll = "none",
+  minBarWidth = 24,
+  scroll = "auto",
   sort = "none",
   topN,
   bands,
@@ -1283,7 +1284,7 @@ export function ColumnChart({
       const v = getComputedStyle(root).getPropertyValue(varName).trim();
       return v || fallback;
     };
-    const resolvedAccent = accent ?? resolve("--brock-accent", "#F54900");
+    const resolvedAccent = accent ?? resolve("--brock-accent", "var(--personal-text)");
     // The muted "Other" fill resolves to a concrete color at export time so
     // the SVG/PNG reproduces the aggregate's visual distinction.
     const otherFill = points.some((p) => p.muted)
@@ -2327,7 +2328,7 @@ function BarsGroup({
         hasNegative ? "" : "border-b border-border"
       } ${animationEnabled ? "brock-bars-animated" : ""}`}
       style={{ gap }}
-      role="img"
+      role="group"
       aria-label={ariaLabel}
       onMouseLeave={onBarHover ? () => onBarHover(null, null) : undefined}
     >
@@ -2725,6 +2726,15 @@ function Bar({
   // (top = (max - v) / range), negative bars start AT the baseline and grow
   // down by |v| / range. With min === 0 this is pixel-identical to the old
   // bottom-anchored layout.
+  const tooltipAnchor = useRef<HTMLDivElement>(null);
+  const leaveTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
+  const TooltipSlot = tooltipSlot;
+  const keepTooltip = () => clearTimeout(leaveTimer.current);
+  const leaveTooltip = () => { keepTooltip(); leaveTimer.current = setTimeout(() => setHovered(false), 120); };
+  useEffect(() => () => clearTimeout(leaveTimer.current), []);
   const range = max - min;
   const isNegative = point.value < 0;
   const barHeight =
@@ -2757,17 +2767,19 @@ function Bar({
 
   return (
     <div
-      ref={ref}
+      ref={(element) => { tooltipAnchor.current = element; ref(element); }}
       className={`group/bar relative flex flex-1 items-end self-stretch rounded-[2px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brock-accent ${cursorClass}`}
       role="graphics-symbol"
       aria-roledescription="bar"
       aria-label={accessibleName}
       tabIndex={isTabStop ? 0 : -1}
-      onKeyDown={onKeyDown}
-      onFocus={onFocus}
+      onKeyDown={(event) => { if (event.key === "Escape") setDismissed(true); onKeyDown(event); }}
+      onFocus={() => { setFocused(true); setDismissed(false); onFocus(); }}
+      onBlur={() => setFocused(false)}
       onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      onTouchStart={onTap}
+      onMouseEnter={() => { keepTooltip(); setHovered(true); setDismissed(false); onMouseEnter?.(); }}
+      onMouseLeave={leaveTooltip}
+      onPointerUp={(event) => { if (event.pointerType !== "mouse") { setDismissed(isTapActive); onTap(); } }}
     >
       {/* Labels + notes anchor to the bar's OUTER end (Datawrapper direct-
           labeling convention; matches the SVG export, which always did this).
@@ -2862,40 +2874,12 @@ function Bar({
         }
         aria-hidden
       />
-      {!allZero &&
-        (tooltipSlot ? (
-          (() => {
-            const TooltipSlot = tooltipSlot;
-            return (
-              <div
-                className={`pointer-events-none absolute bottom-full z-10 mb-2 ${tooltipVisClass} ${TOOLTIP_POSITION[edge]} ${TOOLTIP_ALIGN[edge]}`}
-                aria-hidden
-              >
-                <TooltipSlot
-                  point={{
-                    label: point.label,
-                    value: point.value,
-                    pattern: point.pattern,
-                    color: point.color,
-                    highlight: point.highlight,
-                    note: point.note,
-                  }}
-                  index={index}
-                  value={formatValue(point.value, publicDatum)}
-                  label={point.label}
-                  edge={edge}
-                />
-              </div>
-            );
-          })()
-        ) : (
-          <Tooltip
-            label={point.label}
-            value={formatValue(point.value, publicDatum)}
-            edge={edge}
-            forceVisible={isTapActive}
-          />
-        ))}
+      {!dismissed && (hovered || focused || isTapActive) && (
+        <ChartTooltipPortal anchor={tooltipAnchor.current} onDismiss={() => setDismissed(true)} onPointerEnter={keepTooltip} onPointerLeave={leaveTooltip}>
+          {TooltipSlot ? <TooltipSlot point={publicDatum} index={index} value={formatValue(point.value, publicDatum)} label={point.label} edge={edge} /> :
+            <ChartTooltipContent title={point.label} rows={[{ label: "", value: formatValue(point.value, publicDatum) }]} note={point.note} />}
+        </ChartTooltipPortal>
+      )}
     </div>
   );
 }
@@ -2912,37 +2896,7 @@ const TOOLTIP_ALIGN: Record<EdgePosition, string> = {
   center: "items-center",
 };
 
-function Tooltip({
-  label,
-  value,
-  edge,
-  forceVisible,
-}: {
-  label?: string;
-  value: string;
-  edge: EdgePosition;
-  forceVisible?: boolean;
-}) {
-  const visClass = forceVisible
-    ? "flex"
-    : "hidden group-hover/bar:flex group-focus/bar:flex";
-  return (
-    <div
-      className={`pointer-events-none absolute bottom-full z-10 mb-2 flex-col gap-0.5 rounded-md border border-border bg-background px-2.5 py-1.5 shadow-md ${visClass} ${TOOLTIP_POSITION[edge]} ${TOOLTIP_ALIGN[edge]}`}
-      role="tooltip"
-      aria-hidden
-    >
-      {label && (
-        <span className="font-sans text-[11px] whitespace-nowrap text-muted-foreground">
-          {label}
-        </span>
-      )}
-      <span className="font-mono text-xs tabular-nums whitespace-nowrap text-foreground">
-        {value}
-      </span>
-    </div>
-  );
-}
+
 
 function XAxis({
   points,

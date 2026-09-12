@@ -1,0 +1,393 @@
+diff --git a/components/articles.tsx b/components/articles.tsx
+index 3fa0f8d..bd7bbec 100644
+--- a/components/articles.tsx
++++ b/components/articles.tsx
+@@ -36,6 +36,11 @@ export type Article = {
+   coverBg?: string;
+   rubric: string;
+   topics: ArticleTopic[];
++  series?: ArticleSeries[];
++  analysisPace?: AnalysisPace;
++  // Keep specialist reports inside their product hub instead of promoting
++  // them to the publication's main lead or broad topic rows.
++  sectionOnly?: boolean;
+   title: string;
+   subtitle: string;
+   date: string; // display date, e.g. "22 Июн 2026"
+@@ -57,6 +62,8 @@ export type Article = {
+ };
+ 
+ export type ArticleTopic = "markets" | "technology" | "kazakhstan";
++export type ArticleSeries = "kaspi-market";
++export type AnalysisPace = "fast" | "slow";
+ 
+ // Editorially complete copy that must not enter public feeds or structured
+ // data until publication-only fields (cover, credit, EN and date) are ready.
+@@ -82,12 +89,38 @@ export function getPublishedArticles(locale: Locale = "ru"): Article[] {
+ }
+ 
+ export function getArticlesByTopic(topic: ArticleTopic, locale: Locale = "ru"): Article[] {
+-  return getPublishedArticles(locale).filter((a) => a.topics.includes(topic));
++  return getPublishedArticles(locale).filter((a) => !a.sectionOnly && a.topics.includes(topic));
++}
++
++export function getKaspiMarketArticles(locale: Locale = "ru", pace?: AnalysisPace): Article[] {
++  return getPublishedArticles(locale).filter(
++    (article) => article.series?.includes("kaspi-market") && (!pace || article.analysisPace === pace),
++  );
+ }
+ 
+ export const ARTICLE_DRAFTS: ArticleDraft[] = [];
+ 
+ export const ARTICLES: Article[] = [
++  {
++    href: "/reports/kaspi-top-30-june-2026",
++    slug: "kaspi-top-30-june-2026",
++    img: "/reports/kaspi-top-30-june-2026/cover.png",
++    rubric: "Рыночный срез",
++    topics: ["markets"],
++    series: ["kaspi-market"],
++    analysisPace: "fast",
++    sectionOnly: true,
++    title: "30 ниш Kaspi: что я бы проверял к осени",
++    subtitle: "Подписчик спросил, с каким товаром сейчас заходить на Kaspi. Я посмотрел данные и собрал 30 ниш для следующей проверки.",
++    date: "2 Авг 2026",
++    datePublished: "2026-08-02",
++    readMin: 16,
++    likes: 0,
++    comments: 0,
++    shares: 0,
++    credit: "Графика: Kasymzhanov",
++    enReady: false,
++  },
+   {
+     href: "/blog/wildberries-kazakhstan",
+     slug: "wildberries-kazakhstan",
+@@ -112,7 +145,7 @@ export const ARTICLES: Article[] = [
+     img: "/blog/wb-dual-use/cover.webp",
+     imgPosition: "center 50%",
+     rubric: "Исследование",
+-    topics: ["markets", "technology"],
++    topics: ["markets"],
+     title: "Я искал товары на атакованных складах Wildberries и нашёл ниши, выросшие в десятки раз",
+     subtitle:
+       "Связать семь проверенных карточек с конкретными складами не удалось. Тогда я поднял данные MPStats с 2021 года. В сопоставимых 12-месячных окнах оборот маскировочных костюмов вырос примерно с 42 млн до 3,15 млрд рублей, а продажи выросли более чем в 37 раз. Эти цифры не объясняют причину роста и не показывают, что лежало в атакованных корпусах.",
+@@ -212,6 +245,8 @@ export const ARTICLES: Article[] = [
+     img: "/blog/why-blogger-brands-fail/likbeauty.webp",
+     rubric: "Рынок",
+     topics: ["markets", "kazakhstan"],
++    series: ["kaspi-market"],
++    analysisPace: "slow",
+     title: "Lick Beauty: семь миллионов против четырёхсот двадцати",
+     subtitle: "Как бренд с 7 млн подписчиков проиграл реплике за 420 тенге.",
+     date: "25 Мар 2026",
+@@ -233,7 +268,9 @@ export const ARTICLES: Article[] = [
+     slug: "kaspi-mcp",
+     img: "/blog/kaspi-mcp/mcp.webp",
+     rubric: "Инструменты",
+-    topics: ["markets", "technology", "kazakhstan"],
++    topics: ["markets", "kazakhstan"],
++    series: ["kaspi-market"],
++    analysisPace: "fast",
+     title: "Арифметика лени: как AI добывает золото из Kaspi",
+     subtitle: "MCP-коннектор: Claude сам достаёт ниши, цены и долю «без бренда».",
+     date: "29 Май 2026",
+@@ -483,7 +520,7 @@ export function NewsletterCard({ source = "home", locale = "ru" }: { source?: st
+     <div className="grid min-w-0 gap-8 overflow-hidden bg-[var(--color-brand)] p-5 text-[var(--color-bg)] sm:p-7 md:grid-cols-[1.25fr_1fr] md:p-10 lg:p-12">
+       <div className="min-w-0">
+         <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] opacity-75 mb-4">{copy.eyebrow}</p>
+-        <p className="font-heading text-[28px] md:text-[36px] font-bold tracking-tight leading-[1.02] mb-4">{copy.title}</p>
++        <p className="break-words font-heading text-[28px] md:text-[36px] font-bold tracking-tight leading-[1.02] mb-4">{copy.title}</p>
+         <p className="font-body text-[14px] md:text-[16px] leading-relaxed opacity-85 max-w-xl">{copy.body}</p>
+       </div>
+       <div className="min-w-0 self-end">
+diff --git a/components/canon/mobile-menu.tsx b/components/canon/mobile-menu.tsx
+index 101d2b2..c0a94af 100644
+--- a/components/canon/mobile-menu.tsx
++++ b/components/canon/mobile-menu.tsx
+@@ -216,7 +216,8 @@ export function MobileMenu() {
+                 <div className="grid grid-cols-2 gap-x-5 gap-y-1">
+                   <Link href={`${prefix}/newsletter`} className="flex min-h-11 items-center border-b border-[var(--color-border)] text-[13px] font-semibold no-underline">{t.newsletter}</Link>
+                   <Link href={`${prefix}/about`} className="flex min-h-11 items-center border-b border-[var(--color-border)] text-[13px] font-semibold no-underline">{t.about}</Link>
+-                  <Link href={`${prefix}/standards`} className="col-span-2 flex min-h-11 items-center border-b border-[var(--color-border)] text-[13px] font-semibold no-underline">
++                  <Link href={`${prefix}/tools`} className="flex min-h-11 items-center border-b border-[var(--color-border)] text-[13px] font-semibold no-underline">{t.practice}</Link>
++                  <Link href={`${prefix}/standards`} className="flex min-h-11 items-center border-b border-[var(--color-border)] text-[13px] font-semibold no-underline">
+                     {locale === "en" ? "Editorial standards" : "Редакционные стандарты"}
+                   </Link>
+                 </div>
+diff --git a/components/canon/site-chrome.tsx b/components/canon/site-chrome.tsx
+index 8f12dd2..40c33a8 100644
+--- a/components/canon/site-chrome.tsx
++++ b/components/canon/site-chrome.tsx
+@@ -86,13 +86,14 @@ function MailIcon({ size = 16 }: { size?: number }) {
+ /* ───── Author block sections (reused on home aside + article bottom + about page) ───── */
+ export function AboutSection({ locale }: { locale: Locale }) {
+   const t = dict[locale];
++  const authorName = "Almas Kasymzhanov";
+   return (
+     <div>
+       <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--color-brand)] mb-5">{t.about.label}</p>
+       <div className="relative w-20 h-20 rounded-full overflow-hidden border border-[var(--color-border)] mb-4">
+-        <Image src="/avatar/almas.webp" alt={t.name} fill sizes="80px" className="object-cover object-[center_24%]" />
++        <Image src="/avatar/almas.webp" alt={authorName} fill sizes="80px" className="object-cover object-[center_24%]" />
+       </div>
+-      <h2 className="text-[17px] font-bold tracking-tight mb-3">{t.name}</h2>
++      <h2 className="text-[17px] font-bold tracking-tight mb-3">{authorName}</h2>
+       <div className="space-y-2 text-[12.5px] text-[var(--color-dim)] leading-relaxed">
+         <p>{t.about.role}</p>
+         <p>{t.about.orders}</p>
+@@ -237,6 +238,7 @@ export function SiteHeader({ locale = "ru", variant = "compact" }: { locale?: Lo
+               <Link href={`${prefix}/latest`} className="transition-colors hover:text-[var(--color-brand)]">{t.nav.latest}</Link>
+               <Link href={`${prefix}/newsletter`} className="transition-colors hover:text-[var(--color-brand)]">{t.nav.newsletter}</Link>
+               <Link href={`${prefix}/about`} className="transition-colors hover:text-[var(--color-brand)]">{t.nav.about}</Link>
++              <Link href={`${prefix}/tools`} className="transition-colors hover:text-[var(--color-brand)]">{t.nav.practice}</Link>
+             </nav>
+             <div className="ml-auto flex items-center gap-3">
+               <LangToggle />
+@@ -295,8 +297,8 @@ export function SiteFooter({ locale = "ru", hidePhone = false }: { locale?: Loca
+           <nav className="flex flex-col items-start gap-2 text-[12px]" aria-label={locale === "en" ? "Explore" : "Разделы"}>
+             <Link href={`${prefix}/latest`} className="hover:text-[var(--color-brand)]">{t.nav.latest}</Link>
+             <Link href={`${prefix}/market`} className="hover:text-[var(--color-brand)]">{t.nav.market}</Link>
++            <Link href={`${prefix}/kaspi`} className="hover:text-[var(--color-brand)]">{t.nav.kaspi}</Link>
+             <Link href={`${prefix}/technology`} className="hover:text-[var(--color-brand)]">{t.nav.technology}</Link>
+-            <Link href={`${prefix}/kazakhstan`} className="hover:text-[var(--color-brand)]">{t.nav.kazakhstan}</Link>
+           </nav>
+           <nav className="flex flex-col items-start gap-2 text-[12px]" aria-label={locale === "en" ? "Publication" : "Об издании"}>
+             <Link href={`${prefix}/about`} className="hover:text-[var(--color-brand)]">{t.nav.about}</Link>
+diff --git a/components/publication-home.tsx b/components/publication-home.tsx
+index b211538..ea6526a 100644
+--- a/components/publication-home.tsx
++++ b/components/publication-home.tsx
+@@ -1,21 +1,16 @@
+ import Image from "next/image";
+ import Link from "next/link";
+ import { SiteHeader, SiteFooter } from "@/components/canon/site-chrome";
+-import { ArticleCard, NewsletterCard, getPublishedArticles, type Article } from "@/components/articles";
++import {
++  ArticleCard,
++  NewsletterCard,
++  getArticlesByTopic,
++  getKaspiMarketArticles,
++  getPublishedArticles,
++  type Article,
++} from "@/components/articles";
+ import { type Locale, dict } from "@/lib/i18n";
+ 
+-function SectionHeading({ eyebrow, title, href, linkLabel }: { eyebrow: string; title: string; href?: string; linkLabel?: string }) {
+-  return (
+-    <div className="mb-8 flex items-end justify-between gap-6 border-t border-[var(--color-text)] pt-4">
+-      <div>
+-        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-brand)]">{eyebrow}</p>
+-        <h2 className="mt-2 font-heading text-[26px] font-bold tracking-tight md:text-[32px]">{title}</h2>
+-      </div>
+-      {href && <Link href={href} className="shrink-0 font-mono text-[10px] uppercase tracking-[0.08em] hover:text-[var(--color-brand)]">{linkLabel} →</Link>}
+-    </div>
+-  );
+-}
+-
+ function LeadStory({ article, locale }: { article: Article; locale: Locale }) {
+   return (
+     <Link href={article.href} className="group block font-body">
+@@ -45,87 +40,154 @@ function LeadStory({ article, locale }: { article: Article; locale: Locale }) {
+   );
+ }
+ 
+-function TopicLink({ href, index, title, description }: { href: string; index: string; title: string; description: string }) {
++function KaspiHomeRail({ articles, locale }: { articles: Article[]; locale: Locale }) {
++  const prefix = locale === "en" ? "/en" : "";
+   return (
+-    <Link href={href} className="group block border-t border-[var(--color-border)] py-6 md:py-8">
+-      <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-[var(--color-dim)]">{index}</p>
+-      <h3 className="mt-3 font-heading text-[24px] font-bold tracking-tight group-hover:text-[var(--color-brand)] md:text-[29px]">{title} →</h3>
+-      <p className="mt-3 max-w-sm font-body text-[13px] leading-relaxed text-[var(--color-dim)]">{description}</p>
+-    </Link>
++    <aside className="order-2 border-t border-[var(--color-border)] bg-[var(--color-surface)] p-6 lg:order-1 lg:border-r lg:border-t-0 lg:p-7">
++      <Link href={`${prefix}/kaspi`} className="group block border-b border-[var(--color-text)] pb-5">
++        <p className="font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-[var(--color-brand)]">{locale === "en" ? "Independent market intelligence" : "Независимая аналитика"}</p>
++        <h2 className="mt-3 font-heading text-[30px] font-bold leading-[0.92] tracking-[-0.035em] group-hover:text-[var(--color-brand)]">Kaspi Market →</h2>
++        <p className="mt-4 text-[12px] leading-relaxed text-[var(--color-dim)]">
++          {locale === "en" ? "Analytics of categories, products, demand, and competition on Kaspi." : "Аналитика категорий, товаров, спроса и конкуренции на Kaspi."}
++        </p>
++      </Link>
++      <div>
++        {articles.map((article) => (
++          <Link key={article.slug} href={article.href} className="group block border-b border-[var(--color-border)] py-5">
++            <span className="font-mono text-[8px] font-bold uppercase tracking-[0.12em] text-[var(--color-brand)]">{article.rubric}</span>
++            <h3 className="mt-2 text-[15px] font-bold leading-[1.08] transition-colors group-hover:text-[var(--color-brand)]">{article.title}</h3>
++            <p className="mt-2 font-mono text-[8px] uppercase tracking-[0.05em] text-[var(--color-dim)]">{article.date} · {dict[locale].minRead(article.readMin)}</p>
++          </Link>
++        ))}
++      </div>
++      <Link href={`${prefix}/kaspi`} className="mt-5 flex h-11 items-center justify-between border-y border-[var(--color-border)] px-3 font-mono text-[9px] font-bold uppercase tracking-[0.06em] hover:text-[var(--color-brand)]">
++        {locale === "en" ? "All analytics" : "Вся аналитика"} <span>→</span>
++      </Link>
++    </aside>
++  );
++}
++
++type EditorialLink = { label: string; href: string };
++
++function EditorialRow({ title, description, href, articles, locale, links = [] }: { title: string; description: string; href: string; articles: Article[]; locale: Locale; links?: EditorialLink[] }) {
++  const columns = articles.length <= 1 ? "lg:grid-cols-3" : articles.length === 2 ? "lg:grid-cols-2" : "lg:grid-cols-3";
++  return (
++    <section className="grid border-t border-[var(--color-border)] lg:grid-cols-[260px_minmax(0,1fr)]">
++      <header className="p-6 md:p-8 lg:p-10">
++        <Link href={href} className="group block">
++          <h2 className="font-heading text-[34px] font-bold leading-none tracking-[-0.035em] group-hover:text-[var(--color-brand)]">{title} <span className="text-[var(--color-brand)]">→</span></h2>
++          <p className="mt-4 max-w-[220px] text-[13px] leading-relaxed text-[var(--color-dim)]">{description}</p>
++        </Link>
++        {links.length > 0 && (
++          <nav className="mt-6 border-t border-[var(--color-border)] pt-4" aria-label={title}>
++            {links.map((item) => (
++              <Link key={item.label} href={item.href} className="flex items-center justify-between border-b border-[var(--color-border)] py-2 font-mono text-[9px] uppercase tracking-[0.06em] hover:text-[var(--color-brand)]">
++                {item.label} <span>→</span>
++              </Link>
++            ))}
++          </nav>
++        )}
++      </header>
++      <div className={`grid gap-8 border-t border-[var(--color-border)] p-6 sm:grid-cols-2 md:p-8 lg:border-l lg:border-t-0 lg:p-10 ${columns}`}>
++        {articles.slice(0, 3).map((article) => <ArticleCard key={article.slug} a={article} views={0} locale={locale} />)}
++      </div>
++    </section>
+   );
+ }
+ 
+ export function PublicationHome({ locale }: { locale: Locale }) {
+-  const all = getPublishedArticles(locale);
++  const all = getPublishedArticles(locale).filter((article) => !article.sectionOnly);
+   const [lead, ...rest] = all;
+-  const secondary = rest.slice(0, 2);
+-  const latest = rest.slice(2);
++  const secondary = rest.slice(0, 3);
++  const featuredSlugs = new Set([lead, ...secondary].filter(Boolean).map((article) => article.slug));
++  const kaspiArticles = getKaspiMarketArticles(locale);
++  const kaspiRail = kaspiArticles.filter((article) => !featuredSlugs.has(article.slug)).slice(0, 4);
++  const kaspiReport = kaspiArticles.find((article) => article.slug === "kaspi-top-30-june-2026");
++  const rightFeature = secondary[0]?.slug === "wb-dual-use"
++    ? {
++        ...secondary[0],
++        subtitle: locale === "en"
++          ? "A data-led look at seven product niches that grew sharply around Russia’s warehouse disruptions."
++          : "Я поднял данные MPStats с 2021 года и проверил семь товарных ниш, которые выросли на фоне атак на склады.",
++      }
++    : secondary[0];
+   const prefix = locale === "en" ? "/en" : "";
+   const copy = locale === "en"
+     ? {
+         top: "Front page",
+         secondary: "Also on the front page",
+-        latestEyebrow: "Chronology",
+-        latest: "Latest stories",
+-        all: "View all",
+-        topicsEyebrow: "Explore",
+-        topics: "Editorial beats",
++        recent: "Latest",
++        kaspi: "All coverage of categories, products, demand, and competition on Kaspi in one section.",
+         markets: ["Markets", "Platforms, retail, brands, and the signals hidden in demand."],
+         technology: ["Technology", "AI, infrastructure, and the systems reshaping the region."],
+-        kazakhstan: ["Kazakhstan", "Local evidence for readers who need more than a press release."],
+       }
+     : {
+         top: "Главная история",
+         secondary: "Также на главной",
+-        latestEyebrow: "Хронология",
+-        latest: "Последние материалы",
+-        all: "Все материалы",
+-        topicsEyebrow: "Навигация",
+-        topics: "Редакционные темы",
++        recent: "Последние",
++        kaspi: "Все материалы о категориях, товарах, спросе и конкуренции на Kaspi собраны в одном разделе.",
+         markets: ["Рынки", "Платформы, торговля, бренды и сигналы, спрятанные в спросе."],
+         technology: ["Технологии", "AI, инфраструктура и системы, которые меняют регион."],
+-        kazakhstan: ["Казахстан", "Локальные факты для читателей, которым недостаточно пресс-релиза."],
+       };
++  const kaspiLinks: EditorialLink[] = locale === "en"
++    ? [
++        { label: "Tools", href: `${prefix}/tools` },
++        { label: "MCP", href: "/blog/kaspi-mcp" },
++        { label: "Reports", href: "/reports/kaspi-top-30-june-2026" },
++        { label: "Lick Beauty", href: "/blog/why-blogger-brands-fail" },
++      ]
++    : [
++        { label: "Инструменты", href: `${prefix}/tools` },
++        { label: "MCP", href: "/blog/kaspi-mcp" },
++        { label: "Отчёты", href: "/reports/kaspi-top-30-june-2026" },
++        { label: "Lick Beauty", href: "/blog/why-blogger-brands-fail" },
++      ];
+ 
+   return (
+     <div className="font-body text-[var(--color-text)]">
+       <div className="mx-auto flex min-h-screen max-w-[1400px] flex-col border-x border-[var(--color-border)]">
+         <SiteHeader locale={locale} variant="masthead" />
+         <main id="main-content" className="flex-1">
+-          <section className="grid border-b border-[var(--color-border)] lg:grid-cols-[minmax(0,1fr)_420px]">
+-            <div className="p-6 md:p-10 lg:p-12">
+-              <p className="mb-6 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-brand)]">{copy.top}</p>
+-              <LeadStory article={lead} locale={locale} />
++          <section className="grid border-b border-[var(--color-border)] lg:grid-cols-[290px_minmax(0,1fr)]">
++            <KaspiHomeRail articles={kaspiRail.length > 0 ? kaspiRail : kaspiArticles.slice(0, 3)} locale={locale} />
++            <div className="order-1 min-w-0 lg:order-2">
++              <div className="grid lg:grid-cols-[minmax(0,1fr)_350px]">
++                <div className="p-6 md:p-10 lg:p-12">
++                  <p className="mb-6 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-brand)]">{copy.top}</p>
++                  <LeadStory article={lead} locale={locale} />
++                </div>
++                {rightFeature && (
++                  <aside className="border-t border-[var(--color-border)] p-6 md:p-8 lg:border-l lg:border-t-0">
++                    <p className="mb-7 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-brand)]">{copy.secondary}</p>
++                    <ArticleCard a={rightFeature} views={0} locale={locale} />
++                    {kaspiReport && (
++                      <div className="mt-8 border-t border-[var(--color-border)] pt-8">
++                        <ArticleCard a={kaspiReport} views={0} locale={locale} />
++                      </div>
++                    )}
++                  </aside>
++                )}
++              </div>
++              {secondary.length > 1 && (
++                <section className="border-t border-[var(--color-border)]">
++                  <div className="border-b border-[var(--color-border)] px-6 py-4 md:px-10 lg:px-12">
++                    <h2 className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-brand)]">{copy.recent}</h2>
++                  </div>
++                  <div className="grid gap-8 p-6 sm:grid-cols-2 md:p-10 lg:p-12">
++                    {secondary.slice(1).map((article) => <ArticleCard key={article.slug} a={article} views={0} locale={locale} />)}
++                  </div>
++                </section>
++              )}
+             </div>
+-            <aside className="border-t border-[var(--color-border)] p-6 md:p-10 lg:border-l lg:border-t-0 lg:p-8">
+-              <p className="mb-7 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-brand)]">{copy.secondary}</p>
+-              <div className="space-y-9">
+-                {secondary.map((article) => <ArticleCard key={article.slug} a={article} views={0} locale={locale} />)}
+-              </div>
+-            </aside>
+           </section>
+ 
+-          {latest.length > 0 && (
+-            <section className="border-b border-[var(--color-border)] px-6 py-12 md:px-10 md:py-16 lg:px-12">
+-              <SectionHeading eyebrow={copy.latestEyebrow} title={copy.latest} href={`${prefix}/latest`} linkLabel={copy.all} />
+-              <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+-                {latest.map((article) => <ArticleCard key={article.slug} a={article} views={0} locale={locale} />)}
+-              </div>
+-            </section>
+-          )}
+-
+           <section className="border-b border-[var(--color-border)] px-6 py-12 md:px-10 md:py-16 lg:px-12">
+             <NewsletterCard source={locale === "en" ? "home-en" : "home"} locale={locale} />
+           </section>
+ 
+-          <section className="px-6 py-12 md:px-10 md:py-16 lg:px-12">
+-            <SectionHeading eyebrow={copy.topicsEyebrow} title={copy.topics} />
+-            <div className="grid gap-x-10 md:grid-cols-3">
+-              <TopicLink href={`${prefix}/market`} index="01" title={copy.markets[0]} description={copy.markets[1]} />
+-              <TopicLink href={`${prefix}/technology`} index="02" title={copy.technology[0]} description={copy.technology[1]} />
+-              <TopicLink href={`${prefix}/kazakhstan`} index="03" title={copy.kazakhstan[0]} description={copy.kazakhstan[1]} />
+-            </div>
+-          </section>
++          <EditorialRow title="Kaspi Market" description={copy.kaspi} href={`${prefix}/kaspi`} articles={kaspiArticles} locale={locale} links={kaspiLinks} />
++          <EditorialRow title={copy.markets[0]} description={copy.markets[1]} href={`${prefix}/market`} articles={getArticlesByTopic("markets", locale)} locale={locale} />
++          <EditorialRow title={copy.technology[0]} description={copy.technology[1]} href={`${prefix}/technology`} articles={getArticlesByTopic("technology", locale)} locale={locale} />
+         </main>
+         <SiteFooter locale={locale} />
+       </div>

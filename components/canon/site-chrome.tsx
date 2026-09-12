@@ -47,7 +47,7 @@ function SiteLink({ href, children }: { href: string; children: React.ReactNode 
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-[var(--color-text)] underline decoration-1 underline-offset-2 hover:text-[var(--color-brand)] transition-colors"
+      className="text-[var(--color-text)] underline decoration-1  hover:text-[var(--color-brand)] transition-colors"
     >
       {children}
     </a>
@@ -86,13 +86,14 @@ function MailIcon({ size = 16 }: { size?: number }) {
 /* ───── Author block sections (reused on home aside + article bottom + about page) ───── */
 export function AboutSection({ locale }: { locale: Locale }) {
   const t = dict[locale];
+  const authorName = "Almas Kasymzhanov";
   return (
     <div>
       <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--color-brand)] mb-5">{t.about.label}</p>
       <div className="relative w-20 h-20 rounded-full overflow-hidden border border-[var(--color-border)] mb-4">
-        <Image src="/avatar/almas.webp" alt={t.name} fill sizes="80px" className="object-cover object-[center_24%]" />
+        <Image src="/avatar/almas.webp" alt={authorName} fill sizes="80px" className="object-cover object-[center_24%]" />
       </div>
-      <h2 className="text-[17px] font-bold tracking-tight mb-3">{t.name}</h2>
+      <h2 className="text-[17px] font-medium tracking-tight mb-3">{authorName}</h2>
       <div className="space-y-2 text-[12.5px] text-[var(--color-dim)] leading-relaxed">
         <p>{t.about.role}</p>
         <p>{t.about.orders}</p>
@@ -237,6 +238,7 @@ export function SiteHeader({ locale = "ru", variant = "compact" }: { locale?: Lo
               <Link href={`${prefix}/latest`} className="transition-colors hover:text-[var(--color-brand)]">{t.nav.latest}</Link>
               <Link href={`${prefix}/newsletter`} className="transition-colors hover:text-[var(--color-brand)]">{t.nav.newsletter}</Link>
               <Link href={`${prefix}/about`} className="transition-colors hover:text-[var(--color-brand)]">{t.nav.about}</Link>
+              <Link href={`${prefix}/tools`} className="transition-colors hover:text-[var(--color-brand)]">{t.nav.practice}</Link>
             </nav>
             <div className="ml-auto flex items-center gap-3">
               <LangToggle />
@@ -286,7 +288,7 @@ export function SiteFooter({ locale = "ru", hidePhone = false }: { locale?: Loca
   return (
     <footer className="border-t border-[var(--color-border)]">
       <div className="px-6 md:px-7 py-10 md:py-14">
-        <h2 className="text-[24px] md:text-[32px] font-bold tracking-tight text-[var(--color-text)]">Almas Kasymzhanov</h2>
+        <h2 className="text-[24px] md:text-[32px] font-medium tracking-tight text-[var(--color-text)]">Almas Kasymzhanov</h2>
         <p className="mt-2 text-[13px] text-[var(--color-brand)] font-medium">{t.about.role}</p>
         <p className="mt-5 text-[13px] md:text-[14px] text-[var(--color-dim)] leading-relaxed max-w-3xl">
           {t.footer.desc}
@@ -295,8 +297,8 @@ export function SiteFooter({ locale = "ru", hidePhone = false }: { locale?: Loca
           <nav className="flex flex-col items-start gap-2 text-[12px]" aria-label={locale === "en" ? "Explore" : "Разделы"}>
             <Link href={`${prefix}/latest`} className="hover:text-[var(--color-brand)]">{t.nav.latest}</Link>
             <Link href={`${prefix}/market`} className="hover:text-[var(--color-brand)]">{t.nav.market}</Link>
+            <Link href={`${prefix}/kaspi`} className="hover:text-[var(--color-brand)]">{t.nav.kaspi}</Link>
             <Link href={`${prefix}/technology`} className="hover:text-[var(--color-brand)]">{t.nav.technology}</Link>
-            <Link href={`${prefix}/kazakhstan`} className="hover:text-[var(--color-brand)]">{t.nav.kazakhstan}</Link>
           </nav>
           <nav className="flex flex-col items-start gap-2 text-[12px]" aria-label={locale === "en" ? "Publication" : "Об издании"}>
             <Link href={`${prefix}/about`} className="hover:text-[var(--color-brand)]">{t.nav.about}</Link>
@@ -326,10 +328,10 @@ export function SiteFooter({ locale = "ru", hidePhone = false }: { locale?: Loca
           </span>
         </div>
         <nav className="flex flex-wrap items-center gap-5 shrink-0">
-          <Link href="/privacy" className="no-underline hover:text-[var(--color-brand)] hover:underline underline-offset-4 decoration-1 transition-colors">
+          <Link href="/privacy" className="no-underline hover:text-[var(--color-brand)]   decoration-1 transition-colors">
             {t.footer.privacy}
           </Link>
-          <Link href="/terms" className="no-underline hover:text-[var(--color-brand)] hover:underline underline-offset-4 decoration-1 transition-colors">
+          <Link href="/terms" className="no-underline hover:text-[var(--color-brand)]   decoration-1 transition-colors">
             {t.footer.terms}
           </Link>
         </nav>

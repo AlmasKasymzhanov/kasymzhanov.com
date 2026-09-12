@@ -1,4 +1,8 @@
 "use client";
+import { HeatCell, HeatLegend, InlineDataBar } from "@/components/charts/table-visuals";
+import { ResearchFact } from "@/components/canon/research-editorial";
+import { ResearchReadingTime } from "@/components/canon/research-reading-time";
+
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
@@ -74,29 +78,28 @@ export default function WBCosmeticsAutumnReport() {
   }, [query, sortKey]);
 
   return (
-    <main className={styles.page}>
+    <div className={styles.page}>
       <div className={styles.shell}>
         <div className={styles.topline}>
           <Link href="/" className={styles.homeLink}>kasymzhanov.com</Link>
           <span>Отчёт по прямой ссылке · 24 июля 2026</span>
         </div>
 
-        <header className={styles.hero}>
+        <header className={`research-header ${styles.hero}`}>
           <div className={styles.eyebrow}>Wildberries · Россия · осень 2026</div>
           <h1>Какие ниши косметики можно запускать сейчас</h1>
-          <p className={styles.lead}>
+          <p className={`research-lead ${styles.lead}`}>
             Проверили 154 косметические подкатегории, сезонный спрос, конкуренцию, остатки,
             карточки товаров и 11&nbsp;824 строки отзывов. Крупную закупку косметики из Китая
             к осени делать рано. Два направления можно довести до небольшого теста.
           </p>
-          <p className={styles.byline}>Подготовил: <strong>Almas Kasymzhanov</strong></p>
-          <div className={styles.heroGrid}>
-            <div><strong>331</strong><span>рубрика «Красоты» разобрана</span></div>
-            <div><strong>154</strong><span>косметические ниши в расчёте</span></div>
-            <div><strong>0</strong><span>ниш прошли все условия</span></div>
-            <div><strong>2</strong><span>направления оставлены для пилота</span></div>
-          </div>
-        </header>
+          <p className={styles.byline}>Подготовил: <strong>Алмас Касымжанов</strong></p>
+
+
+<ResearchReadingTime />
+</header>
+<div className="research-facts"><ResearchFact label={<>рубрика «Красоты» разобрана</>} value={<>331</>} /><ResearchFact label={<>косметические ниши в расчёте</>} value={<>154</>} /><ResearchFact label={<>ниш прошли все условия</>} value={<>0</>} /><ResearchFact label={<>направления оставлены для пилота</>} value={<>2</>} /></div>
+
 
         <nav className={styles.toc} aria-label="Содержание отчёта">
           <a href="#decision">Решение</a>
@@ -184,21 +187,21 @@ export default function WBCosmeticsAutumnReport() {
           <div className={styles.detailGrid}>
             <article className={styles.detailCard}>
               <div className={styles.cardTop}><h3>1. Спреи для волос</h3><DecisionTag tone="pilot">Условный пилот</DecisionTag></div>
-              <div className={styles.miniMetrics}><span><b>229,4 млн ₽</b>рынок</span><span><b>×1,45</b>вход в осень</span><span><b>94,6%</b>выкуп</span></div>
+              <div className="research-facts"><ResearchFact label={<>рынок</>} value={<>229,4 млн ₽</>} /><ResearchFact label={<>вход в осень</>} value={<>×1,45</>} /><ResearchFact label={<>выкуп</>} value={<>94,6%</>} /></div>
               <p><b>Почему интересно.</b> Девять из десяти заказов выкупаются, остатки и оборот лучше многих соседних ниш, а сентябрь–октябрь были заметно сильнее июля–августа.</p>
-              <p><b>Что мешает.</b> 1&nbsp;089 активных продавцов, средний чек 747 ₽ и комиссия MPStats 32,5–36%. Аэрозоли сложнее перевозить. Новые карточки 2026 года пока не доказали лёгкий вход.</p>
+              <p><b>Что мешает.</b> 1&nbsp;089 активных продавцов, средний чек 747 ₽ и комиссия агрегированные данные Wildberries 32,5–36%. Аэрозоли сложнее перевозить. Новые карточки 2026 года пока не доказали лёгкий вход.</p>
               <p><b>Что тестировать.</b> Один неаэрозольный pump-SKU либо готовый аэрозоль от производителя с документами ЕАЭС. Нужны проверки распыления, фиксации, вычёсывания, налёта и протечки.</p>
             </article>
             <article className={styles.detailCard}>
               <div className={styles.cardTop}><h3>2. Гидролаты</h3><DecisionTag tone="watch">Микропилот</DecisionTag></div>
-              <div className={styles.miniMetrics}><span><b>33,0 млн ₽</b>рынок</span><span><b>×1,27</b>вход в осень</span><span><b>132 дня</b>оборот</span></div>
+              <div className="research-facts"><ResearchFact label={<>рынок</>} value={<>33,0 млн ₽</>} /><ResearchFact label={<>вход в осень</>} value={<>×1,27</>} /><ResearchFact label={<>оборот</>} value={<>132 дня</>} /></div>
               <p><b>Почему интересно.</b> Одна формула без размеров и оттенков. Доля продаж и выручки выросла примерно в 1,24 раза. Концентрация умеренная.</p>
               <p><b>Что мешает.</b> На одного активного продавца приходится только 94 тыс. ₽ в месяц. 82,4% остатка заморожено, а новые карточки дают 61–78 тыс. ₽.</p>
               <p><b>Что тестировать.</b> Розовую воду или розмариновый гидролат небольшой партией. Обещания о росте волос нельзя переносить в карточку без подтверждения.</p>
             </article>
             <article className={styles.detailCard}>
               <div className={styles.cardTop}><h3>3. Мицеллярный рефил</h3><DecisionTag tone="watch">Следить за форматом</DecisionTag></div>
-              <div className={styles.miniMetrics}><span><b>3 072</b>продажи SKU</span><span><b>314 ₽</b>цена</span><span><b>×0,85</b>динамика ниши</span></div>
+              <div className="research-facts"><ResearchFact label={<>продажи SKU</>} value={<>3 072</>} /><ResearchFact label={<>цена</>} value={<>314 ₽</>} /><ResearchFact label={<>динамика ниши</>} value={<>×0,85</>} /></div>
               <p>Новый рефил Vivienne Sabo на 440 мл сделал 832&nbsp;981 ₽ за 30 дней. Это хороший сигнал упаковочного формата, но не новой ниши: родительская категория снижается, продукт тяжёлый, а результат получил известный бренд.</p>
             </article>
             <article className={styles.detailCard}>
@@ -218,16 +221,11 @@ export default function WBCosmeticsAutumnReport() {
           <div className={styles.sectionKicker}>Отзывы покупателей</div>
           <h2>Что люди считают настоящей проблемой товара</h2>
           <p className={styles.intro}>
-            Отзывы в этой выборке — живые строки MPStats, полученные 24 июля 2026 года.
+            Отзывы в этой выборке — живые строки агрегированные данные Wildberries, полученные 24 июля 2026 года.
             Это не все отзывы всей косметики: изучены 10 артикулов в четырёх направлениях,
             которые были ближе всего к решению о запуске.
           </p>
-          <div className={styles.reviewStats}>
-            <div><strong>11 824</strong><span>строки ответа</span></div>
-            <div><strong>3 941</strong><span>отзыв с текстом</span></div>
-            <div><strong>523</strong><span>отзыва с оценкой 1–3</span></div>
-            <div><strong>291</strong><span>жалоба размечена по темам</span></div>
-          </div>
+          <div className="research-facts"><ResearchFact label={<>строки ответа</>} value={<>11 824</>} /><ResearchFact label={<>отзыв с текстом</>} value={<>3 941</>} /><ResearchFact label={<>отзыва с оценкой 1–3</>} value={<>523</>} /><ResearchFact label={<>жалоба размечена по темам</>} value={<>291</>} /></div>
           <div className={styles.tableWrap}>
             <table className={styles.reviewTable}>
               <thead><tr><th>Направление</th><th>SKU</th><th>С текстом</th><th>Оценка 1–3</th><th>Что повторяется</th></tr></thead>
@@ -299,17 +297,19 @@ export default function WBCosmeticsAutumnReport() {
             <MetricHelp><b>Вход в осень</b> — сентябрь–октябрь к июлю–августу 2025.</MetricHelp>
             <MetricHelp><b>Заморожено</b> — доля остатка, которая не успевает обернуться в нормальный срок.</MetricHelp>
           </div>
+          <HeatLegend label="Выручка, ₽ · нелинейная шкала √: небольшие ниши виднее. Шкала сохраняется при поиске" scale={{ max: Math.max(...cosmeticRows.map(r => r.revenue)), curve: "sqrt" }} format={money} />
+          <HeatLegend label="Коэффициенты · ниже / выше базы, не оценка качества ниши" scale={{ min: 0, max: 2, center: 1 }} format={v => v === 2 ? "×2+" : `×${v}`} />
           <div className={`${styles.tableWrap} ${styles.marketTableWrap}`}>
             <table className={styles.marketTable}>
               <thead><tr><th>Ниша</th><th>Выручка, 30 дней</th><th>Продажи</th><th>Средний чек</th><th>Продавцы</th><th>Рост доли</th><th>Вход в осень</th><th>Оборот</th><th>Заморожено</th><th>Проверки</th></tr></thead>
               <tbody>{rows.map((row: CosmeticRow) => (
                 <tr key={row.name}>
                   <td>{row.name.replace("Красота / ", "")}</td>
-                  <td>{money(row.revenue)}</td><td>{nf.format(row.units)}</td><td>{nf.format(row.ticket)} ₽</td><td>{nf.format(row.sellers)}</td>
-                  <td className={row.growthUnits >= 1.05 ? styles.positive : row.growthUnits < 1 ? styles.negative : ""}>×{one.format(row.growthUnits)}</td>
-                  <td className={row.entryLift >= 1.1 ? styles.positive : row.entryLift < 0.9 ? styles.negative : ""}>×{one.format(row.entryLift)}</td>
-                  <td>{nf.format(row.turnover)} дн.</td><td>{one.format(row.frozen)}%</td>
-                  <td><div className={styles.gateDots} aria-label={`Спрос ${row.demand ? "пройден" : "не пройден"}, осень ${row.autumn ? "пройдена" : "не пройдена"}, операции ${row.operations ? "пройдены" : "не пройдены"}`}><i className={row.demand ? styles.on : ""}>С</i><i className={row.autumn ? styles.on : ""}>О</i><i className={row.operations ? styles.on : ""}>П</i></div></td>
+                  <HeatCell value={row.revenue} label={`${row.name} · выручка за 30 дней, ₽`} scale={{ max: Math.max(...cosmeticRows.map(r => r.revenue)), curve: "sqrt" }}>{money(row.revenue)}</HeatCell><td>{nf.format(row.units)}</td><td>{nf.format(row.ticket)} ₽</td><td>{nf.format(row.sellers)}</td>
+                  <HeatCell value={row.growthUnits} label={`${row.name} · рост доли, коэффициент`} scale={{ min: 0, max: 2, center: 1 }}>×{one.format(row.growthUnits)}</HeatCell>
+                  <HeatCell value={row.entryLift} label={`${row.name} · вход в осень, коэффициент`} scale={{ min: 0, max: 2, center: 1 }}>×{one.format(row.entryLift)}</HeatCell>
+                  <td>{nf.format(row.turnover)} дн.</td><td><InlineDataBar value={row.frozen} label="Доля замороженного остатка">{one.format(row.frozen)}%</InlineDataBar></td>
+                  <td><div className={styles.gateSummary}><span>Спрос: {row.demand ? "пройден" : "не пройден"}</span><span>Осень: {row.autumn ? "пройдена" : "не пройдена"}</span><span>Операции: {row.operations ? "пройдены" : "не пройдены"}</span></div></td>
                 </tr>
               ))}</tbody>
             </table>
@@ -321,7 +321,7 @@ export default function WBCosmeticsAutumnReport() {
           <div className={styles.sectionKicker}>Границы вывода</div>
           <h2>Что эти цифры не обещают</h2>
           <div className={styles.limitGrid}>
-            <p>MPStats оценивает рынок, но не является бухгалтерской отчётностью Wildberries.</p>
+            <p>агрегированные данные Wildberries оценивает рынок, но не является бухгалтерской отчётностью Wildberries.</p>
             <p>Одна наблюдаемая осень не доказывает многолетнюю сезонность.</p>
             <p>Выдача до 500 товаров и 200 продавцов не всегда покрывает всю нишу.</p>
             <p>Модель «упущенной выручки» не равна свободному спросу.</p>
@@ -329,15 +329,15 @@ export default function WBCosmeticsAutumnReport() {
             <p>Документы определяются по точной формуле, упаковке и кодам товара.</p>
           </div>
           <div className={styles.sources}>
-            Методика API: <a href="https://mpstats.io/integrations/docs/description/" target="_blank" rel="noreferrer">MPStats</a> · Требования к косметике: <a href="https://eec.eaeunion.org/comission/department/deptexreg/tr/bezopParfum.php" target="_blank" rel="noreferrer">ЕЭК, ТР ТС 009/2011</a> · Маркировка: <a href="https://markirovka.ru/knowledge/tovarnye-gruppy/kosmetika-bytovaya-himiya/kosmetika-bytovaya-khimiya-i-tovary-lichnoy-gigieny-podlezhashchie-obyazatelnoy-markirovke" target="_blank" rel="noreferrer">«Честный знак»</a>
+            Данные рынка: агрегированные данные Wildberries · Требования к косметике: <a href="https://eec.eaeunion.org/comission/department/deptexreg/tr/bezopParfum.php" target="_blank" rel="noreferrer">ЕЭК, ТР ТС 009/2011</a> · Маркировка: <a href="https://markirovka.ru/knowledge/tovarnye-gruppy/kosmetika-bytovaya-himiya/kosmetika-bytovaya-khimiya-i-tovary-lichnoy-gigieny-podlezhashchie-obyazatelnoy-markirovke" target="_blank" rel="noreferrer">«Честный знак»</a>
           </div>
         </section>
 
         <footer className={styles.footer}>
-          <div><strong>Алмас Касымжанов</strong><span>Аналитика маркетплейсов</span></div>
+          <div><strong>Almas Kasymzhanov</strong><span>Аналитика маркетплейсов</span></div>
           <p>Срез данных: 30 дней по 23 июля 2026 года включительно. Решение подготовлено 24 июля 2026 года.</p>
         </footer>
       </div>
-    </main>
+    </div>
   );
 }

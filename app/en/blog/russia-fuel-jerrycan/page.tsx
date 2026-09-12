@@ -19,7 +19,7 @@ function Src({ href, children }: { href: string; children: React.ReactNode }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors"
+      className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors"
     >
       {children}
     </a>
@@ -48,16 +48,16 @@ function ChartSlot({
       id={`grafik-${n}`}
       data-chart-slot={n}
       data-chart-type={type}
-      className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-5"
+      className="research-figure"
     >
       <figcaption className="mb-4">
-        <span className="block text-[15px] font-bold text-[var(--color-text)] leading-snug">{title}</span>
+        <span className="block text-[15px] font-medium text-[var(--color-text)] leading-snug">{title}</span>
       </figcaption>
       <div data-chart-canvas>{children}</div>
       {note && (
-        <p className="font-mono text-[10px] italic text-[var(--color-dim)]/70 mt-3 leading-relaxed">{note}</p>
+        <p className="font-mono text-[12px] italic text-[var(--color-dim)]/70 mt-3 leading-relaxed">{note}</p>
       )}
-      <p className="font-mono text-[11px] text-[var(--color-dim)] mt-2 leading-relaxed">
+      <p className="font-mono text-[12px] text-[var(--color-dim)] mt-2 leading-relaxed">
         {caption}
         <span className="text-[var(--color-border)] mx-1.5">·</span>
         Charts:{" "}
@@ -65,7 +65,7 @@ function ChartSlot({
           href="https://brockui.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[var(--color-dim)] hover:text-[var(--brock-accent)] hover:underline decoration-dotted underline-offset-2 transition-colors"
+          className="text-[var(--color-dim)] hover:text-[var(--brock-accent)]    transition-colors"
         >
           Brock UI
         </a>
@@ -78,7 +78,7 @@ function P({ children, className = "" }: { children: React.ReactNode; className?
   return <p className={`text-[15px] text-[var(--color-dim)] leading-[1.8] ${className}`}>{children}</p>;
 }
 function H2({ children }: { children: React.ReactNode }) {
-  return <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">{children}</h2>;
+  return <h2 className="text-[20px] font-normal tracking-tight text-[var(--color-text)] mb-6">{children}</h2>;
 }
 
 /* ═══════════════════════════════════════════════════ */
@@ -409,7 +409,7 @@ export default function JerrycanArticleEn() {
           <P className="mt-8">
             And the shortage leaves one more fingerprint, visible only from two storefronts at once: it pulled neighbouring markets&rsquo; prices apart. The same 20-litre plastic jerrycan on Kaspi (article 109030553) costs 4,900 tenge &mdash;{" "}
             <Term tip="4,900 ₸ × 0.159 = ≈780 ₽. CBR rate, 27.06.2026.">about 780 rubles</Term>; on Wildberries the same one goes for roughly 1,200 rubles in normal times and ran up to 2,400 in the crisis week. One-and-a-half to three times the difference across a single border. And somebody earns on gaps like that: big players arbitrage the fuel itself, an enterprising seller &mdash; the can, hauling 20-litre jerrycans in from Kazakhstan at the hottest moment. You can see the full Kaspi analytics &mdash; these same jerrycans &mdash; on my own service,{" "}
-            <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-brand)] hover:underline">Redstat.kz</a>. The gap itself is one more trace of the shortage: for a short while the market made even carrying an empty can across a border worth it.
+            <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-brand)] ">Redstat.kz</a>. The gap itself is one more trace of the shortage: for a short while the market made even carrying an empty can across a border worth it.
           </P>
 
           <ChartSlot
@@ -463,8 +463,8 @@ export default function JerrycanArticleEn() {
         <hr className="border-[var(--color-border)] mb-12" />
 
         {/* ─── Sources ─── */}
-        <div className="mb-12">
-          <h2 className="text-[16px] font-bold tracking-tight text-[var(--color-text)] mb-4">Sources</h2>
+        <div className="reading-panel reading-sources mb-12">
+          <h2 className="text-[16px] font-medium tracking-tight text-[var(--color-text)] mb-4">Sources</h2>
           <ol className="font-mono text-[12px] text-[var(--color-dim)] leading-[1.7] space-y-3 list-decimal list-inside marker:text-[var(--color-border)]">
             <li>MPStats &mdash; extended product cut and daily series of Wildberries (fuel-jerrycan category, 01.03&ndash;27.06, 2025&ndash;2026): sales, revenue, stock, turnover, SKUs. Kazakhstan (Kaspi) &mdash; Redstat, from screenshots. Author&rsquo;s calculations.</li>
             <li>Fuel-sale restrictions across Russian regions (56 regions, 18 with mandatory limits) &mdash; <Src href="https://en.zona.media/article/2026/06/26/fuel_map">Zona.Media</Src>, <Src href="https://www.pravda.com.ua/eng/news/2026/06/24/8040814/">Pravda.com.ua</Src>, <Src href="https://meduza.io/en/news/2026/06/23/the-region-that-produces-40-of-russia-s-oil-is-now-rationing-fuel">Meduza</Src>.</li>

@@ -182,8 +182,8 @@ export function Term({
           !focusable
             ? "cursor-help"
             : accent
-              ? "cursor-help text-[var(--color-brand)] underline decoration-dotted decoration-[var(--color-brand)]/50 underline-offset-[3px] hover:decoration-[var(--color-brand)] transition-colors"
-              : "cursor-help underline decoration-dotted decoration-[var(--color-dim)] underline-offset-[3px] hover:decoration-[var(--color-text)] transition-colors"
+              ? "cursor-help text-[var(--color-brand)] underline  decoration-[var(--color-brand)]/50 underline-offset-[3px] hover:decoration-[var(--color-brand)] transition-colors"
+              : "cursor-help underline  decoration-[var(--color-dim)] underline-offset-[3px] hover:decoration-[var(--color-text)] transition-colors"
         }
       >
         {children}

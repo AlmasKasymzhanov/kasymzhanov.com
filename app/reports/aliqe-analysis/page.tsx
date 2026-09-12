@@ -1,16 +1,20 @@
 "use client";
+import { IconlyArrowRight } from "@/components/iconly-icons";
+import { ResearchSection, ResearchFact, ResearchNote, ResearchFigure } from "@/components/canon/research-editorial";
+import { ResearchReadingTime } from "@/components/canon/research-reading-time";
+
 
 const C = {
-  bg: "#0a0a0f", surface: "#111119", border: "#1e1e30",
-  accent: "#6c5ce7", green: "#00d2a0", text: "#e8e8f0",
-  dim: "#999", red: "#f87171", amber: "#f59e0b",
-  blue: "#60a5fa", pink: "#f472b6", cyan: "#22d3ee",
-  kaspi: "#f14635",
+  bg: "var(--personal-paper)", surface: "var(--report-surface)", border: "var(--personal-border)",
+  accent: "var(--personal-text)", green: "var(--personal-text)", text: "var(--personal-text)",
+  dim: "var(--personal-muted)", red: "var(--personal-text)", amber: "var(--personal-text)",
+  blue: "var(--personal-text)", pink: "var(--personal-text)", cyan: "var(--personal-text)",
+  kaspi: "var(--personal-text)",
 };
 
-const sP: React.CSSProperties = { fontSize: 14, lineHeight: 1.75, color: "#ccc", margin: "0 0 12px" };
-const sCard: React.CSSProperties = { background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, padding: "24px", marginBottom: 16 };
-const sBadge = (color: string): React.CSSProperties => ({ display: "inline-block", padding: "3px 10px", borderRadius: 20, background: `${color}18`, color, fontSize: 11, fontWeight: 600, letterSpacing: "0.03em" });
+const sP: React.CSSProperties = { fontSize: "var(--reading-body-size)", lineHeight: 1.75, color: "var(--personal-text)", margin: "0 0 12px" };
+const sCard: React.CSSProperties = { margin: "24px 0", padding: 0 };
+const sBadge = (_color: string): React.CSSProperties => ({ display: "inline", color: "var(--personal-muted)", fontSize: 12, fontWeight: 400 });
 
 function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (string | number)[][]; highlight?: number }) {
   return (
@@ -18,14 +22,14 @@ function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (str
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
         <thead>
           <tr>{headers.map((h, i) => (
-            <th key={i} style={{ padding: "10px 12px", textAlign: "left", color: C.dim, fontWeight: 600, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>
+            <th key={i} style={{ padding: "10px 12px", textAlign: "left", color: C.dim, fontWeight: 500, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>
           ))}</tr>
         </thead>
         <tbody>
           {rows.map((row, ri) => (
-            <tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `${C.accent}12` : "transparent" }}>
+            <tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `color-mix(in srgb, ${C.accent} 7%, transparent)` : "transparent" }}>
               {row.map((cell, ci) => (
-                <td key={ci} style={{ padding: "10px 12px", textAlign: "left", color: ci === 0 ? C.text : "#ccc", borderBottom: `1px solid ${C.border}20`, fontWeight: ci === 0 ? 500 : 400, whiteSpace: ci === 0 ? "nowrap" : "normal" }}>{cell}</td>
+                <td key={ci} style={{ padding: "10px 12px", textAlign: "left", color: ci === 0 ? C.text : "var(--personal-text)", borderBottom: `1px solid color-mix(in srgb, ${C.border} 13%, transparent)`, fontWeight: ci === 0 ? 500 : 400, whiteSpace: ci === 0 ? "nowrap" : "normal" }}>{cell === "→" ? <IconlyArrowRight size={17} /> : cell}</td>
               ))}
             </tr>
           ))}
@@ -35,17 +39,7 @@ function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (str
   );
 }
 
-function Section({ id, num, title, children }: { id: string; num: string; title: string; children: React.ReactNode }) {
-  return (
-    <div id={id} style={{ marginBottom: 56 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24, paddingBottom: 12, borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ width: 44, height: 44, borderRadius: 10, background: `${C.accent}15`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 800, color: C.accent, flexShrink: 0 }}>{num}</div>
-        <h2 style={{ fontSize: 22, fontWeight: 800, color: C.text, margin: 0, letterSpacing: "-0.01em", lineHeight: 1.2 }}>{title}</h2>
-      </div>
-      {children}
-    </div>
-  );
-}
+function Section({ id, num, title, children }: { id: string; num: string; title: string; children: React.ReactNode }) { return <ResearchSection id={id} title={title}>{children}</ResearchSection>; }
 
 function SkuCard({ sku, name, decision, decisionColor, price, rev, yoyRev, rating, reviews, position, rows, insights, action }: {
   sku: string; name: string; decision: string; decisionColor: string;
@@ -53,36 +47,36 @@ function SkuCard({ sku, name, decision, decisionColor, price, rev, yoyRev, ratin
   rows: (string | number)[][]; insights: string[]; action: string;
 }) {
   return (
-    <div style={{ ...sCard, borderLeft: `4px solid ${decisionColor}` }}>
+    <div style={{ ...sCard }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 16 }}>
         <span style={sBadge(decisionColor)}>{decision}</span>
-        <span style={{ fontSize: 11, color: C.dim, fontFamily: "monospace" }}>SKU {sku}</span>
+        <span style={{ fontSize: 11, color: C.dim, fontFamily: "var(--font-mono)" }}>SKU {sku}</span>
       </div>
-      <h3 style={{ fontSize: 17, fontWeight: 700, color: C.text, margin: "0 0 16px" }}>{name}</h3>
+      <h3 style={{ fontSize: 17, fontWeight: 400, color: C.text, margin: "0 0 16px" }}>{name}</h3>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))", gap: 12, padding: "14px 16px", background: C.bg, borderRadius: 8, marginBottom: 16 }}>
-        <div><div style={{ fontSize: 10, color: C.dim }}>Цена</div><div style={{ fontSize: 14, fontWeight: 700, color: C.text }}>{price}</div></div>
-        <div><div style={{ fontSize: 10, color: C.dim }}>Выручка/мес</div><div style={{ fontSize: 14, fontWeight: 700, color: C.text }}>{rev}</div></div>
-        <div><div style={{ fontSize: 10, color: C.dim }}>YoY выручка</div><div style={{ fontSize: 14, fontWeight: 700, color: yoyRev.startsWith("−") || yoyRev.startsWith("-") ? C.red : yoyRev === "—" ? C.dim : C.green }}>{yoyRev}</div></div>
-        <div><div style={{ fontSize: 10, color: C.dim }}>Отзывов</div><div style={{ fontSize: 14, fontWeight: 700, color: C.text }}>{reviews}</div></div>
-        <div><div style={{ fontSize: 10, color: C.dim }}>Рейтинг</div><div style={{ fontSize: 14, fontWeight: 700, color: C.text }}>{rating}</div></div>
-        <div><div style={{ fontSize: 10, color: C.dim }}>Позиция</div><div style={{ fontSize: 12, fontWeight: 600, color: C.text }}>{position}</div></div>
+      <div style={{ display: "block", padding: "16px 0", marginBottom: 16 }}>
+        <div><div style={{ fontSize: 10, color: C.dim }}>Цена</div><div style={{ fontSize: 14, fontWeight: 400, color: C.text }}>{price}</div></div>
+        <div><div style={{ fontSize: 10, color: C.dim }}>Выручка/мес</div><div style={{ fontSize: 14, fontWeight: 400, color: C.text }}>{rev}</div></div>
+        <div><div style={{ fontSize: 10, color: C.dim }}>YoY выручка</div><div style={{ fontSize: 14, fontWeight: 400, color: yoyRev.startsWith("−") || yoyRev.startsWith("-") ? C.red : yoyRev === "—" ? C.dim : C.green }}>{yoyRev}</div></div>
+        <div><div style={{ fontSize: 10, color: C.dim }}>Отзывов</div><div style={{ fontSize: 14, fontWeight: 400, color: C.text }}>{reviews}</div></div>
+        <div><div style={{ fontSize: 10, color: C.dim }}>Рейтинг</div><div style={{ fontSize: 14, fontWeight: 400, color: C.text }}>{rating}</div></div>
+        <div><div style={{ fontSize: 10, color: C.dim }}>Позиция</div><div style={{ fontSize: 12, fontWeight: 400, color: C.text }}>{position}</div></div>
       </div>
 
       {rows.length > 0 && (
         <>
-          <h4 style={{ fontSize: 12, fontWeight: 700, color: C.dim, margin: "12px 0 8px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Конкуренты в сегменте</h4>
+          <h4 style={{ fontSize: 12, fontWeight: 400, color: C.dim, margin: "12px 0 8px", textTransform: "none", letterSpacing: "0.05em" }}>Конкуренты в сегменте</h4>
           <DataTable headers={["#", "Товар", "Бренд", "Цена", "Rev/мес", "Отзывов"]} rows={rows} />
         </>
       )}
 
       {insights.length > 0 && (
         <>
-          <h4 style={{ fontSize: 12, fontWeight: 700, color: C.dim, margin: "12px 0 8px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Что показал анализ</h4>
+          <h4 style={{ fontSize: 12, fontWeight: 400, color: C.dim, margin: "12px 0 8px", textTransform: "none", letterSpacing: "0.05em" }}>Что показал анализ</h4>
           <div style={{ marginBottom: 12 }}>
             {insights.map((item, i) => (
-              <div key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "#ccc", marginBottom: 6, lineHeight: 1.6 }}>
-                <span style={{ color: decisionColor, fontWeight: 700, flexShrink: 0 }}>→</span>
+              <div key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "var(--personal-text)", marginBottom: 6, lineHeight: 1.6 }}>
+                <span style={{ color: decisionColor, fontWeight: 400, flexShrink: 0 }}>→</span>
                 <div>{item}</div>
               </div>
             ))}
@@ -90,7 +84,7 @@ function SkuCard({ sku, name, decision, decisionColor, price, rev, yoyRev, ratin
         </>
       )}
 
-      <div style={{ borderLeft: `3px solid ${decisionColor}`, paddingLeft: 14, margin: "12px 0 0", fontSize: 13, color: "#ccc", lineHeight: 1.7 }}>
+      <div style={{ paddingLeft: 14, margin: "12px 0 0", fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7 }}>
         <strong style={{ color: decisionColor }}>Действие: </strong>{action}
       </div>
     </div>
@@ -99,35 +93,38 @@ function SkuCard({ sku, name, decision, decisionColor, price, rev, yoyRev, ratin
 
 export default function AliqeAnalysisPage() {
   return (
-    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "'Inter', -apple-system, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "var(--font-body)" }}>
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "48px 24px 80px" }}>
 
         {/* HEADER */}
-        <div style={{ marginBottom: 48 }}>
+        <div className="research-header" style={{ marginBottom: 48 }}>
           <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
             <span style={sBadge(C.kaspi)}>Kaspi.kz</span>
             <span style={sBadge(C.accent)}>A-LIQE</span>
             <span style={sBadge(C.amber)}>Enterprise анализ</span>
             <span style={sBadge(C.green)}>13 SKU</span>
           </div>
-          <h1 style={{ fontSize: 32, fontWeight: 800, margin: "0 0 16px", letterSpacing: "-0.02em", lineHeight: 1.15 }}>
+          <h1 style={{ fontSize: 32, fontWeight: 500, margin: "0 0 16px", letterSpacing: "-0.02em", lineHeight: 1.15 }}>
             A-LIQE на Kaspi — полный продуктовый разбор портфеля
           </h1>
-          <p style={{ fontSize: 15, color: C.dim, margin: 0, lineHeight: 1.6 }}>
+          <p className="research-lead" style={{ fontSize: 15, color: C.dim, margin: 0, lineHeight: 1.6 }}>
             Детальный анализ всех 13 товарных позиций: текущее положение, рыночный контекст, конкуренты, отзывы, YoY динамика, сегменты цен, и конкретные рекомендации KEEP / BOOST / FIX / DROP по каждому SKU.
           </p>
           <div style={{ fontSize: 12, color: C.dim, marginTop: 12 }}>
-            Дата анализа: 11 апреля 2026 · Источник: RedStat API (срез февраль 2026 + история 16 месяцев)
+            Дата анализа: 11 апреля 2026 · Источник: агрегированные рыночные данные (срез февраль 2026 + история 16 месяцев)
           </div>
-        </div>
+
+<a href="/authors/almas-kasymzhanov" className="research-author">Алмас Касымжанов</a>
+<ResearchReadingTime />
+</div>
 
         {/* ═══ EXECUTIVE SUMMARY ═══ */}
-        <div style={{ ...sCard, borderLeft: `4px solid ${C.kaspi}`, background: `${C.kaspi}06` }}>
-          <h2 style={{ fontSize: 20, fontWeight: 800, color: C.kaspi, margin: "0 0 16px" }}>Executive Summary</h2>
-          <p style={{ fontSize: 14, color: "#ccc", lineHeight: 1.7, margin: "0 0 16px" }}>
+        <div style={{ ...sCard }}>
+          <h2 style={{ fontSize: 20, fontWeight: 400, color: C.kaspi, margin: "0 0 16px" }}>Обзор</h2>
+          <p style={{ fontSize: 14, color: "var(--personal-text)", lineHeight: 1.7, margin: "0 0 16px" }}>
             Портфель A-LIQE на Kaspi насчитывает 13 заявленных карточек, из которых <strong style={{ color: C.text }}>только 10 активно продаются</strong>. Совокупная выручка активных SKU в феврале 2026 — <strong style={{ color: C.text }}>~5.6M ₸/мес</strong>. Главная проблема: <strong style={{ color: C.red }}>7 из 10 активных позиций падают YoY</strong>, при этом рынки по большинству категорий либо стабильны, либо растут. Это означает, что A-LIQE теряет долю рынка из-за давления конкурентов, а не из-за падения спроса.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12, marginTop: 16 }}>
+          <div style={{ display: "block", marginTop: 16, marginBottom: 24 }}>
             {[
               { label: "Активных SKU", value: "10 из 13", color: C.text },
               { label: "Не активно", value: "3 SKU", color: C.red },
@@ -138,18 +135,18 @@ export default function AliqeAnalysisPage() {
               { label: "В неправильной категории", value: "1 SKU", color: C.red },
               { label: "Критичных к фиксу", value: "5 SKU", color: C.amber },
             ].map((m, i) => (
-              <div key={i} style={{ padding: "12px 14px", background: C.bg, borderRadius: 8, border: `1px solid ${C.border}` }}>
-                <div style={{ fontSize: 10, color: C.dim, textTransform: "uppercase", letterSpacing: "0.05em" }}>{m.label}</div>
-                <div style={{ fontSize: 17, fontWeight: 800, color: m.color, marginTop: 4 }}>{m.value}</div>
+              <div key={i} style={{ padding: "16px 0" }}>
+                <div style={{ fontSize: 10, color: C.dim, textTransform: "none", letterSpacing: "0.05em" }}>{m.label}</div>
+                <div style={{ fontSize: 17, fontWeight: 400, color: m.color, marginTop: 4 }}>{m.value}</div>
               </div>
             ))}
           </div>
         </div>
 
         {/* TOC */}
-        <div style={{ ...sCard, borderLeft: `4px solid ${C.accent}` }}>
-          <h3 style={{ fontSize: 13, fontWeight: 700, color: C.accent, margin: "0 0 12px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Содержание</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 6 }}>
+        <div style={{ ...sCard }}>
+          <h3 style={{ fontSize: 13, fontWeight: 400, color: C.accent, margin: "0 0 12px", textTransform: "none", letterSpacing: "0.05em" }}>Содержание</h3>
+          <div style={{ display: "block", marginBottom: 24 }}>
             {[
               ["1", "Портфель A-LIQE: все 13 SKU одним взглядом"],
               ["2", "Глобальные проблемы бренда"],
@@ -158,9 +155,9 @@ export default function AliqeAnalysisPage() {
               ["5", "Критические отзывы: что чинить"],
               ["6", "План действий: следующие 30 дней"],
             ].map(([n, t]) => (
-              <div key={n} style={{ display: "flex", gap: 10, fontSize: 13, color: "#ccc", padding: "6px 0" }}>
-                <span style={{ color: C.accent, fontWeight: 700, minWidth: 20 }}>{n}.</span>
-                <a href={`#s${n}`} style={{ color: "#ccc", textDecoration: "none" }}>{t}</a>
+              <div key={n} style={{ display: "flex", gap: 10, fontSize: 13, color: "var(--personal-text)", padding: "6px 0" }}>
+                <span style={{ color: C.accent, fontWeight: 400, minWidth: 20 }}>{n}.</span>
+                <a href={`#s${n}`} style={{ color: "var(--personal-text)", textDecoration: "none" }}>{t}</a>
               </div>
             ))}
           </div>
@@ -168,27 +165,27 @@ export default function AliqeAnalysisPage() {
 
         {/* ═══ 1. PORTFOLIO ═══ */}
         <Section id="s1" num="1" title="Портфель A-LIQE: все 13 SKU одним взглядом">
-          <p style={sP}>Таблица состояния всех карточек на срез февраля 2026 (последний доступный в RedStat).</p>
+          <p style={sP}>Таблица состояния всех карточек на срез февраля 2026 (последний доступный рыночный срез).</p>
 
           <DataTable headers={["SKU", "Товар", "Цена", "Rev/мес", "Шт", "Отзывов", "★", "YoY rev", "Вердикт"]} rows={[
-            ["143159393", "MG-Titanium мясорубка", "34 990", "1.43M", "44", "193", "5.0", "−27% 🔴", "KEEP+BOOST"],
-            ["142931942", "Блендер Elit X12", "24 990", "1.25M", "51", "148", "4.9", "−21% 🔴", "FIX"],
+            ["143159393", "MG-Titanium мясорубка", "34 990", "1.43M", "44", "193", "5.0", "−27% ", "KEEP+BOOST"],
+            ["142931942", "Блендер Elit X12", "24 990", "1.25M", "51", "148", "4.9", "−21% ", "FIX"],
             ["150807944", "Блендер QAMQOR", "24 899", "0.65M", "26", "53", "5.0", "+14%", "KEEP+FIX бренда"],
-            ["139883364", "Наушники TWS", "12 990", "0.46M", "42", "118", "4.7", "+40% 🟢", "BOOST"],
-            ["152056651", "Шашлычница TF-8007", "24 990", "0.37M", "15", "7", "4.9", "+142% 🟢", "BOOST"],
-            ["140371157", "S9 Ionic фен 4в1", "24 990", "0.33M", "13", "166", "5.0", "−48% 🔴🔴", "FIX СРОЧНО"],
-            ["139955231", "Air Power стайлер", "9 900", "0.31M", "32", "51", "5.0", "+107% 🟢", "BOOST"],
+            ["139883364", "Наушники TWS", "12 990", "0.46M", "42", "118", "4.7", "+40% ", "BOOST"],
+            ["152056651", "Шашлычница TF-8007", "24 990", "0.37M", "15", "7", "4.9", "+142% ", "BOOST"],
+            ["140371157", "S9 Ionic фен 4в1", "24 990", "0.33M", "13", "166", "5.0", "−48% ", "FIX СРОЧНО"],
+            ["139955231", "Air Power стайлер", "9 900", "0.31M", "32", "51", "5.0", "+107% ", "BOOST"],
             ["149333810", "Шашлычница 8 шампуров", "24 990", "0.26M", "10", "7", "4.7", "новый", "KEEP+DEDUPE"],
-            ["139955212", "Массажер X9", "8 500", "0.13M", "16", "108", "4.9", "−65% 🔴🔴🔴", "DROP/FIX"],
+            ["139955212", "Массажер X9", "8 500", "0.13M", "16", "108", "4.9", "−65% ", "DROP/FIX"],
             ["149294355", "AI-очки", "29 990", "0.04M", "1", "0", "—", "новый", "DROP категорию"],
             ["160355158", "Тестомес GrandMix Pro 1500", "—", "0", "0", "0", "—", "неактивен", "RE-LAUNCH"],
             ["160136809", "GrandMix Digital 1500", "—", "0", "0", "0", "—", "неактивен", "RE-LAUNCH"],
             ["160271714", "GrandChef X6", "—", "0", "0", "0", "—", "неактивен", "RE-LAUNCH"],
           ]} />
 
-          <div style={{ borderLeft: `3px solid ${C.amber}`, paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "#ccc", lineHeight: 1.7 }}>
+          <div style={{ paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7 }}>
             <strong style={{ color: C.amber }}>Важно: </strong>
-            3 SKU (тестомесы и GrandChef X6) в RedStat не показывают продаж за февраль 2026 — это значит, что карточки либо не активны, либо впервые заведены, но ещё не продавали. Необходимо проверить в кабинете Kaspi: активна ли карточка, задан ли preorder, есть ли товар. Кроме того, ссылка на GrandChef X6 из исходного каталога клиента ведёт на блендер Elit X12 — <strong style={{ color: C.text }}>дубликат URL, требующий исправления</strong>.
+            3 SKU (тестомесы и GrandChef X6) в доступном рыночном срезе не показывают продаж за февраль 2026 — это значит, что карточки либо не активны, либо впервые заведены, но ещё не продавали. Необходимо проверить в кабинете Kaspi: активна ли карточка, задан ли preorder, есть ли товар. Кроме того, ссылка на GrandChef X6 из исходного каталога клиента ведёт на блендер Elit X12 — <strong style={{ color: C.text }}>дубликат URL, требующий исправления</strong>.
           </div>
         </Section>
 
@@ -239,11 +236,11 @@ export default function AliqeAnalysisPage() {
                 text: "По ряду SKU штуки падают сильнее выручки (S9 Ionic: −86% qty при −48% rev; Мясорубка: −77% qty при −27% rev). Это классическая картина вытеснения: покупатели уходят, но оставшиеся платят больше. Причина — конкуренты активно демпингуют и перехватывают объём, A-LIQE теряет среднюю массу покупателей.",
               },
             ].map((p, i) => (
-              <div key={i} style={{ display: "flex", gap: 16, padding: "16px 0", borderBottom: i < 6 ? `1px solid ${C.border}30` : "none" }}>
-                <div style={{ width: 38, height: 38, borderRadius: 8, background: `${p.color}15`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 800, color: p.color, flexShrink: 0 }}>{p.num}</div>
+              <div key={i} style={{ display: "flex", gap: 16, padding: "16px 0", borderBottom: i < 6 ? `1px solid color-mix(in srgb, ${C.border} 19%, transparent)` : "none" }}>
+
                 <div>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 4 }}>{p.title}</div>
-                  <div style={{ fontSize: 12, color: "#ccc", lineHeight: 1.65 }}>{p.text}</div>
+                  <div style={{ fontSize: 14, fontWeight: 400, color: C.text, marginBottom: 4 }}>{p.title}</div>
+                  <div style={{ fontSize: 12, color: "var(--personal-text)", lineHeight: 1.65 }}>{p.text}</div>
                 </div>
               </div>
             ))}
@@ -293,7 +290,7 @@ export default function AliqeAnalysisPage() {
             insights={[
               "2-й по выручке в портфеле. Рынок блендеров растёт +23% YoY, но Elit X12 падает −21%.",
               "Дорогой сегмент (26.7% рынка) — правильная зона по цене. Конкурент MONTERO PRO K9 (27 390 ₸) делает 6.6M/мес — в 5.3x больше.",
-              "🚨 Критический отзыв: «Шлицы на шестернях стёрлись, куда вставляются насадки» — проблема механического качества. Ещё отзыв: «Ножи на овощерезке ломаются от моркови».",
+              " Критический отзыв: «Шлицы на шестернях стёрлись, куда вставляются насадки» — проблема механического качества. Ещё отзыв: «Ножи на овощерезке ломаются от моркови».",
               "Это значит: проблема не в маркетинге, а в товаре. Нужно либо менять комплектующие на более прочные, либо переделывать описание с честными ограничениями.",
               "Сегмент «Премиум блендеры» (62K+ медиана) даёт 35.7% рынка — если сделать премиум-версию X12 с металлическими шестернями за 35K, можно зайти в более прибыльный сегмент.",
             ]}
@@ -311,11 +308,11 @@ export default function AliqeAnalysisPage() {
               ["3", "Baby Cook B20 розовый", "—", "10 998", "0.8M", "29"],
               ["4", "WeLife HB10 PRO белый", "WeLife", "29 990", "0.8M", "36"],
               ["5", "MISUTA MST0976", "MISUTA", "13 986", "0.7M", "89"],
-              ["→", "A-LIQE Qamqor 2708", "Без бренда 🚨", "24 899", "0.65M", "53"],
+              ["→", "A-LIQE Qamqor 2708", "Без бренда ", "24 899", "0.65M", "53"],
             ]}
             insights={[
               "Хорошая позиция в маленькой категории (23 SKU всего). Растёт +14% YoY.",
-              "🚨 ПРОБЛЕМА: Qamqor зарегистрирован в Kaspi как «Без бренда», а не A-LIQE. Это критично — бренд-капитал уходит в пустоту.",
+              " ПРОБЛЕМА: Qamqor зарегистрирован в Kaspi как «Без бренда», а не A-LIQE. Это критично — бренд-капитал уходит в пустоту.",
               "На карточке уже 3 мерчанта — демпинг начался. При цене 24 899 ₸ конкуренты могут сбить на 20-30%.",
               "Категория растёт: штуки выросли с 199 (ноя 2024) до 314 (фев 2026) → 509 в январе 2026. Потенциал +50-70% по объёму.",
               "Прямой конкурент EX BabyCooker — та же цена 24 970, но 96 отзывов vs 53.",
@@ -340,7 +337,7 @@ export default function AliqeAnalysisPage() {
               "Редкий SKU в портфеле, который растёт (+40% YoY). Хорошая база для масштабирования.",
               "Категория «Наушники» гигантская (1.98B ₸/мес, 943 SKU). Премиум-сегмент даёт 67% выручки — там Apple/Samsung.",
               "A-LIQE TWS (12 990 ₸) играет в среднем сегменте (150M/мес, 90.8% брендированные), конкурирует с Apple EarPods 11 181 ₸ и китайскими TWS.",
-              "🚨 Критичные отзывы: «Шумоподавления нет», «Дисплей живёт своей жизнью» — жалобы на качество ANC и электронику.",
+              " Критичные отзывы: «Шумоподавления нет», «Дисплей живёт своей жизнью» — жалобы на качество ANC и электронику.",
               "Рейтинг 4.57 (загруженный) vs 4.7 (Kaspi показывает) — новые отзывы негативнее.",
             ]}
             action="1) Обновить версию TWS с ревизией ANC/дисплея — это главная жалоба. 2) В карточке честно указать: «шумоподавление: пассивное / лёгкое ANC» (не заявлять того, чего нет). 3) Масштабировать контент: «бюджетная альтернатива AirPods» — TikTok/Reels. 4) Накапливать отзывы до 300+, чтобы выйти в топ-5 среднего сегмента."
@@ -381,7 +378,7 @@ export default function AliqeAnalysisPage() {
               ["?", "A-LIQE S9 Ionic 4в1", "A-LIQE", "24 990", "0.33M", "166"],
             ]}
             insights={[
-              "🚨 ОБВАЛ: −48% YoY по выручке, −86% по штукам. С 148 продаж в январе 2026 до 13 в феврале.",
+              " ОБВАЛ: −48% YoY по выручке, −86% по штукам. С 148 продаж в январе 2026 до 13 в феврале.",
               "Рынок фенов −4% YoY (стабилен), но A-LIQE катастрофически теряет позиции.",
               "Причина — конкуренция: Borman BM831 (54 990 ₸, 18.8M/мес, 1 628 отзывов) и NS SUPERAIR (89 900 ₸, 15.4M/мес, 637 отзывов) — оба массово крутят рекламу и имеют огромные пулы отзывов.",
               "Премиум-сегмент (69K медиана) даёт 65.8% рынка фенов — там Dyson доминирует. A-LIQE в среднем/дорогом сегменте, который сжимается.",
@@ -415,7 +412,7 @@ export default function AliqeAnalysisPage() {
             price="24 990 ₸" rev="0.26M ₸/мес" yoyRev="новая карточка" rating="4.7" reviews="7" position="дубль TF-8007"
             rows={[]}
             insights={[
-              "🚨 ДУБЛИКАТ: по URL ведёт на ту же модель TF-8007, что и SKU 152056651. Две карточки на один товар.",
+              " ДУБЛИКАТ: по URL ведёт на ту же модель TF-8007, что и SKU 152056651. Две карточки на один товар.",
               "+935% YoY — это рост с нуля (была одна продажа в январе → 10 в феврале). Формальный рост от малой базы.",
               "Всего 7 отзывов. Каннибализация с 152056651 (у того тоже 7 отзывов).",
               "Две одинаковые карточки → Kaspi может наказать за дублирование, покупатели путаются, выручка размазана.",
@@ -435,7 +432,7 @@ export default function AliqeAnalysisPage() {
               ["→", "A-LIQE X9", "A-LIQE", "8 500", "0.13M", "108"],
             ]}
             insights={[
-              "🚨🚨 КРИТИЧНО: −65% YoY по выручке. Самое большое падение в портфеле.",
+              " КРИТИЧНО: −65% YoY по выручке. Самое большое падение в портфеле.",
               "Критические отзывы: «сломалась ножка», «при зарядке замыкает», «15 минут работы и разряжается», «быстро разряжается, хватает только 15 минут».",
               "Это не маркетинг, это проблема товара. Батарея/зарядка — массовая жалоба.",
               "Конкуренты в том же сегменте (7-13K): безбрендовый 3D (19.4M/мес, 520 отзывов), BOGGE (8.3M/мес, 1 761 отзыв). Их отзывы в 5-16 раз больше.",
@@ -454,10 +451,10 @@ export default function AliqeAnalysisPage() {
               ["2", "Безбрендовые овальные", "—", "1 000 000", "2.5M", "2"],
               ["3", "Безбрендовые антибликовые", "—", "337", "2.3M", "1 397"],
               ["—", "Alberto Casiano (средний)", "Alberto Casiano", "13 900", "1.5M", "87"],
-              ["→", "A-LIQE AI-очки", "Без бренда 🚨", "29 990", "0.04M", "0"],
+              ["→", "A-LIQE AI-очки", "Без бренда ", "29 990", "0.04M", "0"],
             ]}
             insights={[
-              "🚨 КАТАСТРОФА категоризации. AI-очки лежат в «Солнцезащитные очки», где два реальных сегмента:",
+              " КАТАСТРОФА категоризации. AI-очки лежат в «Солнцезащитные очки», где два реальных сегмента:",
               "(А) Премиум: Ray-Ban 267-337K ₸ — покупатель ищет бренд и стиль.",
               "(Б) Масс: безбрендовые 337-879 ₸ — покупатель ищет дешёвое и временное.",
               "A-LIQE по 29 990 ₸ не попадает НИКУДА — слишком дорого для масса, слишком дёшево и без бренда для премиум.",
@@ -468,20 +465,20 @@ export default function AliqeAnalysisPage() {
           />
 
           {/* SKU 11-13: Inactive */}
-          <div style={{ ...sCard, borderLeft: `4px solid ${C.amber}` }}>
+          <div style={{ ...sCard }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
               <span style={sBadge(C.amber)}>RE-LAUNCH</span>
               <span style={{ fontSize: 11, color: C.dim }}>3 карточки не активны</span>
             </div>
-            <h3 style={{ fontSize: 17, fontWeight: 700, color: C.text, margin: "0 0 12px" }}>Тестомесы и GrandChef X6 — нужен полный запуск</h3>
+            <h3 style={{ fontSize: 17, fontWeight: 400, color: C.text, margin: "0 0 12px" }}>Тестомесы и GrandChef X6 — нужен полный запуск</h3>
             <DataTable headers={["SKU", "Товар", "Указанная себест.", "Статус"]} rows={[
-              ["160355158", "Тестомес A-LIQE GrandMix Pro 1500", "17 100 ₸", "Нет продаж в фев 2026 (нет в RedStat)"],
+              ["160355158", "Тестомес A-LIQE GrandMix Pro 1500", "17 100 ₸", "Нет продаж в фев 2026 (нет в доступном рыночном срезе)"],
               ["160136809", "A-LIQE GrandMix Digital 1500", "29 940 ₸", "Нет продаж в фев 2026"],
-              ["160271714", "A-LIQE GrandChef X6 белый", "27 400 ₸", "Нет продаж. URL дублирует блендер Elit X12 🚨"],
+              ["160271714", "A-LIQE GrandChef X6 белый", "27 400 ₸", "Нет продаж. URL дублирует блендер Elit X12 "],
             ]} />
-            <div style={{ fontSize: 13, color: "#ccc", lineHeight: 1.7, marginTop: 12 }}>
+            <div style={{ fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7, marginTop: 12 }}>
               <strong style={{ color: C.amber }}>Важно: </strong>
-              при проверке артикулов 160355158, 160136809 и 160271714 в RedStat API выдаёт «SKU не найден» и за январь, и за февраль 2026. Это значит, что <strong style={{ color: C.text }}>карточки ещё ни разу не имели продаж</strong> (RedStat индексирует только SKU с хотя бы одной транзакцией), либо недавно добавлены в каталог и ещё не попали в индекс, либо сняты с публикации.
+              при проверке артикулов 160355158, 160136809 и 160271714 в доступном рыночном срезе выдаёт «SKU не найден» и за январь, и за февраль 2026. Это значит, что <strong style={{ color: C.text }}>карточки ещё ни разу не имели продаж</strong> (рыночный срез включает только SKU с хотя бы одной транзакцией), либо недавно добавлены в каталог и ещё не попали в индекс, либо сняты с публикации.
               <div style={{ marginTop: 12 }}>
                 <strong style={{ color: C.amber }}>Что делать:</strong>
               </div>
@@ -490,7 +487,7 @@ export default function AliqeAnalysisPage() {
                 <div>2. Исправить дубликат URL для GrandChef X6 — ссылка из каталога клиента ведёт на Elit X12. Это критично: клиенты, зашедшие по ссылке X6, оказываются на X12, что вводит их в заблуждение.</div>
                 <div>3. Для тестомесов — провести отдельный продуктовый разбор ниши «Миксеры / тестомесы» (там свои лидеры, цены и сегменты), перед тем как активно запускать.</div>
                 <div>4. Старт через механику Предзаказа (см. <a href="/reports/kaspi-preorder-guide" style={{ color: C.accent }}>гайд по предзаказу</a>) — не закупать склад до первых продаж.</div>
-                <div>5. Как только будут первые 1-2 продажи, карточки появятся в RedStat и их можно будет включить в регулярный мониторинг.</div>
+                <div>5. Как только будут первые 1-2 продажи, карточки появятся в следующем рыночном срезе и их можно будет включить в регулярный мониторинг.</div>
               </div>
             </div>
           </div>
@@ -499,17 +496,17 @@ export default function AliqeAnalysisPage() {
         {/* ═══ 4. MARKET CATEGORIES ═══ */}
         <Section id="s4" num="4" title="Рыночные категории: где можно расти, где нет">
           <DataTable headers={["Категория", "Feb'26 рынок", "YoY", "Премиум %", "Вердикт для A-LIQE"]} rows={[
-            ["Мясорубки", "0.24B ₸", "+25% 🟢", "28.7%", "✅ Рынок растёт — вернуть позиции мясорубки"],
-            ["Блендеры", "0.36B ₸", "+23% 🟢", "35.7%", "✅ Рынок растёт — фиксить Elit X12 (качество)"],
-            ["Солнц.очки", "0.18B ₸", "+60% 🟢", "52.0%", "🟡 Только если AI-очки перекатегоризовать"],
-            ["Блендеры-пароварки", "~10M ₸", "~50% 🟢", "21.6%", "✅ Маленькая, но растёт — QAMQOR уже в топе"],
-            ["Наушники", "1.98B ₸", "−4%", "67.4%", "🟡 Гигант, но Apple доминирует в премиуме"],
-            ["Эл.массажеры", "0.51B ₸", "−3%", "53.7%", "🟡 Стагнация — X9 убрать, фокус в премиум"],
-            ["Фены", "0.89B ₸", "−4%", "65.8%", "🔴 Падает — S9 срочно фиксить, Air Power бустить"],
-            ["Электрогрили", "0.16B ₸", "−21% 🔴", "54.9%", "🔴 Рынок падает — шашлычницы только нишево"],
+            ["Мясорубки", "0.24B ₸", "+25% ", "28.7%", " Рынок растёт — вернуть позиции мясорубки"],
+            ["Блендеры", "0.36B ₸", "+23% ", "35.7%", " Рынок растёт — фиксить Elit X12 (качество)"],
+            ["Солнц.очки", "0.18B ₸", "+60% ", "52.0%", " Только если AI-очки перекатегоризовать"],
+            ["Блендеры-пароварки", "~10M ₸", "~50% ", "21.6%", " Маленькая, но растёт — QAMQOR уже в топе"],
+            ["Наушники", "1.98B ₸", "−4%", "67.4%", " Гигант, но Apple доминирует в премиуме"],
+            ["Эл.массажеры", "0.51B ₸", "−3%", "53.7%", " Стагнация — X9 убрать, фокус в премиум"],
+            ["Фены", "0.89B ₸", "−4%", "65.8%", " Падает — S9 срочно фиксить, Air Power бустить"],
+            ["Электрогрили", "0.16B ₸", "−21% ", "54.9%", " Рынок падает — шашлычницы только нишево"],
           ]} highlight={0} />
 
-          <div style={{ borderLeft: `3px solid ${C.green}`, paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "#ccc", lineHeight: 1.7 }}>
+          <div style={{ paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7 }}>
             <strong style={{ color: C.green }}>Ключевой инсайт: </strong>
             из 8 категорий A-LIQE <strong style={{ color: C.text }}>в 4 рынок растёт</strong> (Мясорубки, Блендеры, Солнцочки, Пароварки), но A-LIQE падает в трёх из них — значит, проблема не в рынке, а в конкуренции. Вторые 4 категории — наушники стабильно, массажёры/фены/грили падают. В падающих категориях нет смысла агрессивно инвестировать.
           </div>
@@ -528,7 +525,7 @@ export default function AliqeAnalysisPage() {
             ["Блендер QAMQOR", "Нет негативных отзывов", "0", "Качественный продукт, нужно масштабировать"],
           ]} />
 
-          <div style={{ borderLeft: `3px solid ${C.red}`, paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "#ccc", lineHeight: 1.7 }}>
+          <div style={{ paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7 }}>
             <strong style={{ color: C.red }}>Главный риск: </strong>
             у A-LIQE пока мало негативных отзывов (в абсолютных числах), потому что выручка небольшая. Если запустить агрессивный внешний трафик БЕЗ исправления проблем качества (массажёр X9, наушники TWS, блендер X12) — поток жалоб будет расти вместе с объёмом, и рейтинг обвалится. Поэтому <strong style={{ color: C.text }}>сначала fix, потом boost</strong>.
           </div>
@@ -565,7 +562,7 @@ export default function AliqeAnalysisPage() {
                 color: C.blue,
                 items: [
                   "Создать deeplinks через Mobs.io для приоритетных SKU (MG-Titanium, Elit X12, Qamqor, Air Power, TWS)",
-                  "Снять 3-5 TikTok/Reels роликов по мотивам лучших креативов в Minea (см. гайд creative-hunting-guide)",
+                  "Снять 3-5 TikTok/Reels роликов по мотивам лучших креативов в библиотеки рекламных креативов (см. гайд creative-hunting-guide)",
                   "Запустить сбор отзывов через follow-up (подарок за отзыв с фото)",
                   "Подготовить сезонный контент для шашлычниц (весна-лето) и Air Power стайлера",
                 ],
@@ -574,7 +571,7 @@ export default function AliqeAnalysisPage() {
                 week: "Неделя 4: Измерение и оптимизация",
                 color: C.green,
                 items: [
-                  "Проверить метрики по каждому SKU через RedStat (выручка, позиция, отзывы)",
+                  "Проверить метрики по каждому SKU по агрегированным рыночным данным (выручка, позиция, отзывы)",
                   "Масштабировать работающие SKU (BOOST): Air Power, TWS, Шашлычница TF-8007, Qamqor",
                   "Остановить инвестиции в падающие без фикса (S9, X9 в текущей версии)",
                   "Подготовить план запуска тестомесов и GrandChef X6 через Предзаказ",
@@ -583,10 +580,10 @@ export default function AliqeAnalysisPage() {
               },
             ].map((phase, i) => (
               <div key={i} style={{ marginBottom: 24 }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: phase.color, marginBottom: 12 }}>{phase.week}</div>
+                <div style={{ fontSize: 14, fontWeight: 400, color: phase.color, marginBottom: 12 }}>{phase.week}</div>
                 {phase.items.map((item, j) => (
-                  <div key={j} style={{ display: "flex", gap: 10, fontSize: 13, color: "#ccc", marginBottom: 6, lineHeight: 1.6 }}>
-                    <span style={{ color: phase.color, fontWeight: 700, minWidth: 20 }}>{j + 1}.</span>
+                  <div key={j} style={{ display: "flex", gap: 10, fontSize: 13, color: "var(--personal-text)", marginBottom: 6, lineHeight: 1.6 }}>
+                    <span style={{ color: phase.color, fontWeight: 400, minWidth: 20 }}>{j + 1}.</span>
                     <div>{item}</div>
                   </div>
                 ))}
@@ -596,18 +593,18 @@ export default function AliqeAnalysisPage() {
         </Section>
 
         {/* ═══ FINAL VERDICT ═══ */}
-        <div style={{ ...sCard, borderLeft: `4px solid ${C.accent}`, marginTop: 32 }}>
-          <h3 style={{ fontSize: 18, fontWeight: 800, color: C.accent, margin: "0 0 16px" }}>Финальный вердикт по 13 SKU</h3>
+        <div style={{ ...sCard, marginTop: 32 }}>
+          <h3 style={{ fontSize: 18, fontWeight: 400, color: C.accent, margin: "0 0 16px" }}>Финальный вердикт по 13 SKU</h3>
 
           <DataTable headers={["Решение", "Кол-во", "SKU", "Что делаем"]} rows={[
-            ["🟢 BOOST (усилить)", "4", "Air Power, TWS, Шашл. TF-8007, Qamqor", "Внешний трафик, контент, отзывы, масштаб"],
-            ["🟡 FIX (сначала починить)", "3", "Мясорубка MG-Titanium, Блендер Elit X12, Фен S9 Ionic", "Качество → отзывы → потом boost"],
-            ["🟠 NEW-LAUNCH (запустить)", "3", "Тестомес Pro, GrandMix Digital, GrandChef X6", "Активировать карточки, исправить URL, старт через предзаказ"],
-            ["🔴 DROP или fundamental fix", "2", "Массажер X9, AI-очки", "Снять текущие, либо заменить версией 2.0 / сменить категорию"],
-            ["🟣 DEDUPE", "1", "Шашлычница 8 шамп (dup TF-8007)", "Объединить или развести по УТП"],
+            [" BOOST (усилить)", "4", "Air Power, TWS, Шашл. TF-8007, Qamqor", "Внешний трафик, контент, отзывы, масштаб"],
+            [" FIX (сначала починить)", "3", "Мясорубка MG-Titanium, Блендер Elit X12, Фен S9 Ionic", "Качество → отзывы → потом boost"],
+            [" NEW-LAUNCH (запустить)", "3", "Тестомес Pro, GrandMix Digital, GrandChef X6", "Активировать карточки, исправить URL, старт через предзаказ"],
+            [" DROP или fundamental fix", "2", "Массажер X9, AI-очки", "Снять текущие, либо заменить версией 2.0 / сменить категорию"],
+            [" DEDUPE", "1", "Шашлычница 8 шамп (dup TF-8007)", "Объединить или развести по УТП"],
           ]} />
 
-          <div style={{ borderLeft: `3px solid ${C.accent}`, paddingLeft: 14, margin: "16px 0", fontSize: 14, color: "#ccc", lineHeight: 1.7 }}>
+          <div style={{ paddingLeft: 14, margin: "16px 0", fontSize: 14, color: "var(--personal-text)", lineHeight: 1.7 }}>
             <strong style={{ color: C.accent }}>Приоритет внешнего трафика (куда сначала лить):</strong><br/>
             1. <strong style={{ color: C.text }}>Блендер-пароварка QAMQOR</strong> — растёт, нет негатива, маленькая ниша где легко занять №1.<br/>
             2. <strong style={{ color: C.text }}>Air Power стайлер</strong> — лучший YoY (+107%), растущий тренд.<br/>
@@ -619,12 +616,12 @@ export default function AliqeAnalysisPage() {
         </div>
 
         {/* FOOTER */}
-        <div style={{ padding: "20px 24px", background: `${C.kaspi}08`, borderRadius: 12, border: `1px solid ${C.kaspi}30`, marginTop: 32 }}>
+        <div style={{ padding: "16px 0", marginTop: 32 }}>
           <p style={{ ...sP, margin: "0 0 8px", fontSize: 13, color: C.dim }}>
-            Анализ подготовлен по данным RedStat API за февраль 2026 (последний доступный срез) и истории 16 месяцев (ноябрь 2024 – февраль 2026). Все цифры проверены по артикулам, указанным в исходном каталоге A-LIQE.
+            Анализ подготовлен по данным агрегированные рыночные данные за февраль 2026 (последний доступный срез) и истории 16 месяцев (ноябрь 2024 – февраль 2026). Все цифры проверены по артикулам, указанным в исходном каталоге A-LIQE.
           </p>
           <p style={{ ...sP, margin: 0, fontSize: 13, color: C.dim }}>
-            Источник данных: <strong style={{ color: "#ccc" }}>RedStat.kz</strong> — аналитическая платформа по Kaspi.kz.
+            Источник данных: <strong style={{ color: "var(--personal-text)" }}>агрегированные данные Kaspi.kz</strong> — аналитическая платформа по Kaspi.kz.
           </p>
         </div>
 

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ArticleJsonLd } from "@/components/articles";
 
-const title = "Кремний на угле | Almas Kasymzhanov";
+const title = "Кремний на угле | Алмас Касымжанов";
 const description =
   "Казахстан подписал с NVIDIA и Firebird соглашения на $10 млрд: дата-центр для ИИ в Экибастузе запитают углём. Разбор на данных — что подписали, чем заплатят и где этот фильм уже показывали.";
 const image = "/blog/nvidia-kazakhstan/cover.webp";

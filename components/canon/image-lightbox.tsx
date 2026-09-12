@@ -1,4 +1,5 @@
 "use client";
+import { IconlyChevronLeft, IconlyChevronRight } from "@/components/iconly-icons";
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -138,7 +139,7 @@ export function ImageLightbox({
               className="absolute left-2 top-1/2 z-10 grid size-10 -translate-y-1/2 place-items-center rounded-full border border-white/30 bg-black/75 text-2xl shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:left-4 sm:size-11"
               aria-label="Предыдущее изображение"
             >
-              ‹
+              <IconlyChevronLeft size={17} className="reading-inline-icon" />
             </button>
           )}
 
@@ -184,7 +185,7 @@ export function ImageLightbox({
               className="absolute right-2 top-1/2 z-10 grid size-10 -translate-y-1/2 place-items-center rounded-full border border-white/30 bg-black/75 text-2xl shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:right-4 sm:size-11"
               aria-label="Следующее изображение"
             >
-              ›
+              <IconlyChevronRight size={17} className="reading-inline-icon" />
             </button>
           )}
         </div>

@@ -1,4 +1,5 @@
 "use client";
+import { IconlyArrowRight } from "@/components/iconly-icons";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -51,7 +52,7 @@ export function MobileTopicRail() {
               key={item.key}
               href={href}
               aria-current={active ? "page" : undefined}
-              className={`relative flex h-11 items-center whitespace-nowrap pr-6 font-mono text-[11px] font-bold uppercase tracking-[0.09em] no-underline last:pr-4 ${
+              className={`relative flex h-11 items-center whitespace-nowrap pr-6 font-mono text-[11px] font-medium uppercase tracking-[0.09em] no-underline last:pr-4 ${
                 active ? "text-[var(--color-brand)]" : "text-[var(--color-text)]"
               }`}
             >
@@ -154,7 +155,7 @@ export function MobileMenu() {
             className="absolute inset-y-0 right-0 flex h-[100dvh] w-full flex-col overflow-hidden border-l border-[var(--color-border)] bg-[var(--color-bg)] shadow-2xl sm:w-[min(420px,92vw)]"
           >
             <div className="flex h-16 shrink-0 items-center justify-between border-b border-[var(--color-border)] px-4 sm:px-5">
-              <p id={titleId} className="font-mono text-[13px] font-bold uppercase tracking-[0.14em]">
+              <p id={titleId} className="font-mono text-[13px] font-medium uppercase tracking-[0.14em]">
                 {t.menu}
               </p>
               <button
@@ -179,7 +180,7 @@ export function MobileMenu() {
                   placeholder={t.search}
                   className="min-w-0 flex-1 bg-transparent font-body text-[16px] text-[var(--color-text)] outline-none placeholder:text-[var(--color-dim)]"
                 />
-                <button type="submit" className="h-11 px-2 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-brand)]">
+                <button type="submit" className="h-11 px-2 font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-[var(--color-brand)]">
                   {locale === "en" ? "Find" : "Найти"}
                 </button>
               </label>
@@ -199,12 +200,12 @@ export function MobileMenu() {
                         key={item.key}
                         href={href}
                         aria-current={active ? "page" : undefined}
-                        className={`flex min-h-12 items-center justify-between border-b border-[var(--color-border)] py-3 text-[17px] font-bold no-underline ${
+                        className={`flex min-h-12 items-center justify-between border-b border-[var(--color-border)] py-3 text-[17px] font-medium no-underline ${
                           active ? "text-[var(--color-brand)]" : "text-[var(--color-text)]"
                         }`}
                       >
                         {t[item.key]}
-                        <span aria-hidden className="font-mono text-[14px] font-normal text-[var(--color-dim)]">→</span>
+                        <span aria-hidden className="font-mono text-[14px] font-normal text-[var(--color-dim)]"><IconlyArrowRight size={17} className="reading-inline-icon" /></span>
                       </Link>
                     );
                   })}
@@ -216,7 +217,8 @@ export function MobileMenu() {
                 <div className="grid grid-cols-2 gap-x-5 gap-y-1">
                   <Link href={`${prefix}/newsletter`} className="flex min-h-11 items-center border-b border-[var(--color-border)] text-[13px] font-semibold no-underline">{t.newsletter}</Link>
                   <Link href={`${prefix}/about`} className="flex min-h-11 items-center border-b border-[var(--color-border)] text-[13px] font-semibold no-underline">{t.about}</Link>
-                  <Link href={`${prefix}/standards`} className="col-span-2 flex min-h-11 items-center border-b border-[var(--color-border)] text-[13px] font-semibold no-underline">
+                  <Link href={`${prefix}/tools`} className="flex min-h-11 items-center border-b border-[var(--color-border)] text-[13px] font-semibold no-underline">{t.practice}</Link>
+                  <Link href={`${prefix}/standards`} className="flex min-h-11 items-center border-b border-[var(--color-border)] text-[13px] font-semibold no-underline">
                     {locale === "en" ? "Editorial standards" : "Редакционные стандарты"}
                   </Link>
                 </div>

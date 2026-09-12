@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ArticleJsonLd } from "@/components/articles";
 
-const title = "Маркетплейс умер. Он вам позвонит | Almas Kasymzhanov";
+const title = "Маркетплейс умер. Он вам позвонит | Алмас Касымжанов";
 const description =
   "Как Freedom Тимура Турлова покупает площадку, которая не платила людям, зачем холдингу воскрешать её под своим именем - и почему у Kaspi впервые за десять лет появился соперник, которому есть чем ответить.";
 const image = "/blog/freedom-market/cover.webp";

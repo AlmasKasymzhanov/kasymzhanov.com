@@ -1,35 +1,29 @@
-import { SiteHeader, SiteFooter } from "@/components/canon/site-chrome";
+import Link from "next/link";
+import { PersonalShell } from "@/components/personal-shell";
+import { PersonalFooter } from "@/components/personal-footer";
+import { IconlyArrowLeft } from "@/components/iconly-icons";
 import { CourseAccess } from "@/components/course-access";
 import { type Locale, dict } from "@/lib/i18n";
 
-// Shared login screen for RU (/login) and EN (/en/login). The auth check +
-// redirect live in each route's page; this is the presentation. CourseAccess
-// derives its own locale from the path (so /en/login shows English controls
-// and stamps the magic-link with locale=en).
 export function LoginScreen({ locale, dest }: { locale: Locale; dest: string }) {
   const t = dict[locale].login;
-  return (
-    <div className="font-mono text-[var(--color-text)]">
-      <div className="max-w-[1400px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">
-        <SiteHeader />
-
-        <main className="flex-1 flex items-center justify-center px-6 py-16 md:py-24">
-          <div className="w-full max-w-md">
-            <div className="text-left mb-8">
-              <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--color-dim)] mb-3">{t.kicker}</p>
-              <h1 className="text-[26px] md:text-[32px] font-bold tracking-tight leading-[1.1] mb-3">
-                {t.heading}
-              </h1>
-              <p className="text-[14px] md:text-[15px] text-[var(--color-dim)] leading-relaxed">
-                {t.sub}
-              </p>
-            </div>
-            <CourseAccess next={dest} label="" note={t.note} />
-          </div>
-        </main>
-
-        <SiteFooter locale={locale} />
+  return <PersonalShell locale={locale}>
+    <div className="flex min-h-[calc(100dvh-8rem)] max-w-[720px] flex-col xl:ml-16">
+      <div className="w-full max-w-[440px] flex-1 pb-16">
+        <Link href={dest} className="reading-text-action mb-10">
+          <IconlyArrowLeft size={18} />{locale === "en" ? "Back to reading" : "Вернуться к чтению"}
+        </Link>
+        <header className="mb-8">
+          <h1 className="text-[32px] font-normal leading-[1.2] tracking-[-.025em] sm:text-[38px]">
+            {locale === "en" ? "Sign in" : "Войти"}
+          </h1>
+          <p className="mt-4 text-[16px] leading-[1.7] text-[var(--personal-muted)]">
+            {locale === "en" ? "Like articles and join the conversation." : "Ставьте лайки и участвуйте в обсуждении статей."}
+          </p>
+        </header>
+        <CourseAccess next={dest} label="" note={t.note} />
       </div>
+      <PersonalFooter locale={locale} />
     </div>
-  );
+  </PersonalShell>;
 }

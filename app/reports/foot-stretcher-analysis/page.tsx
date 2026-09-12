@@ -1,17 +1,20 @@
 "use client";
+import { ResearchSection, ResearchFact, ResearchNote, ResearchFigure } from "@/components/canon/research-editorial";
+import { ResearchReadingTime } from "@/components/canon/research-reading-time";
+
 
 const C = {
-  bg: "#0a0a0f", surface: "#111119", border: "#1e1e30",
-  accent: "#6c5ce7", green: "#00d2a0", text: "#e8e8f0",
-  dim: "#999", red: "#f87171", amber: "#f59e0b",
-  blue: "#60a5fa", pink: "#f472b6", cyan: "#22d3ee",
-  kaspi: "#f14635", wb: "#cb11ab",
+  bg: "var(--personal-paper)", surface: "var(--report-surface)", border: "var(--personal-border)",
+  accent: "var(--personal-text)", green: "var(--personal-text)", text: "var(--personal-text)",
+  dim: "var(--personal-muted)", red: "var(--personal-text)", amber: "var(--personal-text)",
+  blue: "var(--personal-text)", pink: "var(--personal-text)", cyan: "var(--personal-text)",
+  kaspi: "var(--personal-text)", wb: "var(--personal-text)",
 };
 
-const sP: React.CSSProperties = { fontSize: 14, lineHeight: 1.75, color: "#ccc", margin: "0 0 12px" };
-const sCard: React.CSSProperties = { background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, padding: "24px", marginBottom: 16 };
-const sBadge = (color: string): React.CSSProperties => ({ display: "inline-block", padding: "3px 10px", borderRadius: 20, background: `${color}18`, color, fontSize: 11, fontWeight: 600, letterSpacing: "0.03em" });
-const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 700, color: C.accent, margin: "28px 0 16px" };
+const sP: React.CSSProperties = { fontSize: "var(--reading-body-size)", lineHeight: 1.75, color: "var(--personal-text)", margin: "0 0 12px" };
+const sCard: React.CSSProperties = { margin: "24px 0", padding: 0 };
+const sBadge = (_color: string): React.CSSProperties => ({ display: "inline", color: "var(--personal-muted)", fontSize: 12, fontWeight: 400 });
+const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 500, color: C.accent, margin: "28px 0 16px" };
 
 function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (string | number)[][]; highlight?: number }) {
   return (
@@ -19,14 +22,14 @@ function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (str
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
         <thead>
           <tr>{headers.map((h, i) => (
-            <th key={i} style={{ padding: "10px 12px", textAlign: "left", color: C.dim, fontWeight: 600, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>
+            <th key={i} style={{ padding: "10px 12px", textAlign: "left", color: C.dim, fontWeight: 500, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>
           ))}</tr>
         </thead>
         <tbody>
           {rows.map((row, ri) => (
-            <tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `${C.accent}12` : "transparent" }}>
+            <tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `color-mix(in srgb, ${C.accent} 7%, transparent)` : "transparent" }}>
               {row.map((cell, ci) => (
-                <td key={ci} style={{ padding: "10px 12px", textAlign: "left", color: ci === 0 ? C.text : "#ccc", borderBottom: `1px solid ${C.border}20`, fontWeight: ci === 0 ? 500 : 400 }}>{cell}</td>
+                <td key={ci} style={{ padding: "10px 12px", textAlign: "left", color: ci === 0 ? C.text : "var(--personal-text)", borderBottom: `1px solid color-mix(in srgb, ${C.border} 13%, transparent)`, fontWeight: ci === 0 ? 500 : 400 }}>{cell}</td>
               ))}
             </tr>
           ))}
@@ -36,62 +39,42 @@ function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (str
   );
 }
 
-function Section({ id, num, title, color, children }: { id: string; num: string; title: string; color?: string; children: React.ReactNode }) {
-  const c = color || C.accent;
-  return (
-    <div id={id} style={{ marginBottom: 56 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24, paddingBottom: 12, borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ width: 44, height: 44, borderRadius: 10, background: `${c}15`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 800, color: c, flexShrink: 0 }}>{num}</div>
-        <h2 style={{ fontSize: 22, fontWeight: 800, color: C.text, margin: 0, letterSpacing: "-0.01em", lineHeight: 1.2 }}>{title}</h2>
-      </div>
-      {children}
-    </div>
-  );
-}
+function Section({ id, num, title, color, children }: { id: string; num: string; title: string; color?: string; children: React.ReactNode }) { return <ResearchSection id={id} title={title}>{children}</ResearchSection>; }
 
-function MetricGrid({ items }: { items: { label: string; value: string; sub?: string }[] }) {
-  return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 12, marginBottom: 20 }}>
-      {items.map((v, i) => (
-        <div key={i} style={{ padding: "14px 14px", background: C.bg, border: `1px solid ${C.border}`, borderRadius: 10 }}>
-          <div style={{ fontSize: 10, color: C.dim, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 6 }}>{v.label}</div>
-          <div style={{ fontSize: 20, fontWeight: 800, color: C.text, lineHeight: 1 }}>{v.value}</div>
-          {v.sub && <div style={{ fontSize: 11, color: C.dim, marginTop: 4 }}>{v.sub}</div>}
-        </div>
-      ))}
-    </div>
-  );
-}
+function MetricGrid({ items }: { items: { label: string; value: string; sub?: string }[] }) { return <div className="research-facts">{items.map((item, i) => <ResearchFact key={i} label={item.label} value={item.value} note={item.sub} />)}</div>; }
 
 export default function FootStretcherAnalysisPage() {
   return (
-    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "'Inter', -apple-system, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "var(--font-body)" }}>
       <div style={{ maxWidth: 920, margin: "0 auto", padding: "48px 24px 80px" }}>
 
         {/* HEADER */}
-        <div style={{ marginBottom: 48 }}>
+        <div className="research-header" style={{ marginBottom: 48 }}>
           <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
             <span style={sBadge(C.wb)}>Wildberries</span>
             <span style={sBadge(C.kaspi)}>Kaspi.kz</span>
             <span style={sBadge(C.accent)}>Enterprise</span>
             <span style={sBadge(C.green)}>Микро-ниша</span>
           </div>
-          <h1 style={{ fontSize: 30, fontWeight: 800, margin: "0 0 16px", letterSpacing: "-0.02em", lineHeight: 1.15 }}>
+          <h1 style={{ fontSize: 30, fontWeight: 500, margin: "0 0 16px", letterSpacing: "-0.02em", lineHeight: 1.15 }}>
             Тренажёр для растяжки подъёма стопы
           </h1>
-          <p style={{ fontSize: 16, color: C.dim, margin: 0, lineHeight: 1.6 }}>
-            Полный Enterprise-анализ микро-ниши: рынок WB (MPStat, годовой срез), проверка Kaspi.kz (RedStat), unit-экономика, стратегия дифференциации, сезонность, рекомендации по входу.
+          <p className="research-lead" style={{ fontSize: 16, color: C.dim, margin: 0, lineHeight: 1.6 }}>
+            Полный Enterprise-анализ микро-ниши: рынок WB (агрегированные данные Wildberries, годовой срез), проверка Kaspi.kz (агрегированные рыночные данные), unit-экономика, стратегия дифференциации, сезонность, рекомендации по входу.
           </p>
           <div style={{ fontSize: 12, color: C.dim, marginTop: 12 }}>
-            18 апреля 2026 · Данные: MPStat WB (18.04.2025–17.04.2026), RedStat Kaspi (Feb 2026), live Kaspi, 1688
+            18 апреля 2026 · Данные: агрегированные данные Wildberries WB (18.04.2025–17.04.2026), агрегированные рыночные данные Kaspi (Feb 2026), live Kaspi, 1688
           </div>
-        </div>
+
+<a href="/authors/almas-kasymzhanov" className="research-author">Алмас Касымжанов</a>
+<ResearchReadingTime />
+</div>
 
         {/* TOC */}
-        <div style={{ ...sCard, borderLeft: `4px solid ${C.accent}` }}>
-          <h3 style={{ fontSize: 14, fontWeight: 700, color: C.accent, margin: "0 0 12px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Содержание</h3>
+        <div style={{ ...sCard }}>
+          <h2 style={{ fontSize: 14, fontWeight: 400, color: C.accent, margin: "0 0 12px", textTransform: "none", letterSpacing: "0.05em" }}>Содержание</h2>
           {[
-            ["0", "Executive Summary"],
+            ["0", "Обзор"],
             ["1", "Wildberries: анализ ниши"],
             ["2", "Wildberries: unit-экономика"],
             ["3", "Wildberries: стратегия дифференциации"],
@@ -100,37 +83,37 @@ export default function FootStretcherAnalysisPage() {
             ["6", "Kaspi.kz: рекомендации"],
             ["7", "WB vs Kaspi: сравнение и общая стратегия"],
           ].map(([n, t]) => (
-            <div key={n} style={{ display: "flex", gap: 10, fontSize: 13, color: "#ccc", padding: "5px 0" }}>
-              <span style={{ color: C.accent, fontWeight: 700, minWidth: 20 }}>{n}.</span>
-              <a href={`#s${n}`} style={{ color: "#ccc", textDecoration: "none" }}>{t}</a>
+            <div key={n} style={{ display: "flex", gap: 10, fontSize: 13, color: "var(--personal-text)", padding: "5px 0" }}>
+              <span style={{ color: C.accent, fontWeight: 400, minWidth: 20 }}>{n}.</span>
+              <a href={`#s${n}`} style={{ color: "var(--personal-text)", textDecoration: "none" }}>{t}</a>
             </div>
           ))}
         </div>
 
         {/* ═══ 0. EXEC SUMMARY ═══ */}
-        <Section id="s0" num="0" title="Executive Summary">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 20 }}>
-            <div style={{ ...sCard, borderTop: `3px solid ${C.wb}`, marginBottom: 0 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: C.wb, marginBottom: 10 }}>WILDBERRIES</div>
-              <div style={{ fontSize: 24, fontWeight: 800, color: C.text }}>9,09 млн ₽</div>
+        <Section id="s0" num="0" title="Обзор">
+          <div style={{ display: "block", marginBottom: 20 }}>
+            <div style={{ ...sCard, marginBottom: 0 }}>
+              <div style={{ fontSize: 12, fontWeight: 400, color: C.wb, marginBottom: 10 }}>WILDBERRIES</div>
+              <div style={{ fontSize: 16, fontWeight: 400, color: C.text }}>9,09 млн ₽</div>
               <div style={{ fontSize: 12, color: C.dim, marginTop: 2 }}>выручка/год · 3 176 продаж</div>
-              <div style={{ fontSize: 13, color: C.amber, fontWeight: 600, marginTop: 10 }}>Foot Beauty = 96,5% рынка</div>
-              <div style={{ fontSize: 12, color: "#ccc", marginTop: 6, lineHeight: 1.6 }}>
+              <div style={{ fontSize: 13, color: C.amber, fontWeight: 400, marginTop: 10 }}>Foot Beauty = 96,5% рынка</div>
+              <div style={{ fontSize: 12, color: "var(--personal-text)", marginTop: 6, lineHeight: 1.6 }}>
                 Монополия одного продавца. Хронические стокауты (lost profit 15–47%). Комиссия 27,5%. Выкуп 63%.
               </div>
             </div>
-            <div style={{ ...sCard, borderTop: `3px solid ${C.kaspi}`, marginBottom: 0 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: C.kaspi, marginBottom: 10 }}>KASPI.KZ</div>
-              <div style={{ fontSize: 24, fontWeight: 800, color: C.text }}>0 SKU</div>
+            <div style={{ ...sCard, marginBottom: 0 }}>
+              <div style={{ fontSize: 12, fontWeight: 400, color: C.kaspi, marginBottom: 10 }}>KASPI.KZ</div>
+              <div style={{ fontSize: 16, fontWeight: 400, color: C.text }}>0 SKU</div>
               <div style={{ fontSize: 12, color: C.dim, marginTop: 2 }}>ниша пустая · спрос не доказан</div>
-              <div style={{ fontSize: 13, color: C.green, fontWeight: 600, marginTop: 10 }}>Чистое поле</div>
-              <div style={{ fontSize: 12, color: "#ccc", marginTop: 6, lineHeight: 1.6 }}>
+              <div style={{ fontSize: 13, color: C.green, fontWeight: 400, marginTop: 10 }}>Чистое поле</div>
+              <div style={{ fontSize: 12, color: "var(--personal-text)", marginTop: 6, lineHeight: 1.6 }}>
                 Ни одного конкурента. Комиссия 10,9%. Выкуп ~95%+. Потолок рынка КЗ — 1–4 млн ₸/год.
               </div>
             </div>
           </div>
 
-          <div style={{ borderLeft: `3px solid ${C.amber}`, paddingLeft: 14, fontSize: 13, color: "#ccc", lineHeight: 1.7 }}>
+          <div style={{ paddingLeft: 14, fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7 }}>
             <strong style={{ color: C.amber }}>Ключевой вывод: </strong>
             при текущей закупке 128 юаней (10 176 ₸/шт) продавать на WB по рыночной цене (2 700–3 500 ₽) <strong style={{ color: C.red }}>убыточно</strong>.
             Единственный рабочий путь — <strong style={{ color: C.green }}>премиум-набор 5 500–6 500 ₽</strong> с дифференциацией от Foot Beauty.
@@ -159,7 +142,7 @@ export default function FootStretcherAnalysisPage() {
               ["Остальные", "192", "109", "60 К ₽", "0,5%"],
             ]}
           />
-          <div style={{ borderLeft: `3px solid ${C.red}`, paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "#ccc", lineHeight: 1.7 }}>
+          <div style={{ paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7 }}>
             <strong style={{ color: C.red }}>Слабые места Foot Beauty: </strong>
             Lost profit 15–47% на топовых SKU (хронические стокауты, balance 0–3 при 1.5+ продаж/день). Stock utilization 13–65% — половину времени товара нет в наличии.
             Реальный спрос <strong style={{ color: C.text }}>на 30–50% выше</strong> зафиксированного (потенциал ниши 12–14 М ₽/год).
@@ -195,12 +178,12 @@ export default function FootStretcherAnalysisPage() {
           <DataTable
             headers={["Период", "Спрос", "Причина"]}
             rows={[
-              ["Сентябрь–Октябрь", "🔥 Пик", "Начало учебного года, набор в танц. школы"],
+              ["Сентябрь–Октябрь", " Пик", "Начало учебного года, набор в танц. школы"],
               ["Ноябрь–Декабрь", "Средний+", "Подготовка к новогодним концертам, подарки"],
-              ["Январь–Февраль", "🔥 Пик", "Зимние тренировки, подарки «на НГ» дошли"],
+              ["Январь–Февраль", " Пик", "Зимние тренировки, подарки «на НГ» дошли"],
               ["Март–Апрель", "Средний+", "Весенние экзамены, отчётные концерты, 8 Марта"],
               ["Май", "Средний", "Выпускные"],
-              ["Июнь–Август", "❄ Спад", "Каникулы, лагеря"],
+              ["Июнь–Август", " Спад", "Каникулы, лагеря"],
             ]}
           />
         </Section>
@@ -227,17 +210,17 @@ export default function FootStretcherAnalysisPage() {
           <DataTable
             headers={["Цена", "Выкуп", "Выручка", "Комиссия 27,5%", "WB логист.", "COGS", "Возврат лог.", "Прибыль", "ROI"]}
             rows={[
-              ["3 000 ₽", "63 шт", "189 000", "−51 975", "−12 000", "−218 400", "−3 700", "❌ −97 075", "−44%"],
-              ["3 500 ₽", "63 шт", "220 500", "−60 638", "−12 000", "−218 400", "−3 700", "❌ −74 238", "−34%"],
-              ["4 500 ₽", "63 шт", "283 500", "−77 963", "−12 000", "−218 400", "−3 700", "❌ −28 563", "−13%"],
-              ["5 500 ₽", "63 шт", "346 500", "−95 288", "−12 000", "−218 400", "−3 700", "✅ +17 112", "+8%"],
-              ["6 000 ₽", "63 шт", "378 000", "−103 950", "−12 000", "−218 400", "−3 700", "✅ +39 950", "+18%"],
-              ["6 500 ₽", "63 шт", "409 500", "−112 613", "−12 000", "−218 400", "−3 700", "✅ +62 787", "+29%"],
+              ["3 000 ₽", "63 шт", "189 000", "−51 975", "−12 000", "−218 400", "−3 700", " −97 075", "−44%"],
+              ["3 500 ₽", "63 шт", "220 500", "−60 638", "−12 000", "−218 400", "−3 700", " −74 238", "−34%"],
+              ["4 500 ₽", "63 шт", "283 500", "−77 963", "−12 000", "−218 400", "−3 700", " −28 563", "−13%"],
+              ["5 500 ₽", "63 шт", "346 500", "−95 288", "−12 000", "−218 400", "−3 700", " +17 112", "+8%"],
+              ["6 000 ₽", "63 шт", "378 000", "−103 950", "−12 000", "−218 400", "−3 700", " +39 950", "+18%"],
+              ["6 500 ₽", "63 шт", "409 500", "−112 613", "−12 000", "−218 400", "−3 700", " +62 787", "+29%"],
             ]}
           />
 
-          <div style={{ ...sCard, background: `${C.red}08`, border: `1px solid ${C.red}30` }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: C.red, marginBottom: 8 }}>Точка безубыточности: 5 126 ₽</div>
+          <div style={{ ...sCard }}>
+            <div style={{ fontSize: 14, fontWeight: 400, color: C.red, marginBottom: 8 }}>Точка безубыточности: 5 126 ₽</div>
             <p style={{ ...sP, margin: 0 }}>
               При текущих ценах Foot Beauty (2 700–3 500 ₽ за одинарный) — убыток до 1 541 ₽ на каждой проданной штуке.
               Продавать по рыночной цене при закупке 128 юаней <strong style={{ color: C.red }}>невозможно</strong>.
@@ -264,8 +247,8 @@ export default function FootStretcherAnalysisPage() {
             ]}
           />
 
-          <div style={{ ...sCard, background: `${C.green}06`, border: `1px solid ${C.green}30` }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: C.green, marginBottom: 8 }}>
+          <div style={{ ...sCard }}>
+            <div style={{ fontSize: 14, fontWeight: 400, color: C.green, marginBottom: 8 }}>
               Доп. COGS за аксессуары: ~285 ₽ → итого COGS набора ≈ 2 470 ₽
             </div>
             <p style={{ ...sP, margin: 0 }}>
@@ -282,7 +265,7 @@ export default function FootStretcherAnalysisPage() {
               ["Упаковка", "Полиэтиленовый пакет", "Картонная коробка (подарочный вид)"],
               ["Инструкция", "Нет", "QR → видеокурс 12 упражнений"],
               ["Решение боли", "Синяки на подъёме", "Неопреновая подкладка + антискольз."],
-              ["Подарочность", "❌ Не подарок", "✅ Готовый подарок (1 сент, 8 марта, НГ)"],
+              ["Подарочность", " Не подарок", " Готовый подарок (1 сент, 8 марта, НГ)"],
             ]}
           />
 
@@ -301,17 +284,17 @@ export default function FootStretcherAnalysisPage() {
 
           <h3 style={sH3}>Жалобы покупателей Foot Beauty (из отзывов WB)</h3>
           {[
-            { problem: "Боль/синяки на подъёме стопы", solution: "Неопреновая подкладка в комплекте", status: "✅ решаем" },
-            { problem: "Нет инструкции, не понятно как пользоваться", solution: "QR → видеокурс 12 упражнений", status: "✅ решаем" },
-            { problem: "Дерево с занозами, не обработано", solution: "Бук + мат-лак + скруглённые углы", status: "✅ решаем" },
-            { problem: "Скользит по полу", solution: "4 антискользящие силиконовые ножки", status: "✅ решаем" },
-            { problem: "Одна жёсткость — либо слишком жёстко, либо слишком мягко", solution: "3 резинки light/medium/heavy", status: "✅ решаем" },
-            { problem: "Негде хранить / неудобно носить в студию", solution: "Брендированная сумка-чехол", status: "✅ решаем" },
+            { problem: "Боль/синяки на подъёме стопы", solution: "Неопреновая подкладка в комплекте", status: " решаем" },
+            { problem: "Нет инструкции, не понятно как пользоваться", solution: "QR → видеокурс 12 упражнений", status: " решаем" },
+            { problem: "Дерево с занозами, не обработано", solution: "Бук + мат-лак + скруглённые углы", status: " решаем" },
+            { problem: "Скользит по полу", solution: "4 антискользящие силиконовые ножки", status: " решаем" },
+            { problem: "Одна жёсткость — либо слишком жёстко, либо слишком мягко", solution: "3 резинки light/medium/heavy", status: " решаем" },
+            { problem: "Негде хранить / неудобно носить в студию", solution: "Брендированная сумка-чехол", status: " решаем" },
           ].map((v, i) => (
-            <div key={i} style={{ display: "flex", gap: 12, padding: "10px 14px", background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, marginBottom: 8 }}>
+            <div key={i} style={{ display: "flex", gap: 12, padding: "16px 0", marginBottom: 8 }}>
               <span style={{ color: C.green, fontSize: 14, flexShrink: 0 }}>{v.status}</span>
               <div>
-                <div style={{ fontSize: 12, color: C.red, fontWeight: 600 }}>Жалоба: {v.problem}</div>
+                <div style={{ fontSize: 12, color: C.red, fontWeight: 400 }}>Жалоба: {v.problem}</div>
                 <div style={{ fontSize: 12, color: C.green, marginTop: 2 }}>Решение: {v.solution}</div>
               </div>
             </div>
@@ -326,12 +309,12 @@ export default function FootStretcherAnalysisPage() {
             <DataTable
               headers={["Сценарий", "Объём", "Бюджет", "Рекомендация"]}
               rows={[
-                ["Тест (проверка гипотезы)", "30 шт × 3 цвета = 30 шт", "~350 000 ₸", "✅ Начать с этого"],
+                ["Тест (проверка гипотезы)", "30 шт × 3 цвета = 30 шт", "~350 000 ₸", " Начать с этого"],
                 ["Масштаб (если тест плюсовой)", "150 шт × 3 цвета", "~1 750 000 ₸", "После 20+ продаж с ROI > 15%"],
                 ["Если FOB снизится до 60 юаней", "200 шт", "~1 100 000 ₸", "Идеальный сценарий — маржа 40%+"],
               ]}
             />
-            <div style={{ borderLeft: `3px solid ${C.amber}`, paddingLeft: 14, fontSize: 13, color: "#ccc", lineHeight: 1.7 }}>
+            <div style={{ paddingLeft: 14, fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7 }}>
               <strong style={{ color: C.amber }}>Критически важно: </strong>
               параллельно с тестом вести переговоры с фабриками (не торговыми компаниями) на 1688/Alibaba. Целевая цена — 50–60 юаней за набор. При 50 юанях COGS падает до ~1 100 ₽ → безубыточность при 2 800 ₽ → можно конкурировать с Foot Beauty лоб в лоб.
             </div>
@@ -341,17 +324,17 @@ export default function FootStretcherAnalysisPage() {
           <DataTable
             headers={["Приоритет", "Цвет", "Доля продаж FB", "Для старта"]}
             rows={[
-              ["1", "Розовый / пыльная роза", "25,5%", "✅ 40% партии"],
-              ["2", "Фиолетовый / лавандовый", "15,3%", "✅ 30% партии"],
-              ["3", "Бежевый / нюдовый", "12,4%", "✅ 30% партии"],
+              ["1", "Розовый / пыльная роза", "25,5%", " 40% партии"],
+              ["2", "Фиолетовый / лавандовый", "15,3%", " 30% партии"],
+              ["3", "Бежевый / нюдовый", "12,4%", " 30% партии"],
               ["4", "Серебристый", "12,8%", "Второй волной"],
               ["5", "Золотистый", "9,6%", "Второй волной"],
             ]}
           />
 
           <h3 style={sH3}>3. Формат набора</h3>
-          <div style={{ ...sCard, background: `${C.green}06`, border: `1px solid ${C.green}30` }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: C.green, marginBottom: 10 }}>Рекомендуемый формат: Набор «6-в-1» по 5 990 ₽</div>
+          <div style={{ ...sCard }}>
+            <div style={{ fontSize: 14, fontWeight: 400, color: C.green, marginBottom: 10 }}>Рекомендуемый формат: Набор «6-в-1» по 5 990 ₽</div>
             <p style={{ ...sP, margin: 0 }}>
               Тренажёр + 3 резинки + неопреновая подкладка + сумка + карточка с QR → видеокурс + антискользящие ножки. Доп. COGS ~285 ₽, итого ~2 470 ₽. Название карточки: «Профессиональный набор для растяжки подъёма стопы 6-в-1 [БРЕНД] — тренажёр + резинки + сумка».
             </p>
@@ -364,11 +347,11 @@ export default function FootStretcherAnalysisPage() {
             { step: "3", color: C.amber, title: "Захват стокаутов FB (октябрь+)", text: "Мониторить наличие Foot Beauty. Когда их баланс = 0 (это происходит 35–50% времени), увеличивать рекламный бюджет. Их покупатели переходят к первому доступному конкуренту." },
             { step: "4", color: C.green, title: "Масштаб (ноябрь–декабрь)", text: "Если ROI > 15% — контейнер 150+ шт. Расширить цвета (серебристый, золотой). Добавить «мягкий» вариант по 3 990 ₽." },
           ].map((s, i) => (
-            <div key={i} style={{ display: "flex", gap: 14, padding: "14px 16px", background: C.surface, border: `1px solid ${C.border}`, borderRadius: 10, marginBottom: 10 }}>
-              <div style={{ width: 32, height: 32, borderRadius: "50%", background: `${s.color}20`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700, color: s.color, flexShrink: 0 }}>{s.step}</div>
+            <div key={i} style={{ display: "flex", gap: 14, padding: "16px 0", marginBottom: 10 }}>
+
               <div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 4 }}>{s.title}</div>
-                <div style={{ fontSize: 12, color: "#ccc", lineHeight: 1.6 }}>{s.text}</div>
+                <div style={{ fontSize: 13, fontWeight: 400, color: C.text, marginBottom: 4 }}>{s.title}</div>
+                <div style={{ fontSize: 12, color: "var(--personal-text)", lineHeight: 1.6 }}>{s.text}</div>
               </div>
             </div>
           ))}
@@ -388,7 +371,7 @@ export default function FootStretcherAnalysisPage() {
 
           <h3 style={sH3}>Результаты проверки</h3>
           <DataTable
-            headers={["Поисковый запрос", "RedStat", "Kaspi.kz live"]}
+            headers={["Поисковый запрос", "агрегированные рыночные данные", "Kaspi.kz live"]}
             rows={[
               ["«тренажер стопы»", "0 результатов", "Нет релевантных"],
               ["«подъем стопы»", "1 (корректор, не наш товар)", "Ортопедические накладки"],
@@ -398,7 +381,7 @@ export default function FootStretcherAnalysisPage() {
             ]}
           />
 
-          <div style={{ borderLeft: `3px solid ${C.green}`, paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "#ccc", lineHeight: 1.7 }}>
+          <div style={{ paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7 }}>
             <strong style={{ color: C.green }}>Чистое поле: </strong>
             ни одного конкурента, ни одного аналога. Foot Beauty не вышел на Kaspi. Единственный КЗ-магазин bileshop.kz продаёт деревянный foot stretcher отдельно от маркетплейса.
           </div>
@@ -407,14 +390,14 @@ export default function FootStretcherAnalysisPage() {
           <DataTable
             headers={["Цена продажи", "Комиссия + Pay (11,85%)", "COGS", "Прибыль", "Маржа"]}
             rows={[
-              ["12 000 ₸", "−1 422 ₸", "−10 176 ₸", "✅ +402 ₸", "3,4%"],
-              ["15 000 ₸", "−1 778 ₸", "−10 176 ₸", "✅ +3 047 ₸", "20,3%"],
-              ["18 000 ₸", "−2 133 ₸", "−10 176 ₸", "✅ +5 691 ₸", "31,6%"],
-              ["20 000 ₸", "−2 370 ₸", "−10 176 ₸", "✅ +7 454 ₸", "37,3%"],
+              ["12 000 ₸", "−1 422 ₸", "−10 176 ₸", " +402 ₸", "3,4%"],
+              ["15 000 ₸", "−1 778 ₸", "−10 176 ₸", " +3 047 ₸", "20,3%"],
+              ["18 000 ₸", "−2 133 ₸", "−10 176 ₸", " +5 691 ₸", "31,6%"],
+              ["20 000 ₸", "−2 370 ₸", "−10 176 ₸", " +7 454 ₸", "37,3%"],
             ]}
           />
 
-          <div style={{ borderLeft: `3px solid ${C.amber}`, paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "#ccc", lineHeight: 1.7 }}>
+          <div style={{ paddingLeft: 14, margin: "16px 0", fontSize: 13, color: "var(--personal-text)", lineHeight: 1.7 }}>
             <strong style={{ color: C.amber }}>Ключевое преимущество Kaspi: </strong>
             нет проблемы возвратов (выкуп ~95%+ vs 63% на WB), комиссия 11,85% вместо 27,5%, товар уже в Алматы (не нужно везти в Подольск). При цене 15 000 ₸ маржа 20% — <strong style={{ color: C.text }}>выше, чем на WB при 5 990 ₽</strong>.
           </div>
@@ -437,7 +420,7 @@ export default function FootStretcherAnalysisPage() {
         <Section id="s6" num="6" title="Kaspi.kz: рекомендации" color={C.kaspi}>
 
           <div style={sCard}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: C.kaspi, marginBottom: 10 }}>Стратегия: дополнительный канал через Предзаказ</div>
+            <div style={{ fontSize: 14, fontWeight: 400, color: C.kaspi, marginBottom: 10 }}>Стратегия: дополнительный канал через Предзаказ</div>
             <p style={sP}>Kaspi — не основной канал (рынок КЗ слишком мал для микро-ниши), но идеальный <strong style={{ color: C.text }}>бонусный канал без риска</strong>: нет конкуренции, товар уже в Алматы, высокий выкуп, низкая комиссия.</p>
 
             {[
@@ -447,10 +430,10 @@ export default function FootStretcherAnalysisPage() {
               { step: "4", title: "Если пойдёт 5–10 продаж/мес — перейти на обычный склад", text: "Держать 15–20 шт на складе, убрать предзаказ, ускорить доставку." },
             ].map((s, i) => (
               <div key={i} style={{ display: "flex", gap: 10, padding: "10px 0", borderBottom: i < 3 ? `1px solid ${C.border}` : "none" }}>
-                <span style={{ color: C.kaspi, fontWeight: 700, fontSize: 14, flexShrink: 0, width: 24 }}>{s.step}.</span>
+                <span style={{ color: C.kaspi, fontWeight: 400, fontSize: 14, flexShrink: 0, width: 24 }}>{s.step}.</span>
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 2 }}>{s.title}</div>
-                  <div style={{ fontSize: 12, color: "#ccc", lineHeight: 1.6 }}>{s.text}</div>
+                  <div style={{ fontSize: 13, fontWeight: 400, color: C.text, marginBottom: 2 }}>{s.title}</div>
+                  <div style={{ fontSize: 12, color: "var(--personal-text)", lineHeight: 1.6 }}>{s.text}</div>
                 </div>
               </div>
             ))}
@@ -479,10 +462,10 @@ export default function FootStretcherAnalysisPage() {
           />
 
           <h3 style={sH3}>Общая стратегия: два канала параллельно</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-            <div style={{ ...sCard, borderTop: `3px solid ${C.wb}`, marginBottom: 0 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: C.wb, marginBottom: 10 }}>WB — основной канал (объём)</div>
-              <ul style={{ fontSize: 12, color: "#ccc", lineHeight: 1.8, paddingLeft: 16, margin: 0 }}>
+          <div style={{ display: "block", marginBottom: 24 }}>
+            <div style={{ ...sCard, marginBottom: 0 }}>
+              <div style={{ fontSize: 14, fontWeight: 400, color: C.wb, marginBottom: 10 }}>WB — основной канал (объём)</div>
+              <ul style={{ fontSize: 12, color: "var(--personal-text)", lineHeight: 1.8, paddingLeft: 16, margin: 0 }}>
                 <li>Набор 6-в-1 по 5 990 ₽</li>
                 <li>Премиум-позиционирование</li>
                 <li>Захват стокаутов Foot Beauty</li>
@@ -491,9 +474,9 @@ export default function FootStretcherAnalysisPage() {
                 <li>Цель: 30–50 продаж/мес</li>
               </ul>
             </div>
-            <div style={{ ...sCard, borderTop: `3px solid ${C.kaspi}`, marginBottom: 0 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: C.kaspi, marginBottom: 10 }}>Kaspi — бонусный канал (маржа)</div>
-              <ul style={{ fontSize: 12, color: "#ccc", lineHeight: 1.8, paddingLeft: 16, margin: 0 }}>
+            <div style={{ ...sCard, marginBottom: 0 }}>
+              <div style={{ fontSize: 14, fontWeight: 400, color: C.kaspi, marginBottom: 10 }}>Kaspi — бонусный канал (маржа)</div>
+              <ul style={{ fontSize: 12, color: "var(--personal-text)", lineHeight: 1.8, paddingLeft: 16, margin: 0 }}>
                 <li>Тот же набор по 15 000 ₸</li>
                 <li>Предзаказ (preorder=14)</li>
                 <li>0 конкурентов, 0 риска</li>
@@ -504,9 +487,9 @@ export default function FootStretcherAnalysisPage() {
             </div>
           </div>
 
-          <div style={{ ...sCard, background: `${C.accent}08`, border: `1px solid ${C.accent}30`, marginTop: 20 }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: C.accent, marginBottom: 10 }}>Итоговый вердикт</div>
-            <div style={{ fontSize: 13, color: "#ccc", lineHeight: 1.8 }}>
+          <div style={{ ...sCard, marginTop: 20 }}>
+            <div style={{ fontSize: 14, fontWeight: 400, color: C.accent, marginBottom: 10 }}>Итоговый вердикт</div>
+            <div style={{ fontSize: 13, color: "var(--personal-text)", lineHeight: 1.8 }}>
               <p style={{ margin: "0 0 8px" }}>
                 <strong style={{ color: C.text }}>При 128 юаней:</strong> WB рискованный (работает только при 5 990+ ₽ с премиум-набором), Kaspi безопасный (маржа 20% при 15 000 ₸).
               </p>

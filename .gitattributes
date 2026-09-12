@@ -1,0 +1,2 @@
+# Historical snapshots and patches must retain their original bytes.
+archive/** -whitespace

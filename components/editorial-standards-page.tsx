@@ -1,5 +1,6 @@
+import { PersonalDocument } from "@/components/personal-document";
 import Link from "next/link";
-import { SiteFooter, SiteHeader } from "@/components/canon/site-chrome";
+
 import { type Locale } from "@/lib/i18n";
 
 type Standard = { id: string; number: string; title: string; body: string; points?: string[] };
@@ -25,15 +26,11 @@ export function EditorialStandardsPage({ locale }: { locale: Locale }) {
     ? { eyebrow: "How we work", title: "Editorial standards", deck: "The compact rulebook behind every investigation, calculation, chart, and correction published by Kasymzhanov.", contact: "Report an error or raise an editorial concern", about: "Read about the publication" }
     : { eyebrow: "Как мы работаем", title: "Редакционные стандарты", deck: "Короткий свод правил, который стоит за каждым расследованием, расчётом, графиком и исправлением Kasymzhanov.", contact: "Сообщить об ошибке или задать редакционный вопрос", about: "Об издании" };
 
-  return (
-    <div className="font-body text-[var(--color-text)]">
-      <div className="mx-auto flex min-h-screen max-w-[1400px] flex-col border-x border-[var(--color-border)]">
-        <SiteHeader locale={locale} />
-        <main id="main-content" className="flex-1 px-6 py-12 md:px-10 md:py-16 lg:px-12">
-          <header className="grid gap-10 border-b border-[var(--color-text)] pb-12 lg:grid-cols-[1fr_320px]">
+  return <PersonalDocument locale={locale}>
+          <header className="grid gap-10 border-b border-[var(--color-text)] pb-12 lg:grid-cols-1">
             <div>
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-brand)]">{copy.eyebrow}</p>
-              <h1 className="mt-5 max-w-[900px] font-heading text-[48px] font-bold leading-[0.94] tracking-[-0.045em] sm:text-[64px] md:text-[76px]">{copy.title}</h1>
+              <p className="font-mono text-[10px] font-normal uppercase tracking-[0.16em] text-[var(--color-brand)]">{copy.eyebrow}</p>
+              <h1 className="mt-5 max-w-[900px] font-heading text-[48px] font-normal leading-[0.94] tracking-[-0.045em] sm:text-[64px] md:text-[76px]">{copy.title}</h1>
               <p className="mt-7 max-w-[760px] text-[18px] leading-relaxed text-[var(--color-dim)] md:text-[21px]">{copy.deck}</p>
             </div>
             <nav className="self-end border-t border-[var(--color-border)] pt-4 font-mono text-[10px] uppercase tracking-[0.07em] text-[var(--color-dim)]" aria-label={copy.title}>
@@ -46,7 +43,7 @@ export function EditorialStandardsPage({ locale }: { locale: Locale }) {
               <section key={item.id} id={item.id} className="grid gap-5 border-b border-[var(--color-border)] py-10 md:grid-cols-[90px_1fr] md:py-14">
                 <p className="font-mono text-[11px] text-[var(--color-brand)]">{item.number}</p>
                 <div>
-                  <h2 className="font-heading text-[28px] font-bold tracking-tight md:text-[36px]">{item.title}</h2>
+                  <h2 className="font-heading text-[28px] font-normal tracking-tight md:text-[36px]">{item.title}</h2>
                   <p className="mt-5 max-w-[760px] text-[16px] leading-[1.75] text-[var(--color-dim)] md:text-[18px]">{item.body}</p>
                   {item.points && <ul className="mt-5 max-w-[760px] list-disc space-y-2 pl-5 text-[14px] leading-relaxed text-[var(--color-dim)]">{item.points.map((point) => <li key={point}>{point}</li>)}</ul>}
                 </div>
@@ -55,12 +52,8 @@ export function EditorialStandardsPage({ locale }: { locale: Locale }) {
           </div>
 
           <div className="mx-auto mt-12 flex max-w-[960px] flex-col gap-3 bg-[var(--color-surface)] p-6 sm:flex-row sm:items-center sm:justify-between md:p-8">
-            <a href="mailto:almas@kasymzhanov.com?subject=Editorial%20correction" className="font-heading text-[20px] font-bold hover:text-[var(--color-brand)]">{copy.contact} →</a>
+            <a href="mailto:almas@kasymzhanov.com?subject=Editorial%20correction" className="font-heading text-[20px] font-normal hover:text-[var(--color-brand)]">{copy.contact} →</a>
             <Link href={isEn ? "/en/about" : "/about"} className="font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--color-dim)] hover:text-[var(--color-brand)]">{copy.about}</Link>
           </div>
-        </main>
-        <SiteFooter locale={locale} />
-      </div>
-    </div>
-  );
+        </PersonalDocument>;
 }

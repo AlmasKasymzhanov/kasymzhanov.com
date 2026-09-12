@@ -13,7 +13,10 @@ import { bcp47, localeFromPathname } from "@/lib/i18n";
 export function HtmlLang() {
   const pathname = usePathname() ?? "/";
   useEffect(() => {
-    document.documentElement.lang = bcp47[localeFromPathname(pathname)];
+    document.documentElement.lang =
+      pathname === "/kz" || pathname.startsWith("/kz/")
+        ? "kk-KZ"
+        : bcp47[localeFromPathname(pathname)];
   }, [pathname]);
   return null;
 }

@@ -2,12 +2,13 @@ import type { MetadataRoute } from "next";
 import { getPublishedArticles } from "@/components/articles";
 
 const SITE = "https://kasymzhanov.com";
-const RELEASE = "2026-08-01";
+const RELEASE = "2026-08-03";
 
 const BILINGUAL = [
   "",
   "/latest",
   "/market",
+  "/kaspi",
   "/technology",
   "/kazakhstan",
   "/tools",
@@ -21,11 +22,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = BILINGUAL.flatMap((route) => {
     const ru = `${SITE}${route}`;
     const en = `${SITE}/en${route}`;
+    const languages = { "ru-RU": ru, "en-US": en, "x-default": ru };
     const common = {
       lastModified: RELEASE,
       changeFrequency: route === "" || route === "/latest" ? ("weekly" as const) : ("monthly" as const),
       priority: route === "" ? 1 : route === "/latest" ? 0.9 : 0.75,
-      alternates: { languages: { "ru-RU": ru, "en-US": en, "x-default": ru } },
+      alternates: { languages },
     };
     return [{ url: ru, ...common }, { url: en, ...common }];
   });

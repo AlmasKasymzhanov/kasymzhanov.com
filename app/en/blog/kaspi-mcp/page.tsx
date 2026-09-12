@@ -1,9 +1,10 @@
 "use client";
 
+import { CopyField } from "@/components/canon/copy-field";
 import Image from "next/image";
 import { ArticleHeader } from "@/components/canon/article-header";
 import { ArticleLayout } from "@/components/canon/article-layout";
-import { useState } from "react";
+
 
 /* MCP connector for Kaspi analytics (used in step 3) */
 const CONNECTOR_URL = "https://mcp.redstat.kz/mcp";
@@ -12,11 +13,11 @@ const CONNECTOR_URL = "https://mcp.redstat.kz/mcp";
 function Shot({ src, alt, caption, w, h, maxWidth }: { src: string; alt: string; caption: React.ReactNode; w: number; h: number; maxWidth?: number }) {
   return (
     <figure
-      className="my-6 border border-[var(--color-border)] rounded-[3px] overflow-hidden mx-auto bg-[var(--color-surface)]"
+      className="research-figure"
       style={maxWidth ? { maxWidth } : undefined}
     >
       <Image src={src} alt={alt} width={w} height={h} className="w-full h-auto" />
-      <figcaption className={`font-mono text-[11px] text-[var(--color-dim)] px-4 py-2.5 ${maxWidth ? "text-center" : "text-left"}`}>{caption}</figcaption>
+      <figcaption className={`font-mono text-[12px] text-[var(--color-dim)] px-4 py-2.5 ${maxWidth ? "text-center" : "text-left"}`}>{caption}</figcaption>
     </figure>
   );
 }
@@ -26,43 +27,16 @@ function Step({ n, title, children }: { n: number; title: string; children: Reac
   return (
     <div className="mb-10">
       <div className="flex items-baseline gap-3 mb-3">
-        <span className="font-mono text-[13px] font-bold text-[var(--color-dim)] shrink-0">{String(n).padStart(2, "0")}</span>
-        <h3 className="text-[16px] font-bold tracking-tight text-[var(--color-text)]">{title}</h3>
+        <span className="font-mono text-[13px] font-normal text-[var(--color-dim)] shrink-0">{String(n).padStart(2, "0")}</span>
+        <h3 className="text-[16px] font-normal tracking-tight text-[var(--color-text)]">{title}</h3>
       </div>
-      <div className="pl-[34px]">{children}</div>
+      <div className="sm:pl-[34px]">{children}</div>
     </div>
   );
 }
 
 /* ───── Copy field ───── */
-function CopyField({ value }: { value: string }) {
-  const [copied, setCopied] = useState(false);
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(value);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1600);
-    } catch {}
-  };
-  return (
-    <div className="group relative border border-[var(--color-border)] rounded-[3px] bg-[var(--color-surface)] pl-4 pr-12 py-3">
-      <code className="font-mono text-[12px] text-[var(--color-text)] break-all select-all">{value}</code>
-      <button
-        type="button"
-        onClick={copy}
-        aria-label={copied ? "Copied" : "Copy link"}
-        title={copied ? "Copied" : "Copy"}
-        className="absolute right-2 top-2 inline-flex items-center justify-center w-8 h-8 rounded-[3px] text-[var(--color-dim)] hover:text-[var(--color-text)] hover:bg-[var(--color-bg)] transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100"
-      >
-        {copied ? (
-          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5" /></svg>
-        ) : (
-          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" /><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" /></svg>
-        )}
-      </button>
-    </div>
-  );
-}
+
 
 /* ═══════════════════════════════════════════════════ */
 
@@ -105,7 +79,7 @@ export default function KaspiMcpArticleEn() {
 
         {/* ─── Step-by-step setup ─── */}
         <div className="mb-12">
-          <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-8">How to set up your own analyst in 5 minutes</h2>
+          <h2 className="text-[20px] font-normal tracking-tight text-[var(--color-text)] mb-8">How to set up your own analyst in 5 minutes</h2>
 
           <Step n={1} title="Open settings">
             <p className="text-[15px] text-[var(--color-dim)] leading-[1.8]">
@@ -125,7 +99,7 @@ export default function KaspiMcpArticleEn() {
             <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-4">
               Click <strong className="text-[var(--color-text)]">«+»</strong> at the top and choose <strong className="text-[var(--color-text)]">«Add custom connector»</strong>. In the dialog, type a name (e.g. <strong className="text-[var(--color-text)]">«Kaspi»</strong>) and paste the connector link, then click Add:
             </p>
-            <CopyField value={CONNECTOR_URL} />
+            <CopyField value={CONNECTOR_URL} locale="en" />
             <Shot src="/blog/kaspi-mcp/03-add-connector.png" alt="Add custom connector: the Kaspi connector with its link and tools" caption="«+» → «Add custom connector». On the right, Kaspi connected with its tools" w={864} h={570} />
           </Step>
 
@@ -154,7 +128,7 @@ export default function KaspiMcpArticleEn() {
 
         {/* ─── Asking questions ─── */}
         <div className="mb-12">
-          <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">Asking questions</h2>
+          <h2 className="text-[20px] font-normal tracking-tight text-[var(--color-text)] mb-6">Asking questions</h2>
           <p className="text-[15px] text-[var(--color-dim)] leading-[1.8] mb-5">
             Open a <strong className="text-[var(--color-text)]">new chat</strong> and just describe what you want in plain words. For example:
           </p>

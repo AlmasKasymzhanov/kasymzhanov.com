@@ -1,7 +1,8 @@
+import { PersonalDocument } from "@/components/personal-document";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { SiteHeader, SiteFooter, AboutSection, ProjectsSection, ContactsSection, SocialsSection } from "@/components/canon/site-chrome";
+import { ProjectsSection, ContactsSection, SocialsSection } from "@/components/canon/site-chrome";
 import { SubscribeForm } from "@/components/subscribe-form";
 import { dict } from "@/lib/i18n";
 
@@ -25,8 +26,8 @@ export const metadata: Metadata = {
 
 function Metric({ value, label }: { value: string; label: string }) {
   return (
-    <div className="border-t border-[var(--color-border)] pt-4">
-      <p className="text-[28px] md:text-[36px] font-bold tracking-tight text-[var(--color-text)]">{value}</p>
+    <div className=" pt-4">
+      <p className="text-[28px] md:text-[36px] font-normal tracking-tight text-[var(--color-text)]">{value}</p>
       <p className="text-[12px] md:text-[13px] text-[var(--color-dim)] mt-1 leading-relaxed">{label}</p>
     </div>
   );
@@ -38,10 +39,10 @@ function PressItem({ href, title, source, date }: { href: string; title: string;
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group block border-t border-[var(--color-border)] py-4"
+      className="group block  py-4"
     >
       <p className="text-[13px] text-[var(--color-brand)] uppercase tracking-[0.1em] mb-1">{source}</p>
-      <p className="text-[15px] md:text-[16px] font-bold text-[var(--color-text)] group-hover:text-[var(--color-brand)] transition-colors leading-snug">
+      <p className="text-[15px] md:text-[16px] font-normal text-[var(--color-text)] group-hover:text-[var(--color-brand)] transition-colors leading-snug">
         {title}
       </p>
       <p className="text-[12px] text-[var(--color-dim)] mt-1">{date}</p>
@@ -53,21 +54,16 @@ export default function AboutPageEn() {
   const t = dict.en;
   const L = "en" as const;
 
-  return (
-    <div className="font-body text-[var(--color-text)]">
-      <div className="max-w-[1400px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">
-        <SiteHeader locale="en" />
-
-        <main id="main-content" className="w-full max-w-[1040px] mx-auto px-6 py-12 md:py-20">
+  return <PersonalDocument locale={"en"}>
           {/* ── Hero ── */}
-          <header className="grid gap-10 md:gap-14 md:grid-cols-[1fr_2fr] items-start mb-16 md:mb-24">
-            <div className="relative w-40 h-40 md:w-52 md:h-52 rounded-full overflow-hidden border border-[var(--color-border)] shrink-0">
+          <header className="grid gap-6 items-start mb-12">
+            <div className="relative w-[72px] h-[72px] rounded-full overflow-hidden border border-[var(--color-border)] shrink-0">
               <Image
                 src="/avatar/almas.webp"
                 alt={t.name}
                 fill
-                sizes="(min-width: 768px) 208px, 160px"
-                className="object-cover object-[center_25%]"
+                sizes="72px"
+                className="object-cover object-[50%_16.5%]"
                 priority
               />
             </div>
@@ -75,7 +71,7 @@ export default function AboutPageEn() {
               <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--color-brand)] mb-4">
                 {t.about.publication}
               </p>
-              <h1 className="text-[28px] md:text-[42px] font-bold tracking-tight text-[var(--color-text)] leading-[1.05] mb-5">
+              <h1 className="text-[28px] md:text-[42px] font-normal tracking-tight text-[var(--color-text)] leading-[1.05] mb-5">
                 {t.about.title}
               </h1>
               <p className="text-[17px] md:text-[20px] text-[var(--color-dim)] leading-relaxed mb-6">
@@ -84,7 +80,7 @@ export default function AboutPageEn() {
               <p className="text-[14px] md:text-[15px] leading-relaxed text-[var(--color-text)]/90 border-l-2 border-[var(--color-brand)] pl-4">
                 {t.about.manifesto}
               </p>
-              <Link href="/en/standards" className="mt-5 inline-block font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--color-brand)] hover:underline underline-offset-4">
+              <Link href="/en/standards" className="mt-5 inline-block font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--color-brand)]  ">
                 Editorial standards →
               </Link>
             </div>
@@ -138,7 +134,7 @@ export default function AboutPageEn() {
 
           {/* ── CTA ── */}
           <section className="bg-[var(--color-surface)] border border-[var(--color-border)] p-6 md:p-10">
-            <p className="text-[17px] md:text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-3">{t.about.cta}</p>
+            <p className="text-[17px] md:text-[20px] font-normal tracking-tight text-[var(--color-text)] mb-3">{t.about.cta}</p>
             <div className="max-w-md">
               <SubscribeForm source="about-en" />
             </div>
@@ -149,11 +145,5 @@ export default function AboutPageEn() {
               </Link>
             </p>
           </section>
-        </main>
-
-        <div className="flex-1" aria-hidden />
-        <SiteFooter locale={L} />
-      </div>
-    </div>
-  );
+        </PersonalDocument>;
 }

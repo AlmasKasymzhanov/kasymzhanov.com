@@ -406,7 +406,7 @@ export function synthesizeSVG(ctx: SynthesisContext): string {
     const pct = `${isPositive ? "+" : ""}${(trend! * 100).toFixed(1)}%`;
     const fill = isPositive ? accent : muted;
     // Iconly trend arrow (0–24 viewBox) scaled to 12px, placed left of the
-    // value — matches the on-screen TrendIndicator (no unicode ↗ glyph).
+    // value — matches the on-screen TrendIndicator (no unicode  glyph).
     const textW = pct.length * 6.6;
     const arrowX = r2(width - textW - 3 - 12);
     const arrowPaths = isPositive
@@ -1089,7 +1089,7 @@ export type RenderToHTMLOptions = {
 };
 
 const DEFAULT_RENDER_COLORS = {
-  accent: "#F54900",
+  accent: "var(--personal-text)",
   foreground: "#0a0a0a",
   muted: "#666666",
   border: "#e5e5e5",

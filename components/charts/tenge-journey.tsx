@@ -1,38 +1,10 @@
 "use client";
 
-/**
- * «Путешествие одного тенге» / "The Journey of One Tenge" — a mini special
- * project inside the freedom-market piece.
- *
- * Form (v2, after the "traffic-light" critique): a monochrome graphite
- * CHESSBOARD stage — the article's chess frame made literal. Each step is a
- * board square, step labels read like move notation. A single gold coin (the
- * one saturated object on stage) is the piece: on scroll it hops square to
- * square. The Kaspi coin finishes its rank on "account, 0% yield" and goes
- * grey — the piece resigns; a dashed DIAGONAL square («deposit - if you carry
- * it yourself») stays one move aside: the move the seller must make by hand.
- * The Freedom rank closes into a loop — its coin keeps cycling, the clock
- * keeps running, the counter reads ∞.
- *
- * Desktop: coins travel horizontally along ranks (pinned sticky stage).
- * Mobile: the board turns vertical and the coin falls square to square
- * (unpinned; progress driven by the section's own travel through the
- * viewport). prefers-reduced-motion renders the final state statically.
- */
+/** Static comparison of the two revenue paths. The model caveat stays visible. */
 
-import { useEffect, useRef, useState } from "react";
 
-/* Theme-aware stage tokens: the board lives on the site palette, so the
- * special project follows light/dark like every other figure. The coin's own
- * gold is the only saturated object. */
-const STAGE = {
-  bg: "var(--color-surface)",
-  cellA: "color-mix(in srgb, var(--color-border) 22%, var(--color-surface))",
-  cellB: "color-mix(in srgb, var(--color-border) 48%, var(--color-surface))",
-  line: "var(--color-border)",
-  text: "var(--color-text)",
-  dim: "var(--color-dim)",
-};
+
+
 
 type Step = { n: string; title: string; detail: string };
 
@@ -75,7 +47,7 @@ const RU: Copy = {
   depositNote: "ход в сторону, который селлер делает рукой: отдельный продукт и отдельное действие",
   depositMark: "вариант 4-го хода",
   plaque:
-    "Партия «Freedom» - авторская модель на основе публичных прецедентов (Mercado Fondo, Shopify Balance), а не анонсированный продукт Freedom. Партия Kaspi упрощена до поведения по умолчанию: депозиты у Kaspi есть - включая Business Deposit для предпринимателей, - но требуют отдельного действия. Потухшая монета - образ простоя денег при нулевом доходе, не расчёт покупательной способности.",
+    "Партия «Freedom» - авторская модель на основе публичных прецедентов (Mercado Fondo, Shopify Balance), а не анонсированный продукт Freedom. Партия Kaspi упрощена до поведения по умолчанию: депозиты у Kaspi есть - включая Business Deposit для предпринимателей, - но требуют отдельного действия. Последний шаг иллюстрирует простой денег при нулевом доходе, а не изменение покупательной способности.",
   caption: "Прототип и расчёты: Алмас Касымжанов · прецеденты: Mercado Fondo, Shopify Balance",
   interactiveKicker: "Интерактив",
 };
@@ -101,7 +73,7 @@ const EN: Copy = {
   depositNote: "a move aside the seller makes by hand: a separate product and a separate action",
   depositMark: "move 4, a sideline",
   plaque:
-    "The “Freedom” game is the author's model built on public precedents (Mercado Fondo, Shopify Balance) - not an announced Freedom product. The Kaspi game is simplified to default behaviour: Kaspi does offer deposits - including a Business Deposit for merchants - but they require a separate action. The extinguished coin depicts idle money at zero yield, not a purchasing-power calculation.",
+    "The “Freedom” game is the author's model built on public precedents (Mercado Fondo, Shopify Balance) - not an announced Freedom product. The Kaspi game is simplified to default behaviour: Kaspi does offer deposits - including a Business Deposit for merchants - but they require a separate action. The final step illustrates idle money at zero yield, not a purchasing-power calculation.",
   caption: "Prototype and analysis: Almas Kasymzhanov · precedents: Mercado Fondo, Shopify Balance",
   interactiveKicker: "Interactive",
 };
@@ -136,204 +108,22 @@ export function Coin({ dead, size = 56 }: { dead: boolean; size?: number }) {
 }
 
 /* One board rank: alternating graphite squares with notation labels. */
-function Rank({
-  steps,
-  coinAt,
-  coinDead,
-  vertical,
-}: {
-  steps: Step[];
-  coinAt: number;
-  coinDead: boolean;
-  vertical: boolean;
-}) {
-  return (
-    <div className={`relative grid gap-0 ${vertical ? "grid-cols-1" : "grid-cols-4"}`}>
-      {steps.map((s, i) => {
-        const active = i <= coinAt;
-        return (
-          <div
-            key={s.title}
-            className={`relative border p-2.5 md:p-3 transition-opacity duration-300 ${vertical ? "pr-14" : ""}`}
-            style={{
-              background: (i % 2 === 0) !== vertical ? STAGE.cellA : STAGE.cellB,
-              borderColor: STAGE.line,
-              opacity: active ? 1 : 0.45,
-              minHeight: vertical ? 84 : 118,
-            }}
-          >
-            <p className="font-mono text-[10px]" style={{ color: i === coinAt ? STAGE.text : STAGE.dim }}>{s.n}</p>
-            <p className="text-[12.5px] font-semibold leading-snug mt-0.5" style={{ color: STAGE.text }}>{s.title}</p>
-            <p className="text-[11px] leading-snug mt-0.5" style={{ color: STAGE.dim }}>{s.detail}</p>
-          </div>
-        );
-      })}
-      {/* The coin piece: absolutely positioned over the current square. */}
-      <div
-        aria-hidden
-        className="absolute pointer-events-none transition-[left,top,transform] duration-700 ease-in-out"
-        style={
-          vertical
-            ? { left: "auto", right: 6, top: `calc(${coinAt} * 25% + 12.5% - 22px)`, transform: `rotate(${coinAt * 360}deg)` }
-            : { top: -32, left: `calc(${coinAt} * 25% + 12.5% - 28px)`, transform: `rotate(${coinAt * 360}deg)` }
-        }
-      >
-        <Coin dead={coinDead} size={vertical ? 44 : 56} />
-      </div>
-    </div>
-  );
+function Rank({ steps }: { steps: Step[] }) {
+ return <ol className="grid grid-cols-1 gap-0 sm:grid-cols-2">{steps.map(step => <li key={step.n} data-chart-inspect tabIndex={0} data-chart-title={step.title} data-chart-rows={JSON.stringify([{label: "", value: step.detail}])} className="border-t border-[var(--color-border)] py-4 sm:pr-5">
+ <span className="font-mono text-[12px] text-[var(--color-dim)]">{step.n}</span>
+ <div className="mt-1 text-[15px] text-[var(--color-text)]">{step.title}</div>
+ <div className="mt-1 text-[13px] leading-relaxed text-[var(--color-dim)]">{step.detail}</div>
+ </li>)}</ol>;
 }
 
 export function TengeJourney({ locale = "ru" }: { locale?: "ru" | "en" }) {
-  const c = locale === "en" ? EN : RU;
-  const trackRef = useRef<HTMLDivElement>(null);
-  const kaspiBoardRef = useRef<HTMLDivElement>(null);
-  const freedomBoardRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0);
-  /* Mobile (unpinned) only: each lane's coin walks by that LANE's own travel
-   * through the viewport — Kaspi finishes while it is on screen, Freedom
-   * starts when the reader reaches it. Desktop keeps the shared step: both
-   * lanes are visible at once and race in parallel by design. */
-  const [laneSteps, setLaneSteps] = useState({ k: 0, f: 0 });
-  const [reduced, setReduced] = useState(false);
-  const [pinned, setPinned] = useState(true);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setReduced(true);
-      setProgress(1);
-      setLaneSteps({ k: 3, f: 3 });
-      return;
-    }
-    const mq = window.matchMedia("(min-width: 768px)");
-    const syncMode = () => setPinned(mq.matches);
-    syncMode();
-    mq.addEventListener("change", syncMode);
-
-    let raf = 0;
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        const el = trackRef.current;
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        const vh = window.innerHeight;
-        let p: number;
-        if (mq.matches) {
-          const total = rect.height - vh;
-          const passed = Math.min(Math.max(-rect.top, 0), Math.max(total, 1));
-          p = total > 0 ? passed / total : 1;
-        } else {
-          p = Math.min(Math.max((vh - rect.top) / Math.max(rect.height, 1), 0), 1);
-          // Per-lane coin steps: 0 when the board's top crosses 70% of the
-          // viewport, 3 (last cell) as its bottom passes the same line.
-          const laneStep = (board: HTMLDivElement | null) => {
-            if (!board) return 0;
-            const r = board.getBoundingClientRect();
-            const pl = (vh * 0.7 - r.top) / Math.max(r.height, 1);
-            return Math.min(3, Math.max(0, Math.floor(pl * 4)));
-          };
-          setLaneSteps({ k: laneStep(kaspiBoardRef.current), f: laneStep(freedomBoardRef.current) });
-        }
-        setProgress(p);
-      });
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      cancelAnimationFrame(raf);
-      mq.removeEventListener("change", syncMode);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
-
-  const vertical = !pinned;
-  const step = Math.min(3, Math.floor(progress * 4.4));
-  const kaspiStep = vertical && !reduced ? laneSteps.k : step;
-  const freedomStep = vertical && !reduced ? laneSteps.f : step;
-  // The Kaspi coin dies the moment it LANDS on "account, 0%": tied to the
-  // step (works identically in pinned and unpinned modes), not to a raw
-  // progress threshold. All coin movement is scroll-driven — no idle loops.
-  const kaspiDead = kaspiStep >= 3;
-
-  return (
-    <figure
-      data-chart-slot="interactive"
-      data-chart-type="chessboard scrolly"
-      className="my-10 lg:w-[min(1060px,calc(100vw-3rem))] lg:relative lg:left-1/2 lg:-translate-x-1/2"
-    >
-      <div ref={trackRef} style={{ height: pinned && !reduced ? "280vh" : "auto" }} className="relative">
-        <div className={pinned && !reduced ? "sticky top-[56px]" : ""}>
-          <div className="rounded-[4px] px-5 py-7 md:px-10 md:py-10" style={{ background: STAGE.bg, border: `1px solid ${STAGE.line}` }}>
-            {/* Header */}
-            <p className="font-mono text-[10px] uppercase tracking-[0.16em] mb-2" style={{ color: "var(--brock-accent)" }}>
-              {c.interactiveKicker}
-            </p>
-            <h3 className="text-[20px] md:text-[24px] font-bold tracking-tight leading-tight" style={{ color: STAGE.text }}>
-              {c.title}
-            </h3>
-            <p className="mt-1.5 text-[13px]" style={{ color: STAGE.dim }}>{c.dek}</p>
-
-            <div className={`mt-8 grid grid-cols-1 gap-9 ${vertical ? "" : ""}`}>
-              {/* ── Kaspi game ── */}
-              <div>
-                <p className="text-[14px] font-bold mb-6" style={{ color: STAGE.text }}>{c.kaspiName}</p>
-                <div className={vertical ? "" : "grid grid-cols-[1fr_auto] gap-4 items-start"}>
-                  <div ref={kaspiBoardRef}>
-                    <Rank steps={c.kaspiSteps} coinAt={kaspiStep} coinDead={kaspiDead} vertical={vertical} />
-                  </div>
-                  {/* The diagonal deposit square - one move aside (down-right,
-                   * clear of the header row), made by hand. */}
-                  <div
-                    className={`border border-dashed rounded-[2px] p-2.5 transition-colors duration-500 ${vertical ? "mt-3" : "w-[240px]"}`}
-                    style={{ borderColor: kaspiStep >= 3 ? STAGE.dim : STAGE.line }}
-                  >
-                    <p className="font-mono text-[10px] uppercase tracking-[0.08em]" style={{ color: kaspiStep >= 3 ? STAGE.text : STAGE.dim }}>{c.depositMark}</p>
-                    <p className="text-[12px] font-semibold leading-snug mt-0.5" style={{ color: STAGE.text }}>{c.depositTitle}</p>
-                    <p className="text-[10.5px] leading-snug mt-1" style={{ color: STAGE.dim }}>{c.depositNote}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* ── Freedom game ── */}
-              <div>
-                <p className="text-[14px] font-bold mb-6" style={{ color: STAGE.text }}>{c.freedomName}</p>
-                <div ref={freedomBoardRef}>
-                  <Rank steps={c.freedomSteps} coinAt={freedomStep} coinDead={false} vertical={vertical} />
-                </div>
-              </div>
-            </div>
-
-            {/* Progress rail */}
-            <div className="mt-6 h-1 rounded-full overflow-hidden" style={{ background: STAGE.line }} aria-hidden>
-              <div className="h-full rounded-full transition-[width] duration-150" style={{ width: `${Math.round(progress * 100)}%`, background: STAGE.dim }} />
-            </div>
-
-            {/* Methodology plaque */}
-            <p className="mt-4 font-mono text-[11.5px] italic leading-relaxed border-l-2 pl-3" style={{ color: STAGE.dim, borderColor: STAGE.line }}>
-              {c.plaque}
-            </p>
-
-            {/* Caption + credit */}
-            <p className="mt-3 font-mono text-[11px] leading-relaxed" style={{ color: STAGE.dim }}>
-              {c.caption}
-              <span className="mx-1.5" style={{ color: STAGE.line }}>·</span>
-              Interactive:{" "}
-              <a
-                href="https://brockui.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:underline decoration-dotted underline-offset-2 transition-colors"
-                style={{ color: STAGE.dim }}
-              >
-                Brock UI
-              </a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </figure>
-  );
+ const c = locale === "en" ? EN : RU;
+ return <figure data-chart-type="process" className="my-10 border-y border-[var(--color-border)] py-6">
+ <figcaption><h3>{c.title}</h3><p className="mt-3 text-[15px] leading-relaxed">{locale === "en" ? "Two paths for a seller’s revenue: a settlement account at Kaspi and a daily-yield account in the proposed Freedom model." : "Два пути выручки продавца: расчётный счёт Kaspi и счёт с ежедневным доходом в предлагаемой модели Freedom."}</p></figcaption>
+ <div className="mt-6"><h4 className="mb-4 text-[16px]">{c.kaspiName}</h4><Rank steps={c.kaspiSteps} /></div>
+ <aside className="reading-note"><div className="text-[15px]">{c.depositTitle}</div><p>{c.depositNote}</p></aside>
+ <div className="mt-8"><h4 className="mb-4 text-[16px]">{c.freedomName}</h4><Rank steps={c.freedomSteps} /></div>
+ <p className="mt-6 font-mono text-[12px] leading-relaxed text-[var(--color-dim)]">{c.plaque}</p>
+ <p className="mt-3 font-mono text-[12px] text-[var(--color-dim)]">{c.caption}</p>
+ </figure>;
 }

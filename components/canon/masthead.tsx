@@ -1,3 +1,4 @@
+import { IconlyArrowLeft } from "@/components/iconly-icons";
 import Link from "next/link";
 
 const ARIA_LABEL = "Kasymzhanov — home";
@@ -28,9 +29,9 @@ export function Masthead({
     <Link
       href={href}
       aria-label={ARIA_LABEL}
-      className={`inline-flex items-baseline font-mono ${sizeCls} font-bold uppercase text-[var(--color-text)] no-underline hover:opacity-70 transition-opacity`}
+      className={`inline-flex items-baseline font-mono ${sizeCls} font-medium uppercase text-[var(--color-text)] no-underline hover:opacity-70 transition-opacity`}
     >
-      {back && <span className="mr-2 font-normal not-italic">←</span>}
+      {back && <span className="mr-2 font-normal not-italic"><IconlyArrowLeft size={17} className="reading-inline-icon" /></span>}
       {!surnameOnly && (
         <>
           <span>A</span>

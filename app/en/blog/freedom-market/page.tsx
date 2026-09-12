@@ -18,7 +18,7 @@ function Src({ href, children }: { href: string; children: React.ReactNode }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors"
+      className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors"
     >
       {children}
     </a>
@@ -51,16 +51,16 @@ function ChartSlot({
       id={`grafik-${n}`}
       data-chart-slot={n}
       data-chart-type={type}
-      className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-5 md:p-7"
+      className="research-figure"
     >
       <figcaption className="mb-5">
-        <span className="block text-[15px] font-bold text-[var(--color-text)] leading-snug">{title}</span>
+        <span className="block text-[15px] font-medium text-[var(--color-text)] leading-snug">{title}</span>
       </figcaption>
       <div data-chart-canvas>{children}</div>
       {note && (
-        <p className="font-mono text-[11.5px] italic text-[var(--color-dim)] mt-4 leading-relaxed">{note}</p>
+        <p className="font-mono text-[12px] italic text-[var(--color-dim)] mt-4 leading-relaxed">{note}</p>
       )}
-      <p className="font-mono text-[11px] text-[var(--color-dim)] mt-2.5 leading-relaxed">
+      <p className="font-mono text-[12px] text-[var(--color-dim)] mt-2.5 leading-relaxed">
         {caption}
         <span className="text-[var(--color-border)] mx-1.5">·</span>
         {brock}:{" "}
@@ -68,7 +68,7 @@ function ChartSlot({
           href="https://brockui.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[var(--color-dim)] hover:text-[var(--brock-accent)] hover:underline decoration-dotted underline-offset-2 transition-colors"
+          className="text-[var(--color-dim)] hover:text-[var(--brock-accent)]    transition-colors"
         >
           Brock UI
         </a>
@@ -81,7 +81,7 @@ function P({ children, className = "" }: { children: React.ReactNode; className?
   return <p className={`text-[15px] text-[var(--color-dim)] leading-[1.8] ${className}`}>{children}</p>;
 }
 function H2({ children }: { children: React.ReactNode }) {
-  return <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">{children}</h2>;
+  return <h2 className="text-[20px] font-normal tracking-tight text-[var(--color-text)] mb-6">{children}</h2>;
 }
 
 /* ═══════════════════════════════════════════════════ */
@@ -115,7 +115,7 @@ export default function FreedomMarketArticleEn() {
     >
         {/* ─── Lead ─── */}
         <div className="mb-12">
-          <p className="font-mono text-[11.5px] italic text-[var(--color-dim)] mb-6">
+          <p className="font-mono text-[12px] italic text-[var(--color-dim)] mb-6">
             Key figures are given in Kazakhstani tenge (₸) and Russian rubles (₽); at publication, $1 ≈ ₸500 ≈ ₽80.
           </p>
           <P className="mb-5">
@@ -708,9 +708,9 @@ export default function FreedomMarketArticleEn() {
         <hr className="border-[var(--color-border)] mb-12" />
 
         {/* ─── Sources ─── */}
-        <div className="mb-12">
-          <h2 className="text-[16px] font-bold tracking-tight text-[var(--color-text)] mb-4">Sources</h2>
-          <p className="font-mono text-[11px] italic text-[var(--color-dim)] mb-4">Russian-language sources are marked; links lead to the originals cited.</p>
+        <div className="reading-panel reading-sources mb-12">
+          <h2 className="text-[16px] font-medium tracking-tight text-[var(--color-text)] mb-4">Sources</h2>
+          <p className="font-mono text-[12px] italic text-[var(--color-dim)] mb-4">Russian-language sources are marked; links lead to the originals cited.</p>
           <ol className="font-mono text-[12px] text-[var(--color-dim)] leading-[1.7] space-y-3 list-decimal list-inside marker:text-[var(--color-border)]">
             <li>Teez to settle debts to sellers after the fintech deal - <Src href="https://exclusive.kz/teez-vyplatit-dolgi-prodavcam-posle-sdelki-s-finteh-partnerom/">Exclusive.kz</Src>, 19.02.2026 (in Russian).</li>
             <li>Teez: the first Kazakh marketplace with free next-day delivery - <Src href="https://forbes.kz/articles/teez-pervyy-kazahstanskiy-marketpleys-s-besplatnoy-dostavkoy-za-odin-den-4f04aa">Forbes Kazakhstan</Src>, June 2024 (in Russian).</li>

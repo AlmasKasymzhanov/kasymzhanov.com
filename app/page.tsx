@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { PublicationHome } from "@/components/publication-home";
+import { PersonalHome } from "@/components/personal-home";
 
 export const metadata: Metadata = {
-  title: "Kasymzhanov — дата-медиа о рынках, экономике и технологиях",
+  title: "Алмас Касымжанов · личный сайт",
   description:
-    "Расследования, аналитика и дата-журналистика, которую можно проверить по цифрам. Автор — Алмас Касымжанов, дата-журналист, аналитик и предприниматель.",
+    "Я строю продукты и пишу о маркетплейсах, технологиях, бизнесе и исследованиях рынков.",
   alternates: {
     canonical: "/",
     languages: { "ru-RU": "/", "en-US": "/en", "x-default": "/" },
@@ -14,5 +14,5 @@ export const metadata: Metadata = {
 export const revalidate = 120;
 
 export default function Home() {
-  return <PublicationHome locale="ru" />;
+  return <PersonalHome locale="ru" />;
 }

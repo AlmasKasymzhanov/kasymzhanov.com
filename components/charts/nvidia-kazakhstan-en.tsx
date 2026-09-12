@@ -65,7 +65,7 @@ export function Grafik1() {
       barRadius={2}
       labelWidth={150}
       xAxis={{ max: 13.5 }}
-      slots={{ tooltip: () => null }}
+
       formatLabel={labelTip}
       labelInteractive={hasTip}
       data={[
@@ -94,7 +94,7 @@ export function Grafik2() {
       ]}
       referenceLine={{ value: 1000, label: '"Valley" demand — 1 GW' }}
       yAxis={{ max: 10000 }}
-      slots={{ tooltip: () => null }}
+
       formatValue={(v: number) => `${num(v)} MW`}
     />
   );
@@ -109,7 +109,7 @@ export function Grafik3() {
       barRadius={2}
       labelWidth={210}
       xAxis={{ max: 1500 }}
-      slots={{ tooltip: () => null }}
+
       formatLabel={labelTip}
       labelInteractive={hasTip}
       data={[
@@ -166,7 +166,7 @@ export function Grafik5() {
       barRadius={2}
       labelWidth={190}
       xAxis={{ max: 56 }}
-      slots={{ tooltip: () => null }}
+
       formatLabel={labelTip}
       labelInteractive={hasTip}
       data={[
@@ -236,7 +236,7 @@ export function Grafik7() {
       barRadius={2}
       labelWidth={215}
       xAxis={{ max: 760 }}
-      slots={{ tooltip: () => null }}
+
       formatLabel={labelTip}
       labelInteractive={hasTip}
       data={[
@@ -260,7 +260,7 @@ export function Grafik8() {
       barRadius={2}
       labelWidth={120}
       xAxis={{ max: 82 }}
-      slots={{ tooltip: () => null }}
+
       formatLabel={labelTip}
       labelInteractive={hasTip}
       data={[

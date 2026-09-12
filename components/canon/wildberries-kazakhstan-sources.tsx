@@ -516,7 +516,7 @@ export function Cite({ n }: { n: number }) {
       n={n}
       tip={
         <>
-          <span className="font-bold text-[var(--color-text)]">{source.publication}</span>
+          <span className="font-medium text-[var(--color-text)]">{source.publication}</span>
           {` · ${source.date}. ${source.claim}`}
           <span className="mt-1 block text-[10px]">
             {source.links.length > 0
@@ -530,11 +530,11 @@ export function Cite({ n }: { n: number }) {
 }
 
 export function SourcesList() {
-  const linkClass = "underline decoration-solid underline-offset-2 hover:text-[var(--color-text)]";
+  const linkClass = "underline decoration-solid  hover:text-[var(--color-text)]";
 
   return (
-    <section className="mb-12" aria-labelledby="article-sources-heading">
-      <h2 id="article-sources-heading" className="mb-6 text-[20px] font-bold tracking-tight text-[var(--color-text)]">
+    <section className="reading-panel reading-sources mb-12" aria-labelledby="article-sources-heading">
+      <h2 id="article-sources-heading" className="mb-6 text-[20px] font-medium tracking-tight text-[var(--color-text)]">
         Источники
       </h2>
       <ol className="list-decimal space-y-3 pl-5 text-[12px] leading-relaxed text-[var(--color-dim)] marker:font-mono marker:text-[var(--color-text)]">

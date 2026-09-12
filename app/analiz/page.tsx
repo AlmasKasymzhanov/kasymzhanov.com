@@ -1,4 +1,5 @@
 "use client";
+import { ResearchFact } from "@/components/canon/research-editorial";
 
 import { Masthead } from "@/components/canon/masthead";
 import { MetaLabel } from "@/components/canon/meta-label";
@@ -10,7 +11,7 @@ import { BarChart } from "@/components/charts/bar-chart";
    Юнит-экономики намеренно нет — она считается после ответов клиента по налогам,
    тарифу карго и кодам ТН ВЭД. */
 
-const ACCENT = "#f54900";
+const ACCENT = "var(--personal-text)";
 
 const MONTHS = [
   "июл 25", "авг 25", "сен 25", "окт 25", "ноя 25", "дек 25",
@@ -34,7 +35,7 @@ function SectionHead({ n, label, title }: { n: string; label: string; title: Rea
   return (
     <header className="mt-16 mb-6">
       <MetaLabel items={[`Раздел ${n}`, label]} className="mb-3" />
-      <h2 className="text-[22px] md:text-[26px] font-bold tracking-tight leading-[1.2]">{title}</h2>
+      <h2 className="text-[22px] md:text-[26px] font-normal tracking-tight leading-[1.2]">{title}</h2>
     </header>
   );
 }
@@ -94,7 +95,7 @@ function PartBreak({ n, title, lead }: { n: string; title: string; lead: string 
       <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--color-brand)] mb-3">
         Часть {n}
       </p>
-      <h2 className="text-[26px] sm:text-[32px] font-bold leading-tight tracking-tight mb-4">
+      <h2 className="text-[26px] sm:text-[32px] font-normal leading-tight tracking-tight mb-4">
         {title}
       </h2>
       <p className="text-[14.5px] leading-relaxed text-[var(--color-dim)] max-w-[62ch]">
@@ -217,24 +218,7 @@ function StatStrip() {
     { k: "Лидер по росту", num: "×18", unit: "", d: "тенты автомобильные, в штуках" },
     { k: "Период данных", num: "12", unit: "мес", d: "июль 2025 — июнь 2026" },
   ];
-  return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 border-t border-l border-[var(--color-border)] my-8 sm:my-10">
-      {stats.map((s) => (
-        <div key={s.k} className="border-r border-b border-[var(--color-border)] p-3 sm:p-4">
-          <p className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.12em] sm:tracking-[0.14em] text-[var(--color-dim)] mb-2 leading-snug text-balance">
-            {s.k}
-          </p>
-          <p className="font-mono text-[16px] sm:text-[18px] md:text-[19px] font-bold tabular-nums leading-tight">
-            <span className="whitespace-nowrap">{s.num}</span>
-            {s.unit && <span className="whitespace-nowrap"> {s.unit}</span>}
-          </p>
-          <p className="font-mono text-[10px] sm:text-[11px] text-[var(--color-dim)] mt-1.5 sm:mt-2 leading-snug">
-            {s.d}
-          </p>
-        </div>
-      ))}
-    </div>
-  );
+  return <div className="research-facts">{stats.map(s => <ResearchFact key={s.k} label={s.k} value={`${s.num}${s.unit ? ` ${s.unit}` : ""}`} note={s.d} />)}</div>;
 }
 
 /* ───── Врезка ───── */
@@ -251,7 +235,7 @@ function Callout({ title, children }: { title: string; children: React.ReactNode
 /* ───── Графики ───── */
 function TentsChart() {
   return (
-    <figure className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-3 sm:p-5">
+    <figure className="my-8   border-[var(--color-border)]  p-3 ">
       <LineChart
         height={260}
         accent={ACCENT}
@@ -284,7 +268,7 @@ function TentsChart() {
 
 function VfdChart() {
   return (
-    <figure className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-3 sm:p-5">
+    <figure className="my-8   border-[var(--color-border)]  p-3 ">
       <LineChart
         height={260}
         accent={ACCENT}
@@ -317,7 +301,7 @@ function VfdChart() {
 
 function GrowthBarChart() {
   return (
-    <figure className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-3 sm:p-5">
+    <figure className="my-8   border-[var(--color-border)]  p-3 ">
       <BarChart
         accent={ACCENT}
         barRadius={2}
@@ -347,7 +331,7 @@ function GrowthBarChart() {
 
 export default function NicheReport() {
   return (
-    <div className="font-mono text-[var(--color-text)]">
+    <div className="reading-body text-[var(--color-text)]">
       <div className="max-w-[1400px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">
         {/* Узкая клиентская шапка: только masthead, без навигации сайта */}
         <header className="flex items-center justify-between gap-3 px-4 sm:px-6 py-4 border-b border-[var(--color-border)]">
@@ -359,7 +343,7 @@ export default function NicheReport() {
 
         <article className="w-full max-w-[680px] mx-auto px-4 sm:px-6 py-10 sm:py-12 md:py-16 flex-1">
           <MetaLabel items={["Июль 2026", "Клиентский отчёт", "Wildberries РФ"]} className="mb-5" />
-          <h1 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-[1.15] mb-5">
+          <h1 className="text-[28px] md:text-[36px] font-normal tracking-tight leading-[1.15] mb-5">
             Отбор ниш для Wildberries: 7 из 7 545
           </h1>
           <p className="text-[14px] md:text-[15px] text-[var(--color-dim)] leading-relaxed">
@@ -713,7 +697,7 @@ export default function NicheReport() {
                 key={n.name}
                 className="border-l-2 border-[var(--color-border)] pl-4"
               >
-                <p className="font-mono text-[13px] font-bold mb-1">
+                <p className="font-mono text-[13px] font-normal mb-1">
                   {n.name}
                   {n.flag && (
                     <span className="ml-2 font-normal text-[11px] text-[#f54900]">

@@ -1,15 +1,16 @@
 "use client";
+import { IconlyChevronDown } from "@/components/iconly-icons";
+import { ChartTooltipPortal as FloatingTooltip, useTooltipHover } from "./chart-tooltip";
 
 import {
   useEffect,
-  useLayoutEffect,
   useRef,
   useState,
   type KeyboardEvent as ReactKeyboardEvent,
   type PointerEvent as ReactPointerEvent,
   type ReactNode,
 } from "react";
-import { createPortal } from "react-dom";
+
 import { Fn } from "@/components/canon/term";
 import RAW from "@/lib/data/world-cup-final-money-simple.json";
 
@@ -57,78 +58,7 @@ const THREE_NUMBERS = DATA.charts[0];
 const CONTRACT = DATA.charts[1];
 const PUBLIC_RESULTS = DATA.charts[2];
 
-function FloatingTooltip({
-  id,
-  anchor,
-  children,
-}: {
-  id: string;
-  anchor: Element | null;
-  children: ReactNode;
-}) {
-  const tooltipRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState(false);
-  const [position, setPosition] = useState<{ left: number; top: number; visible: boolean } | null>(null);
 
-  useEffect(() => setMounted(true), []);
-
-  useLayoutEffect(() => {
-    if (!mounted || !anchor) {
-      setPosition(null);
-      return;
-    }
-
-    const place = () => {
-      const tooltip = tooltipRef.current;
-      if (!tooltip) return;
-      const anchorRect = anchor.getBoundingClientRect();
-      const tooltipRect = tooltip.getBoundingClientRect();
-      const margin = 12;
-      const gap = 10;
-      const centered = anchorRect.left + anchorRect.width / 2 - tooltipRect.width / 2;
-      const left = Math.max(margin, Math.min(centered, window.innerWidth - margin - tooltipRect.width));
-      const above = anchorRect.top - tooltipRect.height - gap;
-      let top = above >= margin ? above : anchorRect.bottom + gap;
-      if (top + tooltipRect.height > window.innerHeight - margin) {
-        top = Math.max(margin, window.innerHeight - margin - tooltipRect.height);
-      }
-      setPosition({
-        left,
-        top,
-        visible: anchorRect.bottom > 0 && anchorRect.top < window.innerHeight,
-      });
-    };
-
-    place();
-    window.addEventListener("resize", place);
-    window.addEventListener("scroll", place, true);
-    return () => {
-      window.removeEventListener("resize", place);
-      window.removeEventListener("scroll", place, true);
-    };
-  }, [anchor, mounted]);
-
-  if (!mounted || !anchor) return null;
-  return createPortal(
-    <div
-      ref={tooltipRef}
-      id={id}
-      role="tooltip"
-      style={{
-        position: "fixed",
-        left: position?.left ?? 12,
-        top: position?.top ?? 12,
-        width: "min(380px, calc(100vw - 24px))",
-        visibility: position?.visible ? "visible" : "hidden",
-        zIndex: 80,
-      }}
-      className="pointer-events-none rounded-[3px] border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-3 font-mono text-[10.5px] leading-relaxed text-[var(--color-text)] shadow-xl [overflow-wrap:anywhere]"
-    >
-      {children}
-    </div>,
-    document.body,
-  );
-}
 
 type MarkState = { index: number; anchor: SVGGElement };
 
@@ -136,6 +66,7 @@ function useInteractiveMarks(rootRef: React.RefObject<HTMLDivElement | null>) {
   const [active, setActive] = useState<MarkState | null>(null);
   const [pinned, setPinned] = useState<MarkState | null>(null);
   const shown = pinned ?? active;
+  const hover = useTooltipHover(() => setActive(null));
 
   useEffect(() => {
     if (!pinned) return;
@@ -164,11 +95,11 @@ function useInteractiveMarks(rootRef: React.RefObject<HTMLDivElement | null>) {
     tabIndex: 0,
     "aria-label": label,
     "aria-pressed": pinned?.index === index,
-    onPointerEnter: (event: ReactPointerEvent<SVGGElement>) => {
+    onPointerEnter: (event: ReactPointerEvent<SVGGElement>) => { hover.keep();
       if (event.pointerType === "mouse") setActive({ index, anchor: event.currentTarget });
     },
     onPointerLeave: (event: ReactPointerEvent<SVGGElement>) => {
-      if (event.pointerType === "mouse") setActive((current) => current?.index === index ? null : current);
+      if (event.pointerType === "mouse") hover.leave();
     },
     onFocus: (event: React.FocusEvent<SVGGElement>) => setActive({ index, anchor: event.currentTarget }),
     onBlur: () => setActive((current) => current?.index === index ? null : current),
@@ -188,6 +119,7 @@ function useInteractiveMarks(rootRef: React.RefObject<HTMLDivElement | null>) {
     shown,
     pinned,
     markProps,
+    hover,
     close: () => {
       setPinned(null);
       setActive(null);
@@ -198,11 +130,11 @@ function useInteractiveMarks(rootRef: React.RefObject<HTMLDivElement | null>) {
 function DataTable({ headers, rows }: { headers: string[]; rows: ReactNode[][] }) {
   return (
     <div className="mt-3 overflow-x-auto">
-      <table className="w-full min-w-[560px] border-collapse text-left font-mono text-[10px] leading-relaxed">
+      <table className="w-full min-w-[560px] border-collapse text-left font-mono text-[12px] leading-relaxed">
         <thead>
           <tr>
             {headers.map((header) => (
-              <th key={header} scope="col" className="border-b border-[var(--color-border)] px-2 py-2 font-bold text-[var(--color-text)]">
+              <th key={header} scope="col" className="border-b border-[var(--color-border)] px-2 py-2 font-medium text-[var(--color-text)]">
                 {header}
               </th>
             ))}
@@ -243,133 +175,26 @@ function ChartShell({
     <section
       id={id}
       data-chart-renderer="interactive-svg"
-      className="relative left-1/2 my-9 w-[calc(100vw-2rem)] max-w-[920px] -translate-x-1/2 rounded-[3px] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 sm:p-6"
+      className="research-figure w-full min-w-0"
       aria-labelledby={`${id}-title`}
     >
       <header className="mb-6">
-        <h3 id={`${id}-title`} className="text-[17px] font-bold leading-snug text-[var(--color-text)] sm:text-[19px]">
+        <h3 id={`${id}-title`} className="text-[17px] font-medium leading-snug text-[var(--color-text)] sm:text-[19px]">
           {title}
         </h3>
-        <p className="mt-2 font-mono text-[10.5px] leading-relaxed text-[var(--color-dim)] sm:text-[11px]">{subtitle}</p>
+        <p className="mt-2 font-mono text-[12px] leading-relaxed text-[var(--color-dim)] sm:text-[12px]">{subtitle}</p>
       </header>
       {children}
-      <p className="mt-4 font-mono text-[10.5px] leading-relaxed text-[var(--color-dim)]">{caption}</p>
+      <p className="mt-4 font-mono text-[12px] leading-relaxed text-[var(--color-dim)]">{caption}</p>
       <details className="mt-4 border-t border-[var(--color-border)] pt-3">
-        <summary className="cursor-pointer font-mono text-[10px] font-bold uppercase tracking-[0.08em] text-[var(--color-text)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-brand)]">
-          Данные графика
-        </summary>
+        <summary className="reading-disclosure"><span>Данные графика</span><IconlyChevronDown size={17} /></summary>
         {table}
       </details>
     </section>
   );
 }
 
-const CARD_LINES = [
-  ["сумма всех сделок", "по рынкам, связанным", "с финалом"],
-  ["пакет выплат FIFA", "48 сборным"],
-  ["выплата испанской", "федерации за победу"],
-] as const;
-
-function ThreeNumbersSvg({
-  mobile,
-  markProps,
-  tooltipId,
-  shownIndex,
-}: {
-  mobile: boolean;
-  markProps: ReturnType<typeof useInteractiveMarks>["markProps"];
-  tooltipId: string;
-  shownIndex: number | null;
-}) {
-  const width = mobile ? 320 : 720;
-  const height = mobile ? 522 : 270;
-  const cardWidth = mobile ? 320 : 232;
-  const cardHeight = mobile ? 158 : 250;
-  return (
-    <svg
-      viewBox={`0 0 ${width} ${height}`}
-      className={mobile ? "block h-auto w-full sm:hidden" : "hidden h-auto w-full sm:block"}
-      role="img"
-      aria-labelledby={`three-numbers-svg-title-${mobile ? "mobile" : "desktop"}`}
-    >
-      <title id={`three-numbers-svg-title-${mobile ? "mobile" : "desktop"}`}>Три разные денежные метрики без общей количественной шкалы</title>
-      {THREE_NUMBERS.items.map((item, index) => {
-        const x = mobile ? 0 : index * 244;
-        const y = mobile ? index * 174 : 0;
-        const label = `${item.display}. ${item.label}. ${item.note}. Источник: ${item.source}`;
-        return (
-          <g
-            key={item.display}
-            {...markProps(index, label)}
-            aria-describedby={shownIndex === index ? tooltipId : undefined}
-            className="group cursor-pointer focus:outline-none"
-          >
-            <rect
-              x={x + 1}
-              y={y + 1}
-              width={cardWidth - 2}
-              height={cardHeight - 2}
-              rx="4"
-              fill="var(--color-bg)"
-              stroke="var(--color-border)"
-              strokeWidth="1.5"
-              className="transition-colors group-hover:stroke-[var(--color-brand)] group-focus-visible:stroke-[var(--color-brand)]"
-            />
-            <text x={x + 18} y={y + 45} fill={index === 0 ? "var(--color-brand)" : "var(--color-text)"} fontSize={mobile ? 26 : 24} fontWeight="700">
-              {item.display}
-            </text>
-            <text x={x + 18} y={y + 92} fill="var(--color-text)" fontSize={mobile ? 13 : 12} fontWeight="700">
-              {CARD_LINES[index].map((line, lineIndex) => (
-                <tspan key={line} x={x + 18} dy={lineIndex === 0 ? 0 : 18}>{line}</tspan>
-              ))}
-            </text>
-            <text x={x + 18} y={y + (mobile ? 141 : 222)} fill="var(--color-dim)" fontSize={mobile ? 10 : 9.5}>
-              {item.note}
-            </text>
-          </g>
-        );
-      })}
-    </svg>
-  );
-}
-
-export function ThreeNumbersChart() {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const interaction = useInteractiveMarks(rootRef);
-  const shownIndex = interaction.shown?.index ?? null;
-  const shown = shownIndex === null ? null : THREE_NUMBERS.items[shownIndex];
-  const tooltipId = "three-numbers-tooltip";
-  return (
-    <ChartShell
-      id="three-numbers"
-      title={THREE_NUMBERS.title}
-      subtitle="Их можно поставить рядом, но нельзя сравнивать как один и тот же показатель"
-      caption="Источники: Fortune; FIFA Council; Associated Press. Карточки намеренно не используют общую количественную шкалу: оборот и выплаты отвечают на разные вопросы."
-      table={<DataTable headers={["Сумма", "Что означает", "Оговорка", "Источник"]} rows={THREE_NUMBERS.items.map((item) => [item.display, item.label, item.note, item.source])} />}
-    >
-      <div ref={rootRef} role="group" aria-label="Три карточки с несопоставимыми денежными метриками">
-        <ThreeNumbersSvg mobile markProps={interaction.markProps} tooltipId={tooltipId} shownIndex={shownIndex} />
-        <ThreeNumbersSvg mobile={false} markProps={interaction.markProps} tooltipId={tooltipId} shownIndex={shownIndex} />
-        <p className="mt-3 font-mono text-[9.5px] leading-relaxed text-[var(--color-dim)]">
-          Наведите или сфокусируйте карточку. На сенсорном экране нажмите, чтобы закрепить подсказку.
-        </p>
-        {interaction.pinned && (
-          <button type="button" onClick={interaction.close} className="mt-2 rounded-[3px] border border-[var(--color-border)] px-2 py-1 font-mono text-[10px] text-[var(--color-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand)]">
-            Закрыть подсказку
-          </button>
-        )}
-        {shown && (
-          <FloatingTooltip id={tooltipId} anchor={interaction.shown?.anchor ?? null}>
-            <p className="font-bold">{shown.display}</p>
-            <p className="mt-1 text-[var(--color-dim)]">{shown.label}</p>
-            <p className="mt-1">{shown.note}</p>
-            <p className="mt-2 text-[var(--color-dim)]">Источник: {shown.source}</p>
-          </FloatingTooltip>
-        )}
-      </div>
-    </ChartShell>
-  );
-}
+export function ThreeNumbersChart() { return <section id="three-numbers" className="research-note"><h3>{THREE_NUMBERS.title}</h3><p className="text-[14px] text-[var(--personal-muted)]">Оборот и выплаты отвечают на разные вопросы. Эти суммы нельзя сравнивать по общей шкале.</p><DataTable headers={["Сумма", "Что означает", "Оговорка", "Источник"]} rows={THREE_NUMBERS.items.map(item => [item.display, item.label, item.note, item.source])} /></section>; }
 
 const CONTRACT_STEPS = [
   { title: "Покупка", lines: ["Контракт стоит", "$0,59"] },
@@ -408,9 +233,9 @@ export function ContractFlowChart() {
             const label = `${index + 1}. ${step.title}. ${tooltipCopy[index]}`;
             return (
               <g key={step.title} {...interaction.markProps(index, label)} aria-describedby={shownIndex === index ? tooltipId : undefined} className="group cursor-pointer focus:outline-none">
-                <rect x="25" y={y} width="310" height="96" rx="4" fill="var(--color-bg)" stroke="var(--color-border)" strokeWidth="1.5" className="transition-colors group-hover:stroke-[var(--color-brand)] group-focus-visible:stroke-[var(--color-brand)]" />
-                <text x="45" y={y + 25} fill="var(--color-brand)" fontSize="11" fontWeight="700">0{index + 1}</text>
-                <text x="45" y={y + 51} fill="var(--color-text)" fontSize="18" fontWeight="700">{step.title}</text>
+                <rect x="25" y={y} width="310" height="96" rx="4" fill="var(--color-bg)" stroke="var(--color-border)" strokeWidth="1.5" className="transition-colors group-hover:stroke-[var(--chart-accent)] group-focus-visible:stroke-[var(--chart-accent)]" />
+                <text x="45" y={y + 25} fill="var(--chart-accent)" fontSize="11" fontWeight="500">0{index + 1}</text>
+                <text x="45" y={y + 51} fill="var(--color-text)" fontSize="18" fontWeight="500">{step.title}</text>
                 <text x="185" y={y + 45} fill="var(--color-dim)" fontSize="14">
                   {step.lines.map((line, lineIndex) => <tspan key={line} x="185" dy={lineIndex === 0 ? 0 : 19}>{line}</tspan>)}
                 </text>
@@ -418,14 +243,14 @@ export function ContractFlowChart() {
               </g>
             );
           })}
-          <text x="25" y="394" fill="var(--color-text)" fontSize="9.5" fontWeight="700">До финала контракт можно перепродать.</text>
+          <text x="25" y="394" fill="var(--color-text)" fontSize="9.5" fontWeight="500">До финала контракт можно перепродать.</text>
           <text x="25" y="408" fill="var(--color-dim)" fontSize="8.5">Каждая сделка увеличивает оборот.</text>
         </svg>
-        <p className="mt-3 font-mono text-[9.5px] leading-relaxed text-[var(--color-dim)]">Наведите, сфокусируйте или нажмите на шаг.</p>
-        {interaction.pinned && <button type="button" onClick={interaction.close} className="mt-2 rounded-[3px] border border-[var(--color-border)] px-2 py-1 font-mono text-[10px] text-[var(--color-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand)]">Закрыть подсказку</button>}
+        <p className="mt-3 font-mono text-[12px] leading-relaxed text-[var(--color-dim)]">Наведите, сфокусируйте или нажмите на шаг.</p>
+        {interaction.pinned && <button type="button" onClick={interaction.close} className="mt-2 rounded-[3px] border border-[var(--color-border)] px-2 py-1 font-mono text-[12px] text-[var(--color-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--chart-accent)]">Закрыть подсказку</button>}
         {shownIndex !== null && (
-          <FloatingTooltip id={tooltipId} anchor={interaction.shown?.anchor ?? null}>
-            <p className="font-bold">Шаг {shownIndex + 1}. {CONTRACT_STEPS[shownIndex].title}</p>
+          <FloatingTooltip onPointerEnter={interaction.hover.keep} onPointerLeave={interaction.hover.leave} id={tooltipId} anchor={interaction.shown?.anchor ?? null}>
+            <p className="font-medium">Шаг {shownIndex + 1}. {CONTRACT_STEPS[shownIndex].title}</p>
             <p className="mt-1 text-[var(--color-dim)]">{tooltipCopy[shownIndex]}</p>
             <p className="mt-2 text-[var(--color-dim)]">Источник: {CONTRACT.source}</p>
           </FloatingTooltip>
@@ -490,15 +315,15 @@ export function PublicResultsChart() {
             const fitsOutside = positive ? end + 6 + valueW <= 316 : end - 6 - valueW >= 4;
             const valueX = fitsOutside ? (positive ? end + 6 : end - 6) : (positive ? end - 6 : end + 6);
             const valueAnchor = positive === fitsOutside ? "start" : "end";
-            const valueFill = fitsOutside ? (positive ? "var(--color-brand)" : "var(--viz-negative)") : "var(--color-bg)";
+            const valueFill = fitsOutside ? (positive ? "var(--chart-accent)" : "var(--viz-negative)") : "var(--color-bg)";
             const label = `${item.account}. ${formatResult(item.result_usd_m)}. ${item.scope}. Источник: ${item.source}`;
             return (
               <g key={item.account} {...interaction.markProps(index, label)} aria-describedby={shownIndex === index ? tooltipId : undefined} className="group cursor-pointer focus:outline-none">
-                <rect x="3" y={y - 22} width="314" height="91" rx="3" fill="transparent" stroke="transparent" className="group-focus-visible:stroke-[var(--color-brand)]" />
-                <text x="8" y={y} fill="var(--color-text)" fontSize="12" fontWeight="700">{item.account}</text>
+                <rect x="3" y={y - 22} width="314" height="91" rx="3" fill="transparent" stroke="transparent" className="group-focus-visible:stroke-[var(--chart-accent)]" />
+                <text x="8" y={y} fill="var(--color-text)" fontSize="12" fontWeight="500">{item.account}</text>
                 <text x="8" y={y + 17} fill="var(--color-dim)" fontSize="8.5">{item.scope}</text>
-                <rect x={x} y={y + 29} width={width} height="24" rx="1.5" fill={positive ? "var(--color-brand)" : "var(--viz-negative)"} className="transition-[filter,opacity] group-hover:brightness-110 group-focus-visible:brightness-110" />
-                <text x={valueX} y={y + 45} textAnchor={valueAnchor} fill={valueFill} fontSize="10" fontWeight="700">{valueText}</text>
+                <rect x={x} y={y + 29} width={width} height="24" rx="1.5" fill={positive ? "var(--chart-accent)" : "var(--viz-negative)"} className="transition-[filter,opacity] group-hover:brightness-110 group-focus-visible:brightness-110" />
+                <text x={valueX} y={y + 45} textAnchor={valueAnchor} fill={valueFill} fontSize="10" fontWeight="500">{valueText}</text>
               </g>
             );
           })}
@@ -529,26 +354,26 @@ export function PublicResultsChart() {
             const fitsOutside = positive ? end + 5 + valueW <= 356 : end - 5 - valueW >= 2;
             const valueX = fitsOutside ? (positive ? end + 5 : end - 5) : (positive ? end - 5 : end + 5);
             const valueAnchor = positive === fitsOutside ? "start" : "end";
-            const valueFill = fitsOutside ? (positive ? "var(--color-brand)" : "var(--viz-negative)") : "var(--color-bg)";
+            const valueFill = fitsOutside ? (positive ? "var(--chart-accent)" : "var(--viz-negative)") : "var(--color-bg)";
             const label = `${item.account}. ${formatResult(item.result_usd_m)}. ${item.scope}. Источник: ${item.source}`;
             return (
               <g key={item.account} {...interaction.markProps(index, label)} aria-describedby={shownIndex === index ? tooltipId : undefined} className="group cursor-pointer focus:outline-none">
-                <rect x="3" y={y - 19} width="353" height="66" rx="3" fill="transparent" stroke="transparent" className="group-focus-visible:stroke-[var(--color-brand)]" />
-                <text x="7" y={y} fill="var(--color-text)" fontSize="10.5" fontWeight="700">{item.account}</text>
+                <rect x="3" y={y - 19} width="353" height="66" rx="3" fill="transparent" stroke="transparent" className="group-focus-visible:stroke-[var(--chart-accent)]" />
+                <text x="7" y={y} fill="var(--color-text)" fontSize="10.5" fontWeight="500">{item.account}</text>
                 <text x="7" y={y + 30} fill="var(--color-dim)" fontSize="8">{item.scope}</text>
-                <rect x={x} y={y - 8} width={width} height="26" rx="1.5" fill={positive ? "var(--color-brand)" : "var(--viz-negative)"} className="transition-[filter,opacity] group-hover:brightness-110 group-focus-visible:brightness-110" />
-                <text x={valueX} y={y + 8} textAnchor={valueAnchor} fill={valueFill} fontSize="9" fontWeight="700">{valueText}</text>
+                <rect x={x} y={y - 8} width={width} height="26" rx="1.5" fill={positive ? "var(--chart-accent)" : "var(--viz-negative)"} className="transition-[filter,opacity] group-hover:brightness-110 group-focus-visible:brightness-110" />
+                <text x={valueX} y={y + 8} textAnchor={valueAnchor} fill={valueFill} fontSize="9" fontWeight="500">{valueText}</text>
               </g>
             );
           })}
           <text x="100" y="415" fill="var(--color-dim)" fontSize="7.5">убыток</text>
           <text x="345" y="415" textAnchor="end" fill="var(--color-dim)" fontSize="7.5">прибыль</text>
         </svg>
-        <p className="mt-3 font-mono text-[9.5px] leading-relaxed text-[var(--color-dim)]">Наведите или сфокусируйте строку. На сенсорном экране нажмите; повторное нажатие, Escape или кнопка ниже закрывает подсказку.</p>
-        {interaction.pinned && <button type="button" onClick={interaction.close} className="mt-2 rounded-[3px] border border-[var(--color-border)] px-2 py-1 font-mono text-[10px] text-[var(--color-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand)]">Закрыть подсказку</button>}
+        <p className="mt-3 font-mono text-[12px] leading-relaxed text-[var(--color-dim)]">Наведите или сфокусируйте строку. На сенсорном экране нажмите; повторное нажатие, Escape или кнопка ниже закрывает подсказку.</p>
+        {interaction.pinned && <button type="button" onClick={interaction.close} className="mt-2 rounded-[3px] border border-[var(--color-border)] px-2 py-1 font-mono text-[12px] text-[var(--color-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--chart-accent)]">Закрыть подсказку</button>}
         {shown && (
-          <FloatingTooltip id={tooltipId} anchor={interaction.shown?.anchor ?? null}>
-            <p className="font-bold">{shown.account} · {formatResult(shown.result_usd_m)}</p>
+          <FloatingTooltip onPointerEnter={interaction.hover.keep} onPointerLeave={interaction.hover.leave} id={tooltipId} anchor={interaction.shown?.anchor ?? null}>
+            <p className="font-medium">{shown.account} · {formatResult(shown.result_usd_m)}</p>
             <p className="mt-1 text-[var(--color-dim)]">{shown.scope}</p>
             <p className="mt-2 text-[var(--color-dim)]">Источник: {shown.source}</p>
           </FloatingTooltip>
@@ -586,18 +411,18 @@ const SOURCES: SourceRef[] = [
 
 export function Cite({ n }: { n: number }) {
   const source = SOURCES.find((item) => item.n === n)!;
-  return <Fn n={n} tip={<><span className="font-bold text-[var(--color-text)]">{source.publication}</span>{source.date ? ` · ${source.date}. ${source.title}` : ` · ${source.title}`}<span className="mt-1 block text-[10px]">Кликабельная ссылка находится в разделе «Источники».</span></>} />;
+  return <Fn n={n} tip={<><span className="font-medium text-[var(--color-text)]">{source.publication}</span>{source.date ? ` · ${source.date}. ${source.title}` : ` · ${source.title}`}<span className="mt-1 block text-[12px]">Кликабельная ссылка находится в разделе «Источники».</span></>} />;
 }
 
 export function SourcesList() {
   return (
     <section className="mb-12" aria-labelledby="article-sources-heading">
-      <h2 id="article-sources-heading" className="mb-6 text-[20px] font-bold tracking-tight text-[var(--color-text)]">Источники</h2>
+      <h2 id="article-sources-heading" className="mb-6 text-[20px] font-medium tracking-tight text-[var(--color-text)]">Источники</h2>
       <ol className="list-decimal space-y-3 pl-5 text-[12px] leading-relaxed text-[var(--color-dim)] marker:font-mono marker:text-[var(--color-text)]">
         {SOURCES.map((source) => (
           <li key={source.n} id={`source-${source.n}`}>
-            <span className="font-bold text-[var(--color-text)]">{source.publication}</span>{` · ${source.title}${source.date ? `, ${source.date}` : ""} - `}
-            {source.hrefs.map((link, index) => <span key={link.href}>{index > 0 && "; "}<a href={link.href} target="_blank" rel="noopener noreferrer" className="underline decoration-solid underline-offset-2 hover:text-[var(--color-text)]">{link.label}</a></span>)}
+            <span className="font-medium text-[var(--color-text)]">{source.publication}</span>{` · ${source.title}${source.date ? `, ${source.date}` : ""} - `}
+            {source.hrefs.map((link, index) => <span key={link.href}>{index > 0 && "; "}<a href={link.href} target="_blank" rel="noopener noreferrer" className="underline decoration-solid  hover:text-[var(--color-text)]">{link.label}</a></span>)}
           </li>
         ))}
       </ol>

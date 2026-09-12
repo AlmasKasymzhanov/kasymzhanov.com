@@ -1,3 +1,4 @@
+import { IconlyArrowRight } from "@/components/iconly-icons";
 import Image from "next/image";
 import { ArticleHeader } from "@/components/canon/article-header";
 import { ArticleLayout } from "@/components/canon/article-layout";
@@ -19,7 +20,7 @@ function Src({ href, children }: { href: string; children: React.ReactNode }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors"
+      className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors"
     >
       {children}
     </a>
@@ -28,14 +29,7 @@ function Src({ href, children }: { href: string; children: React.ReactNode }) {
 
 const Dot = () => <span className="text-[var(--color-border)] mx-1.5">·</span>;
 
-function IconlyArrowRight({ className = "w-3.5 h-3.5" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M14.43 5.93L20.5 12L14.43 18.07" />
-      <path d="M3.5 12H20.33" />
-    </svg>
-  );
-}
+
 
 function ChartSlot({
   n,
@@ -57,16 +51,16 @@ function ChartSlot({
       id={`grafik-${n}`}
       data-chart-slot={n}
       data-chart-type={type}
-      className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-5"
+      className="research-figure"
     >
       <figcaption className="mb-4">
-        <span className="block text-[15px] font-bold text-[var(--color-text)] leading-snug">{title}</span>
+        <span className="block text-[15px] font-medium text-[var(--color-text)] leading-snug">{title}</span>
       </figcaption>
       <div data-chart-canvas>{children}</div>
       {note && (
-        <p className="font-mono text-[10px] italic text-[var(--color-dim)]/70 mt-3 leading-relaxed">{note}</p>
+        <p className="font-mono text-[12px] italic text-[var(--color-dim)]/70 mt-3 leading-relaxed">{note}</p>
       )}
-      <p className="font-mono text-[11px] text-[var(--color-dim)] mt-2 leading-relaxed">
+      <p className="font-mono text-[12px] text-[var(--color-dim)] mt-2 leading-relaxed">
         {caption}
         <span className="text-[var(--color-border)] mx-1.5">·</span>
         Charts:{" "}
@@ -74,7 +68,7 @@ function ChartSlot({
           href="https://brockui.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[var(--color-dim)] hover:text-[var(--brock-accent)] hover:underline decoration-dotted underline-offset-2 transition-colors"
+          className="text-[var(--color-dim)] hover:text-[var(--brock-accent)]    transition-colors"
         >
           Brock UI
         </a>
@@ -87,7 +81,7 @@ function P({ children, className = "" }: { children: React.ReactNode; className?
   return <p className={`text-[15px] text-[var(--color-dim)] leading-[1.8] ${className}`}>{children}</p>;
 }
 function H2({ children }: { children: React.ReactNode }) {
-  return <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">{children}</h2>;
+  return <h2 className="text-[20px] font-normal tracking-tight text-[var(--color-text)] mb-6">{children}</h2>;
 }
 
 /* ═══════════════════════════════════════════════════ */
@@ -273,7 +267,7 @@ export default function SiliconOnCoalArticle() {
                     href="https://10b.kz"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-2.5 inline-flex items-center gap-1.5 rounded-[3px] bg-[var(--color-brand)] text-[var(--color-bg)] px-2.5 py-1 text-[11px] font-medium hover:opacity-90 transition-opacity"
+                    className="mt-2.5 inline-flex items-center gap-1.5 rounded-[3px] bg-[var(--color-brand)] text-[var(--color-bg)] px-2.5 py-1 text-[12px] font-medium hover:opacity-90 transition-opacity"
                   >
                     Open 10b.kz
                     <IconlyArrowRight className="w-3.5 h-3.5" />
@@ -505,7 +499,7 @@ export default function SiliconOnCoalArticle() {
             On June 22, 2026, a week after the Astana signing, TIME ran on its cover the words &quot;The AI Frontier - inside the global race to power the future.&quot; The photo isn&apos;t the steppe. It&apos;s a snowbound construction site in a Norwegian fjord, above the Arctic Circle. The town of Narvik, an old port, twenty thousand people. There the company Nscale and Norway&apos;s Aker are building one of Europe&apos;s largest AI clusters - exactly the race Ekibastuz just entered. With one difference that changes everything.
           </P>
 
-          <figure className="my-8 border border-[var(--color-border)] rounded-[3px] overflow-hidden max-w-[460px] mx-auto">
+          <figure className="research-figure">
             <Image
               src="/blog/nvidia-kazakhstan/time-cover.webp"
               alt="TIME cover, June 22, 2026 — 'The AI Frontier', the snowbound Nscale data center build in Narvik"
@@ -513,11 +507,11 @@ export default function SiliconOnCoalArticle() {
               height={1599}
               className="w-full h-auto"
             />
-            <figcaption className="font-mono text-[11px] text-[var(--color-dim)] text-left px-4 py-2.5 leading-relaxed">
+            <figcaption className="font-mono text-[12px] text-[var(--color-dim)] text-left px-4 py-2.5 leading-relaxed">
               TIME cover, June 22, 2026
               <Dot />
               Nscale data center, Narvik, Norway
-              <Dot />© TIME
+              <Dot /> TIME
             </figcaption>
           </figure>
 
@@ -608,12 +602,12 @@ export default function SiliconOnCoalArticle() {
         <hr className="border-[var(--color-border)] mb-12" />
 
         {/* ─── Sources ─── */}
-        <div className="mb-12">
-          <h2 className="text-[16px] font-bold tracking-tight text-[var(--color-text)] mb-2">Sources</h2>
-          <p className="font-mono text-[11px] text-[var(--color-dim)]/70 italic mb-5 leading-relaxed">
+        <div className="reading-panel reading-sources mb-12">
+          <h2 className="text-[16px] font-medium tracking-tight text-[var(--color-text)] mb-2">Sources</h2>
+          <p className="font-mono text-[12px] text-[var(--color-dim)]/70 italic mb-5 leading-relaxed">
             A consolidated list by topic. Granular direct links for each fact are in the two research dossiers behind this piece; below are the key primary sources, grouped by section.
           </p>
-          <div className="font-mono text-[11px] text-[var(--color-dim)]/80 leading-relaxed space-y-4">
+          <div className="font-mono text-[12px] text-[var(--color-dim)]/80 leading-relaxed space-y-4">
             <div>
               <p className="text-[var(--color-dim)] mb-1">The deal (Section I)</p>
               <ol className="list-decimal list-inside space-y-1 marker:text-[var(--color-border)]">
@@ -675,7 +669,7 @@ export default function SiliconOnCoalArticle() {
 
         {/* ─── Footnotes ─── */}
         <div className="mb-12">
-          <h2 className="text-[16px] font-bold tracking-tight text-[var(--color-text)] mb-4">Footnotes: term explanations</h2>
+          <h2 className="text-[16px] font-medium tracking-tight text-[var(--color-text)] mb-4">Footnotes: term explanations</h2>
           <ol className="font-mono text-[12px] text-[var(--color-dim)] leading-[1.7] space-y-3">
             <li id="fn-1"><span className="text-[var(--color-text)]">1. Term sheet</span> - a document of preliminary deal terms. It records intent and key parameters but doesn&apos;t itself obligate anyone to build and doesn&apos;t guarantee money; real obligations come later, in full contracts.</li>
             <li id="fn-2"><span className="text-[var(--color-text)]">2. Stealth (stealth mode)</span> - when a startup deliberately operates in secret, revealing neither its product nor its investors, sometimes not even the fact that it exists. To &quot;come out of stealth&quot; is to go public for the first time. Firebird emerged from stealth already attached to a $500 million project, so it had almost no public track record or reputation by the time of the deal.</li>

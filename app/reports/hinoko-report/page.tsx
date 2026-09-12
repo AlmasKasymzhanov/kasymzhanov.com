@@ -1,4 +1,9 @@
 "use client";
+import { IconlyArrowLeft, IconlyArrowRight } from "@/components/iconly-icons";
+import { ResearchSection, ResearchFact, ResearchNote, ResearchFigure } from "@/components/canon/research-editorial";
+import { ResearchReadingTime } from "@/components/canon/research-reading-time";
+
+import { ResearchTooltip, type ResearchTooltipProps } from "@/components/charts/research-tooltip";
 
 import {
   LineChart, BarChart, Bar, Line, XAxis, YAxis, CartesianGrid,
@@ -14,24 +19,24 @@ import {
 
 /* ─────────────────────────── design tokens ──────────────────────────── */
 const C = {
-  bg: "#0a0a0a",
-  surface: "#111111",
-  surfaceAlt: "#161616",
-  surfaceHi: "#1a1a1a",
-  border: "#1f1f1f",
-  borderStrong: "#2e2e2e",
-  text: "#ededed",
-  textDim: "#a3a3a3",
-  textFaint: "#666666",
-  accent: "#2a82ff",       // Geist blue (dark mode)
-  accentSoft: "#1e3a66",
-  good: "#00c781",
-  mid: "#f7b955",
-  bad: "#ff4444",
+  bg: "var(--personal-paper)",
+  surface: "var(--report-surface)",
+  surfaceAlt: "var(--report-surface)",
+  surfaceHi: "var(--report-surface)",
+  border: "var(--personal-border)",
+  borderStrong: "var(--personal-border)",
+  text: "var(--personal-text)",
+  textDim: "var(--personal-muted)",
+  textFaint: "var(--personal-muted)",
+  accent: "var(--personal-text)",       // Geist blue (dark mode)
+  accentSoft: "var(--personal-text)",
+  good: "var(--personal-text)",
+  mid: "var(--personal-text)",
+  bad: "var(--personal-text)",
 };
 
-const FONT_TEXT = "var(--font-geist), system-ui, -apple-system, sans-serif";
-const FONT_NUM = "var(--font-menlo), ui-monospace, SFMono-Regular, monospace";
+const FONT_TEXT = "var(--font-body)";
+const FONT_NUM = "var(--font-mono)";
 
 /* ─────────────────────────── data ───────────────────────────────────── */
 
@@ -144,122 +149,34 @@ const RISKS = [
 
 function Section({
   num, title, subtitle, children, id,
-}: { num: string; title: string; subtitle?: string; children: React.ReactNode; id?: string }) {
-  return (
-    <section id={id} style={{ marginBottom: 72, scrollMarginTop: 24 }}>
-      <div style={{ borderTop: `1px solid ${C.borderStrong}`, paddingTop: 24, marginBottom: 32 }}>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginBottom: subtitle ? 8 : 0 }}>
-          <span style={{ fontFamily: FONT_NUM, fontSize: 11, color: C.textFaint, letterSpacing: "0.1em" }}>
-            §{num}
-          </span>
-          <h2 style={{
-            fontFamily: FONT_TEXT, fontSize: 24, fontWeight: 600, color: C.text,
-            margin: 0, letterSpacing: "-0.01em", lineHeight: 1.2,
-          }}>{title}</h2>
-        </div>
-        {subtitle && (
-          <p style={{
-            fontFamily: FONT_TEXT, fontSize: 13, color: C.textDim, margin: "0 0 0 32px",
-            maxWidth: 720, lineHeight: 1.55,
-          }}>{subtitle}</p>
-        )}
-      </div>
-      {children}
-    </section>
-  );
-}
+}: { num: string; title: string; subtitle?: string; children: React.ReactNode; id?: string }) { return <ResearchSection id={id} title={title} description={subtitle}>{children}</ResearchSection>; }
 
-function Card({ children, pad = 24, accent }: { children: React.ReactNode; pad?: number; accent?: string }) {
-  return (
-    <div style={{
-      background: C.surface,
-      border: `1px solid ${C.border}`,
-      borderLeft: accent ? `2px solid ${accent}` : `1px solid ${C.border}`,
-      borderRadius: 4,
-      padding: pad,
-    }}>{children}</div>
-  );
-}
+function Card({ children, pad = 24, accent }: { children: React.ReactNode; pad?: number; accent?: string }) { return <div className="research-block">{children}</div>; }
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{
-      fontFamily: FONT_NUM, fontSize: 10, color: C.textFaint,
-      letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 8,
-    }}>{children}</div>
+    <div style={{ fontFamily: FONT_NUM, fontSize: 10, color: C.textFaint, letterSpacing: "0.12em", textTransform: "none", marginBottom: 8 }}>{children}</div>
   );
 }
 
 function Num({ children, size = 14, color = C.text, weight = 400 }:
   { children: React.ReactNode; size?: number; color?: string; weight?: number }) {
   return (
-    <span style={{
-      fontFamily: FONT_NUM, fontSize: size, color, fontWeight: weight,
-      fontVariantNumeric: "tabular-nums",
-    }}>{children}</span>
+    <span style={{ fontFamily: FONT_NUM, fontSize: size, color, fontWeight: weight, fontVariantNumeric: "tabular-nums" }}>{children}</span>
   );
 }
 
 function P({ children, dim = false }: { children: React.ReactNode; dim?: boolean }) {
   return (
-    <p style={{
-      fontFamily: FONT_TEXT, fontSize: 14, lineHeight: 1.65,
-      color: dim ? C.textDim : C.text, margin: "0 0 12px",
-    }}>{children}</p>
+    <p style={{ fontFamily: FONT_TEXT, fontSize: "var(--reading-body-size)", lineHeight: 1.75, color: dim ? C.textDim : C.text, margin: "0 0 12px" }}>{children}</p>
   );
 }
 
 function KPI({ label, value, unit, sub, delta, deltaPositive }:
-  { label: string; value: string; unit?: string; sub?: string; delta?: string; deltaPositive?: boolean }) {
-  return (
-    <div style={{
-      background: C.surface, border: `1px solid ${C.border}`, borderRadius: 4,
-      padding: "16px 18px", flex: 1, minWidth: 160,
-    }}>
-      <Label>{label}</Label>
-      <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-        <Num size={26} color={C.text} weight={500}>{value}</Num>
-        {unit && <Num size={12} color={C.textDim}>{unit}</Num>}
-      </div>
-      {(sub || delta) && (
-        <div style={{ marginTop: 8, display: "flex", alignItems: "center", gap: 8 }}>
-          {delta && (
-            <Num size={11} color={deltaPositive ? C.good : C.bad}>
-              {deltaPositive ? "▲ " : "▼ "}{delta}
-            </Num>
-          )}
-          {sub && (
-            <span style={{ fontFamily: FONT_TEXT, fontSize: 11, color: C.textFaint }}>{sub}</span>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
+  { label: string; value: string; unit?: string; sub?: string; delta?: string; deltaPositive?: boolean }) { return <ResearchFact label={label} value={<>{value}{unit && <> {unit}</>}</>} note={<>{sub}{delta && <> · {deltaPositive ? "Рост" : "Снижение"}: {delta}</>}</>} />; }
 
 /* Row helpers — display:contents позволяет children жить в одной grid-сетке родителя */
-function Row({ b }: { b: typeof KASPI_BRANDS[number] }) {
-  const isStar = b.tag.includes("★");
-  return (
-    <div style={{ display: "contents" }}>
-      <div style={{ padding: "8px 12px", borderBottom: `1px solid ${C.border}`, fontFamily: FONT_TEXT, fontSize: 13, color: C.text, display: "flex", alignItems: "center", gap: 8 }}>
-        {isStar && <span style={{ color: b.c, fontSize: 10 }}>●</span>}
-        {b.n}
-      </div>
-      <div style={{ padding: "8px 12px", borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center" }}>
-        <div style={{ height: 6, width: `${(b.v / 41) * 100}%`, background: b.c, opacity: b.c === C.textDim ? 0.4 : 0.7, borderRadius: 1 }} />
-      </div>
-      <div style={{ padding: "8px 12px", borderBottom: `1px solid ${C.border}`, textAlign: "right" }}>
-        <Num color={b.c}>{b.v.toFixed(1)}%</Num>
-      </div>
-      <div style={{ padding: "8px 12px", borderBottom: `1px solid ${C.border}`, textAlign: "right" }}>
-        <span style={{ fontFamily: FONT_NUM, fontSize: 10, color: isStar ? b.c : C.textFaint, letterSpacing: "0.04em", textTransform: "uppercase" }}>
-          {b.tag}
-        </span>
-      </div>
-    </div>
-  );
-}
+function Row({ b }: { b: typeof KASPI_BRANDS[number] }) { return <ResearchFact label={b.n} value={`${b.v}%`} note={b.tag} />; }
 
 function ScenarioRow({ s }: { s: typeof SCENARIOS[number] }) {
   const isBase = s.s === "Base";
@@ -279,11 +196,7 @@ function ScenarioRow({ s }: { s: typeof SCENARIOS[number] }) {
   ];
   return (
     <div style={{ display: "contents" }}>
-      <div style={{
-        ...cellBase,
-        fontFamily: FONT_TEXT, fontSize: 14, fontWeight: isBase ? 600 : 400,
-        color: isBase ? C.accent : C.text,
-      }}>
+      <div style={{ ...cellBase, fontFamily: FONT_TEXT, fontSize: 14, fontWeight: isBase ? 500 : 400, color: isBase ? C.accent : C.text }}>
         {isBase && "★ "}{s.s}
       </div>
       {cells.map((v, idx) => (
@@ -296,31 +209,12 @@ function ScenarioRow({ s }: { s: typeof SCENARIOS[number] }) {
 }
 
 /* Tooltip типизирован any — recharts ^3.8 TS-friendly hack из памяти */
-function Tip({ active, payload, label }: any) {
-  if (!active || !payload?.length) return null;
-  return (
-    <div style={{
-      background: C.surfaceHi, border: `1px solid ${C.borderStrong}`,
-      borderRadius: 4, padding: "8px 10px", fontFamily: FONT_NUM, fontSize: 11,
-    }}>
-      <div style={{ color: C.textDim, marginBottom: 4 }}>{label}</div>
-      {payload.map((p: any) => (
-        <div key={p.dataKey} style={{ color: p.color, display: "flex", justifyContent: "space-between", gap: 12 }}>
-          <span style={{ color: C.textDim }}>{p.name}</span>
-          <span style={{ color: p.color, fontVariantNumeric: "tabular-nums" }}>{p.value}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
+function Tip(props: ResearchTooltipProps) { return <ResearchTooltip {...props}  />; }
 
 /* ═════════════════════════════ PAGE ═════════════════════════════════ */
 export default function Page() {
   return (
-    <div style={{
-      background: C.bg, color: C.text, minHeight: "100vh",
-      fontFamily: FONT_TEXT, fontSize: 14, lineHeight: 1.5,
-    }}>
+    <div style={{ background: C.bg, color: C.text, minHeight: "100vh", fontFamily: FONT_TEXT, fontSize: 14, lineHeight: 1.5 }}>
       <div style={{ maxWidth: 1180, margin: "0 auto", padding: "32px 24px 80px" }}>
 
         {/* ─────────── HEADER STRIP ─────────── */}
@@ -328,7 +222,7 @@ export default function Page() {
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 24 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <a href="/" style={{ fontFamily: FONT_NUM, fontSize: 11, color: C.textDim, textDecoration: "none", letterSpacing: "0.08em" }}>
-                ← kasymzhanov.com
+                <IconlyArrowLeft size={17} className="reading-inline-icon" /> kasymzhanov.com
               </a>
               <span style={{ color: C.textFaint }}>/</span>
               <span style={{ fontFamily: FONT_NUM, fontSize: 11, color: C.textFaint, letterSpacing: "0.08em" }}>
@@ -341,54 +235,37 @@ export default function Page() {
             </div>
           </div>
 
-          <div style={{ borderTop: `1px solid ${C.borderStrong}`, paddingTop: 32 }}>
+          <div className="research-header" style={{ borderTop: `1px solid ${C.borderStrong}`, paddingTop: 32 }}>
             <Label>Research-отчёт по запуску</Label>
             <h1 style={{
-              fontFamily: FONT_TEXT, fontSize: 48, fontWeight: 700, color: C.text,
+              fontFamily: FONT_TEXT, fontSize: 48, fontWeight: 500, color: C.text,
               margin: "8px 0 16px", letterSpacing: "-0.025em", lineHeight: 1.05,
             }}>HINOKO</h1>
-            <p style={{
-              fontFamily: FONT_TEXT, fontSize: 17, color: C.textDim, margin: 0,
-              maxWidth: 720, lineHeight: 1.55,
-            }}>
+            <p className="research-lead" style={{ fontFamily: FONT_TEXT, fontSize: 17, color: C.textDim, margin: 0, maxWidth: 720, lineHeight: 1.55 }}>
               Лёгкая водоотталкивающая техническая куртка для outdoor / кемпинга / хайкинга.
-              Запуск на Kaspi.kz в <strong style={{ color: C.text, fontWeight: 600 }}>сентябре 2026</strong> —
+              Запуск на Kaspi.kz в <strong style={{ color: C.text, fontWeight: 400 }}>сентябре 2026</strong> —
               точно к главному пику сезона. 4-месячный sprint от концепта до полки.
               Эстетика и функция в духе Arc'teryx, реальное позиционирование в премиум-сегменте локального маркетплейса.
             </p>
 
             {/* Byline — author + brand attribution (Bloomberg canon) */}
-            <div style={{
-              marginTop: 24, paddingTop: 16, borderTop: `1px solid ${C.border}`,
-              display: "flex", flexWrap: "wrap", gap: 48,
-            }}>
+            <div style={{ marginTop: 24, paddingTop: 16, borderTop: `1px solid ${C.border}`, display: "flex", flexWrap: "wrap", gap: 48 }}>
               <div>
-                <span style={{
-                  fontFamily: FONT_NUM, fontSize: 10, color: C.textFaint,
-                  letterSpacing: "0.12em", textTransform: "uppercase", marginRight: 12,
-                }}>By</span>
-                <span style={{
-                  fontFamily: FONT_TEXT, fontSize: 14, color: C.text, fontWeight: 500,
-                }}>Алмас Касымжанов</span>
+                <span style={{ fontFamily: FONT_NUM, fontSize: 10, color: C.textFaint, letterSpacing: "0.12em", textTransform: "none", marginRight: 12 }}>By</span>
+                <span style={{ fontFamily: FONT_TEXT, fontSize: 14, color: C.text, fontWeight: 400 }}>Almas Kasymzhanov</span>
               </div>
               <div>
-                <span style={{
-                  fontFamily: FONT_NUM, fontSize: 10, color: C.textFaint,
-                  letterSpacing: "0.12em", textTransform: "uppercase", marginRight: 12,
-                }}>For brand</span>
-                <span style={{
-                  fontFamily: FONT_TEXT, fontSize: 14, color: C.text, fontWeight: 500,
-                }}>Hinoko</span>
+                <span style={{ fontFamily: FONT_NUM, fontSize: 10, color: C.textFaint, letterSpacing: "0.12em", textTransform: "none", marginRight: 12 }}>For brand</span>
+                <span style={{ fontFamily: FONT_TEXT, fontSize: 14, color: C.text, fontWeight: 400 }}>Hinoko</span>
               </div>
             </div>
-          </div>
+
+<a href="/authors/almas-kasymzhanov" className="research-author">Алмас Касымжанов</a>
+<ResearchReadingTime />
+</div>
 
           {/* Meta строка */}
-          <div style={{
-            marginTop: 32, padding: "16px 0",
-            borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`,
-            display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24,
-          }}>
+          <div style={{ marginTop: 32, padding: "16px 0", borderBottom: `1px solid ${C.border}`, display: "block", marginBottom: 24 }}>
             <div>
               <Label>Бренд</Label>
               <div style={{ fontFamily: FONT_TEXT, fontSize: 14, color: C.text }}>Hinoko</div>
@@ -409,20 +286,17 @@ export default function Page() {
         </header>
 
         {/* ─────────── §00 EXECUTIVE SUMMARY ─────────── */}
-        <Section num="00" title="Executive summary" subtitle="Финальная рекомендация исследования.">
+        <Section num="00" title="Обзор" subtitle="Финальная рекомендация исследования.">
           <Card accent={C.accent} pad={28}>
             <P>
-              <strong style={{ color: C.text, fontWeight: 600 }}>Решение: запускать.</strong>{" "}
+              <strong style={{ color: C.text, fontWeight: 400 }}>Решение: запускать.</strong>{" "}
               Первый рынок — <strong style={{ color: C.text }}>Kaspi.kz</strong>. Первый продукт —
               лёгкая техническая 2.5L shell-куртка с PFAS-free мембраной. Целевая цена{" "}
               <Num color={C.accent}>35 000–55 000 ₸</Num> (<Num color={C.accent}>$75–120</Num>).
               Запуск в <Num color={C.accent}>сентябре 2026</Num> (4 месяца от сейчас) —
               target <Num color={C.accent}>80–150 единиц/месяц</Num> в первом же пике.
             </P>
-            <div style={{
-              marginTop: 16, padding: 16, background: C.surfaceAlt,
-              borderRadius: 4, borderLeft: `2px solid ${C.good}`,
-            }}>
+            <div style={{ marginTop: 16, padding: "16px 0" }}>
               <P dim>
                 <strong style={{ color: C.text }}>White space найден:</strong> Kaspi M Премиум-сегмент
                 (39% выручки M-категории). MINESTONE удерживает $100 ASP без technical narrative,
@@ -433,7 +307,7 @@ export default function Page() {
           </Card>
 
           {/* KPI ROW */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 24 }}>
+          <div className="research-facts" >
             <KPI label="Mировой TAM" value="$17–22" unit="млрд" sub="technical outdoor apparel 2024" />
             <KPI label="WB категория" value="$549" unit="M" delta="+110% CAGR 4y" deltaPositive />
             <KPI label="Kaspi категория" value="$11.6" unit="M LTM" delta="+39% YoY avg" deltaPositive />
@@ -445,7 +319,7 @@ export default function Page() {
 
         {/* ─────────── §01 МАРКЕТ-ОЦЕНКА ─────────── */}
         <Section num="01" title="Размер рынка" subtitle="Глобальный outdoor apparel TAM, Kaspi vs WB.">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div style={{ display: "block", marginBottom: 24 }}>
             <Card>
               <Label>Мировые источники outdoor apparel TAM 2024</Label>
               <div style={{ marginTop: 12 }}>
@@ -455,10 +329,7 @@ export default function Page() {
                   { src: "Research & Markets", val: "$37.1B", cagr: "+6.9%", note: "incl. accessories" },
                   { src: "WiseGuyReports (jackets-only)", val: "$6.16B", cagr: "+4.7%" },
                 ].map((s) => (
-                  <div key={s.src} style={{
-                    display: "flex", justifyContent: "space-between", alignItems: "baseline",
-                    padding: "10px 0", borderBottom: `1px solid ${C.border}`,
-                  }}>
+                  <div key={s.src} style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "10px 0", borderBottom: `1px solid ${C.border}` }}>
                     <div>
                       <div style={{ fontFamily: FONT_TEXT, fontSize: 13, color: C.text }}>{s.src}</div>
                       {s.note && <div style={{ fontFamily: FONT_TEXT, fontSize: 11, color: C.textFaint }}>{s.note}</div>}
@@ -482,14 +353,14 @@ export default function Page() {
               <Label>WB категория «Ветровка» — взрывной рост</Label>
               <div style={{ height: 220, marginTop: 12 }}>
                 <ResponsiveContainer>
-                  <BarChart data={WB_GROWTH} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+                  <BarChart accessibilityLayer aria-label="Выручка категорий outdoor" data={WB_GROWTH} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
                     <CartesianGrid stroke={C.border} strokeDasharray="2 4" vertical={false} />
                     <XAxis dataKey="y" stroke={C.textFaint} tick={{ fontFamily: FONT_NUM, fontSize: 10 }} axisLine={{ stroke: C.borderStrong }} tickLine={false} />
                     <YAxis stroke={C.textFaint} tick={{ fontFamily: FONT_NUM, fontSize: 10 }}
                       tickFormatter={(v: number) => `${v / 1000}B`}
                       axisLine={{ stroke: C.borderStrong }} tickLine={false} />
                     <Tooltip content={<Tip />} cursor={{ fill: C.surfaceAlt }} />
-                    <Bar dataKey="wb" name="WB млн ₽" fill={C.accent} radius={[2, 2, 0, 0]} />
+                    <Bar dataKey="wb" name="WB млн ₽" fill="var(--chart-accent)" radius={[2, 2, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -503,7 +374,7 @@ export default function Page() {
             </Card>
           </div>
 
-          <div style={{ marginTop: 16, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+          <div style={{ marginTop: 16, display: "block", marginBottom: 24 }}>
             <Card>
               <Label>WB vs Kaspi</Label>
               <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginTop: 6 }}>
@@ -537,7 +408,7 @@ export default function Page() {
           <Card>
             <div style={{ height: 360 }}>
               <ResponsiveContainer>
-                <LineChart data={SEASONALITY} margin={{ top: 16, right: 24, left: 0, bottom: 0 }}>
+                <LineChart accessibilityLayer aria-label="Сезонность спроса" data={SEASONALITY} margin={{ top: 16, right: 24, left: 0, bottom: 0 }}>
                   <CartesianGrid stroke={C.border} strokeDasharray="2 4" vertical={false} />
                   <XAxis dataKey="m" stroke={C.textFaint} tick={{ fontFamily: FONT_NUM, fontSize: 11 }} axisLine={{ stroke: C.borderStrong }} tickLine={false} />
                   <YAxis stroke={C.textFaint} tick={{ fontFamily: FONT_NUM, fontSize: 11 }}
@@ -547,17 +418,14 @@ export default function Page() {
                   />
                   <Tooltip content={<Tip />} cursor={{ stroke: C.borderStrong }} />
                   <ReferenceLine y={1} stroke={C.borderStrong} strokeDasharray="4 4" />
-                  <Line dataKey="kaspiM" name="Kaspi M" stroke={C.accent} strokeWidth={2.5} dot={{ r: 3, fill: C.accent }} />
-                  <Line dataKey="kaspiW" name="Kaspi W" stroke={C.accent} strokeWidth={1.5} strokeDasharray="4 4" dot={false} />
-                  <Line dataKey="wbM" name="WB M" stroke={C.text} strokeWidth={2.5} dot={{ r: 3, fill: C.text }} />
-                  <Line dataKey="wbW" name="WB W" stroke={C.text} strokeWidth={1.5} strokeDasharray="4 4" dot={false} />
+                  <Line isAnimationActive={false} strokeDasharray="0" dataKey="kaspiM" name="Kaspi M" stroke="var(--chart-accent)" strokeWidth={2} dot={{ r: 3, fill: "var(--chart-accent)" }} />
+                  <Line isAnimationActive={false} dataKey="kaspiW" name="Kaspi W" stroke="var(--chart-secondary)" strokeWidth={1.75} strokeDasharray="6 4" dot={false} />
+                  <Line isAnimationActive={false} strokeDasharray="2 4" dataKey="wbM" name="WB M" stroke="var(--chart-tertiary)" strokeWidth={2} dot={{ r: 3, fill: "var(--chart-tertiary)" }} />
+                  <Line isAnimationActive={false} dataKey="wbW" name="WB W" stroke="var(--chart-fourth)" strokeWidth={1.5} strokeDasharray="8 3 2 3" dot={false} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
-            <div style={{
-              marginTop: 16, display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16,
-              paddingTop: 16, borderTop: `1px solid ${C.border}`,
-            }}>
+            <div style={{ marginTop: 16, display: "block", paddingTop: 16, borderTop: `1px solid ${C.border}`, marginBottom: 24 }}>
               <div>
                 <Label>Главный пик</Label>
                 <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
@@ -601,27 +469,14 @@ export default function Page() {
         <Section num="03" title="Kaspi — конкурентный ландшафт M-категории"
           subtitle="Top-15 брендов по LTM-выручке. Цель — занять место рядом с Columbia (единственный global outdoor) и потеснить MINESTONE через technical narrative.">
           <Card>
-            <div style={{ display: "grid", gridTemplateColumns: "minmax(160px, 1.2fr) 1fr 80px 120px", gap: 0 }}>
-              {/* header */}
-              <div style={{ padding: "10px 12px", borderBottom: `1px solid ${C.borderStrong}`, fontFamily: FONT_NUM, fontSize: 10, color: C.textFaint, letterSpacing: "0.1em" }}>
-                BRAND
-              </div>
-              <div style={{ padding: "10px 12px", borderBottom: `1px solid ${C.borderStrong}`, fontFamily: FONT_NUM, fontSize: 10, color: C.textFaint, letterSpacing: "0.1em" }}>
-                BAR
-              </div>
-              <div style={{ padding: "10px 12px", borderBottom: `1px solid ${C.borderStrong}`, fontFamily: FONT_NUM, fontSize: 10, color: C.textFaint, letterSpacing: "0.1em", textAlign: "right" }}>
-                SHARE
-              </div>
-              <div style={{ padding: "10px 12px", borderBottom: `1px solid ${C.borderStrong}`, fontFamily: FONT_NUM, fontSize: 10, color: C.textFaint, letterSpacing: "0.1em", textAlign: "right" }}>
-                TAG
-              </div>
+            <div className="research-facts">
               {KASPI_BRANDS.map((b) => (
                 <Row key={b.n} b={b} />
               ))}
             </div>
           </Card>
 
-          <div style={{ marginTop: 16, display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
+          <div className="research-facts" >
             <KPI label="HHI (top-200)" value="1297" sub="W категория" />
             <KPI label="Эфф. конкурентов" value="8" sub="W (10000/HHI)" />
             <KPI label="Top-3 share" value="42.8" unit="%" sub="W" />
@@ -655,7 +510,7 @@ export default function Page() {
                         borderBottom: `1px solid ${C.border}`,
                         background: isHinoko ? C.accentSoft + "40" : "transparent",
                       }}>
-                        <td style={{ padding: "8px 14px", color: isHinoko ? C.accent : C.text, fontWeight: isHinoko ? 600 : 400 }}>
+                        <td style={{ padding: "8px 14px", color: isHinoko ? C.accent : C.text, fontWeight: isHinoko ? 500 : 400 }}>
                           {isHinoko && <span style={{ color: C.accent }}>★ </span>}{b.brand}
                         </td>
                         <td style={{ padding: "8px 14px", color: C.textDim }}>{b.product}</td>
@@ -664,11 +519,7 @@ export default function Page() {
                           <Num color={isHinoko ? C.accent : C.text} weight={isHinoko ? 500 : 400}>${b.price}</Num>
                         </td>
                         <td style={{ padding: "8px 14px" }}>
-                          <span style={{
-                            fontFamily: FONT_NUM, fontSize: 10, letterSpacing: "0.06em",
-                            textTransform: "uppercase",
-                            color: isHinoko ? C.accent : C.textFaint,
-                          }}>{b.tier}</span>
+                          <span style={{ fontFamily: FONT_NUM, fontSize: 10, letterSpacing: "0.06em", textTransform: "none", color: isHinoko ? C.accent : C.textFaint }}>{b.tier}</span>
                         </td>
                       </tr>
                     );
@@ -684,15 +535,15 @@ export default function Page() {
             <Card>
               <div style={{ height: 240 }}>
                 <ResponsiveContainer>
-                  <BarChart data={KASPI_SEGMENTS} margin={{ top: 16, right: 8, left: 0, bottom: 0 }}>
+                  <BarChart accessibilityLayer aria-label="Экономика запуска" data={KASPI_SEGMENTS} margin={{ top: 16, right: 8, left: 0, bottom: 0 }}>
                     <CartesianGrid stroke={C.border} strokeDasharray="2 4" vertical={false} />
                     <XAxis dataKey="seg" stroke={C.textFaint} tick={{ fontFamily: FONT_NUM, fontSize: 11 }} axisLine={{ stroke: C.borderStrong }} tickLine={false} />
                     <YAxis stroke={C.textFaint} tick={{ fontFamily: FONT_NUM, fontSize: 11 }}
                       tickFormatter={(v: number) => `${v}%`}
                       axisLine={{ stroke: C.borderStrong }} tickLine={false} />
                     <Tooltip content={<Tip />} cursor={{ fill: C.surfaceAlt }} />
-                    <Bar dataKey="rev" name="Доля выручки %" fill={C.accent} radius={[2, 2, 0, 0]} />
-                    <Bar dataKey="units" name="Доля штук %" fill={C.textDim} radius={[2, 2, 0, 0]} />
+                    <Bar dataKey="rev" name="Доля выручки %" fill="var(--chart-accent)" radius={[2, 2, 0, 0]} />
+                    <Bar dataKey="units" name="Доля штук %" fill="var(--chart-secondary)" radius={[2, 2, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -708,7 +559,7 @@ export default function Page() {
         {/* ─────────── §05 PRODUCT SPEC ─────────── */}
         <Section num="05" title="Hinoko Shell-Jacket v1.0 — продуктовая спецификация"
           subtitle="Реалистичный benchmark: между Marmot PreCip ($120) и Columbia AmpliDry ($160). Не Arc'teryx.">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div style={{ display: "block", marginBottom: 24 }}>
             <Card>
               <Label>Минимальная спецификация</Label>
               {[
@@ -723,10 +574,7 @@ export default function Page() {
                 ["Вес M-размер", "< 500 г"],
                 ["Гарантия", "2 года"],
               ].map(([k, v]) => (
-                <div key={k} style={{
-                  display: "flex", justifyContent: "space-between", padding: "8px 0",
-                  borderBottom: `1px solid ${C.border}`,
-                }}>
+                <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: `1px solid ${C.border}` }}>
                   <span style={{ fontFamily: FONT_TEXT, fontSize: 13, color: C.textDim }}>{k}</span>
                   <span style={{ fontFamily: FONT_NUM, fontSize: 12, color: C.text }}>{v}</span>
                 </div>
@@ -745,10 +593,7 @@ export default function Page() {
                 ["Net per unit", "≈ 18 300 ₸ ($39)", C.good],
                 ["Net margin", "≈ 40%", C.good],
               ].map(([k, v, color]) => (
-                <div key={k} style={{
-                  display: "flex", justifyContent: "space-between", padding: "8px 0",
-                  borderBottom: `1px solid ${C.border}`,
-                }}>
+                <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: `1px solid ${C.border}` }}>
                   <span style={{ fontFamily: FONT_TEXT, fontSize: 13, color: C.textDim }}>{k}</span>
                   <Num color={color}>{v}</Num>
                 </div>
@@ -762,16 +607,9 @@ export default function Page() {
           subtitle="4-месячный sprint: концепт (май 2026) → ЗАПУСК в главный пик (сентябрь 2026). Year 2 расширяется под повторный сентябрьский пик 2027.">
           <Card>
             {CALENDAR.map((c, i) => (
-              <div key={i} style={{
-                display: "grid", gridTemplateColumns: "140px 12px 1fr",
-                gap: 16, alignItems: "center", padding: "12px 0",
-                borderBottom: i < CALENDAR.length - 1 ? `1px solid ${C.border}` : "none",
-              }}>
+              <div key={i} style={{ display: "block", alignItems: "center", padding: "12px 0", borderBottom: i < CALENDAR.length - 1 ? `1px solid ${C.border}` : "none", marginBottom: 24 }}>
                 <Num color={C.textDim} size={12}>{c.phase}</Num>
-                <div style={{
-                  width: 8, height: 8, borderRadius: 8, background: c.color,
-                  boxShadow: `0 0 0 3px ${c.color}20`,
-                }} />
+
                 <span style={{ fontFamily: FONT_TEXT, fontSize: 13, color: C.text }}>{c.action}</span>
               </div>
             ))}
@@ -782,22 +620,15 @@ export default function Page() {
         <Section num="07" title="Финансовые сценарии Year 1"
           subtitle="Year 1 = Sept 2026 – Aug 2027 (два пика: сентябрь 26 + март 27). Допущения: ASP 45 000 ₸, CIF $32/unit, Kaspi+эквайринг+логистика 18%, возвраты 10%, маркетинг $20-30K.">
           <Card>
-            <div style={{ display: "grid", gridTemplateColumns: "100px 1fr 1fr 1fr 1fr 1fr 1fr", gap: 0 }}>
+            <div style={{ display: "block", marginBottom: 24 }}>
               {["", "Доля Kaspi M", "GMV годовой", "Единиц/год", "Сент пик, шт", "Net contrib.", "Net Y1 (incl. mkt)"].map((h) => (
-                <div key={h} style={{
-                  padding: "10px 12px", borderBottom: `1px solid ${C.borderStrong}`,
-                  fontFamily: FONT_NUM, fontSize: 10, color: C.textFaint,
-                  letterSpacing: "0.1em", textAlign: h === "" ? "left" : "right",
-                }}>{h.toUpperCase()}</div>
+                <div key={h} style={{ padding: "10px 12px", borderBottom: `1px solid ${C.borderStrong}`, fontFamily: FONT_NUM, fontSize: 10, color: C.textFaint, letterSpacing: "0.1em", textAlign: h === "" ? "left" : "right" }}>{h.toUpperCase()}</div>
               ))}
               {SCENARIOS.map((s) => (
                 <ScenarioRow key={s.s} s={s} />
               ))}
             </div>
-            <div style={{
-              marginTop: 16, paddingTop: 16, borderTop: `1px solid ${C.borderStrong}`,
-              display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24,
-            }}>
+            <div style={{ marginTop: 16, paddingTop: 16, borderTop: `1px solid ${C.borderStrong}`, display: "block", marginBottom: 24 }}>
               <div>
                 <Label>Минимальный starting capital</Label>
                 <Num size={28} color={C.text} weight={500}>~$29K</Num>
@@ -816,21 +647,10 @@ export default function Page() {
         <Section num="08" title="Риски и митигации">
           <Card>
             {RISKS.map((r, i) => (
-              <div key={i} style={{
-                display: "grid", gridTemplateColumns: "1fr 140px 2fr",
-                gap: 24, alignItems: "flex-start", padding: "16px 0",
-                borderBottom: i < RISKS.length - 1 ? `1px solid ${C.border}` : "none",
-              }}>
+              <div key={i} style={{ display: "block", alignItems: "flex-start", padding: "16px 0", borderBottom: i < RISKS.length - 1 ? `1px solid ${C.border}` : "none", marginBottom: 24 }}>
                 <div style={{ fontFamily: FONT_TEXT, fontSize: 13, color: C.text }}>{r.r}</div>
                 <div>
-                  <span style={{
-                    fontFamily: FONT_NUM, fontSize: 10,
-                    color: r.p === "Высокая" || r.p === "Очень высок." ? C.bad : r.p.includes("средн") ? C.mid : C.good,
-                    letterSpacing: "0.06em", textTransform: "uppercase",
-                    padding: "3px 8px",
-                    background: (r.p === "Высокая" || r.p === "Очень высок." ? C.bad : r.p.includes("средн") ? C.mid : C.good) + "15",
-                    borderRadius: 2,
-                  }}>{r.p}</span>
+                  <span style={{ fontFamily: FONT_NUM, fontSize: 10, color: r.p === "Высокая" || r.p === "Очень высок." ? C.bad : r.p.includes("средн") ? C.mid : C.good, letterSpacing: "0.06em", textTransform: "none", padding: "16px 0" }}>{r.p}</span>
                 </div>
                 <div style={{ fontFamily: FONT_TEXT, fontSize: 13, color: C.textDim }}>{r.s}</div>
               </div>
@@ -840,61 +660,43 @@ export default function Page() {
 
         {/* ─────────── §09 DATA SCOPE & METHODOLOGY ─────────── */}
         <Section num="09" title="Объём проанализированных данных и методология"
-          subtitle="Three independent data pipelines · полная верификация · полный аудит-trail.">
+          subtitle="Три независимых массива данных · полная проверка чисел и выводов.">
 
           {/* HERO METRICS — 8 tiles in 4×2 grid */}
           <Card pad={32} accent={C.accent}>
             <Label>Сводка объёма анализа</Label>
-            <div style={{
-              marginTop: 16,
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: 0,
-              borderTop: `1px solid ${C.borderStrong}`,
-              borderLeft: `1px solid ${C.borderStrong}`,
-            }}>
+            <div style={{ marginTop: 16, display: "block", borderTop: `1px solid ${C.borderStrong}`, marginBottom: 24 }}>
               {[
                 { v: "91", u: "мес.", l: "Комбинированная история данных", sub: "16 (Kaspi) + 75 (WB, с фев 2020)" },
-                { v: "3", u: "", l: "Независимых источника", sub: "RedStat · MPSTATS · Perplexity Pro" },
+                { v: "3", u: "", l: "Независимых массива", sub: "Kaspi · Wildberries · публичные отраслевые данные" },
                 { v: "106", u: "", l: "Цитированных источников", sub: "10-K, OIA, GMI, Euromonitor, etc." },
-                { v: "83", u: "", l: "Сырых JSON-файла", sub: "61 (Kaspi) + 22 (WB) endpoint-снимков" },
+                { v: "83", u: "", l: "Сверенных среза", sub: "61 по Kaspi + 22 по Wildberries" },
                 { v: "300", u: "+", l: "SKU проанализировано", sub: "100 Kaspi top-50×2 + 200 WB top-100×2" },
                 { v: "3 300", u: "+", l: "Brand-period записей", sub: "Kaspi 320 + WB 2 400 + global ~50" },
                 { v: "21", u: "", l: "Мембранных технологий", sub: "Gore-Tex, eVent, FUTURELIGHT, H2No…" },
                 { v: "8", u: "", l: "Cross-верификаций", sub: "4 Kaspi + 4 WB — артефакты задокум." },
               ].map((m, i) => (
-                <div key={i} style={{
-                  padding: "20px 18px",
-                  borderRight: `1px solid ${C.borderStrong}`,
-                  borderBottom: `1px solid ${C.borderStrong}`,
-                  background: C.surface,
-                }}>
+                <div key={i} style={{ padding: "16px 0", borderBottom: `1px solid ${C.borderStrong}` }}>
                   <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 6 }}>
                     <Num size={32} color={C.text} weight={500}>{m.v}</Num>
                     {m.u && <Num size={14} color={C.textDim}>{m.u}</Num>}
                   </div>
-                  <div style={{
-                    fontFamily: FONT_TEXT, fontSize: 11, color: C.text,
-                    marginBottom: 4, lineHeight: 1.3,
-                  }}>{m.l}</div>
-                  <div style={{
-                    fontFamily: FONT_NUM, fontSize: 10, color: C.textFaint,
-                    lineHeight: 1.4,
-                  }}>{m.sub}</div>
+                  <div style={{ fontFamily: FONT_TEXT, fontSize: 11, color: C.text, marginBottom: 4, lineHeight: 1.3 }}>{m.l}</div>
+                  <div style={{ fontFamily: FONT_NUM, fontSize: 10, color: C.textFaint, lineHeight: 1.4 }}>{m.sub}</div>
                 </div>
               ))}
             </div>
           </Card>
 
-          {/* SOURCE CARDS — detailed breakdown per pipeline */}
-          <div style={{ marginTop: 24, display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }}>
+          {/* Public data-scope cards */}
+          <div style={{ marginTop: 24, display: "block", marginBottom: 24 }}>
             <Card>
               <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 4 }}>
                 <Label>Kaspi.kz</Label>
                 <Num size={10} color={C.textFaint}>1/3</Num>
               </div>
               <div style={{ fontFamily: FONT_TEXT, fontSize: 13, color: C.text, marginBottom: 12 }}>
-                RedStat Backend API
+                агрегированные рыночные данные
               </div>
               <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 12 }}>
                 {[
@@ -904,14 +706,11 @@ export default function Page() {
                   ["Top-SKU per cat", "50 × 2 = 100"],
                   ["Brand-period строк", "320 (10/мес × 16 × 2)"],
                   ["Сегментов цен", "10 (5 × 2 cats)"],
-                  ["Endpoints", "history · forecast · detail · sku-v1 · category-brand · category-segments"],
-                  ["Cross-verifs ✓", "4 / 4"],
-                  ["Raw JSON files", "61"],
+                  ["Покрытие", "история · сезонность · товары · бренды · цены"],
+                  ["Cross-verifs ", "4 / 4"],
+                  ["Срезов данных", "61"],
                 ].map(([k, v]) => (
-                  <div key={k} style={{
-                    display: "flex", justifyContent: "space-between", padding: "6px 0",
-                    gap: 12,
-                  }}>
+                  <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", gap: 12 }}>
                     <span style={{ fontFamily: FONT_TEXT, fontSize: 12, color: C.textDim }}>{k}</span>
                     <span style={{ fontFamily: FONT_NUM, fontSize: 11, color: C.text, textAlign: "right" }}>{v}</span>
                   </div>
@@ -925,7 +724,7 @@ export default function Page() {
                 <Num size={10} color={C.textFaint}>2/3</Num>
               </div>
               <div style={{ fontFamily: FONT_TEXT, fontSize: 13, color: C.text, marginBottom: 12 }}>
-                MPSTATS API
+                агрегированные данные Wildberries
               </div>
               <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 12 }}>
                 {[
@@ -937,14 +736,11 @@ export default function Page() {
                   ["Quarterly brand rows", "2 000 (5q × 200 × 2)"],
                   ["Daily by_date rows", "120 (60 дней × 2 cats)"],
                   ["Top-200 покрытие", "68% (W) / 80% (M)"],
-                  ["Endpoints", "trends · by_date · category · brands · sellers"],
+                  ["Покрытие", "динамика · категории · бренды · продавцы"],
                   ["Cross-verifs", "4 (3 артефакта)"],
-                  ["Raw JSON files", "22"],
+                  ["Срезов данных", "22"],
                 ].map(([k, v]) => (
-                  <div key={k} style={{
-                    display: "flex", justifyContent: "space-between", padding: "6px 0",
-                    gap: 12,
-                  }}>
+                  <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", gap: 12 }}>
                     <span style={{ fontFamily: FONT_TEXT, fontSize: 12, color: C.textDim }}>{k}</span>
                     <span style={{ fontFamily: FONT_NUM, fontSize: 11, color: C.text, textAlign: "right" }}>{v}</span>
                   </div>
@@ -958,7 +754,7 @@ export default function Page() {
                 <Num size={10} color={C.textFaint}>3/3</Num>
               </div>
               <div style={{ fontFamily: FONT_TEXT, fontSize: 13, color: C.text, marginBottom: 12 }}>
-                Perplexity Pro Research
+                Публичные отраслевые данные
               </div>
               <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 12 }}>
                 {[
@@ -972,10 +768,7 @@ export default function Page() {
                   ["Industry reports", "OIA · GMI · BRI · WiseGuy · Grand View"],
                   ["Длина отчёта", "~92 KB markdown"],
                 ].map(([k, v]) => (
-                  <div key={k} style={{
-                    display: "flex", justifyContent: "space-between", padding: "6px 0",
-                    gap: 12,
-                  }}>
+                  <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", gap: 12 }}>
                     <span style={{ fontFamily: FONT_TEXT, fontSize: 12, color: C.textDim }}>{k}</span>
                     <span style={{ fontFamily: FONT_NUM, fontSize: 11, color: C.text, textAlign: "right" }}>{v}</span>
                   </div>
@@ -985,11 +778,7 @@ export default function Page() {
           </div>
 
           {/* DELIVERABLES + currency */}
-          <div style={{
-            marginTop: 24, padding: "20px 0",
-            borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`,
-            display: "grid", gridTemplateColumns: "2fr 1fr", gap: 32,
-          }}>
+          <div style={{ marginTop: 24, padding: "16px 0", borderBottom: `1px solid ${C.border}`, display: "block", marginBottom: 24 }}>
             <div>
               <Label>Артефакты проекта</Label>
               <div style={{ display: "flex", gap: 32, marginTop: 8, flexWrap: "wrap" }}>
@@ -1028,67 +817,42 @@ export default function Page() {
         {/* ─────────── FOOTER ─────────── */}
         <footer style={{ marginTop: 80, paddingTop: 32, borderTop: `1px solid ${C.borderStrong}` }}>
           {/* Data manifest strip — compact summary of total analysis volume */}
-          <div style={{
-            background: C.surface,
-            border: `1px solid ${C.border}`,
-            borderRadius: 4,
-            padding: "16px 20px",
-            marginBottom: 24,
-          }}>
-            <div style={{
-              display: "flex", alignItems: "center", justifyContent: "space-between",
-              flexWrap: "wrap", gap: 12, marginBottom: 12,
-            }}>
+          <div style={{ padding: "16px 0", marginBottom: 24 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 12 }}>
               <Label>Data manifest</Label>
               <Num size={10} color={C.textFaint}>v1.0 · 2026-05-20</Num>
             </div>
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(8, 1fr)",
-              gap: 0,
-              borderTop: `1px solid ${C.border}`,
-              paddingTop: 12,
-            }}>
+            <div style={{ display: "block", borderTop: `1px solid ${C.border}`, paddingTop: 12, marginBottom: 24 }}>
               {[
                 { v: "91", l: "мес. данных" },
                 { v: "3", l: "источника" },
                 { v: "106", l: "ссылок" },
-                { v: "83", l: "JSON-файла" },
+                { v: "83", l: "среза данных" },
                 { v: "300+", l: "SKU" },
                 { v: "3 300+", l: "brand-rows" },
                 { v: "21", l: "технология" },
                 { v: "8", l: "cross-verifs" },
               ].map((m, i) => (
-                <div key={i} style={{
-                  textAlign: "center",
-                  borderRight: i < 7 ? `1px solid ${C.border}` : "none",
-                  padding: "4px 0",
-                }}>
+                <div key={i} style={{ textAlign: "center", padding: "4px 0" }}>
                   <Num size={18} color={C.text} weight={500}>{m.v}</Num>
-                  <div style={{
-                    fontFamily: FONT_NUM, fontSize: 9, color: C.textFaint,
-                    letterSpacing: "0.08em", textTransform: "uppercase", marginTop: 4,
-                  }}>{m.l}</div>
+                  <div style={{ fontFamily: FONT_NUM, fontSize: 9, color: C.textFaint, letterSpacing: "0.08em", textTransform: "none", marginTop: 4 }}>{m.l}</div>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Footer attribution row */}
-          <div style={{
-            display: "flex", justifyContent: "space-between",
-            flexWrap: "wrap", gap: 16,
-          }}>
+          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
             <div>
               <div style={{ fontFamily: FONT_NUM, fontSize: 10, color: C.textFaint, letterSpacing: "0.12em", marginBottom: 6 }}>
                 HINOKO LAUNCH RESEARCH · v1.0 · CONFIDENTIAL
               </div>
               <div style={{ fontFamily: FONT_TEXT, fontSize: 12, color: C.textDim }}>
-                Подготовлено на основе RedStat Backend (Kaspi), MPSTATS API (WB) и Perplexity Pro Research (Global).
+                Подготовлено на основе агрегированных рыночных данных Kaspi и Wildberries, а также публичных отраслевых материалов.
               </div>
               <div style={{ fontFamily: FONT_TEXT, fontSize: 12, color: C.textDim, marginTop: 4 }}>
-                Автор: <span style={{ color: C.text, fontWeight: 500 }}>Алмас Касымжанов</span>{" · "}
-                Для бренда: <span style={{ color: C.text, fontWeight: 500 }}>Hinoko</span>
+                Автор: <span style={{ color: C.text, fontWeight: 400 }}>Almas Kasymzhanov</span>{" · "}
+                Для бренда: <span style={{ color: C.text, fontWeight: 400 }}>Hinoko</span>
               </div>
             </div>
             <div style={{ textAlign: "right" }}>
@@ -1096,7 +860,7 @@ export default function Page() {
                 fontFamily: FONT_NUM, fontSize: 11, color: C.accent,
                 textDecoration: "none", letterSpacing: "0.08em",
               }}>
-                kasymzhanov.com →
+                kasymzhanov.com <IconlyArrowRight size={17} className="reading-inline-icon" />
               </a>
             </div>
           </div>

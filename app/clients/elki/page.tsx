@@ -1,6 +1,7 @@
 "use client";
+import { ResearchFact } from "@/components/canon/research-editorial";
 
-import { Masthead } from "@/components/canon/masthead";
+import { ResearchReadingTime } from "@/components/canon/research-reading-time";
 import { MetaLabel } from "@/components/canon/meta-label";
 import { LineChart } from "@/components/charts/line-chart";
 import { BarChart } from "@/components/charts/bar-chart";
@@ -11,7 +12,7 @@ import { ColumnChart } from "@/components/charts/column-chart";
    (the site-wide --brock-accent orange), graphite context series. Standalone
    chrome (no blog engagement machinery) — the page lives on a client subdomain. */
 
-const ACCENT = "#f54900";
+const ACCENT = "var(--personal-text)";
 const NEUTRAL = "var(--brock-neutral)";
 
 // База продавцов — Google Sheets (12 115 контактов, A/B/C/D)
@@ -21,13 +22,13 @@ const BASE_URL =
 /* ───── CTA: переход в базу продавцов ───── */
 function BaseCTA() {
   return (
-    <div className="mt-12 border border-[var(--color-border)] rounded-[3px] p-5 sm:p-6 bg-[var(--color-surface)]">
+    <div className="mt-12  border-[var(--color-border)]    ">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="min-w-0">
-          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--color-dim)] mb-1.5">
+          <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[var(--color-dim)] mb-1.5">
             База продавцов
           </p>
-          <p className="text-[15px] font-bold leading-tight">12 115 контактов с телефонами</p>
+          <p className="text-[15px] font-normal leading-tight">12 115 контактов с телефонами</p>
           <p className="text-[12.5px] text-[var(--color-dim)] mt-1 leading-snug">
             Google Таблица: приоритет A/B/C/D, город, размер, рейтинг, ассортимент
           </p>
@@ -37,7 +38,7 @@ function BaseCTA() {
           target="_blank"
           rel="noopener noreferrer"
           className="shrink-0 inline-flex items-center justify-center gap-2 whitespace-nowrap
-                     bg-[var(--color-text)] text-[var(--color-bg)] font-mono text-[13px] font-bold
+                     bg-[var(--color-text)] text-[var(--color-bg)] font-mono text-[13px] font-normal
                      uppercase tracking-[0.08em] px-5 py-3 rounded-[3px] no-underline
                      hover:opacity-80 transition-opacity
                      focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
@@ -60,13 +61,13 @@ const fmtMln = (v: number) =>
     : `${v.toLocaleString("ru-RU", { maximumFractionDigits: 0 })} млн ₸`;
 
 const SOURCE = (
-  <figcaption className="font-mono text-[11px] text-[var(--color-dim)] mt-4">
+  <figcaption className="font-mono text-[12px] text-[var(--color-dim)] mt-4">
     Источник:{" "}
     <a
       href="https://redstat.kz"
       target="_blank"
       rel="noopener noreferrer"
-      className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2"
+      className="text-[var(--color-dim)] hover:text-[var(--color-text)]   "
     >
       redstat.kz
     </a>
@@ -79,7 +80,7 @@ function SectionHead({ n, label, title }: { n: string; label: string; title: Rea
   return (
     <header className="mt-16 mb-6">
       <MetaLabel items={[`Раздел ${n}`, label]} className="mb-3" />
-      <h2 className="text-[22px] md:text-[26px] font-bold tracking-tight leading-[1.2]">{title}</h2>
+      <h2 className="text-[22px] md:text-[26px] font-normal tracking-tight leading-[1.2]">{title}</h2>
     </header>
   );
 }
@@ -102,7 +103,7 @@ function MonoTable({
             {head.map((h, i) => (
               <th
                 key={i}
-                className={`border-b border-[var(--color-text)] pb-2 pr-4 text-[10.5px] uppercase tracking-[0.14em] text-[var(--color-dim)] font-normal ${
+                className={`border-b border-[var(--color-text)] pb-2 pr-4 text-[12px] uppercase tracking-[0.14em] text-[var(--color-dim)] font-normal ${
                   numeric.includes(i) ? "text-right pr-0 pl-4" : "text-left"
                 }`}
               >
@@ -143,26 +144,13 @@ function StatStrip() {
     { k: "Продавцов НГ-товаров", num: "2 749", unit: "", d: "декабрь 2025" },
     { k: "База для обзвона", num: "12 115", unit: "", d: "продавцов с телефонами · A/B/C/D" },
   ];
-  return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 border-t border-l border-[var(--color-border)] my-8 sm:my-10">
-      {stats.map((s) => (
-        <div key={s.k} className="border-r border-b border-[var(--color-border)] p-3 sm:p-4">
-          <p className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.12em] sm:tracking-[0.14em] text-[var(--color-dim)] mb-2 leading-snug text-balance">{s.k}</p>
-          <p className="font-mono text-[16px] sm:text-[18px] md:text-[19px] font-bold tabular-nums leading-tight">
-            <span className="whitespace-nowrap">{s.num}</span>
-            {s.unit && <span className="whitespace-nowrap"> {s.unit}</span>}
-          </p>
-          <p className="font-mono text-[10px] sm:text-[11px] text-[var(--color-dim)] mt-1.5 sm:mt-2 leading-snug">{s.d}</p>
-        </div>
-      ))}
-    </div>
-  );
+  return <div className="research-facts">{stats.map(s => <ResearchFact key={s.k} label={s.k} value={`${s.num}${s.unit ? ` ${s.unit}` : ""}`} note={s.d} />)}</div>;
 }
 
 /* ───── Charts ───── */
 function ClusterLineChart() {
   return (
-    <figure className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-3 sm:p-5">
+    <figure className="my-8   border-[var(--color-border)]  p-3 ">
       <LineChart
         height={260}
         accent={ACCENT}
@@ -200,7 +188,7 @@ function ClusterLineChart() {
 
 function CategoriesBarChart() {
   return (
-    <figure className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-3 sm:p-5">
+    <figure className="my-8   border-[var(--color-border)]  p-3 ">
       <BarChart
         accent={ACCENT}
         barRadius={2}
@@ -211,7 +199,7 @@ function CategoriesBarChart() {
           title: "Ёлки - почти половина всего кластера",
           subtitle: "Ниши НГ-кластера, выручка за декабрь 2025, млн ₸",
         }}
-        slots={{ tooltip: () => null }}
+
         data={[
           { label: "Новогодние ёлки", value: 1746.8, color: ACCENT },
           { label: "Электрогирлянды", value: 812.2, color: NEUTRAL },
@@ -233,7 +221,7 @@ function CategoriesBarChart() {
 
 function TimingChart() {
   return (
-    <figure className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-3 sm:p-5">
+    <figure className="my-8   border-[var(--color-border)]  p-3 ">
       <ColumnChart
         height={230}
         barRadius={2}
@@ -242,7 +230,7 @@ function TimingChart() {
           title: "94% сезона - это ноябрь и декабрь",
           subtitle: "Доля месяца в выручке сезона 2025/26, ниша «Новогодние ёлки»",
         }}
-        slots={{ tooltip: () => null }}
+
         data={[
           { label: "сен", value: 0.8, color: NEUTRAL },
           { label: "окт", value: 4.4, color: NEUTRAL },
@@ -262,7 +250,7 @@ function TimingChart() {
 
 function SeasonMapChart() {
   return (
-    <figure className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-3 sm:p-5">
+    <figure className="my-8   border-[var(--color-border)]  p-3 ">
       <BarChart
         accent={ACCENT}
         barRadius={2}
@@ -273,7 +261,7 @@ function SeasonMapChart() {
           title: "Сезонная карта Kaspi: где живут ваши покупатели",
           subtitle: "Продавце-мест в нишах сезонного класса · июнь 2026",
         }}
-        slots={{ tooltip: () => null }}
+
         data={[
           { label: "Умеренно-сезонные", value: 52173, color: NEUTRAL },
           { label: "Новогодний (ваш)", value: 39565, color: ACCENT },
@@ -296,7 +284,7 @@ function SeasonMapChart() {
 
 function SummerChart() {
   return (
-    <figure className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-3 sm:p-5">
+    <figure className="my-8   border-[var(--color-border)]  p-3 ">
       <BarChart
         accent={ACCENT}
         barRadius={2}
@@ -307,7 +295,7 @@ function SummerChart() {
           title: "Летники: кому зимой нечем торговать",
           subtitle: "Сезонные летние ниши, выручка за июнь 2026, млн ₸",
         }}
-        slots={{ tooltip: () => null }}
+
         data={[
           { label: "Кондиционеры", value: 4214, color: NEUTRAL },
           { label: "Бассейны", value: 1957, color: ACCENT },
@@ -329,7 +317,7 @@ function SummerChart() {
 
 function BaseCompositionChart() {
   return (
-    <figure className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-3 sm:p-5">
+    <figure className="my-8   border-[var(--color-border)]  p-3 ">
       <ColumnChart
         height={230}
         barRadius={2}
@@ -338,7 +326,7 @@ function BaseCompositionChart() {
           title: "12 115 продавцов, размечены по приоритету обзвона",
           subtitle: "Число продавцов с телефоном в каждом классе A/B/C/D",
         }}
-        slots={{ tooltip: () => null }}
+
         data={[
           { label: "A", value: 2996, color: ACCENT },
           { label: "B", value: 6377, color: NEUTRAL },
@@ -359,19 +347,19 @@ function BaseCompositionChart() {
 
 export default function ElkiClientReport() {
   return (
-    <div className="font-mono text-[var(--color-text)]">
-      <div className="max-w-[1400px] mx-auto border-x border-[var(--color-border)] min-h-screen flex flex-col">
+    <div className="reading-body text-[var(--color-text)]">
+      <div className="w-full">
         {/* Slim client chrome: masthead + report brand, no site nav */}
         <header className="flex items-center justify-between gap-3 px-4 sm:px-6 py-4 border-b border-[var(--color-border)]">
-          <Masthead />
-          <p className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.12em] sm:tracking-[0.16em] text-[var(--color-dim)] text-right shrink-0">
+
+          <p className="font-mono text-[12px] sm:text-[12px] uppercase tracking-[0.12em] sm:tracking-[0.16em] text-[var(--color-dim)] text-right shrink-0">
             RedStat<span className="hidden sm:inline"> · аналитика Kaspi.kz</span>
           </p>
         </header>
 
-        <article className="w-full max-w-[680px] mx-auto px-4 sm:px-6 py-10 sm:py-12 md:py-16 flex-1">
+        <article className="w-full max-w-[800px]">
           <MetaLabel items={["Июль 2026", "Клиентский отчёт", "Kaspi.kz"]} className="mb-5" />
-          <h1 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-[1.15] mb-5">
+          <h1 className="text-[28px] md:text-[36px] font-normal tracking-tight leading-[1.15] mb-5">
             Сезонные ниши Kaspi.kz: рынок, продавцы, план обзвона
           </h1>
           <p className="text-[14px] md:text-[15px] text-[var(--color-dim)] leading-relaxed">
@@ -380,6 +368,7 @@ export default function ElkiClientReport() {
             июль 2026, 3 484 ниши, 663 тыс. товаров.
           </p>
 
+          <ResearchReadingTime />
           <StatStrip />
 
           {/* ── 1. Рынок ── */}
@@ -415,7 +404,7 @@ export default function ElkiClientReport() {
           </p>
           <TimingChart />
 
-          <h3 className="font-bold text-[15px] mt-10 mb-1">Ценовая структура ниши</h3>
+          <h3 className="font-normal text-[15px] mt-10 mb-1">Ценовая структура ниши</h3>
           <MonoTable
             head={["Сегмент", "Товаров", "Медианная цена", "Брендовых", "Комментарий"]}
             numeric={[1, 2, 3]}
@@ -432,7 +421,7 @@ export default function ElkiClientReport() {
             180-240 см. Если в вашей линейке есть такие позиции - ведите разговор с продавцами именно с них.
           </p>
 
-          <h3 className="font-bold text-[15px] mt-10 mb-1">Бренды в нише: с кем конкурируете за полку</h3>
+          <h3 className="font-normal text-[15px] mt-10 mb-1">Бренды в нише: с кем конкурируете за полку</h3>
           <MonoTable
             head={["Бренд", "Продавцов", "Выручка, млн ₸", "Статус"]}
             numeric={[1, 2]}
@@ -497,7 +486,7 @@ export default function ElkiClientReport() {
               ["Приоритет A/B/C/D + скоринг", "порядок обзвона"],
             ]}
           />
-          <h3 className="font-bold text-[15px] mt-10 mb-1">Как читается приоритет</h3>
+          <h3 className="font-normal text-[15px] mt-10 mb-1">Как читается приоритет</h3>
           <MonoTable
             head={["Класс", "Кто это", "Что делать"]}
             rows={[
@@ -531,10 +520,10 @@ export default function ElkiClientReport() {
         </article>
 
         <footer className="border-t border-[var(--color-border)] px-4 sm:px-6 py-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="font-mono text-[10.5px] sm:text-[11px] text-[var(--color-dim)] leading-relaxed max-w-[60ch]">
+          <p className="font-mono text-[12px] sm:text-[12px] text-[var(--color-dim)] leading-relaxed max-w-[60ch]">
             RedStat · аналитика маркетплейса Kaspi.kz · подготовлено для внутреннего использования
             заказчика, июль 2026. Выручка - оценка по методологии RedStat. Вопросы:{" "}
-            <a href="mailto:almas@kasymzhanov.com" className="hover:text-[var(--color-text)] underline decoration-dotted underline-offset-2 whitespace-nowrap">
+            <a href="mailto:almas@kasymzhanov.com" className="hover:text-[var(--color-text)] underline   whitespace-nowrap">
               almas@kasymzhanov.com
             </a>
           </p>
@@ -542,7 +531,7 @@ export default function ElkiClientReport() {
             href={BASE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="shrink-0 font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--color-dim)] hover:text-[var(--color-text)] underline decoration-dotted underline-offset-4 whitespace-nowrap"
+            className="shrink-0 font-mono text-[12px] uppercase tracking-[0.12em] text-[var(--color-dim)] hover:text-[var(--color-text)] underline   whitespace-nowrap"
           >
             База продавцов →
           </a>

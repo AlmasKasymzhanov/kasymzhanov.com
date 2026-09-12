@@ -454,7 +454,7 @@ export function Cite({ n, locale = "ru" }: { n: number; locale?: Locale }) {
       n={n}
       tip={
         <>
-          <span className="font-bold text-[var(--color-text)]">{source.publication}</span>
+          <span className="font-medium text-[var(--color-text)]">{source.publication}</span>
           {` · ${source.date}. ${source.claim}`}
           <span className="mt-1 block text-[10px]">{CITE_HINT[locale]}</span>
         </>
@@ -471,19 +471,19 @@ const SOURCES_TITLE: Record<Locale, string> = {
 export function SourcesList({ locale = "ru" }: { locale?: Locale }) {
   const sources = getSources(locale);
   return (
-    <section className="mb-12" aria-labelledby="article-sources-heading">
-      <h2 id="article-sources-heading" className="mb-6 text-[20px] font-bold tracking-tight text-[var(--color-text)]">
+    <section className="reading-panel reading-sources mb-12" aria-labelledby="article-sources-heading">
+      <h2 id="article-sources-heading" className="mb-6 text-[20px] font-medium tracking-tight text-[var(--color-text)]">
         {SOURCES_TITLE[locale]}
       </h2>
       <ol className="list-decimal space-y-3 pl-5 text-[12px] leading-relaxed text-[var(--color-dim)] marker:font-mono marker:text-[var(--color-text)]">
         {sources.map((source) => (
           <li key={source.n} id={`source-${source.n}`}>
-            <span className="font-bold text-[var(--color-text)]">{source.publication}</span>
+            <span className="font-medium text-[var(--color-text)]">{source.publication}</span>
             {` · ${source.date}. ${source.claim} `}
             {source.links.map((link, index) => (
               <span key={link.href}>
                 {index > 0 && " · "}
-                <a href={link.href} target={link.href.startsWith("#") ? undefined : "_blank"} rel={link.href.startsWith("#") ? undefined : "noopener noreferrer"} className="underline decoration-solid underline-offset-2 hover:text-[var(--color-text)]">
+                <a href={link.href} target={link.href.startsWith("#") ? undefined : "_blank"} rel={link.href.startsWith("#") ? undefined : "noopener noreferrer"} className="underline decoration-solid  hover:text-[var(--color-text)]">
                   {link.label}
                 </a>
               </span>

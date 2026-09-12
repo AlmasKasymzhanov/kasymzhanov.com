@@ -1,53 +1,51 @@
 "use client";
+import { IconlyArrowLeft } from "@/components/iconly-icons";
+import { ResearchSection, ResearchFact, ResearchNote, ResearchFigure } from "@/components/canon/research-editorial";
+import { ColumnChart } from "@/components/charts/column-chart";
+import { ResearchReadingTime } from "@/components/canon/research-reading-time";
+
 
 import { useState } from "react";
 import Link from "next/link";
 
 const C = {
-  bg: "#0a0a0f", surface: "#111119", border: "#1e1e30",
-  accent: "#9b59b6", green: "#00d2a0", text: "#e8e8f0",
-  dim: "#999", faint: "#444", red: "#f87171", amber: "#f59e0b",
-  blue: "#60a5fa", pink: "#f472b6", cyan: "#22d3ee", purple: "#a78bfa",
+  bg: "var(--personal-paper)", surface: "var(--report-surface)", border: "var(--personal-border)",
+  accent: "var(--personal-text)", green: "var(--personal-text)", text: "var(--personal-text)",
+  dim: "var(--personal-muted)", faint: "var(--personal-border)", red: "var(--personal-text)", amber: "var(--personal-text)",
+  blue: "var(--personal-text)", pink: "var(--personal-text)", cyan: "var(--personal-text)", purple: "var(--personal-text)",
 };
 
 const sSection: React.CSSProperties = { marginBottom: 56 };
-const sH2: React.CSSProperties = { fontSize: 22, fontWeight: 700, margin: "0 0 24px", color: C.text, letterSpacing: "-0.01em", borderBottom: `1px solid ${C.border}`, paddingBottom: 12 };
-const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 600, margin: "28px 0 12px", color: C.text };
-const sP: React.CSSProperties = { fontSize: 14, lineHeight: 1.75, color: "#ccc", margin: "0 0 12px" };
-const sCard: React.CSSProperties = { background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, padding: "24px", marginBottom: 16 };
-const sBadge = (color: string): React.CSSProperties => ({ display: "inline-block", padding: "3px 10px", borderRadius: 20, background: `${color}18`, color, fontSize: 11, fontWeight: 600 });
+const sH2: React.CSSProperties = { fontSize: 22, fontWeight: 500, margin: "0 0 24px", color: C.text, letterSpacing: "-0.01em", borderBottom: `1px solid ${C.border}`, paddingBottom: 12 };
+const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 500, margin: "28px 0 12px", color: C.text };
+const sP: React.CSSProperties = { fontSize: "var(--reading-body-size)", lineHeight: 1.75, color: "var(--personal-text)", margin: "0 0 12px" };
+const sCard: React.CSSProperties = { margin: "24px 0", padding: 0 };
+const sBadge = (_color: string): React.CSSProperties => ({ display: "inline", color: "var(--personal-muted)", fontSize: 12, fontWeight: 400 });
 
-function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
-  const [open, setOpen] = useState(true);
-  return (<div id={id} style={sSection}><h2 onClick={() => setOpen(!open)} style={{ ...sH2, cursor: "pointer", display: "flex", alignItems: "center", gap: 10, userSelect: "none" }}><span style={{ fontSize: 14, color: C.dim, transform: open ? "rotate(90deg)" : "rotate(0)", transition: "transform 0.2s", display: "inline-block" }}>&#9654;</span>{title}</h2>{open && children}</div>);
-}
+function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) { return <ResearchSection id={id} title={title}>{children}</ResearchSection>; }
 
 function DataTable({ headers, rows, highlight }: { headers: string[]; rows: (string | number)[][]; highlight?: number }) {
-  return (<div style={{ overflowX: "auto", marginBottom: 16 }}><table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}><thead><tr>{headers.map((h, i) => (<th key={i} style={{ padding: "10px 12px", textAlign: "left", color: C.dim, fontWeight: 600, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>))}</tr></thead><tbody>{rows.map((row, ri) => (<tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `${C.accent}12` : "transparent" }}>{row.map((cell, ci) => (<td key={ci} style={{ padding: "10px 12px", textAlign: "left", color: ci === 0 ? C.text : "#ccc", borderBottom: `1px solid ${C.border}20`, fontWeight: ci === 0 ? 500 : 400, whiteSpace: ci === 0 ? "nowrap" : "normal" }}>{cell}</td>))}</tr>))}</tbody></table></div>);
+  return (<div style={{ overflowX: "auto", marginBottom: 16 }}><table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}><thead><tr>{headers.map((h, i) => (<th key={i} style={{ padding: "10px 12px", textAlign: "left", color: C.dim, fontWeight: 500, borderBottom: `1px solid ${C.border}`, whiteSpace: "nowrap", fontSize: 11 }}>{h}</th>))}</tr></thead><tbody>{rows.map((row, ri) => (<tr key={ri} style={{ background: highlight !== undefined && ri === highlight ? `color-mix(in srgb, ${C.accent} 7%, transparent)` : "transparent" }}>{row.map((cell, ci) => (<td key={ci} style={{ padding: "10px 12px", textAlign: "left", color: ci === 0 ? C.text : "var(--personal-text)", borderBottom: `1px solid color-mix(in srgb, ${C.border} 13%, transparent)`, fontWeight: ci === 0 ? 500 : 400, whiteSpace: ci === 0 ? "nowrap" : "normal" }}>{cell}</td>))}</tr>))}</tbody></table></div>);
 }
 
-function MetricCard({ label, value, sub, color }: { label: string; value: string; sub?: string; color?: string }) {
-  return (<div style={{ ...sCard, padding: "16px 20px", flex: 1, minWidth: 140 }}><div style={{ fontSize: 11, color: C.dim, marginBottom: 6 }}>{label}</div><div style={{ fontSize: 22, fontWeight: 700, color: color || C.text }}>{value}</div>{sub && <div style={{ fontSize: 11, color: C.dim, marginTop: 4 }}>{sub}</div>}</div>);
-}
+function MetricCard({ label, value, sub, color }: { label: string; value: string; sub?: string; color?: string }) { return <ResearchFact label={label} value={value} note={sub} />; }
 
-function Insight({ text, type = "info" }: { text: string; type?: "info" | "warning" | "success" }) {
-  const color = type === "warning" ? C.amber : type === "success" ? C.green : C.blue;
-  return <div style={{ borderLeft: `3px solid ${color}`, paddingLeft: 14, margin: "12px 0", fontSize: 13, color: "#bbb", lineHeight: 1.6 }}><strong style={{ color }}>Инсайт: </strong>{text}</div>;
-}
+function Insight({ text, type = "info" }: { text: string; type?: "info" | "warning" | "success" }) { return <p className="research-paragraph">{text}</p>; }
 
 /* ═══════════════════ MAIN ═══════════════════ */
 export default function WBCosmeticsReport() {
   return (
-    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "'Inter', -apple-system, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "var(--font-body)" }}>
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "40px 24px 80px" }}>
 
-        <div style={{ marginBottom: 16 }}><Link href="/" style={{ color: C.dim, fontSize: 13, textDecoration: "none" }}>&larr; kasymzhanov.com</Link></div>
+        <div style={{ marginBottom: 16 }}><Link href="/" style={{ color: C.dim, fontSize: 13, textDecoration: "none" }}><IconlyArrowLeft size={17} className="reading-inline-icon" /> kasymzhanov.com</Link></div>
 
-        <div style={{ marginBottom: 48, paddingBottom: 32, borderBottom: `1px solid ${C.border}` }}>
-          <div style={sBadge(C.accent)}><span style={{ textTransform: "uppercase", letterSpacing: "0.05em" }}>Enterprise Analytics Report</span></div>
-          <h1 style={{ fontSize: 32, fontWeight: 800, margin: "16px 0 8px", letterSpacing: "-0.03em", lineHeight: 1.2 }}>
-            Рынок «Красота»<br />на Wildberries
+        <div className="research-header" style={{ marginBottom: 48, paddingBottom: 32, borderBottom: `1px solid ${C.border}` }}>
+          <div style={sBadge(C.accent)}><span style={{ textTransform: "none", letterSpacing: "0.05em" }}>Enterprise Analytics Report</span></div>
+          <h1 style={{ fontSize: 32, fontWeight: 500, margin: "16px 0 8px", letterSpacing: "-0.03em", lineHeight: 1.2 }}>
+            Рынок «Красота»{" "}на Wildberries
           </h1>
+<p className="research-lead">Категории, бренды и структура продаж на Wildberries. Разбор рынка и положения косметического портфеля.</p>
           <p style={{ color: C.dim, fontSize: 14, margin: "12px 0 0" }}>
             Подготовил <strong style={{ color: C.text }}>Алмас Касымжанов</strong>
           </p>
@@ -57,13 +55,15 @@ export default function WBCosmeticsReport() {
             <span>Брендов: <strong style={{ color: C.text }}>64 700+</strong></span>
             <span>Тренды: <strong style={{ color: C.text }}>6+ лет</strong></span>
           </div>
-        </div>
+
+<ResearchReadingTime />
+</div>
 
         {/* ═══ TOC ═══ */}
         <div style={{ ...sCard, marginBottom: 48, padding: "20px 24px" }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: C.dim, marginBottom: 12 }}>Содержание</div>
+          <div style={{ fontSize: 13, fontWeight: 400, color: C.dim, marginBottom: 12 }}>Содержание</div>
           {[
-            ["s1", "1. Executive Summary"],
+            ["s1", "1. Обзор"],
             ["s2", "2. TAM и структура рынка"],
             ["s3", "3. Тренды — рост рынка за 6 лет"],
             ["s4", "4. Топ-30 брендов категории «Красота»"],
@@ -81,8 +81,8 @@ export default function WBCosmeticsReport() {
         </div>
 
         {/* ═══ 1. EXECUTIVE SUMMARY ═══ */}
-        <Section id="s1" title="1. Executive Summary">
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24 }}>
+        <Section id="s1" title="1. Обзор">
+          <div className="research-facts" >
             <MetricCard label="Выручка/мес (март 2026)" value="29.2B" sub="RUB (~146B KZT)" color={C.accent} />
             <MetricCard label="Продажи" value="42M" sub="единиц/мес" />
             <MetricCard label="SKU с продажами" value="930K" sub="из 13.6M всего" />
@@ -90,7 +90,7 @@ export default function WBCosmeticsReport() {
           </div>
           <div style={sCard}>
             <h3 style={{ ...sH3, margin: "0 0 12px" }}>Ключевые выводы</h3>
-            <div style={{ fontSize: 13, lineHeight: 2, color: "#ccc" }}>
+            <div style={{ fontSize: 13, lineHeight: 2, color: "var(--personal-text)" }}>
               <div>1. Рынок <strong style={{ color: C.green }}>вырос x16 за 6 лет</strong> (с 2.4B до 38B RUB/мес). Стабильный рост продолжается.</div>
               <div>2. <strong style={{ color: C.text }}>«Уход за кожей»</strong> — крупнейшая подкатегория (8.0B RUB, 27%), опережает макияж и парфюмерию.</div>
               <div>3. <strong style={{ color: C.green }}>Все 21 бренд верифицированы на WB.</strong> Лидеры: Celimax (2.2B RUB/год), Round Lab (699M), VT Cosmetics (279M), Skin1004 (267M), Anua (197M).</div>
@@ -151,9 +151,9 @@ export default function WBCosmeticsReport() {
 
           <Insight text="Рынок вырос x16 за 6 лет. Но темпы замедляются: x2.5 в 2023, x1.4 в 2024. Рынок переходит от взрывного роста к зрелости." type="warning" />
 
-          <div style={{ ...sCard, borderLeft: `3px solid ${C.green}` }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, margin: "0 0 8px", color: C.green }}>Ключевые тренды</h3>
-            <div style={{ fontSize: 13, lineHeight: 2, color: "#ccc" }}>
+            <div style={{ fontSize: 13, lineHeight: 2, color: "var(--personal-text)" }}>
               <div>1. <strong style={{ color: C.text }}>SKU-инфляция:</strong> количество товаров выросло с 133K до 21.7M (x163!), но только 6.8% имеют продажи. Рынок перенасыщен «мёртвыми» карточками.</div>
               <div>2. <strong style={{ color: C.text }}>Консолидация брендов:</strong> топ-10 = 24% рынка, топ-50 = 54%. Средние бренды сжимаются.</div>
               <div>3. <strong style={{ color: C.text }}>Рост среднего чека:</strong> от ~400₽ в 2020 до ~700₽+ в 2026. Покупатели готовы платить больше.</div>
@@ -196,7 +196,7 @@ export default function WBCosmeticsReport() {
 
         {/* ═══ 5. CONCENTRATION ═══ */}
         <Section id="s5" title="5. Концентрация рынка и конкурентная среда">
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 16 }}>
+          <div className="research-facts" >
             <MetricCard label="Топ-10 брендов" value="24%" sub="от выручки топ-200" />
             <MetricCard label="Топ-50 брендов" value="54%" sub="от выручки топ-200" />
             <MetricCard label="SKU с продажами" value="6.8%" sub="из 13.6M всего" color={C.amber} />
@@ -208,7 +208,7 @@ export default function WBCosmeticsReport() {
 
         {/* ═══ 6. CLIENT BRANDS ═══ */}
         <Section id="s6" title="6. Все 21 бренд клиента на Wildberries">
-          <p style={sP}>Полные данные по каждому бренду за год (апрель 2025 — март 2026). Источник: MPStats Insight, экспорт по брендам. Выкупы до 11.03.2026.</p>
+          <p style={sP}>Полные данные по каждому бренду за год (апрель 2025 — март 2026). Источник: агрегированные данные Wildberries, экспорт по брендам. Выкупы до 11.03.2026.</p>
 
           <DataTable headers={["#", "Бренд", "Выручка/год", "~Выручка/мес", "Продажи/год", "Выкупы/год", "SKU", "Ср. рейтинг", "Отзывов"]} rows={[
             ["1", "Celimax", "2 235M", "~186M", "1 629K", "1 306K", "16 674", "4.83", "727K"],
@@ -252,9 +252,9 @@ export default function WBCosmeticsReport() {
             { brand: "Bohicare", items: ["Anti-age Lifting крем — 3M, 754 продажи, 700 отзывов (4 380₽!)", "SPF LightAIR Veggie — 2M, 887 продаж, 737 отзывов", "Гидрофильный бальзам — 2M, 791 продажа, 424 отзыва"] },
           ].map(({brand, items}) => (
             <div key={brand} style={{ ...sCard, padding: "16px 20px" }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 8 }}>{brand}</div>
+              <div style={{ fontSize: 14, fontWeight: 400, color: C.text, marginBottom: 8 }}>{brand}</div>
               {items.map((item, i) => (
-                <div key={i} style={{ fontSize: 12, color: "#ccc", lineHeight: 1.8 }}>{i+1}. {item}</div>
+                <div key={i} style={{ fontSize: 12, color: "var(--personal-text)", lineHeight: 1.8 }}>{i+1}. {item}</div>
               ))}
             </div>
           ))}
@@ -262,8 +262,8 @@ export default function WBCosmeticsReport() {
 
         {/* ═══ 7. CELIMAX ═══ */}
         <Section id="s7" title="7. Celimax — #9 в «Красоте» WB">
-          <p style={{ ...sP, fontSize: 12, color: C.dim }}>Данные ниже: метрики за март 2026 (API MPStats). Годовые данные — в секции 6.</p>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 16 }}>
+          <p style={{ ...sP, fontSize: 12, color: C.dim }}>Данные ниже: метрики за март 2026 (агрегированные данные Wildberries). Годовые данные — в секции 6.</p>
+          <div className="research-facts" >
             <MetricCard label="Выручка (март 2026)" value="124M" sub="RUB (~620M KZT)" color={C.green} />
             <MetricCard label="Продажи (март)" value="97 360" sub="ед./мес" />
             <MetricCard label="Средний чек" value="1 278₽" sub="~6 400 KZT" />
@@ -283,11 +283,7 @@ export default function WBCosmeticsReport() {
           <h3 style={sH3}>Дневные продажи (март 2026)</h3>
           <p style={sP}>Среднедневные продажи: ~3 600 единиц. Пиковые дни: начало месяца (4 500-5 500). Спад в середине (2 400-3 000). Стабилизация к концу (2 600-3 400).</p>
           <div style={{ ...sCard, padding: "16px" }}>
-            <div style={{ display: "flex", alignItems: "flex-end", gap: 2, height: 80 }}>
-              {[4644,5541,4944,4846,4625,4188,4496,4467,5073,5156,4757,3111,2997,3168,2934,2469,2589,2687,2656,2867,2741,2887,2278,3376,2824,2419,2620].map((v, i) => (
-                <div key={i} style={{ flex: 1, background: v > 4000 ? C.green : v > 3000 ? C.blue : C.dim, height: `${(v / 5600) * 100}%`, borderRadius: 2, minWidth: 4 }} title={`День ${i + 1}: ${v} шт`} />
-              ))}
-            </div>
+            <ColumnChart height={180} minBarWidth={24} scroll="auto" data={[4644,5541,4944,4846,4625,4188,4496,4467,5073,5156,4757,3111,2997,3168,2934,2469,2589,2687,2656,2867,2741,2887,2278,3376,2824,2419,2620]} labels={[4644,5541,4944,4846,4625,4188,4496,4467,5073,5156,4757,3111,2997,3168,2934,2469,2589,2687,2656,2867,2741,2887,2278,3376,2824,2419,2620].map((_, i) => String(i + 1))} xAxis={{title: "День марта"}} yAxis={{title: "Продажи, шт"}} formatValue={value => value.toLocaleString("ru-RU") + " шт"} animation={{enabled:false}} />
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6, fontSize: 10, color: C.dim }}>
               <span>1 мар</span><span>15 мар</span><span>27 мар</span>
             </div>
@@ -295,7 +291,7 @@ export default function WBCosmeticsReport() {
 
           <Insight text="Celimax — единственный бренд портфеля в топ-10 WB. 32.5% SKU имеют продажи — в 5 раз выше среднего (6.8%). Бренд хорошо оптимизирован на площадке." type="success" />
 
-          <div style={{ ...sCard, borderLeft: `3px solid ${C.blue}` }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, margin: "0 0 8px", color: C.blue }}>Сравнение Celimax: Kaspi vs WB</h3>
             <DataTable headers={["Метрика", "Kaspi", "WB", "Вывод"]} rows={[
               ["Выручка/мес", "~239M KZT", "124M RUB (~620M KZT)", "WB = 2.6x Kaspi"],
@@ -309,8 +305,8 @@ export default function WBCosmeticsReport() {
 
         {/* ═══ 8. ROUND LAB ═══ */}
         <Section id="s8" title="8. Round Lab — #65 в «Красоте» WB">
-          <p style={{ ...sP, fontSize: 12, color: C.dim }}>Данные ниже: метрики за март 2026 (API MPStats). Годовая выручка: 699M RUB (секция 6).</p>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 16 }}>
+          <p style={{ ...sP, fontSize: 12, color: C.dim }}>Данные ниже: метрики за март 2026 (агрегированные данные Wildberries). Годовая выручка: 699M RUB (секция 6).</p>
+          <div className="research-facts" >
             <MetricCard label="Выручка (март 2026)" value="48M" sub="RUB (~240M KZT)" color={C.blue} />
             <MetricCard label="Продажи (март)" value="31 956" sub="ед./мес" />
             <MetricCard label="Средний чек" value="1 487₽" sub="~7 400 KZT" />
@@ -327,11 +323,7 @@ export default function WBCosmeticsReport() {
 
           <h3 style={sH3}>Дневные продажи (март 2026)</h3>
           <div style={{ ...sCard, padding: "16px" }}>
-            <div style={{ display: "flex", alignItems: "flex-end", gap: 2, height: 80 }}>
-              {[1315,1540,1646,1337,1181,1124,1349,1470,1420,1250,1356,1065,1084,1182,1146,956,1084,978,1136,1088,1000,1063,863,1318,1045,969,991].map((v, i) => (
-                <div key={i} style={{ flex: 1, background: v > 1400 ? C.green : v > 1100 ? C.blue : C.dim, height: `${(v / 1700) * 100}%`, borderRadius: 2, minWidth: 4 }} title={`День ${i + 1}: ${v} шт`} />
-              ))}
-            </div>
+            <ColumnChart height={180} minBarWidth={24} scroll="auto" data={[1315,1540,1646,1337,1181,1124,1349,1470,1420,1250,1356,1065,1084,1182,1146,956,1084,978,1136,1088,1000,1063,863,1318,1045,969,991]} labels={[1315,1540,1646,1337,1181,1124,1349,1470,1420,1250,1356,1065,1084,1182,1146,956,1084,978,1136,1088,1000,1063,863,1318,1045,969,991].map((_, i) => String(i + 1))} xAxis={{title: "День марта"}} yAxis={{title: "Продажи, шт"}} formatValue={value => value.toLocaleString("ru-RU") + " шт"} animation={{enabled:false}} />
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6, fontSize: 10, color: C.dim }}>
               <span>1 мар</span><span>15 мар</span><span>27 мар</span>
             </div>
@@ -339,7 +331,7 @@ export default function WBCosmeticsReport() {
 
           <Insight text="Round Lab на WB стабильнее, чем на Kaspi (где замедляется). Среднедневные: ~1 200 шт. Без резких провалов. Рейтинг 4.79 — ниже Celimax (4.89), но в рамках нормы." />
 
-          <div style={{ ...sCard, borderLeft: `3px solid ${C.blue}` }}>
+          <div style={{ ...sCard }}>
             <h3 style={{ ...sH3, margin: "0 0 8px", color: C.blue }}>Round Lab: Kaspi vs WB</h3>
             <DataTable headers={["Метрика", "Kaspi", "WB"]} rows={[
               ["Выручка/мес", "~86M KZT", "48M RUB (~240M KZT)"],
@@ -353,8 +345,8 @@ export default function WBCosmeticsReport() {
 
         {/* ═══ 9. VT COSMETICS ═══ */}
         <Section id="s9" title="9. VT Cosmetics — #181 в «Красоте» WB">
-          <p style={{ ...sP, fontSize: 12, color: C.dim }}>Данные ниже: метрики за март 2026 (API MPStats). Годовая выручка: 279M RUB (секция 6).</p>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 16 }}>
+          <p style={{ ...sP, fontSize: 12, color: C.dim }}>Данные ниже: метрики за март 2026 (агрегированные данные Wildberries). Годовая выручка: 279M RUB (секция 6).</p>
+          <div className="research-facts" >
             <MetricCard label="Выручка (март 2026)" value="23M" sub="RUB (~115M KZT)" color={C.purple} />
             <MetricCard label="Продажи (март)" value="12 325" sub="ед./мес" />
             <MetricCard label="Средний чек" value="1 874₽" sub="~9 400 KZT — самый высокий" color={C.green} />
@@ -372,11 +364,7 @@ export default function WBCosmeticsReport() {
 
           <h3 style={sH3}>Дневные продажи (март 2026)</h3>
           <div style={{ ...sCard, padding: "16px" }}>
-            <div style={{ display: "flex", alignItems: "flex-end", gap: 2, height: 80 }}>
-              {[573,562,801,525,490,436,439,435,433,474,479,436,430,529,495,402,432,363,365,453,371,417,364,449,391,397,384].map((v, i) => (
-                <div key={i} style={{ flex: 1, background: v > 550 ? C.green : v > 450 ? C.blue : C.dim, height: `${(v / 850) * 100}%`, borderRadius: 2, minWidth: 4 }} title={`День ${i + 1}: ${v} шт`} />
-              ))}
-            </div>
+            <ColumnChart height={180} minBarWidth={24} scroll="auto" data={[573,562,801,525,490,436,439,435,433,474,479,436,430,529,495,402,432,363,365,453,371,417,364,449,391,397,384]} labels={[573,562,801,525,490,436,439,435,433,474,479,436,430,529,495,402,432,363,365,453,371,417,364,449,391,397,384].map((_, i) => String(i + 1))} xAxis={{title: "День марта"}} yAxis={{title: "Продажи, шт"}} formatValue={value => value.toLocaleString("ru-RU") + " шт"} animation={{enabled:false}} />
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6, fontSize: 10, color: C.dim }}>
               <span>1 мар</span><span>15 мар</span><span>27 мар</span>
             </div>
@@ -392,7 +380,7 @@ export default function WBCosmeticsReport() {
 
           <div style={sCard}>
             <h3 style={{ ...sH3, margin: "0 0 12px" }}>Что это значит для стратегии</h3>
-            <div style={{ fontSize: 13, lineHeight: 2, color: "#ccc" }}>
+            <div style={{ fontSize: 13, lineHeight: 2, color: "var(--personal-text)" }}>
               <div>1. <strong style={{ color: C.text }}>Skin1004</strong> — #5 на Kaspi (136M KZT), на WB 267M RUB/год (22M/мес) — присутствует, но значительно слабее. SPF Sun Serum = основной SKU (18M).</div>
               <div>2. <strong style={{ color: C.text }}>Anua</strong> — на Kaspi 49M, на WB 197M RUB/год (16M/мес). Сыворотка с ниацинамидом = топ-SKU. Потенциал роста через маркетинг.</div>
               <div>3. <strong style={{ color: C.text }}>COSRX</strong> — на Kaspi 16M, на WB 49M RUB/год (4M/мес). 10K SKU, 58K отзывов — бренд узнаваем, но продажи распределены тонко.</div>
@@ -415,7 +403,7 @@ export default function WBCosmeticsReport() {
             ["Проблема подделок", "Высокая (<2K KZT)", "Ниже (FBO-контроль)", "Kaspi хуже"],
             ["Сезонные пики", "8 марта, НГ", "11.11, НГ, 8 марта", "Похожие"],
           ]} />
-          <p style={{ ...sP, fontSize: 11, color: C.dim }}>* оценка по данным RedStat за февраль 2026</p>
+          <p style={{ ...sP, fontSize: 11, color: C.dim }}>* оценка по данным агрегированные рыночные данные за февраль 2026</p>
 
           <div style={sCard}>
             <h3 style={{ ...sH3, margin: "0 0 12px" }}>Где какой бренд сильнее</h3>
@@ -451,7 +439,7 @@ export default function WBCosmeticsReport() {
 
           <div style={sCard}>
             <h3 style={{ ...sH3, margin: "0 0 16px" }}>Стратегия по площадкам</h3>
-            <div style={{ fontSize: 13, lineHeight: 2.2, color: "#ccc" }}>
+            <div style={{ fontSize: 13, lineHeight: 2.2, color: "var(--personal-text)" }}>
               {[
                 { n: "1", t: "WB = площадка масштабирования для Celimax", d: "Уже #9. Увеличить ассортимент (32.5% SKU с продажами — есть куда расти). Участие в WB-акциях. Таргет: топ-5." },
                 { n: "2", t: "Round Lab — усилить на WB", d: "#65 → цель #30-40. Средний чек 1 487₽ — выше Kaspi. Проблема подделок менее острая. Сфокусировать маркетинг." },
@@ -463,19 +451,19 @@ export default function WBCosmeticsReport() {
                 { n: "8", t: "Средний чек на WB выше", d: "Celimax: 1 278₽ (WB) vs ~400₽ эквивалент (Kaspi). Покупатели WB платят больше. Не демпинговать." },
               ].map((item) => (
                 <div key={item.n} style={{ marginBottom: 8 }}>
-                  <span style={{ color: C.accent, fontWeight: 700, marginRight: 8 }}>{item.n}.</span>
+                  <span style={{ color: C.accent, fontWeight: 400, marginRight: 8 }}>{item.n}.</span>
                   <strong style={{ color: C.text }}>{item.t}:</strong> {item.d}
                 </div>
               ))}
             </div>
           </div>
 
-          <div style={{ marginTop: 24, padding: "20px 24px", background: `${C.accent}08`, borderRadius: 12, border: `1px solid ${C.accent}30` }}>
+          <div style={{ marginTop: 24, padding: "16px 0" }}>
             <p style={{ ...sP, margin: "0 0 8px", fontSize: 13, color: C.dim }}>
               Проанализировано: <strong style={{ color: C.text }}>930 000+ SKU</strong> &middot; <strong style={{ color: C.text }}>64 700+ брендов</strong> &middot; <strong style={{ color: C.text }}>74 месяца трендов</strong> &middot; <strong style={{ color: C.text }}>все 21 бренд</strong> клиента с полными данными за год &middot; <strong style={{ color: C.text }}>110K+ SKU</strong> портфеля на WB &middot; <strong style={{ color: C.text }}>1.3M+ отзывов</strong>
             </p>
             <p style={{ ...sP, margin: 0, fontSize: 13, color: C.dim }}>
-              Источник данных: <a href="https://mpstats.io" target="_blank" rel="noopener noreferrer" style={{ color: C.accent, textDecoration: "none", fontWeight: 600 }}>MPStats</a>
+              Источник данных: агрегированные данные Wildberries
             </p>
           </div>
         </Section>

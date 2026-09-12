@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ArticleJsonLd } from "@/components/articles";
 
-const title = "Арифметика лени: как AI добывает золото из Kaspi | Almas Kasymzhanov";
+const title = "Арифметика лени: как AI добывает золото из Kaspi | Алмас Касымжанов";
 const description =
   "Без таблиц и дашбордов. Как развернуть AI-аналитика Kaspi через MCP-коннектор и находить прибыльные ниши, пока вы пьёте кофе. Пошагово, со скриншотами, бесплатно.";
 const image = "/blog/kaspi-mcp/mcp.webp";

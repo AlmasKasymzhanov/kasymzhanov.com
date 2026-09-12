@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { usePathname } from "next/navigation";
 import { createSupabaseBrowser } from "@/lib/supabase-browser";
 import { localeFromPathname, dict } from "@/lib/i18n";
@@ -25,6 +25,7 @@ export function CourseAccess({
   label?: string;
   note?: string;
 }) {
+  const emailId = useId();
   const [supabase] = useState(() => createSupabaseBrowser());
   const locale = localeFromPathname(usePathname() ?? "/");
   const t = dict[locale].auth;
@@ -65,19 +66,19 @@ export function CourseAccess({
 
   if (state === "sent") {
     return (
-      <div className="border border-[var(--color-border)] p-6 md:p-8">
+      <div role="status" className="auth-panel rounded-[14px] bg-[var(--reading-comment-surface)] p-6">
         <p className="text-[13px] uppercase tracking-[0.18em] text-[var(--color-dim)] mb-3">
           {t.sentTitle}
         </p>
         <p className="text-[15px] text-[var(--color-text)] leading-relaxed">
-          {t.sentBefore} <span className="font-bold">{email.trim()}</span>{t.sentAfter}
+          {t.sentBefore} <span className="font-medium">{email.trim()}</span>{t.sentAfter}
         </p>
         <button
           onClick={() => {
             setState("idle");
             setMsg("");
           }}
-          className="mt-5 text-[12px] text-[var(--color-dim)] hover:text-[var(--color-text)] underline decoration-1 underline-offset-4"
+          className="mt-5 text-[12px] text-[var(--color-dim)] hover:text-[var(--color-text)] no-underline"
         >
           {t.otherEmail}
         </button>
@@ -86,9 +87,9 @@ export function CourseAccess({
   }
 
   return (
-    <div className="border border-[var(--color-border)] rounded-lg p-6 md:p-8 max-w-md mx-auto">
+    <div className="auth-panel max-w-md font-sans">
       {label && (
-        <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--color-dim)] mb-4">
+        <p className="text-[13px] text-[var(--color-dim)] mb-4">
           [ {label} ]
         </p>
       )}
@@ -96,44 +97,44 @@ export function CourseAccess({
       {/* Google */}
       <button
         onClick={google}
-        className="w-full h-11 flex items-center justify-center gap-2.5 rounded-md border border-[var(--color-text)] text-[14px] font-bold text-[var(--color-text)] hover:bg-[var(--color-text)] hover:text-[var(--color-bg)] transition-colors"
+        className="w-full h-11 flex items-center justify-center gap-2.5 rounded-[10px] border border-[var(--color-border)] text-[14px] font-medium text-[var(--color-text)] hover:bg-[var(--color-surface)] transition-colors"
       >
         <GoogleIcon />
         {t.google}
       </button>
 
       {/* divider */}
-      <div className="flex items-center gap-3 my-5">
-        <span className="h-px flex-1 bg-[var(--color-border)]" />
-        <span className="text-[11px] uppercase tracking-[0.18em] text-[var(--color-dim)]">{t.or}</span>
-        <span className="h-px flex-1 bg-[var(--color-border)]" />
+      <div className="text-center my-5">
+        <span className="text-[13px] text-[var(--color-dim)]">{t.or}</span>
       </div>
 
       {/* Email magic link */}
       <form onSubmit={emailLink} className="flex flex-col gap-2.5">
+        <label htmlFor={emailId} className="text-[14px] text-[var(--color-dim)]">Email</label>
         <input
+          id={emailId}
           type="email"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder={t.emailPlaceholder}
           autoComplete="email"
-          className="h-11 w-full rounded-md border border-[var(--color-border)] bg-transparent px-4 text-[14px] text-[var(--color-text)] placeholder:text-[var(--color-dim)] outline-none focus:border-[var(--color-brand)] transition-colors"
+          className="h-11 w-full rounded-[10px] border border-[var(--color-border)] bg-transparent px-4 text-[16px] text-[var(--color-text)] placeholder:text-[var(--color-dim)] outline-none focus:border-[var(--color-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-text)] transition-colors"
         />
         <button
           type="submit"
           disabled={state === "loading"}
-          className="h-11 w-full rounded-md bg-[var(--color-text)] text-[var(--color-bg)] text-[14px] font-bold hover:opacity-90 disabled:opacity-50 transition-opacity"
+          className="h-11 w-full rounded-[10px] bg-[var(--color-text)] text-[var(--color-bg)] text-[14px] font-medium hover:opacity-90 disabled:opacity-50 transition-opacity"
         >
           {state === "loading" ? t.sending : t.send}
         </button>
       </form>
 
       {state === "error" && (
-        <p className="text-[12px] text-red-500 mt-3">{msg || t.errFail}</p>
+        <p role="alert" className="text-[13px] text-[var(--color-text)] mt-3">{msg || t.errFail}</p>
       )}
 
-      <p className="text-[11px] text-[var(--color-dim)] leading-relaxed mt-5 text-left">
+      <p className="text-[13px] text-[var(--color-dim)] leading-relaxed mt-5 text-left">
         {note}
       </p>
     </div>

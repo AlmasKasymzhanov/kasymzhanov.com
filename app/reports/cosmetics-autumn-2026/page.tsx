@@ -1,3 +1,6 @@
+import { IconlyArrowLeft } from "@/components/iconly-icons";
+import { ResearchFact } from "@/components/canon/research-editorial";
+import { ResearchReadingTime } from "@/components/canon/research-reading-time";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import type { ReactNode } from "react";
@@ -90,21 +93,21 @@ export default function CosmeticsAutumn2026Report() {
   const report = reportMarkdown();
 
   return (
-    <main className={styles.page}>
+    <div className={styles.page}>
       <div className={styles.container}>
         <div className={styles.backRow}>
-          <Link href="/">← kasymzhanov.com</Link>
+          <Link href="/"><IconlyArrowLeft size={17} className="reading-inline-icon" /> kasymzhanov.com</Link>
           <span>Доступ по прямой ссылке</span>
         </div>
 
-        <header className={styles.hero}>
+        <header className={`research-header ${styles.hero}`}>
           <div className={styles.eyebrow}>Аналитический отчёт</div>
           <h1>
             Что запускать в косметике
-            <br />
+            {" "}
             на Kaspi.kz осенью 2026
           </h1>
-          <p className={styles.deck}>
+          <p className={`research-lead ${styles.deck}`}>
             Я проанализировал, какие товары выбрать, сколько они могут стоить,
             на что жалуются покупатели и как подготовить запуск по неделям.
           </p>
@@ -112,24 +115,7 @@ export default function CosmeticsAutumn2026Report() {
             Подготовил <strong>Алмас Касымжанов</strong>
           </p>
 
-          <div className={styles.metrics}>
-            <div>
-              <span>Рынок за период</span>
-              <strong>10,59 млрд ₸</strong>
-            </div>
-            <div>
-              <span>Продажи</span>
-              <strong>2,75 млн</strong>
-            </div>
-            <div>
-              <span>Товарные позиции</span>
-              <strong>87 400</strong>
-            </div>
-            <div>
-              <span>Проверенный период</span>
-              <strong>Июнь 2026</strong>
-            </div>
-          </div>
+
 
           <div className={styles.scopeNote}>
             <strong>О чём этот отчёт.</strong> Я рассмотрел рынок Казахстана и
@@ -137,7 +123,11 @@ export default function CosmeticsAutumn2026Report() {
             года. Основной сценарий — выпуск продукции под собственной маркой.
             Продажу уже существующих брендов я разобрал отдельно.
           </div>
-        </header>
+
+<ResearchReadingTime />
+</header>
+<div className="research-facts"><ResearchFact label={<>Рынок за период</>} value={<>10,59 млрд ₸</>} /><ResearchFact label={<>Продажи</>} value={<>2,75 млн</>} /><ResearchFact label={<>Товарные позиции</>} value={<>87 400</>} /><ResearchFact label={<>Проверенный период</>} value={<>Июнь 2026</>} /></div>
+
 
         <nav className={styles.toc} aria-label="Содержание отчёта">
           <div className={styles.tocTitle}>Содержание</div>
@@ -160,10 +150,10 @@ export default function CosmeticsAutumn2026Report() {
         </article>
 
         <footer className={styles.footer}>
-          <div>Алмас Касымжанов · 24 июля 2026</div>
+          <div>Almas Kasymzhanov · 24 июля 2026</div>
           <Link href="/">kasymzhanov.com</Link>
         </footer>
       </div>
-    </main>
+    </div>
   );
 }

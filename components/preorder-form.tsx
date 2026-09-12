@@ -29,11 +29,11 @@ export function PreorderForm() {
 
   if (state === "done") {
     return (
-      <div className="border border-[var(--color-text)] p-6 md:p-8 max-w-md">
-        <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--color-dim)] mb-3">
+      <div className="rounded-[14px] bg-[var(--reading-comment-surface)] p-6 max-w-md">
+        <p className="text-[13px] text-[var(--color-dim)] mb-3">
           [ Готово ]
         </p>
-        <p className="text-[16px] font-bold text-[var(--color-text)] leading-relaxed">
+        <p className="text-[16px] font-normal text-[var(--color-text)] leading-relaxed">
           Данные отправлены, вы в списке предзаписи на четвёртый поток.
         </p>
         <p className="text-[13px] text-[var(--color-dim)] leading-relaxed mt-3">
@@ -44,8 +44,8 @@ export function PreorderForm() {
   }
 
   return (
-    <form onSubmit={submit} className="border border-[var(--color-border)] p-6 md:p-8 max-w-md">
-      <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--color-dim)] mb-5">
+    <form onSubmit={submit} className="rounded-[14px] bg-[var(--reading-offer-surface)] p-6 max-w-md">
+      <p className="text-[13px] text-[var(--color-dim)] mb-5">
         [ Предзапись · 4 поток ]
       </p>
 
@@ -59,9 +59,9 @@ export function PreorderForm() {
           placeholder="+7 700 000 00 00"
           autoComplete="tel"
           inputMode="tel"
-          className="h-11 w-full border border-[var(--color-border)] bg-transparent px-4 text-[14px] text-[var(--color-text)] placeholder:text-[var(--color-dim)] outline-none focus:border-[var(--color-text)] transition-colors"
+          className="h-11 w-full rounded-[10px] border border-[var(--color-border)] bg-transparent px-4 text-[16px] text-[var(--color-text)] placeholder:text-[var(--color-dim)] outline-none focus:border-[var(--color-text)] transition-colors"
         />
-        <span className="block text-[11px] text-[var(--color-dim)] mt-1.5">
+        <span className="block text-[13px] text-[var(--color-dim)] mt-1.5">
           Лучше тот, к которому привязан WhatsApp.
         </span>
       </label>
@@ -75,23 +75,23 @@ export function PreorderForm() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="your@email.com"
           autoComplete="email"
-          className="h-11 w-full border border-[var(--color-border)] bg-transparent px-4 text-[14px] text-[var(--color-text)] placeholder:text-[var(--color-dim)] outline-none focus:border-[var(--color-text)] transition-colors"
+          className="h-11 w-full rounded-[10px] border border-[var(--color-border)] bg-transparent px-4 text-[16px] text-[var(--color-text)] placeholder:text-[var(--color-dim)] outline-none focus:border-[var(--color-text)] transition-colors"
         />
       </label>
 
       <button
         type="submit"
         disabled={state === "loading"}
-        className="h-11 w-full bg-[var(--color-text)] text-[var(--color-bg)] text-[14px] font-bold hover:opacity-90 disabled:opacity-50 transition-opacity"
+        className="h-11 w-full rounded-[10px] bg-[var(--color-text)] text-[var(--color-bg)] text-[14px] font-normal hover:opacity-90 disabled:opacity-50 transition-opacity"
       >
         {state === "loading" ? "Отправляем…" : "Записаться в предзапись"}
       </button>
 
       {state === "error" && (
-        <p className="text-[12px] text-red-500 mt-3">{msg || "Не удалось отправить"}</p>
+        <p role="alert" className="text-[13px] text-[var(--color-text)] mt-3">{msg || "Не удалось отправить"}</p>
       )}
 
-      <p className="text-[11px] text-[var(--color-dim)] leading-relaxed mt-5">
+      <p className="text-[13px] text-[var(--color-dim)] leading-relaxed mt-5">
         Оставляя данные, вы соглашаетесь, что я свяжусь с вами по поводу набора в 4 поток.
       </p>
     </form>

@@ -134,7 +134,7 @@ export function ChartExportMenu({
                     <CopyGlyph className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
                   )
                 ) : (
-                  <span className="font-mono text-[10px] tracking-wider text-muted-foreground uppercase">
+                  <span className="font-mono text-[12px] tracking-wider text-muted-foreground uppercase">
                     {item.kind}
                   </span>
                 )}

@@ -19,7 +19,7 @@ function Src({ href, children }: { href: string; children: React.ReactNode }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-[var(--color-dim)] hover:text-[var(--color-text)] hover:underline decoration-dotted underline-offset-2 transition-colors"
+      className="text-[var(--color-dim)] hover:text-[var(--color-text)]    transition-colors"
     >
       {children}
     </a>
@@ -48,20 +48,20 @@ function ChartSlot({
       id={`grafik-${n}`}
       data-chart-slot={n}
       data-chart-type={type}
-      className="my-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[3px] p-5"
+      className="research-figure"
     >
       <figcaption className="mb-4">
-        <span className="block text-[15px] font-bold text-[var(--color-text)] leading-snug">
+        <span className="block text-[15px] font-medium text-[var(--color-text)] leading-snug">
           {title}
         </span>
       </figcaption>
       <div data-chart-canvas>{children}</div>
       {note && (
-        <p className="font-mono text-[10px] italic text-[var(--color-dim)]/70 mt-3 leading-relaxed">
+        <p className="font-mono text-[12px] italic text-[var(--color-dim)]/70 mt-3 leading-relaxed">
           {note}
         </p>
       )}
-      <p className="font-mono text-[11px] text-[var(--color-dim)] mt-2 leading-relaxed">
+      <p className="font-mono text-[12px] text-[var(--color-dim)] mt-2 leading-relaxed">
         {caption}
         <span className="text-[var(--color-border)] mx-1.5">·</span>
         Графики:{" "}
@@ -69,7 +69,7 @@ function ChartSlot({
           href="https://brockui.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[var(--color-dim)] hover:text-[var(--brock-accent)] hover:underline decoration-dotted underline-offset-2 transition-colors"
+          className="text-[var(--color-dim)] hover:text-[var(--brock-accent)]    transition-colors"
         >
           Brock UI
         </a>
@@ -82,7 +82,7 @@ function P({ children, className = "" }: { children: React.ReactNode; className?
   return <p className={`text-[15px] text-[var(--color-dim)] leading-[1.8] ${className}`}>{children}</p>;
 }
 function H2({ children }: { children: React.ReactNode }) {
-  return <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-text)] mb-6">{children}</h2>;
+  return <h2 className="text-[20px] font-normal tracking-tight text-[var(--color-text)] mb-6">{children}</h2>;
 }
 
 /* ═══════════════════════════════════════════════════ */
@@ -413,7 +413,7 @@ export default function KanistraArticle() {
           <P className="mt-8">
             И у дефицита есть ещё один отпечаток, видный только с двух витрин сразу: он развёл цены соседних рынков. Та же двадцатилитровая пластиковая канистра на Kaspi (артикул 109030553) стоит 4 900 тенге -{" "}
             <Term tip="4 900 ₸ × 0,159 = ≈780 ₽. Курс ЦБ РФ на 27.06.2026.">около 780 рублей</Term>; на Wildberries такая же в обычное время идёт примерно за 1 200 рублей, а на кризисной неделе доходила до 2 400. Полтора-три раза разницы через одну границу. И на таких разрывах кто-то зарабатывает: крупные игроки арбитражат само топливо, а предприимчивый селлер - саму тару, завозя 20-литровые канистры из Казахстана в самый горячий сезон. Полную аналитику по Kaspi, те же канистры, можно посмотреть на моём сервисе{" "}
-            <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-brand)] hover:underline">Redstat.kz</a>. Сам разрыв - ещё один след дефицита: рынок на короткое время сделал выгодной даже перевозку пустой канистры через границу.
+            <a href="https://redstat.kz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-brand)] ">Redstat.kz</a>. Сам разрыв - ещё один след дефицита: рынок на короткое время сделал выгодной даже перевозку пустой канистры через границу.
           </P>
 
           <ChartSlot
@@ -467,8 +467,8 @@ export default function KanistraArticle() {
         <hr className="border-[var(--color-border)] mb-12" />
 
         {/* ─── Источники ─── */}
-        <div className="mb-12">
-          <h2 className="text-[16px] font-bold tracking-tight text-[var(--color-text)] mb-4">Источники</h2>
+        <div className="reading-panel reading-sources mb-12">
+          <h2 className="text-[16px] font-medium tracking-tight text-[var(--color-text)] mb-4">Источники</h2>
           <ol className="font-mono text-[12px] text-[var(--color-dim)] leading-[1.7] space-y-3 list-decimal list-inside marker:text-[var(--color-border)]">
             <li>MPStats - расширенный товарный срез и дневной ряд Wildberries (категория топливных канистр, 01.03–27.06, 2025–2026): продажи, выручка, остатки, оборачиваемость, артикулы. Казахстан (Kaspi) - Redstat, со скринов. Расчёты автора.</li>
             <li>Ограничения продажи топлива в регионах РФ (56 регионов, 18 - обязательные лимиты) - <Src href="https://en.zona.media/article/2026/06/26/fuel_map">Zona.Media</Src>, <Src href="https://www.pravda.com.ua/eng/news/2026/06/24/8040814/">Pravda.com.ua</Src>, <Src href="https://meduza.io/en/news/2026/06/23/the-region-that-produces-40-of-russia-s-oil-is-now-rationing-fuel">Meduza</Src>.</li>

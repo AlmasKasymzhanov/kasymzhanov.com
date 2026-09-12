@@ -68,7 +68,7 @@ export function HeaderAuth({ variant = "default" }: { variant?: "default" | "ico
       return (
         <Link
           href={loginHref}
-          className="flex h-11 w-full items-center justify-center gap-2 rounded-md border border-[var(--color-brand)] bg-[var(--color-brand)] font-mono text-[11px] font-bold uppercase tracking-[0.08em] text-[var(--color-bg)] no-underline transition-colors hover:bg-transparent hover:text-[var(--color-brand)]"
+          className="flex h-11 w-full items-center justify-center gap-2 rounded-md border border-[var(--color-brand)] bg-[var(--color-brand)] font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--color-bg)] no-underline transition-colors hover:bg-transparent hover:text-[var(--color-brand)]"
         >
           <AccountIcon size={17} />
           {t.signIn}
@@ -102,12 +102,12 @@ export function HeaderAuth({ variant = "default" }: { variant?: "default" | "ico
           // eslint-disable-next-line @next/next/no-img-element
           <img src={avatar} alt="" referrerPolicy="no-referrer" className="size-8 rounded-full object-cover" />
         ) : (
-          <span className="grid size-8 place-items-center rounded-full bg-[var(--color-surface-hover)] text-[12px] font-bold">
+          <span className="grid size-8 place-items-center rounded-full bg-[var(--color-surface-hover)] text-[12px] font-medium">
             {name.slice(0, 1).toUpperCase()}
           </span>
         )}
         <span className="min-w-0 flex-1 truncate text-[12px] text-[var(--color-text)]">{user.email}</span>
-        <button onClick={signOut} className="h-9 px-2 font-mono text-[10px] font-bold uppercase tracking-[0.06em] text-[var(--color-brand)]">
+        <button onClick={signOut} className="h-9 px-2 font-mono text-[10px] font-medium uppercase tracking-[0.06em] text-[var(--color-brand)]">
           {t.signOut}
         </button>
       </div>

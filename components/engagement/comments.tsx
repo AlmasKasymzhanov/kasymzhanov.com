@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEngagement } from "./engagement-provider";
 import { localeFromPathname, bcp47, dict } from "@/lib/i18n";
+import { contentLoginHref } from "@/lib/content-identity";
 
 function fmtDate(iso: string, tag: string) {
   const d = new Date(iso);
@@ -12,10 +13,10 @@ function fmtDate(iso: string, tag: string) {
 }
 
 export function Comments() {
-  const locale = localeFromPathname(usePathname() ?? "/");
+  const pathname = usePathname() ?? "/";
+  const locale = localeFromPathname(pathname);
   const t = dict[locale].comments;
-  const base = locale === "en" ? "/en" : "";
-  const { slug, user, comments, profiles, err, postComment, deleteComment } = useEngagement();
+  const { user, comments, profiles, err, postComment, deleteComment } = useEngagement();
   const [body, setBody] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -29,37 +30,38 @@ export function Comments() {
   }
 
   return (
-    <div id="comments" className="mt-10 pt-8 border-t border-[var(--color-border)] scroll-mt-24">
-      <h2 className="text-[18px] font-bold tracking-tight mb-6">
+    <div id="comments" tabIndex={-1} className="mt-10 pt-4 scroll-mt-24">
+      <h2 className="text-[18px] font-normal tracking-tight mb-6">
         {t.heading} <span className="text-[var(--color-dim)] font-normal">{comments.length}</span>
       </h2>
 
       {user ? (
         <form onSubmit={submit} className="mb-8">
           <textarea
+            aria-label={t.placeholder}
             value={body}
             onChange={(e) => setBody(e.target.value)}
             maxLength={4000}
             rows={3}
             placeholder={t.placeholder}
-            className="w-full resize-y border border-[var(--color-border)] bg-transparent px-3.5 py-3 text-[14px] text-[var(--color-text)] placeholder:text-[var(--color-dim)] outline-none focus:border-[var(--color-brand)] transition-colors"
+            className="w-full resize-y rounded-xl border border-[var(--color-border)] bg-transparent px-4 py-3 text-[14px] text-[var(--color-text)] placeholder:text-[var(--color-dim)] outline-none focus:border-[var(--personal-muted)] transition-colors"
           />
           <div className="mt-2 flex justify-end">
             <button
               type="submit"
               disabled={busy || !body.trim()}
-              className="h-[36px] px-5 rounded-[5px] text-[12px] font-bold uppercase bg-[var(--color-brand)] text-[var(--color-bg)] hover:opacity-90 disabled:opacity-50 transition-opacity"
+              className="comment-submit min-h-11 px-5 rounded-xl text-[13px] font-normal disabled:opacity-50 transition-colors"
             >
               {busy ? t.submitting : t.submit}
             </button>
           </div>
         </form>
       ) : (
-        <div className="mb-8 border border-[var(--color-border)] p-5 text-[14px] text-[var(--color-dim)] leading-relaxed">
+        <div className="comment-login mb-8 rounded-xl p-5 text-[14px] text-[var(--color-dim)] leading-relaxed">
           {t.loginPre}
           <Link
-            href={`${base}/login?next=${encodeURIComponent(`${base}/blog/${slug}`)}`}
-            className="text-[var(--color-brand)] no-underline hover:underline"
+            href={contentLoginHref(pathname)}
+            className="text-[var(--color-brand)] no-underline hover:text-[var(--personal-muted)]"
           >
             {t.loginLink}
           </Link>

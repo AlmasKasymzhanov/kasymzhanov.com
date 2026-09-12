@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { LegalDoc } from "@/components/canon/legal-doc";
 
 export const metadata: Metadata = {
-  title: "Публичная оферта — Almas Kasymzhanov",
+  title: "Публичная оферта — Алмас Касымжанов",
   description:
     "Публичная оферта (Terms of Service) kasymzhanov.com: подписка, оплата через Kaspi, возвраты, права и реквизиты (RU/EN).",
 };

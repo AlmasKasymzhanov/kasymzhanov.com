@@ -1,4 +1,6 @@
 "use client";
+import { ChartTooltipContent } from "./chart-tooltip";
+import { IconlyChevronDown } from "@/components/iconly-icons";
 
 /**
  * Brock UI charts for the article «Wildberries ищет склады в Казахстане.
@@ -64,10 +66,10 @@ function ChartFigure({
       aria-labelledby={`${id}-title`}
     >
       <figcaption className="mb-5">
-        <span id={`${id}-title`} className="block text-[15px] font-bold leading-snug text-[var(--color-text)] sm:text-[17px]">
+        <span id={`${id}-title`} className="block text-[15px] font-medium leading-snug text-[var(--color-text)] sm:text-[17px]">
           {title}
         </span>
-        <span className="mt-2 block font-mono text-[10.5px] leading-relaxed text-[var(--color-dim)] sm:text-[11px]">
+        <span className="mt-2 block font-mono text-[12px] leading-relaxed text-[var(--color-dim)] sm:text-[12px]">
           {subtitle}
         </span>
       </figcaption>
@@ -75,16 +77,16 @@ function ChartFigure({
       <div className="min-w-0">{children}</div>
 
       {note && (
-        <p className="mt-3 font-mono text-[10px] italic leading-relaxed text-[var(--color-dim)]/70">{note}</p>
+        <p className="mt-3 font-mono text-[12px] italic leading-relaxed text-[var(--color-dim)]/70">{note}</p>
       )}
-      <p className="mt-2 font-mono text-[10.5px] leading-relaxed text-[var(--color-dim)]">{caption}</p>
+      <p className="mt-2 font-mono text-[12px] leading-relaxed text-[var(--color-dim)]">{caption}</p>
 
       {limitations && limitations.length > 0 && (
         <aside
           className="mt-4 border-l-2 border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2.5"
           aria-label="Ограничения интерпретации"
         >
-          <p className="font-mono text-[9.5px] font-bold uppercase tracking-[0.08em] text-[var(--color-text)]">
+          <p className="font-mono text-[12px] font-medium uppercase tracking-[0.08em] text-[var(--color-text)]">
             Ограничения интерпретации
           </p>
           <ul className="mt-2 list-disc space-y-2 pl-4 text-[12px] leading-[1.65] text-[var(--color-dim)] sm:text-[12.5px]">
@@ -96,9 +98,7 @@ function ChartFigure({
       )}
 
       <details className="mt-4 border-t border-[var(--color-border)] pt-3">
-        <summary className="cursor-pointer font-mono text-[10px] font-bold uppercase tracking-[0.08em] text-[var(--color-text)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-brand)]">
-          Данные графика
-        </summary>
+        <summary className="reading-disclosure"><span>Данные графика</span><IconlyChevronDown size={17} /></summary>
         {table}
       </details>
     </figure>
@@ -145,15 +145,7 @@ const labelTip = (label: string): React.ReactNode =>
 const hasTip = (label: string): boolean => label in LABEL_TIPS;
 
 function CategoryTooltip({ label, value }: BarChartTooltipSlotProps) {
-  return (
-    <div className="flex max-w-[260px] flex-col gap-1 rounded-[3px] border border-[var(--color-border)] bg-[var(--color-bg)] px-2.5 py-2 shadow-md">
-      <span className="text-[11px] text-[var(--color-dim)]">{label}</span>
-      <span className="font-mono text-[12px] font-bold tabular-nums text-[var(--color-text)]">{value}</span>
-      <span className="font-mono text-[9.5px] leading-relaxed text-[var(--color-dim)]">
-        публичная оценка MarketPapa, методика раскрыта не полностью
-      </span>
-    </div>
-  );
+  return <ChartTooltipContent title={label} rows={[{ label: "", value }]} note="публичная оценка MarketPapa, методика раскрыта не полностью" />;
 }
 
 export function Grafik1() {
@@ -245,17 +237,11 @@ function makeDailyTooltip(footnote: (row: DailyRow) => string) {
   return function DailyTooltip({ x, xLabel, points }: LineChartTooltipSlotProps) {
     const row = DAILY_ROWS.find((item) => Date.parse(item.date) === x);
     const value = points[0]?.formatted ?? "—";
-    return (
-      <div className="flex max-w-[240px] flex-col gap-1 rounded-[3px] border border-[var(--color-border)] bg-[var(--color-bg)] px-2.5 py-2 shadow-md">
-        <span className="font-mono text-[10px] tabular-nums text-[var(--color-dim)]">
-          {row ? row.date.split("-").reverse().join(".") : xLabel}
-        </span>
-        <span className="font-mono text-[12px] font-bold tabular-nums text-[var(--color-text)]">{value}</span>
-        {row && (
-          <span className="font-mono text-[9.5px] leading-relaxed text-[var(--color-dim)]">{footnote(row)}</span>
-        )}
-      </div>
-    );
+    return <ChartTooltipContent
+      title={row ? row.date.split("-").reverse().join(".") : xLabel}
+      rows={[{ label: "", value }]}
+      note={row ? footnote(row) : undefined}
+    />;
   };
 }
 

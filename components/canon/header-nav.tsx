@@ -21,7 +21,7 @@ export function HeaderNav() {
             key={item.key}
             href={href}
             aria-current={isActive ? "page" : undefined}
-            className={`relative px-3 py-2 text-[12px] font-bold uppercase tracking-[0.08em] no-underline transition-colors ${
+            className={`relative px-3 py-2 text-[12px] font-medium uppercase tracking-[0.08em] no-underline transition-colors ${
               isActive ? "text-[var(--color-brand)]" : "text-[var(--color-dim)] hover:text-[var(--color-text)]"
             }`}
           >

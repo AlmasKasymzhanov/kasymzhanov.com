@@ -1,32 +1,35 @@
 "use client";
+import { MaterialViews } from "@/components/engagement/material-views";
+import { IconlyArrowLeft, IconlyArrowRight } from "@/components/iconly-icons";
+import { ResearchSection, ResearchFact } from "@/components/canon/research-editorial";
 
 import Link from "next/link";
 import { useState } from "react";
 
 /* ───── design tokens ───── */
 const C = {
-  bg: "#0a0a0f",
-  surface: "#111119",
-  border: "#1e1e30",
-  accent: "#6c5ce7",
-  green: "#00d2a0",
-  text: "#e8e8f0",
-  dim: "#999",
-  faint: "#444",
-  red: "#f87171",
-  amber: "#f59e0b",
+  bg: "var(--personal-paper)",
+  surface: "var(--report-surface)",
+  border: "var(--personal-border)",
+  accent: "var(--personal-text)",
+  green: "var(--personal-text)",
+  text: "var(--personal-text)",
+  dim: "var(--personal-muted)",
+  faint: "var(--personal-border)",
+  red: "var(--personal-text)",
+  amber: "var(--personal-text)",
 };
 
 /* ───── style helpers ───── */
 const sSection: React.CSSProperties = { marginBottom: 48 };
-const sH2: React.CSSProperties = { fontSize: 22, fontWeight: 700, margin: "0 0 20px", color: C.text, letterSpacing: "-0.01em" };
-const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 600, margin: "28px 0 12px", color: C.text };
-const sP: React.CSSProperties = { fontSize: 14, lineHeight: 1.7, color: "#ccc", margin: "0 0 12px" };
-const sCard: React.CSSProperties = { background: C.surface, border: `1px solid ${C.border}`, borderRadius: 10, padding: "20px 24px", marginBottom: 16 };
-const sCode: React.CSSProperties = { background: "rgba(108,92,231,0.12)", color: C.accent, padding: "2px 7px", borderRadius: 4, fontSize: 12, fontFamily: "monospace" };
-const sCodeBlock: React.CSSProperties = { background: "#0d0d18", border: `1px solid ${C.border}`, borderRadius: 8, padding: "16px 20px", fontSize: 12, fontFamily: "'JetBrains Mono', 'Fira Code', monospace", color: "#c8c8d8", lineHeight: 1.6, overflowX: "auto", whiteSpace: "pre", marginBottom: 12, position: "relative" };
-const sBadge = (color: string): React.CSSProperties => ({ display: "inline-block", padding: "3px 10px", borderRadius: 6, fontSize: 11, fontWeight: 600, background: `${color}18`, color, marginRight: 6 });
-const sStepNum: React.CSSProperties = { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 28, height: 28, borderRadius: "50%", background: `${C.accent}22`, color: C.accent, fontSize: 13, fontWeight: 700, marginRight: 10, flexShrink: 0 };
+const sH2: React.CSSProperties = { fontSize: 22, fontWeight: 500, margin: "0 0 20px", color: C.text, letterSpacing: "-0.01em" };
+const sH3: React.CSSProperties = { fontSize: 16, fontWeight: 500, margin: "28px 0 12px", color: C.text };
+const sP: React.CSSProperties = { fontSize: 17, lineHeight: 1.7, color: "var(--personal-text)", margin: "0 0 12px" };
+const sCard: React.CSSProperties = { margin: "28px 0", padding: 0 };
+const sCode: React.CSSProperties = { background: "var(--personal-rail-hover)", color: C.accent, padding: "2px 7px", borderRadius: 4, fontSize: 12, fontFamily: "var(--font-mono)" };
+const sCodeBlock: React.CSSProperties = { background: "var(--personal-paper)", border: `1px solid ${C.border}`, borderRadius: 8, padding: "16px 20px", fontSize: 12, fontFamily: "var(--font-mono)", color: "var(--personal-text)", lineHeight: 1.6, overflowX: "auto", whiteSpace: "pre", marginBottom: 12, position: "relative" };
+const sBadge = (color: string): React.CSSProperties => ({ display: "inline-block", padding: "3px 10px", borderRadius: 6, fontSize: 11, fontWeight: 500, background: `color-mix(in srgb, ${color} 9%, transparent)`, color, marginRight: 6 });
+const sStepNum: React.CSSProperties = { display: "none" };
 
 /* ───── CopyBtn ───── */
 function CopyBtn({ text }: { text: string }) {
@@ -34,7 +37,7 @@ function CopyBtn({ text }: { text: string }) {
   return (
     <button
       onClick={() => { navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
-      style={{ position: "absolute", top: 8, right: 8, background: copied ? `${C.green}22` : `${C.accent}22`, color: copied ? C.green : C.accent, border: "none", borderRadius: 6, padding: "4px 10px", fontSize: 11, cursor: "pointer", fontWeight: 600, transition: "all 0.2s" }}
+      style={{ position: "absolute", top: 8, right: 8, background: copied ? `color-mix(in srgb, ${C.green} 13%, transparent)` : `color-mix(in srgb, ${C.accent} 13%, transparent)`, color: copied ? C.green : C.accent, border: "none", borderRadius: 6, padding: "4px 10px", fontSize: 11, cursor: "pointer", fontWeight: 500, transition: "all 0.2s" }}
     >
       {copied ? "Скопировано!" : "Копировать"}
     </button>
@@ -70,7 +73,7 @@ function PromptBlock({ prompt }: { prompt: string }) {
     <div style={{ marginTop: 12 }}>
       <button
         onClick={() => setOpen(!open)}
-        style={{ background: `${C.accent}15`, border: `1px solid ${C.accent}44`, borderRadius: 6, padding: "6px 14px", color: C.accent, fontSize: 12, cursor: "pointer", display: "flex", alignItems: "center", gap: 6, fontWeight: 600 }}
+        style={{ background: `color-mix(in srgb, ${C.accent} 8%, transparent)`, border: `1px solid color-mix(in srgb, ${C.accent} 27%, transparent)`, borderRadius: 6, padding: "6px 14px", color: C.accent, fontSize: 12, cursor: "pointer", display: "flex", alignItems: "center", gap: 6, fontWeight: 500 }}
       >
         <span style={{ transform: open ? "rotate(90deg)" : "rotate(0deg)", transition: "transform 0.2s", display: "inline-block" }}>&#9654;</span>
         Промпт для Claude после скачивания
@@ -100,8 +103,8 @@ function EndpointCard({ num, name, method, url, params, desc, useCase, jsonExamp
   return (
     <div style={sCard}>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-        <span style={{ ...sStepNum, background: `${C.green}22`, color: C.green }}>{num}</span>
-        <span style={{ fontSize: 15, fontWeight: 600, color: C.text }}>{name}</span>
+        <span style={{ ...sStepNum, background: `color-mix(in srgb, ${C.green} 13%, transparent)`, color: C.green }}>{num}</span>
+        <span style={{ fontSize: 15, fontWeight: 500, color: C.text }}>{name}</span>
         <span style={sBadge(C.green)}>{method || "GET"}</span>
       </div>
       <p style={{ ...sP, marginBottom: 8 }}>{desc}</p>
@@ -138,17 +141,18 @@ function EndpointCard({ num, name, method, url, params, desc, useCase, jsonExamp
 /* ═══════════════════════════════════════════════ */
 export default function MpstatsApiGuide() {
   return (
-    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "'Inter', -apple-system, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "var(--font-body)" }}>
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "40px 24px 80px" }}>
 
         {/* Header */}
         <div style={{ marginBottom: 40 }}>
           <Link href="/tools/wb-analyzer" style={{ color: C.dim, fontSize: 13, textDecoration: "none" }}>
-            &larr; WB Niche Analyzer
+            <IconlyArrowLeft size={17} className="reading-inline-icon" /> WB Niche Analyzer
           </Link>
-          <h1 style={{ fontSize: 28, fontWeight: 800, margin: "16px 0 8px", letterSpacing: "-0.02em" }}>
+          <h1 style={{ fontSize: 28, fontWeight: 500, margin: "16px 0 8px", letterSpacing: "-0.02em" }}>
             MPStats API Гайд
           </h1>
+          <MaterialViews />
           <p style={{ color: C.dim, fontSize: 14, margin: 0 }}>
             Пошаговая инструкция по работе с API для выгрузки данных Wildberries
           </p>
@@ -163,19 +167,19 @@ export default function MpstatsApiGuide() {
               Представьте ресторан. Вы (программа) сидите за столиком. Кухня (сервер MPStats) готовит блюда (данные).
               Вы не можете зайти на кухню сами — вам нужен <strong style={{ color: C.accent }}>официант (API)</strong>.
             </p>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr auto 1fr", alignItems: "center", gap: 8, padding: "16px 0", textAlign: "center" }}>
+            <div style={{ display: "block", alignItems: "center", padding: "16px 0", textAlign: "center" }}>
               <div style={{ ...sCard, marginBottom: 0, padding: 12 }}>
-                <div style={{ fontSize: 24, marginBottom: 4 }}>&#128187;</div>
+                <div style={{ fontSize: 16, marginBottom: 4 }}>&#128187;</div>
                 <div style={{ fontSize: 11, color: C.dim }}>Вы (Hoppscotch)</div>
               </div>
-              <div style={{ color: C.accent, fontSize: 20 }}>&rarr;</div>
+              <div style={{ color: C.accent, fontSize: 16 }}>&rarr;</div>
               <div style={{ ...sCard, marginBottom: 0, padding: 12, borderColor: C.accent }}>
-                <div style={{ fontSize: 24, marginBottom: 4 }}>&#129309;</div>
+                <div style={{ fontSize: 16, marginBottom: 4 }}>&#129309;</div>
                 <div style={{ fontSize: 11, color: C.accent }}>API (официант)</div>
               </div>
-              <div style={{ color: C.accent, fontSize: 20 }}>&rarr;</div>
+              <div style={{ color: C.accent, fontSize: 16 }}>&rarr;</div>
               <div style={{ ...sCard, marginBottom: 0, padding: 12 }}>
-                <div style={{ fontSize: 24, marginBottom: 4 }}>&#127859;</div>
+                <div style={{ fontSize: 16, marginBottom: 4 }}>&#127859;</div>
                 <div style={{ fontSize: 11, color: C.dim }}>Сервер (кухня)</div>
               </div>
             </div>
@@ -204,16 +208,16 @@ export default function MpstatsApiGuide() {
 
           <div style={sCard}>
             <h3 style={{ ...sH3, marginTop: 0 }}>Зачем нужен API?</h3>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            <div style={{ display: "block" }}>
               {[
                 { icon: "&#9889;", title: "Скорость", desc: "Выгрузка 100K+ товаров за секунды" },
                 { icon: "&#128202;", title: "Массовый анализ", desc: "Все бренды, продавцы, отзывы разом" },
                 { icon: "&#129302;", title: "Автоматизация", desc: "Можно загрузить данные в Claude для AI-анализа" },
                 { icon: "&#128200;", title: "Исторические данные", desc: "Тренды ниши за 5 лет" },
               ].map((item, i) => (
-                <div key={i} style={{ padding: 12, borderRadius: 8, background: `${C.accent}08` }}>
-                  <div style={{ fontSize: 20, marginBottom: 4 }} dangerouslySetInnerHTML={{ __html: item.icon }} />
-                  <div style={{ fontSize: 13, fontWeight: 600, color: C.text, marginBottom: 2 }}>{item.title}</div>
+                <div key={i} style={{ padding: "16px 0" }}>
+                  <div style={{ fontSize: 16, marginBottom: 4 }} dangerouslySetInnerHTML={{ __html: item.icon }} />
+                  <div style={{ fontSize: 13, fontWeight: 500, color: C.text, marginBottom: 2 }}>{item.title}</div>
                   <div style={{ fontSize: 12, color: C.dim }}>{item.desc}</div>
                 </div>
               ))}
@@ -236,7 +240,7 @@ export default function MpstatsApiGuide() {
                 <span style={{ ...sP, margin: 0, paddingTop: 3 }}>{step}</span>
               </div>
             ))}
-            <div style={{ background: `${C.red}12`, border: `1px solid ${C.red}33`, borderRadius: 8, padding: "12px 16px", marginTop: 12, fontSize: 13, color: C.red }}>
+            <div style={{ padding: "16px 0", marginTop: 12, fontSize: 13, color: C.red }}>
               <strong>Важно:</strong> API-ключ — это как пароль. Никому не показывайте и не публикуйте его. Нужна платная подписка MPStats с доступом к API.
             </div>
           </div>
@@ -245,9 +249,9 @@ export default function MpstatsApiGuide() {
         {/* ═══ Section 3: Инструменты ═══ */}
         <div style={sSection}>
           <h2 style={sH2}>3. Инструменты для работы с API</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <div style={{ display: "block" }}>
             <div style={{ ...sCard, borderColor: C.green }}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: C.green, marginBottom: 8 }}>Hoppscotch</div>
+              <div style={{ fontSize: 15, fontWeight: 500, color: C.green, marginBottom: 8 }}>Hoppscotch</div>
               <div style={sBadge(C.green)}>Бесплатно</div>
               <div style={sBadge(C.green)}>Рекомендуем</div>
               <p style={{ ...sP, marginTop: 12 }}>
@@ -258,7 +262,7 @@ export default function MpstatsApiGuide() {
               </p>
             </div>
             <div style={sCard}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: C.text, marginBottom: 8 }}>Postman</div>
+              <div style={{ fontSize: 15, fontWeight: 500, color: C.text, marginBottom: 8 }}>Postman</div>
               <div style={sBadge(C.amber)}>Платный</div>
               <p style={{ ...sP, marginTop: 12 }}>
                 Профессиональный инструмент. Если уже пользуетесь — работайте в нём. Запросы те же самые.
@@ -274,21 +278,21 @@ export default function MpstatsApiGuide() {
             <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 16 }}>
               <span style={sStepNum}>1</span>
               <div>
-                <div style={{ fontWeight: 600, color: C.text, marginBottom: 4 }}>Откройте Hoppscotch</div>
+                <div style={{ fontWeight: 500, color: C.text, marginBottom: 4 }}>Откройте Hoppscotch</div>
                 <p style={{ ...sP, margin: 0 }}>Зайдите на <span style={sCode}>hoppscotch.io</span> в браузере</p>
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 16 }}>
               <span style={sStepNum}>2</span>
               <div>
-                <div style={{ fontWeight: 600, color: C.text, marginBottom: 4 }}>Метод: GET</div>
+                <div style={{ fontWeight: 500, color: C.text, marginBottom: 4 }}>Метод: GET</div>
                 <p style={{ ...sP, margin: 0 }}>Убедитесь что выбран метод <span style={sCode}>GET</span> (по умолчанию)</p>
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 16 }}>
               <span style={sStepNum}>3</span>
               <div>
-                <div style={{ fontWeight: 600, color: C.text, marginBottom: 4 }}>Вставьте URL</div>
+                <div style={{ fontWeight: 500, color: C.text, marginBottom: 4 }}>Вставьте URL</div>
                 <div style={{ ...sCodeBlock, marginTop: 8, fontSize: 11 }}>
                   <CopyBtn text="https://mpstats.io/api/wb/get/category/subcategories?d1=2026-02-01&d2=2026-03-01&path=Здоровье" />
                   https://mpstats.io/api/wb/get/category/subcategories?d1=2026-02-01&d2=2026-03-01&path=Здоровье
@@ -298,16 +302,16 @@ export default function MpstatsApiGuide() {
             <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 16 }}>
               <span style={sStepNum}>4</span>
               <div>
-                <div style={{ fontWeight: 600, color: C.text, marginBottom: 4 }}>Добавьте заголовок авторизации</div>
+                <div style={{ fontWeight: 500, color: C.text, marginBottom: 4 }}>Добавьте заголовок авторизации</div>
                 <p style={{ ...sP, margin: "0 0 8px" }}>Вкладка <span style={sCode}>Headers</span> &rarr; добавьте:</p>
                 <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, marginBottom: 0 }}>
                   <tbody>
                     <tr style={{ borderBottom: `1px solid ${C.border}` }}>
-                      <td style={{ padding: "8px 12px", color: C.accent, fontWeight: 600 }}>X-Mpstats-TOKEN</td>
+                      <td style={{ padding: "8px 12px", color: C.accent, fontWeight: 500 }}>X-Mpstats-TOKEN</td>
                       <td style={{ padding: "8px 12px", color: C.dim }}>ваш_api_ключ_из_mpstats</td>
                     </tr>
                     <tr>
-                      <td style={{ padding: "8px 12px", color: C.accent, fontWeight: 600 }}>Content-Type</td>
+                      <td style={{ padding: "8px 12px", color: C.accent, fontWeight: 500 }}>Content-Type</td>
                       <td style={{ padding: "8px 12px", color: C.dim }}>application/json</td>
                     </tr>
                   </tbody>
@@ -317,7 +321,7 @@ export default function MpstatsApiGuide() {
             <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
               <span style={sStepNum}>5</span>
               <div>
-                <div style={{ fontWeight: 600, color: C.text, marginBottom: 4 }}>Нажмите Send</div>
+                <div style={{ fontWeight: 500, color: C.text, marginBottom: 4 }}>Нажмите Send</div>
                 <p style={{ ...sP, margin: 0 }}>Получите JSON с подкатегориями раздела &laquo;Здоровье&raquo; — выручка, товары, бренды, продавцы по каждой.</p>
               </div>
             </div>
@@ -361,7 +365,7 @@ export default function MpstatsApiGuide() {
 3. Средний чек и маржинальность
 4. Рейтинг — есть ли проблемы с качеством (низкий рейтинг = возможность)
 
-Выведи результат в таблице с колонками: Подкатегория | Выручка | Продажи | Товаров | % с продажами | Ср.цена | Рейтинг | Вердикт (🟢/🟡/🔴)
+Выведи результат в таблице с колонками: Подкатегория | Выручка | Продажи | Товаров | % с продажами | Ср.цена | Рейтинг | Вердикт (подходит / требует проверки / не подходит)
 
 В конце дай ТОП-3 рекомендации: в какую подкатегорию лучше всего зайти и почему.`}
           />
@@ -397,7 +401,7 @@ export default function MpstatsApiGuide() {
 4. **Количество товаров**: растёт ли конкуренция? Как быстро приходят новые продавцы?
 5. **Прогноз**: на основе тренда — что ожидать в ближайшие 6-12 месяцев?
 
-Вердикт: 🟢 Ниша растёт — заходить / 🟡 Стагнация — осторожно / 🔴 Падение — не заходить
+Вердикт:  Ниша растёт — заходить /  Стагнация — осторожно /  Падение — не заходить
 
 Покажи ключевые цифры: выручка год назад vs сейчас, % роста, пиковые месяцы.`}
           />
@@ -758,7 +762,7 @@ export default function MpstatsApiGuide() {
 
 ### ЧАСТЬ 1: Анализ ниши (по метрикам)
 
-Оцени нишу по критериям и дай вердикт по каждому (🟢 хорошо / 🟡 нормально / 🔴 плохо):
+Оцени нишу по критериям и дай вердикт по каждому ( хорошо /  нормально /  плохо):
 
 - **Объём рынка**: выручка, рост, потенциал
 - **Конкуренция**: товары, продавцы, бренды, % товаров с продажами
@@ -790,7 +794,7 @@ export default function MpstatsApiGuide() {
 4. **Риски**: 3 главных риска и как их минимизировать
 5. **Первые шаги**: План на первый месяц
 
-Используй структурированный формат с таблицами и 🟢🟡🔴 индикаторами. Будь конкретным — цифры, проценты, примеры.`} />
+Используй структурированный формат с таблицами и текстовыми заключениями без цветных индикаторов. Будь конкретным — цифры, проценты, примеры.`} />
 {`Ты — старший аналитик маркетплейсов с 10-летним опытом
 в e-commerce и product development. Твоя задача — провести
 глубокий анализ ниши и товарных позиций на Wildberries
@@ -804,7 +808,7 @@ export default function MpstatsApiGuide() {
 ## Что нужно сделать:
 
 ### ЧАСТЬ 1: Анализ ниши (по метрикам)
-Оцени по критериям (🟢 хорошо / 🟡 нормально / 🔴 плохо):
+Оцени по критериям ( хорошо /  нормально /  плохо):
 - Объём рынка, Конкуренция, Входной барьер
 - Ликвидность, Упущенная выручка, Сезонность
 
@@ -832,7 +836,7 @@ export default function MpstatsApiGuide() {
             <a
               href="/mpstats-hoppscotch.json"
               download="mpstats-hoppscotch.json"
-              style={{ display: "inline-block", background: C.green, color: "#000", padding: "12px 32px", borderRadius: 8, fontSize: 15, fontWeight: 700, textDecoration: "none", letterSpacing: "-0.01em" }}
+              style={{ display: "inline-block", background: C.green, color: "#000", padding: "12px 32px", borderRadius: 8, fontSize: 15, fontWeight: 500, textDecoration: "none", letterSpacing: "-0.01em" }}
             >
               Скачать коллекцию MPStats API
             </a>
@@ -855,12 +859,12 @@ export default function MpstatsApiGuide() {
         </div>
 
         {/* ═══ Footer nav ═══ */}
-        <div style={{ display: "flex", justifyContent: "space-between", paddingTop: 24, borderTop: `1px solid ${C.border}` }}>
+        <div style={{ display: "flex", justifyContent: "space-between", paddingTop: 24 }}>
           <Link href="/tools/wb-analyzer/guide" style={{ color: C.accent, fontSize: 14, textDecoration: "none" }}>
-            &larr; Инструкция WB Analyzer
+            <IconlyArrowLeft size={17} className="reading-inline-icon" /> Инструкция WB Analyzer
           </Link>
           <Link href="/tools/wb-analyzer" style={{ color: C.accent, fontSize: 14, textDecoration: "none" }}>
-            WB Niche Analyzer &rarr;
+            WB Niche Analyzer <IconlyArrowRight size={17} className="reading-inline-icon" />
           </Link>
         </div>
       </div>
