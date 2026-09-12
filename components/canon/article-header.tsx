@@ -51,7 +51,7 @@ export function ArticleHeader({
       </p>
 
       <div className="mt-7 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px] leading-4 text-[var(--personal-muted)]">
-        <Link href={locale === "en" ? "/en/authors/almas-kasymzhanov" : "/authors/almas-kasymzhanov"} className="reading-author">{t.name}</Link>
+        <Link href={locale === "en" ? "/en#about" : "/#about"} className="reading-author">{t.name}</Link>
         <span aria-hidden>·</span>
         <time dateTime={published}>{displayDate}</time>
         <span aria-hidden>·</span>

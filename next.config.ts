@@ -11,6 +11,11 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Keep indexed biographies pointing to the single, current personal profile.
+      { source: "/about", destination: "/#about", permanent: true },
+      { source: "/en/about", destination: "/en#about", permanent: true },
+      { source: "/authors/almas-kasymzhanov", destination: "/#about", permanent: true },
+      { source: "/en/authors/almas-kasymzhanov", destination: "/en#about", permanent: true },
       { source: "/blog", destination: "/latest", permanent: true },
       { source: "/data", destination: "/latest", permanent: true },
       { source: "/en/data", destination: "/en/latest", permanent: true },

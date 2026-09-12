@@ -237,7 +237,7 @@ export function SiteHeader({ locale = "ru", variant = "compact" }: { locale?: Lo
             <nav className="flex items-center gap-5 font-body text-[12px] font-semibold" aria-label={locale === "en" ? "Publication" : "Издание"}>
               <Link href={`${prefix}/latest`} className="transition-colors hover:text-[var(--color-brand)]">{t.nav.latest}</Link>
               <Link href={`${prefix}/newsletter`} className="transition-colors hover:text-[var(--color-brand)]">{t.nav.newsletter}</Link>
-              <Link href={`${prefix}/about`} className="transition-colors hover:text-[var(--color-brand)]">{t.nav.about}</Link>
+              <Link href={`${prefix || "/"}#about`} className="transition-colors hover:text-[var(--color-brand)]">{t.nav.about}</Link>
               <Link href={`${prefix}/tools`} className="transition-colors hover:text-[var(--color-brand)]">{t.nav.practice}</Link>
             </nav>
             <div className="ml-auto flex items-center gap-3">
@@ -250,7 +250,7 @@ export function SiteHeader({ locale = "ru", variant = "compact" }: { locale?: Lo
           <div className="flex flex-col items-center px-4 py-12 text-center">
             <Masthead size="hero" surnameOnly href={homeHref} />
             <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--color-dim)]">
-              {locale === "en" ? "Independent data publication · Central Asia" : "Независимое дата-издание · Центральная Азия"}
+              {locale === "en" ? "Personal blog · Products and technology" : "Личный блог · Продукты и технологии"}
             </p>
           </div>
           <div className="flex min-h-12 items-center justify-center border-t border-[var(--color-border)] px-4">
@@ -301,7 +301,7 @@ export function SiteFooter({ locale = "ru", hidePhone = false }: { locale?: Loca
             <Link href={`${prefix}/technology`} className="hover:text-[var(--color-brand)]">{t.nav.technology}</Link>
           </nav>
           <nav className="flex flex-col items-start gap-2 text-[12px]" aria-label={locale === "en" ? "Publication" : "Об издании"}>
-            <Link href={`${prefix}/about`} className="hover:text-[var(--color-brand)]">{t.nav.about}</Link>
+            <Link href={`${prefix || "/"}#about`} className="hover:text-[var(--color-brand)]">{t.nav.about}</Link>
             <Link href={`${prefix}/standards`} className="hover:text-[var(--color-brand)]">{locale === "en" ? "Editorial standards" : "Редакционные стандарты"}</Link>
             <Link href={`${prefix}/newsletter`} className="hover:text-[var(--color-brand)]">{t.nav.newsletter}</Link>
             <a href={locale === "en" ? "/en/feed.xml" : "/feed.xml"} className="hover:text-[var(--color-brand)]">RSS</a>

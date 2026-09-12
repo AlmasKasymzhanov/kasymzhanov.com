@@ -216,7 +216,7 @@ export function MobileMenu() {
                 </p>
                 <div className="grid grid-cols-2 gap-x-5 gap-y-1">
                   <Link href={`${prefix}/newsletter`} className="flex min-h-11 items-center border-b border-[var(--color-border)] text-[13px] font-semibold no-underline">{t.newsletter}</Link>
-                  <Link href={`${prefix}/about`} className="flex min-h-11 items-center border-b border-[var(--color-border)] text-[13px] font-semibold no-underline">{t.about}</Link>
+                  <Link href={`${prefix || "/"}#about`} className="flex min-h-11 items-center border-b border-[var(--color-border)] text-[13px] font-semibold no-underline">{t.about}</Link>
                   <Link href={`${prefix}/tools`} className="flex min-h-11 items-center border-b border-[var(--color-border)] text-[13px] font-semibold no-underline">{t.practice}</Link>
                   <Link href={`${prefix}/standards`} className="flex min-h-11 items-center border-b border-[var(--color-border)] text-[13px] font-semibold no-underline">
                     {locale === "en" ? "Editorial standards" : "Редакционные стандарты"}

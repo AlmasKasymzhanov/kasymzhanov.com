@@ -2,7 +2,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const base = process.env.SITE_CHECK_BASE || "http://127.0.0.1:3000";
-const bilingual = ["", "/latest", "/market", "/kaspi", "/technology", "/kazakhstan", "/tools", "/about", "/newsletter", "/standards", "/authors/almas-kasymzhanov", "/search?q=Kaspi"];
+const bilingual = ["", "/latest", "/market", "/kaspi", "/kaspi/fast", "/kaspi/slow", "/kaspi/research", "/kaspi/snapshots", "/technology", "/kazakhstan", "/tools", "/about", "/newsletter", "/standards", "/authors/almas-kasymzhanov", "/search?q=Kaspi"];
 const routes = bilingual.flatMap(route => [route || "/", `/en${route}`]);
 function pages(dir) {
   for (const item of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -11,8 +11,8 @@ function pages(dir) {
     else if (item.name === "page.tsx") routes.push("/" + path.relative("app", path.dirname(file)).split(path.sep).join("/"));
   }
 }
-for (const dir of ["app/blog", "app/en/blog", "app/reports", "app/web-analyzer", "app/tools"]) pages(dir);
-routes.push("/clients/elki", "/электроника/report/2026/лето-осень", "/analytics", "/contacts", "/privacy", "/terms", "/login", "/en/login", "/data", "/en/data", "/stream-3", "/stream-4");
+for (const dir of ["app/blog", "app/en/blog", "app/reports", "app/web-analyzer", "app/tools", "app/sellers-forum"]) pages(dir);
+routes.push("/clients/elki", "/электроника/report/2026/лето-осень", "/analytics", "/contacts", "/privacy", "/terms", "/login", "/en/login", "/data", "/en/data", "/subscribe", "/stream-3", "/stream-4");
 const unique = [...new Set(routes)];
 const results = [];
 async function fetchPage(route) {
@@ -35,8 +35,11 @@ async function worker() {
     try {
       const { response, html } = await fetchPage(route);
       const mains = (html.match(/<main[\s>]/g) || []).length;
-      const ok = response.status === 200 && mains === 1 && html.includes('personal-rail') && !html.includes('href="/kz"');
-      results.push({ route, status: response.status, mains, ok });
+      const staleIdentity = /независимо(?:е|го) (?:дата-медиа|дата-издани)|independent (?:data media|publication)|Об издании|About the publication/i.test(html);
+      const canonical = html.match(/<link rel="canonical" href="([^"]+)"/i)?.[1];
+      const canonicalOk = !canonical || new URL(canonical).pathname.replace(/\/$/, "") === new URL(response.url).pathname.replace(/\/$/, "");
+      const ok = response.status === 200 && mains === 1 && html.includes('personal-rail') && !html.includes('href="/kz"') && !staleIdentity && canonicalOk;
+      results.push({ route, finalUrl: response.url, status: response.status, mains, staleIdentity, canonical, canonicalOk, ok });
       if (!ok) console.log("FAIL", route, response.status, "main:", mains);
       else if (results.length % 10 === 0) console.log(`Checked ${results.length} routes`);
     } catch (error) { results.push({ route, ok: false, error: error.message }); console.log("FAIL", route, error.message); }

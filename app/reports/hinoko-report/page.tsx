@@ -260,7 +260,7 @@ export default function Page() {
               </div>
             </div>
 
-<a href="/authors/almas-kasymzhanov" className="research-author">Алмас Касымжанов</a>
+<a href="/#about" className="research-author">Алмас Касымжанов</a>
 <ResearchReadingTime />
 </div>
 

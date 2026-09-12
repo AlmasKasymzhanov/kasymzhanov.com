@@ -97,7 +97,7 @@ export default function UnitEconomicsPage() {
             Дата расчёта: 9 апреля 2026 · Рыночные данные: агрегированные рыночные данные, февраль 2026
           </div>
 
-<a href="/authors/almas-kasymzhanov" className="research-author">Алмас Касымжанов</a>
+<a href="/#about" className="research-author">Алмас Касымжанов</a>
 <ResearchReadingTime />
 </div>
 

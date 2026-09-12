@@ -95,7 +95,7 @@ export default function KaspiPreorderNichesPage() {
             Дата публикации: 16 апреля 2026 · Срез данных: 1 февраля 2026 · Источники: агрегированные рыночные данные (16 мес), live Kaspi, Kaspi Гид, vc.ru, habr
           </div>
 
-<a href="/authors/almas-kasymzhanov" className="research-author">Алмас Касымжанов</a>
+<a href="/#about" className="research-author">Алмас Касымжанов</a>
 <ResearchReadingTime />
 </div>
 

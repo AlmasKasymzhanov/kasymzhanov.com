@@ -114,7 +114,7 @@ export default function AliqeAnalysisPage() {
             Дата анализа: 11 апреля 2026 · Источник: агрегированные рыночные данные (срез февраль 2026 + история 16 месяцев)
           </div>
 
-<a href="/authors/almas-kasymzhanov" className="research-author">Алмас Касымжанов</a>
+<a href="/#about" className="research-author">Алмас Касымжанов</a>
 <ResearchReadingTime />
 </div>
 

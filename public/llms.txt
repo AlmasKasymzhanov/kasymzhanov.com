@@ -1,6 +1,6 @@
 # Almas Kasymzhanov
 
-> Дата-журналист, аналитик, предприниматель. Автор Kasymzhanov — независимого дата-медиа о рынках, экономике и технологиях. Основатель 10b.kz, Redstat и Brock UI. Пишу data-driven материалы, которые можно проверить по цифрам.
+> Предприниматель и аналитик. Основатель Redstat, 10b и ProofTotal. Развиваю продукты, пишу код и работаю с данными. Пишу для Forbes Казахстан и веду этот личный блог о технологиях, проектах и маркетплейсах.
 
 ## О сайте
 
@@ -15,12 +15,14 @@
 - [Redstat.kz](https://redstat.kz): Бесплатный ML-аналитический сервис для продавцов Kaspi.kz. Выручка, тренды, прогнозы, конкуренция по всем нишам. 1.21 млн SKU, данные в реальном времени.
 - [10b.kz](https://10b.kz): Аналитика тендеров и госзакупок Казахстана. Поиск, разбор, оценка контрактов.
 
+- ProofTotal: Аналитика и интеграция бизнес-систем. Сверка данных из разных источников.
+
 ## Контакты
 
 - Telegram (канал): https://t.me/akasymzhanov
 - X (Twitter): https://x.com/akasymzhanov
 - LinkedIn: https://www.linkedin.com/in/akasymzhanov/
-- Instagram: https://www.instagram.com/almas_kasymzhanov/
+- Instagram: https://www.instagram.com/akasymzhanovv/
 - YouTube: https://www.youtube.com/@akasymzhanovv
 - Threads: https://www.threads.com/@akasymzhanovv
 - Facebook: https://www.facebook.com/almaskassymzhanov

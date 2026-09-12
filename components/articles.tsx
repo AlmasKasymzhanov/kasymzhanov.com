@@ -19,7 +19,7 @@ const SITE = "https://kasymzhanov.com";
  *      → EngagementProvider → body → AuthorBlock → SiteFooter.
  *   2. Create  app/blog/<slug>/layout.tsx  (copy nvidia-kazakhstan's): per-article
  *      metadata — title/description, alternates.canonical, openGraph+twitter
- *      (with images), and <ArticleJsonLd slug=... description=...> for NewsArticle.
+ *      (with images), and <ArticleJsonLd slug=... description=...> for BlogPosting.
  *   3. Drop the cover into  public/blog/<slug>/  (webp).
  *   4. Prepend an entry to ARTICLES below (newest-first, with datePublished ISO).
  *      That surfaces it on the home front page and the /blog hub automatically.
@@ -308,7 +308,7 @@ export function withEngagement(a: Article, eng: Record<string, Eng>): Article {
 }
 
 /*
- * NewsArticle structured data (schema.org) — emitted in each article's
+ * BlogPosting structured data (schema.org) — emitted in each article's
  * server-rendered <head> via its layout.tsx. Derived from the ARTICLES entry
  * (single source of truth); `description` is the article's curated SEO copy.
  */
@@ -319,7 +319,7 @@ export function ArticleJsonLd({ slug, description, locale = "ru" }: { slug: stri
   const url = `${SITE}${a.href}`;
   const json = {
     "@context": "https://schema.org",
-    "@type": "NewsArticle",
+    "@type": "BlogPosting",
     headline: a.title,
     description,
     image: [`${SITE}${a.img}`],
@@ -334,15 +334,15 @@ export function ArticleJsonLd({ slug, description, locale = "ru" }: { slug: stri
     author: {
       "@type": "Person",
       name: dict[locale].name,
-      url: `${SITE}${locale === "en" ? "/en" : ""}/authors/almas-kasymzhanov`,
+      "@id": `${SITE}/#almas-kasymzhanov`,
+      url: `${SITE}${locale === "en" ? "/en" : "/"}#about`,
       sameAs: SOCIAL_SAMEAS,
     },
     publisher: {
-      "@type": "NewsMediaOrganization",
-      "@id": `${SITE}/#publisher`,
-      name: "Kasymzhanov",
-      url: SITE,
-      logo: { "@type": "ImageObject", url: `${SITE}/icon-192.png`, width: 192, height: 192 },
+      "@type": "Person",
+      "@id": `${SITE}/#almas-kasymzhanov`,
+      name: dict[locale].name,
+      url: `${SITE}/#about`,
     },
   };
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(json) }} />;

@@ -66,7 +66,7 @@ export default function TowelWarmerAnalysisPage() {
             18 апреля 2026 · Данные: агрегированные данные Wildberries (18.04.2025–17.04.2026), 63 855 SKU, Wildberries
           </div>
 
-<a href="/authors/almas-kasymzhanov" className="research-author">Алмас Касымжанов</a>
+<a href="/#about" className="research-author">Алмас Касымжанов</a>
 <ResearchReadingTime />
 </div>
 

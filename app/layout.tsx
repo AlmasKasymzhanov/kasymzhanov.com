@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SOCIAL_SAMEAS } from "@/lib/social";
 import { HtmlLang } from "@/components/html-lang";
 import "./globals.css";
+import { personalMetadata, PERSONAL_DESCRIPTION } from "@/lib/site-metadata";
 
 // One quiet sans-serif for reading and interface text.
 const geist = localFont({
@@ -33,27 +34,10 @@ const menlo = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Kasymzhanov",
-  description:
-    "Kasymzhanov — независимое дата-медиа. Расследования, аналитика и дата-журналистика о рынках, экономике и технологиях. Данные вместо мнений.",
+  ...personalMetadata("Алмас Касымжанов · личный сайт", PERSONAL_DESCRIPTION, "/"),
+  // Each route owns its canonical URL; do not make child pages canonical to home.
+  alternates: undefined,
   metadataBase: new URL("https://kasymzhanov.com"),
-  openGraph: {
-    title: "Kasymzhanov",
-    description:
-      "Kasymzhanov — независимое дата-медиа. Расследования, аналитика и дата-журналистика о рынках, экономике и технологиях. Данные вместо мнений.",
-    url: "https://kasymzhanov.com",
-    siteName: "kasymzhanov.com",
-    locale: "ru_RU",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Kasymzhanov",
-    description:
-      "Kasymzhanov — независимое дата-медиа. Расследования, аналитика и дата-журналистика о рынках, экономике и технологиях. Данные вместо мнений.",
-    creator: "@akasymzhanov",
-    site: "@akasymzhanov",
-  },
   robots: {
     index: true,
     follow: true,
@@ -86,36 +70,21 @@ export default function RootLayout({
                   "@id": "https://kasymzhanov.com/#almas-kasymzhanov",
                   name: "Almas Kasymzhanov",
                   alternateName: "Алмас Касымжанов",
-                  url: "https://kasymzhanov.com/authors/almas-kasymzhanov",
+                  url: "https://kasymzhanov.com/#about",
                   email: "almas@kasymzhanov.com",
-                  jobTitle: "Дата-журналист, аналитик, предприниматель",
+                  jobTitle: "Предприниматель и аналитик",
                   description:
-                    "Автор Kasymzhanov — независимого дата-медиа о рынках, экономике и технологиях.",
+                    PERSONAL_DESCRIPTION,
                   sameAs: SOCIAL_SAMEAS,
-                },
-                {
-                  "@type": "NewsMediaOrganization",
-                  "@id": "https://kasymzhanov.com/#publisher",
-                  name: "Kasymzhanov",
-                  url: "https://kasymzhanov.com",
-                  logo: {
-                    "@type": "ImageObject",
-                    url: "https://kasymzhanov.com/icon-192.png",
-                    width: 192,
-                    height: 192,
-                  },
-                  founder: { "@id": "https://kasymzhanov.com/#almas-kasymzhanov" },
-                  foundingDate: "2026",
-                  ethicsPolicy: "https://kasymzhanov.com/standards",
                 },
                 {
                   "@type": "WebSite",
                   "@id": "https://kasymzhanov.com/#website",
-                  name: "Kasymzhanov",
+                  name: "Алмас Касымжанов · личный сайт",
                   url: "https://kasymzhanov.com",
                   description:
-                    "Независимое дата-медиа. Расследования, аналитика и дата-журналистика. Данные вместо мнений.",
-                  publisher: { "@id": "https://kasymzhanov.com/#publisher" },
+                    PERSONAL_DESCRIPTION,
+                  publisher: { "@id": "https://kasymzhanov.com/#almas-kasymzhanov" },
                   potentialAction: {
                     "@type": "SearchAction",
                     target: "https://kasymzhanov.com/search?q={search_term_string}",

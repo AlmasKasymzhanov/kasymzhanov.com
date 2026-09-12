@@ -62,7 +62,7 @@ export default function CreativeHuntingGuidePage() {
             Пошаговая инструкция: как находить видео, которые уже доказали спрос → адаптировать под свой бренд → повесить на deeplink → получить продажи на Kaspi через внешний трафик.
           </p>
 
-<a href="/authors/almas-kasymzhanov" className="research-author">Алмас Касымжанов</a>
+<a href="/#about" className="research-author">Алмас Касымжанов</a>
 <ResearchReadingTime />
 </div>
 

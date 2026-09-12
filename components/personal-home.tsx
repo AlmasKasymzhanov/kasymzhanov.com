@@ -30,9 +30,9 @@ const HOME_COPY: Record<
   en: {
     title: "Hi, I’m Almas.",
     intro:
-      "I am an entrepreneur and product analyst. I have worked with marketplaces for more than seven years: selling on Wildberries and Kaspi, and helping large sellers make sense of assortment, pricing, and data.",
+      "Entrepreneur and analyst. I sell on marketplaces and build business tools: Redstat, 10b and ProofTotal. I develop products, write code and work with data.",
     introSecond:
-      "Today I build Redstat and 10b, working across product, analytics, and development. I also write about marketplaces, technology, and the economy for Forbes Kazakhstan and this blog.",
+      "I also write for Forbes Kazakhstan and keep this blog. Here I share thoughts on technology, my projects, and what I learn along the way.",
     skip: "Skip to content",
   },
 };

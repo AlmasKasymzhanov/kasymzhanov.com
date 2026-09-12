@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { getPublishedArticles } from "@/components/articles";
 
 const SITE = "https://kasymzhanov.com";
-const RELEASE = "2026-08-03";
+const RELEASE = "2026-09-13";
 
 const BILINGUAL = [
   "",
@@ -12,10 +12,8 @@ const BILINGUAL = [
   "/technology",
   "/kazakhstan",
   "/tools",
-  "/about",
   "/newsletter",
   "/standards",
-  "/authors/almas-kasymzhanov",
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {

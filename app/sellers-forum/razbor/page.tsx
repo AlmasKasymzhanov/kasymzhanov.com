@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
-import { KaStyle, KaFoot } from "../_ka";
+import { personalMetadata } from "@/lib/site-metadata";
+import { IconlyArrowLeft } from "@/components/iconly-icons";
+import { KaStyle } from "../_ka";
 
-export const metadata: Metadata = {
-  title: "Карманный аналитик Kaspi — разбор | Алмас Касымжанов",
-  description:
-    "Что такое карманный аналитик Kaspi: спрашиваешь магазин человеческим языком и получаешь ответ по своим реальным данным. Концепт, как устроено, что нужно.",
-};
+export const metadata: Metadata = personalMetadata("Карманный аналитик Kaspi — разбор | Алмас Касымжанов", "Что такое карманный аналитик Kaspi: спрашиваешь магазин человеческим языком и получаешь ответ по своим реальным данным. Концепт, как устроено, что нужно.", "/sellers-forum/razbor");
 
 export default function RazborPage() {
   return (
     <div className="ka-root">
       <KaStyle />
       <div className="ka-wrap">
-        <a className="ka-back" href="/sellers-forum">← Назад к материалам</a>
+        <a className="ka-back" href="/sellers-forum"><IconlyArrowLeft /> Назад к материалам</a>
 
         <div className="ka-head">
           <div className="ka-eyebrow">Kaspi × Claude · Разбор</div>
@@ -80,7 +78,6 @@ export default function RazborPage() {
           </p>
         </div>
 
-        <KaFoot />
       </div>
     </div>
   );

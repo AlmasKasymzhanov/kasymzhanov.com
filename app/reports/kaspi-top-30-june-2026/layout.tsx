@@ -40,7 +40,7 @@ export default function KaspiTop30Layout({ children }: { children: React.ReactNo
     datePublished: "2026-08-02",
     inLanguage: "ru-RU",
     isAccessibleForFree: true,
-    author: { "@type": "Person", name: "Almas Kasymzhanov", url: "https://kasymzhanov.com/authors/almas-kasymzhanov" },
+    author: { "@type": "Person", name: "Almas Kasymzhanov", url: "https://kasymzhanov.com/#about" },
     publisher: { "@type": "Person", name: "Almas Kasymzhanov", url: "https://kasymzhanov.com" },
     about: { "@type": "Thing", name: "Аналитика рынка Kaspi" },
   };

@@ -64,7 +64,7 @@ export default function KaspiPreorderGuidePage() {
             Дата публикации: 10 апреля 2026 · Источники: официальный Kaspi Гид, vc.ru, habr.com, практические материалы для продавцов, материалы Артёма Бухонина
           </div>
 
-<a href="/authors/almas-kasymzhanov" className="research-author">Алмас Касымжанов</a>
+<a href="/#about" className="research-author">Алмас Касымжанов</a>
 <ResearchReadingTime />
 </div>
 

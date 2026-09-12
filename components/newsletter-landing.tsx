@@ -7,17 +7,17 @@ export function NewsletterLanding({ locale }: { locale: Locale }) {
   const copy = locale === "en"
     ? {
         eyebrow: "The newsletter",
-        title: "The signal behind the headline",
-        deck: "A concise letter about digital markets, technology, and Central Asia — built from reporting and data, not a daily link dump.",
-        bullets: ["New investigations and data stories", "The method and limitations behind the numbers", "Practical findings that do not fit into the article"],
+        title: "New posts from the blog",
+        deck: "I share new posts about technology, marketplaces, and the products I am building.",
+        bullets: ["New articles and research", "The method and limitations behind the numbers", "Practical findings that do not fit into the article"],
         cadence: "Sent when there is something worth opening. No daily noise.",
         privacy: "By subscribing you agree to the privacy policy. Unsubscribe at any time.",
       }
     : {
         eyebrow: "Рассылка",
-        title: "Сигнал за пределами заголовка",
-        deck: "Короткое письмо о цифровых рынках, технологиях и Центральной Азии — на основе репортинга и данных, а не ежедневной подборки ссылок.",
-        bullets: ["Новые расследования и дата-разборы", "Методика и ограничения цифр", "Практические находки, не вошедшие в материал"],
+        title: "Новые записи из блога",
+        deck: "Присылаю новые статьи о технологиях, маркетплейсах и продуктах, которые развиваю.",
+        bullets: ["Новые статьи и исследования", "Методика и ограничения цифр", "Практические находки, не вошедшие в материал"],
         cadence: "Письмо приходит, когда есть что открыть. Без ежедневного шума.",
         privacy: "Подписываясь, вы соглашаетесь с политикой конфиденциальности. Отписаться можно в любой момент.",
       };

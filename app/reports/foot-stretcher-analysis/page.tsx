@@ -66,7 +66,7 @@ export default function FootStretcherAnalysisPage() {
             18 апреля 2026 · Данные: агрегированные данные Wildberries WB (18.04.2025–17.04.2026), агрегированные рыночные данные Kaspi (Feb 2026), live Kaspi, 1688
           </div>
 
-<a href="/authors/almas-kasymzhanov" className="research-author">Алмас Касымжанов</a>
+<a href="/#about" className="research-author">Алмас Касымжанов</a>
 <ResearchReadingTime />
 </div>
 

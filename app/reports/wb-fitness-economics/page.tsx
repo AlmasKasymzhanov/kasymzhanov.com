@@ -65,7 +65,7 @@ export default function WbFitnessEconomicsPage() {
             Дата расчёта: 9 апреля 2026 · Данные поставщика: коммерческое предложение от фабрики
           </div>
 
-<a href="/authors/almas-kasymzhanov" className="research-author">Алмас Касымжанов</a>
+<a href="/#about" className="research-author">Алмас Касымжанов</a>
 <ResearchReadingTime />
 </div>
 

@@ -140,7 +140,7 @@ export default function KaspiCampingPage() {
             Дата публикации: 15 мая 2026 · Окно данных: ноябрь 2024 → февраль 2026 (факт) + расчётный прогноз до сен-2026 · Источник: агрегированные рыночные данные Kaspi.kz
           </div>
 
-<a href="/authors/almas-kasymzhanov" className="research-author">Алмас Касымжанов</a>
+<a href="/#about" className="research-author">Алмас Касымжанов</a>
 <ResearchReadingTime />
 </div>
 

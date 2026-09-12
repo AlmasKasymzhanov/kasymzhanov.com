@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import { KaStyle, KaFoot } from "../_ka";
+import { personalMetadata } from "@/lib/site-metadata";
+import { IconlyArrowLeft } from "@/components/iconly-icons";
+import { KaStyle } from "../_ka";
 
-export const metadata: Metadata = {
-  title: "Карманный аналитик Kaspi — пошаговое объяснение | Алмас Касымжанов",
-  description:
-    "Установка карманного аналитика Kaspi по шагам: Node.js, VS Code, расширение Claude Code, архив, токен. ~15 минут, программировать не нужно.",
-};
+export const metadata: Metadata = personalMetadata("Карманный аналитик Kaspi — пошаговое объяснение | Алмас Касымжанов", "Установка карманного аналитика Kaspi по шагам: Node.js, VS Code, расширение Claude Code, архив, токен. ~15 минут, программировать не нужно.", "/sellers-forum/guide");
 
 type Step = { num: string; title: string; body: React.ReactNode };
 
@@ -240,7 +238,7 @@ export default function GuidePage() {
     <div className="ka-root">
       <KaStyle />
       <div className="ka-wrap">
-        <a className="ka-back" href="/sellers-forum">← Назад к материалам</a>
+        <a className="ka-back" href="/sellers-forum"><IconlyArrowLeft /> Назад к материалам</a>
 
         <div className="ka-head">
           <div className="ka-eyebrow">Kaspi × Claude · Пошаговое объяснение</div>
@@ -278,7 +276,6 @@ export default function GuidePage() {
           </dl>
         </div>
 
-        <KaFoot />
       </div>
     </div>
   );
