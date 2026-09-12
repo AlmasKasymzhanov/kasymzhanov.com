@@ -72,6 +72,7 @@ import {
   buildLinePathForDom,
   computeStat,
   computeYDomain,
+  definedPointIndex,
   copyImageToClipboard,
   downloadBlob,
   lastDefinedDom,
@@ -2281,8 +2282,12 @@ function Plot({
   // ─── Keyboard nav along the emphasized series; Up/Down switch series. ───
   function moveFocus(next: { s: number; p: number }) {
     const sClamp = Math.max(0, Math.min(series.length - 1, next.s));
-    const pCount = series[sClamp].points.length;
-    const pClamp = Math.max(0, Math.min(pCount - 1, next.p));
+    const direction = sClamp === focus.s && next.p < focus.p ? -1 : 1;
+    const pClamp = definedPointIndex(series[sClamp].points, next.p, direction);
+    if (pClamp === null) return;
+    keepTooltip();
+    setPinnedX(null);
+    setHoverX(series[sClamp].points[pClamp].x);
     setFocus({ s: sClamp, p: pClamp });
     pointRefs.current[flatIndex(series, sClamp, pClamp)]?.focus();
     onPointFocus?.(makeSelection(series, sClamp, pClamp));

@@ -1490,6 +1490,18 @@ function niceLogBound(value: number, dir: "floor" | "ceil"): number {
   return candidates[candidates.length - 1];
 }
 
+/** Keyboard navigation skips absent observations without losing a real zero. */
+export function definedPointIndex(points: readonly { y: number | null }[], requested: number, direction: 1 | -1): number | null {
+  if (!points.length) return null;
+  const start = Math.max(0, Math.min(points.length - 1, requested));
+  for (const step of [direction, -direction]) {
+    for (let i = start; i >= 0 && i < points.length; i += step) {
+      if (points[i].y !== null && Number.isFinite(points[i].y)) return i;
+    }
+  }
+  return null;
+}
+
 export function computeYDomain(
   values: number[],
   yAxis: { min?: number; max?: number; ticks?: number } | undefined,

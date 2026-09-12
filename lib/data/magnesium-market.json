@@ -1,0 +1,2617 @@
+{
+  "source": "Redstat",
+  "researchDate": "2026-09-11",
+  "latestMonth": "2026-07",
+  "availableMonths": [
+    "2026-01",
+    "2026-02",
+    "2026-03",
+    "2026-04",
+    "2026-07"
+  ],
+  "missingMonths": [
+    "2026-05",
+    "2026-06"
+  ],
+  "targets": [
+    {
+      "name": "Magne B6",
+      "revenue": 87145829,
+      "orders": 16215,
+      "months": [
+        {
+          "month": "2026-01",
+          "revenue": 18189716,
+          "orders": 3740,
+          "medianPrice": 5298
+        },
+        {
+          "month": "2026-02",
+          "revenue": 18306175,
+          "orders": 3552,
+          "medianPrice": 5584
+        },
+        {
+          "month": "2026-03",
+          "revenue": 18710385,
+          "orders": 3635,
+          "medianPrice": 6499
+        },
+        {
+          "month": "2026-04",
+          "revenue": 19049160,
+          "orders": 3582,
+          "medianPrice": 6499
+        },
+        {
+          "month": "2026-05",
+          "revenue": null,
+          "orders": null,
+          "medianPrice": null
+        },
+        {
+          "month": "2026-06",
+          "revenue": null,
+          "orders": null,
+          "medianPrice": null
+        },
+        {
+          "month": "2026-07",
+          "revenue": 12890393,
+          "orders": 1706,
+          "medianPrice": 7444
+        }
+      ]
+    },
+    {
+      "name": "Magnerot",
+      "revenue": 15486186,
+      "orders": 2631,
+      "months": [
+        {
+          "month": "2026-01",
+          "revenue": 3032979,
+          "orders": 544,
+          "medianPrice": 5334
+        },
+        {
+          "month": "2026-02",
+          "revenue": 3039044,
+          "orders": 543,
+          "medianPrice": 5334
+        },
+        {
+          "month": "2026-03",
+          "revenue": 2839931,
+          "orders": 482,
+          "medianPrice": 5359
+        },
+        {
+          "month": "2026-04",
+          "revenue": 3043916,
+          "orders": 514,
+          "medianPrice": 5359
+        },
+        {
+          "month": "2026-05",
+          "revenue": null,
+          "orders": null,
+          "medianPrice": null
+        },
+        {
+          "month": "2026-06",
+          "revenue": null,
+          "orders": null,
+          "medianPrice": null
+        },
+        {
+          "month": "2026-07",
+          "revenue": 3530316,
+          "orders": 548,
+          "medianPrice": 5680
+        }
+      ]
+    },
+    {
+      "name": "Magnefar",
+      "revenue": 3892923,
+      "orders": 1089,
+      "months": [
+        {
+          "month": "2026-01",
+          "revenue": 748062,
+          "orders": 227,
+          "medianPrice": 3579
+        },
+        {
+          "month": "2026-02",
+          "revenue": 841122,
+          "orders": 239,
+          "medianPrice": 3579
+        },
+        {
+          "month": "2026-03",
+          "revenue": 976778,
+          "orders": 263,
+          "medianPrice": 3690
+        },
+        {
+          "month": "2026-04",
+          "revenue": 962776,
+          "orders": 268,
+          "medianPrice": 3690
+        },
+        {
+          "month": "2026-05",
+          "revenue": null,
+          "orders": null,
+          "medianPrice": null
+        },
+        {
+          "month": "2026-06",
+          "revenue": null,
+          "orders": null,
+          "medianPrice": null
+        },
+        {
+          "month": "2026-07",
+          "revenue": 364185,
+          "orders": 92,
+          "medianPrice": 3820
+        }
+      ]
+    },
+    {
+      "name": "Magnetab",
+      "revenue": 1638963,
+      "orders": 355,
+      "months": [
+        {
+          "month": "2026-01",
+          "revenue": 254243,
+          "orders": 56,
+          "medianPrice": 4746
+        },
+        {
+          "month": "2026-02",
+          "revenue": 307397,
+          "orders": 62,
+          "medianPrice": 4776
+        },
+        {
+          "month": "2026-03",
+          "revenue": 311716,
+          "orders": 66,
+          "medianPrice": 4882
+        },
+        {
+          "month": "2026-04",
+          "revenue": 236671,
+          "orders": 47,
+          "medianPrice": 4882
+        },
+        {
+          "month": "2026-05",
+          "revenue": null,
+          "orders": null,
+          "medianPrice": null
+        },
+        {
+          "month": "2026-06",
+          "revenue": null,
+          "orders": null,
+          "medianPrice": null
+        },
+        {
+          "month": "2026-07",
+          "revenue": 528936,
+          "orders": 124,
+          "medianPrice": 5224
+        }
+      ]
+    },
+    {
+      "name": "Magnicum",
+      "revenue": 114607,
+      "orders": 29,
+      "months": [
+        {
+          "month": "2026-01",
+          "revenue": 21556,
+          "orders": 6,
+          "medianPrice": 4708
+        },
+        {
+          "month": "2026-02",
+          "revenue": 8741,
+          "orders": 2,
+          "medianPrice": 4708
+        },
+        {
+          "month": "2026-03",
+          "revenue": 0,
+          "orders": 0,
+          "medianPrice": 0
+        },
+        {
+          "month": "2026-04",
+          "revenue": 4330,
+          "orders": 1,
+          "medianPrice": 3685
+        },
+        {
+          "month": "2026-05",
+          "revenue": null,
+          "orders": null,
+          "medianPrice": null
+        },
+        {
+          "month": "2026-06",
+          "revenue": null,
+          "orders": null,
+          "medianPrice": null
+        },
+        {
+          "month": "2026-07",
+          "revenue": 79980,
+          "orders": 20,
+          "medianPrice": 3999
+        }
+      ]
+    }
+  ],
+  "market": [
+    {
+      "month": "2026-01",
+      "revenue": 375329753,
+      "orders": 65537,
+      "skus": 831,
+      "brands": 288,
+      "revenuePerOrder": 5727,
+      "medianPrice": 8495
+    },
+    {
+      "month": "2026-02",
+      "revenue": 381037615,
+      "orders": 64518,
+      "skus": 890,
+      "brands": 307,
+      "revenuePerOrder": 5906,
+      "medianPrice": 8500
+    },
+    {
+      "month": "2026-03",
+      "revenue": 385025825,
+      "orders": 67591,
+      "skus": 934,
+      "brands": 340,
+      "revenuePerOrder": 5696,
+      "medianPrice": 8124
+    },
+    {
+      "month": "2026-04",
+      "revenue": 390898940,
+      "orders": 71462,
+      "skus": 912,
+      "brands": 328,
+      "revenuePerOrder": 5470,
+      "medianPrice": 7999
+    },
+    {
+      "month": "2026-05",
+      "revenue": null,
+      "orders": null,
+      "skus": null,
+      "brands": null,
+      "revenuePerOrder": null,
+      "medianPrice": null
+    },
+    {
+      "month": "2026-06",
+      "revenue": null,
+      "orders": null,
+      "skus": null,
+      "brands": null,
+      "revenuePerOrder": null,
+      "medianPrice": null
+    },
+    {
+      "month": "2026-07",
+      "revenue": 195043903,
+      "orders": 30607,
+      "skus": 587,
+      "brands": 217,
+      "revenuePerOrder": 6373,
+      "medianPrice": 7621
+    }
+  ],
+  "competitors": [
+    {
+      "name": "Solgar",
+      "revenue": 27030262,
+      "orders": 2617,
+      "skus": 17,
+      "share": 13.86,
+      "revenuePerOrder": 10329
+    },
+    {
+      "name": "NOW",
+      "revenue": 16035291,
+      "orders": 1432,
+      "skus": 28,
+      "share": 8.22,
+      "revenuePerOrder": 11198
+    },
+    {
+      "name": "GLS Pharmaceuticals",
+      "revenue": 13118487,
+      "orders": 3421,
+      "skus": 15,
+      "share": 6.73,
+      "revenuePerOrder": 3835
+    },
+    {
+      "name": "Sanofi",
+      "revenue": 11931306,
+      "orders": 1568,
+      "skus": 3,
+      "share": 6.12,
+      "revenuePerOrder": 7609
+    },
+    {
+      "name": "SOLAB",
+      "revenue": 7809689,
+      "orders": 2093,
+      "skus": 16,
+      "share": 4,
+      "revenuePerOrder": 3731
+    },
+    {
+      "name": "Life Extension",
+      "revenue": 7298342,
+      "orders": 616,
+      "skus": 5,
+      "share": 3.74,
+      "revenuePerOrder": 11848
+    },
+    {
+      "name": "1WIN",
+      "revenue": 5927082,
+      "orders": 1169,
+      "skus": 13,
+      "share": 3.04,
+      "revenuePerOrder": 5070
+    },
+    {
+      "name": "Bluebonnet Nutrition",
+      "revenue": 4929708,
+      "orders": 405,
+      "skus": 10,
+      "share": 2.53,
+      "revenuePerOrder": 12172
+    },
+    {
+      "name": "ORZAX",
+      "revenue": 4676266,
+      "orders": 752,
+      "skus": 5,
+      "share": 2.4,
+      "revenuePerOrder": 6218
+    },
+    {
+      "name": "Doppelherz",
+      "revenue": 4579358,
+      "orders": 602,
+      "skus": 13,
+      "share": 2.35,
+      "revenuePerOrder": 7607
+    },
+    {
+      "name": "Doctor's Best",
+      "revenue": 4412521,
+      "orders": 435,
+      "skus": 5,
+      "share": 2.26,
+      "revenuePerOrder": 10144
+    },
+    {
+      "name": "NUTRAXIN",
+      "revenue": 4117523,
+      "orders": 1052,
+      "skus": 4,
+      "share": 2.11,
+      "revenuePerOrder": 3914
+    },
+    {
+      "name": "KAL",
+      "revenue": 3787242,
+      "orders": 358,
+      "skus": 15,
+      "share": 1.94,
+      "revenuePerOrder": 10579
+    },
+    {
+      "name": "Solaray",
+      "revenue": 3662988,
+      "orders": 383,
+      "skus": 6,
+      "share": 1.88,
+      "revenuePerOrder": 9564
+    },
+    {
+      "name": "Woerwag Pharma",
+      "revenue": 3530316,
+      "orders": 548,
+      "skus": 3,
+      "share": 1.81,
+      "revenuePerOrder": 6442
+    },
+    {
+      "name": "Эвалар ЗАО",
+      "revenue": 3175179,
+      "orders": 510,
+      "skus": 7,
+      "share": 1.63,
+      "revenuePerOrder": 6226
+    },
+    {
+      "name": "21st Century",
+      "revenue": 2934209,
+      "orders": 727,
+      "skus": 4,
+      "share": 1.5,
+      "revenuePerOrder": 4036
+    },
+    {
+      "name": "qeep",
+      "revenue": 2682830,
+      "orders": 136,
+      "skus": 1,
+      "share": 1.38,
+      "revenuePerOrder": 19727
+    },
+    {
+      "name": "Swanson",
+      "revenue": 2634166,
+      "orders": 720,
+      "skus": 7,
+      "share": 1.35,
+      "revenuePerOrder": 3659
+    },
+    {
+      "name": "SNT",
+      "revenue": 2562279,
+      "orders": 102,
+      "skus": 8,
+      "share": 1.31,
+      "revenuePerOrder": 25120
+    },
+    {
+      "name": "Maxler",
+      "revenue": 2314510,
+      "orders": 163,
+      "skus": 14,
+      "share": 1.19,
+      "revenuePerOrder": 14199
+    },
+    {
+      "name": "ChildLife",
+      "revenue": 2052467,
+      "orders": 111,
+      "skus": 1,
+      "share": 1.05,
+      "revenuePerOrder": 18491
+    },
+    {
+      "name": "Фармгрупп ООО",
+      "revenue": 1887961,
+      "orders": 1250,
+      "skus": 15,
+      "share": 0.97,
+      "revenuePerOrder": 1510
+    },
+    {
+      "name": "California Gold Nutrition",
+      "revenue": 1861132,
+      "orders": 247,
+      "skus": 9,
+      "share": 0.95,
+      "revenuePerOrder": 7535
+    },
+    {
+      "name": "Natural Factors",
+      "revenue": 1320051,
+      "orders": 178,
+      "skus": 7,
+      "share": 0.68,
+      "revenuePerOrder": 7416
+    },
+    {
+      "name": "GRAFLAB",
+      "revenue": 1284878,
+      "orders": 426,
+      "skus": 2,
+      "share": 0.66,
+      "revenuePerOrder": 3016
+    },
+    {
+      "name": "VITAUCT",
+      "revenue": 1203189,
+      "orders": 129,
+      "skus": 9,
+      "share": 0.62,
+      "revenuePerOrder": 9327
+    },
+    {
+      "name": "Swiss Bork",
+      "revenue": 1114138,
+      "orders": 278,
+      "skus": 3,
+      "share": 0.57,
+      "revenuePerOrder": 4008
+    },
+    {
+      "name": "Sacred Leaves",
+      "revenue": 1104495,
+      "orders": 203,
+      "skus": 2,
+      "share": 0.57,
+      "revenuePerOrder": 5441
+    },
+    {
+      "name": "Trace Minerals Research",
+      "revenue": 1056688,
+      "orders": 76,
+      "skus": 4,
+      "share": 0.54,
+      "revenuePerOrder": 13904
+    },
+    {
+      "name": "Orion Pharma",
+      "revenue": 1049607,
+      "orders": 172,
+      "skus": 2,
+      "share": 0.54,
+      "revenuePerOrder": 6102
+    },
+    {
+      "name": "Stada",
+      "revenue": 1007387,
+      "orders": 145,
+      "skus": 2,
+      "share": 0.52,
+      "revenuePerOrder": 6947
+    },
+    {
+      "name": "Country Life",
+      "revenue": 967549,
+      "orders": 66,
+      "skus": 7,
+      "share": 0.5,
+      "revenuePerOrder": 14660
+    },
+    {
+      "name": "VitaMeal",
+      "revenue": 938581,
+      "orders": 198,
+      "skus": 6,
+      "share": 0.48,
+      "revenuePerOrder": 4740
+    },
+    {
+      "name": "Greenviva",
+      "revenue": 890217,
+      "orders": 125,
+      "skus": 1,
+      "share": 0.46,
+      "revenuePerOrder": 7122
+    },
+    {
+      "name": "Natures Answer",
+      "revenue": 874631,
+      "orders": 73,
+      "skus": 1,
+      "share": 0.45,
+      "revenuePerOrder": 11981
+    },
+    {
+      "name": "NaturalSupp",
+      "revenue": 857240,
+      "orders": 199,
+      "skus": 8,
+      "share": 0.44,
+      "revenuePerOrder": 4308
+    },
+    {
+      "name": "Medica Mente",
+      "revenue": 855692,
+      "orders": 102,
+      "skus": 11,
+      "share": 0.44,
+      "revenuePerOrder": 8389
+    },
+    {
+      "name": "LIMO",
+      "revenue": 784800,
+      "orders": 72,
+      "skus": 2,
+      "share": 0.4,
+      "revenuePerOrder": 10900
+    },
+    {
+      "name": "Source Naturals",
+      "revenue": 727828,
+      "orders": 64,
+      "skus": 3,
+      "share": 0.37,
+      "revenuePerOrder": 11372
+    },
+    {
+      "name": "MyVit",
+      "revenue": 727391,
+      "orders": 97,
+      "skus": 4,
+      "share": 0.37,
+      "revenuePerOrder": 7499
+    },
+    {
+      "name": "ERSAG",
+      "revenue": 720014,
+      "orders": 101,
+      "skus": 2,
+      "share": 0.37,
+      "revenuePerOrder": 7129
+    },
+    {
+      "name": "DR.ZUBAREVA",
+      "revenue": 700871,
+      "orders": 97,
+      "skus": 3,
+      "share": 0.36,
+      "revenuePerOrder": 7225
+    },
+    {
+      "name": "Purley Holistic",
+      "revenue": 683693,
+      "orders": 171,
+      "skus": 1,
+      "share": 0.35,
+      "revenuePerOrder": 3998
+    },
+    {
+      "name": "Healthis",
+      "revenue": 645203,
+      "orders": 126,
+      "skus": 5,
+      "share": 0.33,
+      "revenuePerOrder": 5121
+    },
+    {
+      "name": "META",
+      "revenue": 643900,
+      "orders": 47,
+      "skus": 1,
+      "share": 0.33,
+      "revenuePerOrder": 13700
+    },
+    {
+      "name": "VitDayMax",
+      "revenue": 638872,
+      "orders": 102,
+      "skus": 2,
+      "share": 0.33,
+      "revenuePerOrder": 6263
+    },
+    {
+      "name": "Vitamuno",
+      "revenue": 635792,
+      "orders": 447,
+      "skus": 6,
+      "share": 0.33,
+      "revenuePerOrder": 1422
+    },
+    {
+      "name": "Миофарм",
+      "revenue": 622502,
+      "orders": 214,
+      "skus": 10,
+      "share": 0.32,
+      "revenuePerOrder": 2909
+    },
+    {
+      "name": "NATURI",
+      "revenue": 587706,
+      "orders": 69,
+      "skus": 6,
+      "share": 0.3,
+      "revenuePerOrder": 8517
+    },
+    {
+      "name": "Carlson",
+      "revenue": 587442,
+      "orders": 59,
+      "skus": 1,
+      "share": 0.3,
+      "revenuePerOrder": 9957
+    },
+    {
+      "name": "Optimum Nutrition",
+      "revenue": 580100,
+      "orders": 40,
+      "skus": 2,
+      "share": 0.3,
+      "revenuePerOrder": 14503
+    },
+    {
+      "name": "Primekraft",
+      "revenue": 572342,
+      "orders": 135,
+      "skus": 2,
+      "share": 0.29,
+      "revenuePerOrder": 4240
+    },
+    {
+      "name": "NaturesPlus",
+      "revenue": 570736,
+      "orders": 74,
+      "skus": 2,
+      "share": 0.29,
+      "revenuePerOrder": 7713
+    },
+    {
+      "name": "SOLLEX",
+      "revenue": 543490,
+      "orders": 109,
+      "skus": 2,
+      "share": 0.28,
+      "revenuePerOrder": 4986
+    },
+    {
+      "name": "РУБИКОН ООО",
+      "revenue": 528936,
+      "orders": 124,
+      "skus": 2,
+      "share": 0.27,
+      "revenuePerOrder": 4266
+    },
+    {
+      "name": "Thorne",
+      "revenue": 526394,
+      "orders": 22,
+      "skus": 2,
+      "share": 0.27,
+      "revenuePerOrder": 23927
+    },
+    {
+      "name": "BioHerb",
+      "revenue": 514678,
+      "orders": 113,
+      "skus": 3,
+      "share": 0.26,
+      "revenuePerOrder": 4555
+    },
+    {
+      "name": "Natures Sunshine",
+      "revenue": 511224,
+      "orders": 25,
+      "skus": 1,
+      "share": 0.26,
+      "revenuePerOrder": 20449
+    },
+    {
+      "name": "Leaf To Go",
+      "revenue": 506344,
+      "orders": 83,
+      "skus": 5,
+      "share": 0.26,
+      "revenuePerOrder": 6101
+    },
+    {
+      "name": "Ayusri",
+      "revenue": 501875,
+      "orders": 125,
+      "skus": 1,
+      "share": 0.26,
+      "revenuePerOrder": 4015
+    },
+    {
+      "name": "Витамир",
+      "revenue": 486390,
+      "orders": 122,
+      "skus": 7,
+      "share": 0.25,
+      "revenuePerOrder": 3987
+    },
+    {
+      "name": "DIVILIS",
+      "revenue": 476768,
+      "orders": 32,
+      "skus": 1,
+      "share": 0.24,
+      "revenuePerOrder": 14899
+    },
+    {
+      "name": "Health Form",
+      "revenue": 469674,
+      "orders": 151,
+      "skus": 3,
+      "share": 0.24,
+      "revenuePerOrder": 3110
+    },
+    {
+      "name": "Sun Flower",
+      "revenue": 445700,
+      "orders": 75,
+      "skus": 5,
+      "share": 0.23,
+      "revenuePerOrder": 5943
+    },
+    {
+      "name": "Сибирское здоровье 2000 ООО (Россия)",
+      "revenue": 429506,
+      "orders": 100,
+      "skus": 1,
+      "share": 0.22,
+      "revenuePerOrder": 4295
+    },
+    {
+      "name": "OVERvit",
+      "revenue": 420948,
+      "orders": 156,
+      "skus": 2,
+      "share": 0.22,
+      "revenuePerOrder": 2698
+    },
+    {
+      "name": "Life-flo",
+      "revenue": 419314,
+      "orders": 53,
+      "skus": 1,
+      "share": 0.21,
+      "revenuePerOrder": 7912
+    },
+    {
+      "name": "Schonen",
+      "revenue": 410055,
+      "orders": 55,
+      "skus": 1,
+      "share": 0.21,
+      "revenuePerOrder": 7456
+    },
+    {
+      "name": "Venatura",
+      "revenue": 393170,
+      "orders": 49,
+      "skus": 5,
+      "share": 0.2,
+      "revenuePerOrder": 8024
+    },
+    {
+      "name": "PWR Ultimate Power",
+      "revenue": 384308,
+      "orders": 90,
+      "skus": 5,
+      "share": 0.2,
+      "revenuePerOrder": 4270
+    },
+    {
+      "name": "KAL Nutrition",
+      "revenue": 375073,
+      "orders": 42,
+      "skus": 1,
+      "share": 0.19,
+      "revenuePerOrder": 8930
+    },
+    {
+      "name": "Биофарма",
+      "revenue": 364185,
+      "orders": 92,
+      "skus": 1,
+      "share": 0.19,
+      "revenuePerOrder": 3959
+    },
+    {
+      "name": "Fornaks Farma",
+      "revenue": 361001,
+      "orders": 144,
+      "skus": 1,
+      "share": 0.19,
+      "revenuePerOrder": 2507
+    },
+    {
+      "name": "Proto Global GmbH",
+      "revenue": 356990,
+      "orders": 38,
+      "skus": 2,
+      "share": 0.18,
+      "revenuePerOrder": 9394
+    },
+    {
+      "name": "Nature's Life",
+      "revenue": 351372,
+      "orders": 42,
+      "skus": 1,
+      "share": 0.18,
+      "revenuePerOrder": 8366
+    },
+    {
+      "name": "Vitavit",
+      "revenue": 330825,
+      "orders": 42,
+      "skus": 1,
+      "share": 0.17,
+      "revenuePerOrder": 7877
+    },
+    {
+      "name": "Nature's Bounty",
+      "revenue": 324949,
+      "orders": 58,
+      "skus": 3,
+      "share": 0.17,
+      "revenuePerOrder": 5603
+    },
+    {
+      "name": "Dr.Martin's",
+      "revenue": 321813,
+      "orders": 93,
+      "skus": 2,
+      "share": 0.16,
+      "revenuePerOrder": 3460
+    },
+    {
+      "name": "Best Body Nutrition",
+      "revenue": 318800,
+      "orders": 40,
+      "skus": 1,
+      "share": 0.16,
+      "revenuePerOrder": 7970
+    },
+    {
+      "name": "Вистерра",
+      "revenue": 316800,
+      "orders": 22,
+      "skus": 1,
+      "share": 0.16,
+      "revenuePerOrder": 14400
+    },
+    {
+      "name": "Dr. Mercola",
+      "revenue": 315000,
+      "orders": 9,
+      "skus": 1,
+      "share": 0.16,
+      "revenuePerOrder": 35000
+    },
+    {
+      "name": "Vitmins",
+      "revenue": 314793,
+      "orders": 68,
+      "skus": 2,
+      "share": 0.16,
+      "revenuePerOrder": 4629
+    },
+    {
+      "name": "Nutri ONN",
+      "revenue": 310856,
+      "orders": 95,
+      "skus": 1,
+      "share": 0.16,
+      "revenuePerOrder": 3272
+    },
+    {
+      "name": "Renew Actives",
+      "revenue": 294890,
+      "orders": 58,
+      "skus": 1,
+      "share": 0.15,
+      "revenuePerOrder": 5084
+    },
+    {
+      "name": "Алтайвитамины",
+      "revenue": 287059,
+      "orders": 63,
+      "skus": 1,
+      "share": 0.15,
+      "revenuePerOrder": 4556
+    },
+    {
+      "name": "Yunazafi",
+      "revenue": 272991,
+      "orders": 22,
+      "skus": 1,
+      "share": 0.14,
+      "revenuePerOrder": 12409
+    },
+    {
+      "name": "RestartBio",
+      "revenue": 270257,
+      "orders": 32,
+      "skus": 3,
+      "share": 0.14,
+      "revenuePerOrder": 8446
+    },
+    {
+      "name": "Life Tree",
+      "revenue": 267000,
+      "orders": 30,
+      "skus": 1,
+      "share": 0.14,
+      "revenuePerOrder": 8900
+    },
+    {
+      "name": "Universe Pharma",
+      "revenue": 262612,
+      "orders": 14,
+      "skus": 1,
+      "share": 0.13,
+      "revenuePerOrder": 18758
+    },
+    {
+      "name": "Fairhaven Health",
+      "revenue": 247917,
+      "orders": 20,
+      "skus": 1,
+      "share": 0.13,
+      "revenuePerOrder": 12396
+    },
+    {
+      "name": "Ferrana",
+      "revenue": 244579,
+      "orders": 23,
+      "skus": 1,
+      "share": 0.13,
+      "revenuePerOrder": 10634
+    },
+    {
+      "name": "FITCODE",
+      "revenue": 233964,
+      "orders": 18,
+      "skus": 1,
+      "share": 0.12,
+      "revenuePerOrder": 12998
+    },
+    {
+      "name": "Purely Holistic",
+      "revenue": 220873,
+      "orders": 69,
+      "skus": 1,
+      "share": 0.11,
+      "revenuePerOrder": 3201
+    },
+    {
+      "name": "Комфорт Комплекс",
+      "revenue": 217575,
+      "orders": 90,
+      "skus": 1,
+      "share": 0.11,
+      "revenuePerOrder": 2418
+    },
+    {
+      "name": "ВТФ",
+      "revenue": 216765,
+      "orders": 52,
+      "skus": 2,
+      "share": 0.11,
+      "revenuePerOrder": 4169
+    },
+    {
+      "name": "CITCO CHEMICALS LTD",
+      "revenue": 214500,
+      "orders": 39,
+      "skus": 1,
+      "share": 0.11,
+      "revenuePerOrder": 5500
+    },
+    {
+      "name": "VISMI",
+      "revenue": 210000,
+      "orders": 8,
+      "skus": 1,
+      "share": 0.11,
+      "revenuePerOrder": 26250
+    },
+    {
+      "name": "aTech Nutrition",
+      "revenue": 209015,
+      "orders": 27,
+      "skus": 5,
+      "share": 0.11,
+      "revenuePerOrder": 7741
+    },
+    {
+      "name": "Acvelon",
+      "revenue": 207100,
+      "orders": 19,
+      "skus": 1,
+      "share": 0.11,
+      "revenuePerOrder": 10900
+    },
+    {
+      "name": "Nutri D-Day",
+      "revenue": 205534,
+      "orders": 31,
+      "skus": 2,
+      "share": 0.11,
+      "revenuePerOrder": 6630
+    },
+    {
+      "name": "Get Vitamins",
+      "revenue": 197441,
+      "orders": 9,
+      "skus": 1,
+      "share": 0.1,
+      "revenuePerOrder": 21938
+    },
+    {
+      "name": "Optimum System",
+      "revenue": 194600,
+      "orders": 28,
+      "skus": 1,
+      "share": 0.1,
+      "revenuePerOrder": 6950
+    },
+    {
+      "name": "Horbaach",
+      "revenue": 189800,
+      "orders": 13,
+      "skus": 1,
+      "share": 0.1,
+      "revenuePerOrder": 14600
+    },
+    {
+      "name": "Pharmatech AS",
+      "revenue": 180818,
+      "orders": 11,
+      "skus": 1,
+      "share": 0.09,
+      "revenuePerOrder": 16438
+    },
+    {
+      "name": "Anagran",
+      "revenue": 176800,
+      "orders": 17,
+      "skus": 1,
+      "share": 0.09,
+      "revenuePerOrder": 10400
+    },
+    {
+      "name": "Santo",
+      "revenue": 169917,
+      "orders": 237,
+      "skus": 1,
+      "share": 0.09,
+      "revenuePerOrder": 717
+    },
+    {
+      "name": "Vitalite Now",
+      "revenue": 168840,
+      "orders": 64,
+      "skus": 1,
+      "share": 0.09,
+      "revenuePerOrder": 2638
+    },
+    {
+      "name": "Siberian Wellness",
+      "revenue": 168701,
+      "orders": 38,
+      "skus": 2,
+      "share": 0.09,
+      "revenuePerOrder": 4440
+    },
+    {
+      "name": "IPSUM",
+      "revenue": 168653,
+      "orders": 7,
+      "skus": 1,
+      "share": 0.09,
+      "revenuePerOrder": 24093
+    },
+    {
+      "name": "Qazprotein",
+      "revenue": 164510,
+      "orders": 22,
+      "skus": 2,
+      "share": 0.08,
+      "revenuePerOrder": 7478
+    },
+    {
+      "name": "GEBERICH",
+      "revenue": 161472,
+      "orders": 21,
+      "skus": 2,
+      "share": 0.08,
+      "revenuePerOrder": 7689
+    },
+    {
+      "name": "COREPRO",
+      "revenue": 160000,
+      "orders": 40,
+      "skus": 1,
+      "share": 0.08,
+      "revenuePerOrder": 4000
+    },
+    {
+      "name": "BCN",
+      "revenue": 156589,
+      "orders": 19,
+      "skus": 3,
+      "share": 0.08,
+      "revenuePerOrder": 8242
+    },
+    {
+      "name": "Alpen Well",
+      "revenue": 155400,
+      "orders": 74,
+      "skus": 1,
+      "share": 0.08,
+      "revenuePerOrder": 2100
+    },
+    {
+      "name": "Vegannova",
+      "revenue": 153579,
+      "orders": 20,
+      "skus": 2,
+      "share": 0.08,
+      "revenuePerOrder": 7679
+    },
+    {
+      "name": "Алтайские традиции",
+      "revenue": 148369,
+      "orders": 8,
+      "skus": 1,
+      "share": 0.08,
+      "revenuePerOrder": 18546
+    },
+    {
+      "name": "Berlin Chemie",
+      "revenue": 146400,
+      "orders": 24,
+      "skus": 1,
+      "share": 0.08,
+      "revenuePerOrder": 6100
+    },
+    {
+      "name": "Seeking Health",
+      "revenue": 146390,
+      "orders": 11,
+      "skus": 1,
+      "share": 0.08,
+      "revenuePerOrder": 13308
+    },
+    {
+      "name": "Nutricost",
+      "revenue": 138390,
+      "orders": 16,
+      "skus": 3,
+      "share": 0.07,
+      "revenuePerOrder": 8649
+    },
+    {
+      "name": "DHC",
+      "revenue": 134730,
+      "orders": 27,
+      "skus": 1,
+      "share": 0.07,
+      "revenuePerOrder": 4990
+    },
+    {
+      "name": "GST",
+      "revenue": 131947,
+      "orders": 20,
+      "skus": 3,
+      "share": 0.07,
+      "revenuePerOrder": 6597
+    },
+    {
+      "name": "VIP INTERNATIONAL",
+      "revenue": 126000,
+      "orders": 9,
+      "skus": 1,
+      "share": 0.06,
+      "revenuePerOrder": 14000
+    },
+    {
+      "name": "Garden of Life",
+      "revenue": 126000,
+      "orders": 7,
+      "skus": 1,
+      "share": 0.06,
+      "revenuePerOrder": 18000
+    },
+    {
+      "name": "Flexi",
+      "revenue": 125850,
+      "orders": 14,
+      "skus": 4,
+      "share": 0.06,
+      "revenuePerOrder": 8989
+    },
+    {
+      "name": "Mirrolla",
+      "revenue": 125349,
+      "orders": 42,
+      "skus": 4,
+      "share": 0.06,
+      "revenuePerOrder": 2985
+    },
+    {
+      "name": "NSP",
+      "revenue": 122196,
+      "orders": 7,
+      "skus": 1,
+      "share": 0.06,
+      "revenuePerOrder": 17457
+    },
+    {
+      "name": "Квадрат-С",
+      "revenue": 111106,
+      "orders": 15,
+      "skus": 2,
+      "share": 0.06,
+      "revenuePerOrder": 7407
+    },
+    {
+      "name": "DORA",
+      "revenue": 110976,
+      "orders": 16,
+      "skus": 1,
+      "share": 0.06,
+      "revenuePerOrder": 6936
+    },
+    {
+      "name": "MISHIDO",
+      "revenue": 109936,
+      "orders": 28,
+      "skus": 3,
+      "share": 0.06,
+      "revenuePerOrder": 3926
+    },
+    {
+      "name": "Nature's Way",
+      "revenue": 104805,
+      "orders": 17,
+      "skus": 1,
+      "share": 0.05,
+      "revenuePerOrder": 6165
+    },
+    {
+      "name": "Lem caps",
+      "revenue": 103860,
+      "orders": 15,
+      "skus": 1,
+      "share": 0.05,
+      "revenuePerOrder": 6924
+    },
+    {
+      "name": "UNIECO",
+      "revenue": 103362,
+      "orders": 23,
+      "skus": 1,
+      "share": 0.05,
+      "revenuePerOrder": 4494
+    },
+    {
+      "name": "SIBVIO",
+      "revenue": 102502,
+      "orders": 13,
+      "skus": 2,
+      "share": 0.05,
+      "revenuePerOrder": 7885
+    },
+    {
+      "name": "Bri Nutrition",
+      "revenue": 101304,
+      "orders": 42,
+      "skus": 1,
+      "share": 0.05,
+      "revenuePerOrder": 2412
+    },
+    {
+      "name": "Tayga8",
+      "revenue": 100000,
+      "orders": 8,
+      "skus": 1,
+      "share": 0.05,
+      "revenuePerOrder": 12500
+    },
+    {
+      "name": "Guten Morgen",
+      "revenue": 94600,
+      "orders": 11,
+      "skus": 1,
+      "share": 0.05,
+      "revenuePerOrder": 8600
+    },
+    {
+      "name": "FuelUp",
+      "revenue": 94160,
+      "orders": 17,
+      "skus": 3,
+      "share": 0.05,
+      "revenuePerOrder": 5539
+    },
+    {
+      "name": "POLZABOOM",
+      "revenue": 89880,
+      "orders": 24,
+      "skus": 1,
+      "share": 0.05,
+      "revenuePerOrder": 3745
+    },
+    {
+      "name": "UnaTuna",
+      "revenue": 88955,
+      "orders": 5,
+      "skus": 1,
+      "share": 0.05,
+      "revenuePerOrder": 17791
+    },
+    {
+      "name": "LuxEmotion",
+      "revenue": 88000,
+      "orders": 4,
+      "skus": 1,
+      "share": 0.05,
+      "revenuePerOrder": 22000
+    },
+    {
+      "name": "Внешторг Фарма",
+      "revenue": 87786,
+      "orders": 71,
+      "skus": 1,
+      "share": 0.05,
+      "revenuePerOrder": 1236
+    },
+    {
+      "name": "Mommy's Bliss",
+      "revenue": 84690,
+      "orders": 13,
+      "skus": 1,
+      "share": 0.04,
+      "revenuePerOrder": 6515
+    },
+    {
+      "name": "Validus",
+      "revenue": 80600,
+      "orders": 21,
+      "skus": 2,
+      "share": 0.04,
+      "revenuePerOrder": 3838
+    },
+    {
+      "name": "Киевский витаминный завод",
+      "revenue": 79980,
+      "orders": 20,
+      "skus": 1,
+      "share": 0.04,
+      "revenuePerOrder": 3999
+    },
+    {
+      "name": "Heilkraft",
+      "revenue": 78353,
+      "orders": 11,
+      "skus": 1,
+      "share": 0.04,
+      "revenuePerOrder": 7123
+    },
+    {
+      "name": "do eco",
+      "revenue": 77690,
+      "orders": 17,
+      "skus": 5,
+      "share": 0.04,
+      "revenuePerOrder": 4570
+    },
+    {
+      "name": "Amazing Nutrition",
+      "revenue": 76018,
+      "orders": 4,
+      "skus": 2,
+      "share": 0.04,
+      "revenuePerOrder": 19005
+    },
+    {
+      "name": "EVINWAVE",
+      "revenue": 75960,
+      "orders": 8,
+      "skus": 1,
+      "share": 0.04,
+      "revenuePerOrder": 9495
+    },
+    {
+      "name": "Dem4r vision",
+      "revenue": 73500,
+      "orders": 5,
+      "skus": 1,
+      "share": 0.04,
+      "revenuePerOrder": 14700
+    },
+    {
+      "name": "BioBuddy",
+      "revenue": 73494,
+      "orders": 12,
+      "skus": 1,
+      "share": 0.04,
+      "revenuePerOrder": 6125
+    },
+    {
+      "name": "BioMagic",
+      "revenue": 71400,
+      "orders": 6,
+      "skus": 1,
+      "share": 0.04,
+      "revenuePerOrder": 11900
+    },
+    {
+      "name": "Green Side",
+      "revenue": 67882,
+      "orders": 27,
+      "skus": 3,
+      "share": 0.03,
+      "revenuePerOrder": 2514
+    },
+    {
+      "name": "Oblik",
+      "revenue": 66638,
+      "orders": 11,
+      "skus": 1,
+      "share": 0.03,
+      "revenuePerOrder": 6058
+    },
+    {
+      "name": "Upgrade",
+      "revenue": 64497,
+      "orders": 3,
+      "skus": 1,
+      "share": 0.03,
+      "revenuePerOrder": 21499
+    },
+    {
+      "name": "Miopharm",
+      "revenue": 64467,
+      "orders": 18,
+      "skus": 1,
+      "share": 0.03,
+      "revenuePerOrder": 3582
+    },
+    {
+      "name": "Лайфавит",
+      "revenue": 63388,
+      "orders": 19,
+      "skus": 3,
+      "share": 0.03,
+      "revenuePerOrder": 3336
+    },
+    {
+      "name": "Consumed",
+      "revenue": 63246,
+      "orders": 9,
+      "skus": 2,
+      "share": 0.03,
+      "revenuePerOrder": 7027
+    },
+    {
+      "name": "Solary",
+      "revenue": 62934,
+      "orders": 6,
+      "skus": 1,
+      "share": 0.03,
+      "revenuePerOrder": 10489
+    },
+    {
+      "name": "SupraVit",
+      "revenue": 62373,
+      "orders": 34,
+      "skus": 1,
+      "share": 0.03,
+      "revenuePerOrder": 1835
+    },
+    {
+      "name": "Энергия Жизни",
+      "revenue": 61193,
+      "orders": 17,
+      "skus": 1,
+      "share": 0.03,
+      "revenuePerOrder": 3600
+    },
+    {
+      "name": "Без бренда",
+      "revenue": 60534,
+      "orders": 18,
+      "skus": 2,
+      "share": 0.03,
+      "revenuePerOrder": 3363
+    },
+    {
+      "name": "Экополис ЗАО",
+      "revenue": 60160,
+      "orders": 32,
+      "skus": 1,
+      "share": 0.03,
+      "revenuePerOrder": 1880
+    },
+    {
+      "name": "Dr.Herbs",
+      "revenue": 60000,
+      "orders": 4,
+      "skus": 1,
+      "share": 0.03,
+      "revenuePerOrder": 15000
+    },
+    {
+      "name": "Полярис (Россия)",
+      "revenue": 58830,
+      "orders": 33,
+      "skus": 1,
+      "share": 0.03,
+      "revenuePerOrder": 1783
+    },
+    {
+      "name": "PROTEIN.COMPANY",
+      "revenue": 58050,
+      "orders": 13,
+      "skus": 2,
+      "share": 0.03,
+      "revenuePerOrder": 4465
+    },
+    {
+      "name": "DailyZen",
+      "revenue": 57224,
+      "orders": 13,
+      "skus": 1,
+      "share": 0.03,
+      "revenuePerOrder": 4402
+    },
+    {
+      "name": "Шаншаров-Фарм",
+      "revenue": 55898,
+      "orders": 234,
+      "skus": 1,
+      "share": 0.03,
+      "revenuePerOrder": 239
+    },
+    {
+      "name": "Be First",
+      "revenue": 54995,
+      "orders": 5,
+      "skus": 1,
+      "share": 0.03,
+      "revenuePerOrder": 10999
+    },
+    {
+      "name": "BIOVIN",
+      "revenue": 54517,
+      "orders": 10,
+      "skus": 2,
+      "share": 0.03,
+      "revenuePerOrder": 5452
+    },
+    {
+      "name": "UltraSupps",
+      "revenue": 54000,
+      "orders": 6,
+      "skus": 1,
+      "share": 0.03,
+      "revenuePerOrder": 9000
+    },
+    {
+      "name": "SUPREME PHARMATECH",
+      "revenue": 53700,
+      "orders": 3,
+      "skus": 1,
+      "share": 0.03,
+      "revenuePerOrder": 17900
+    },
+    {
+      "name": "Energy Body",
+      "revenue": 51800,
+      "orders": 4,
+      "skus": 1,
+      "share": 0.03,
+      "revenuePerOrder": 12950
+    },
+    {
+      "name": "Vitacare",
+      "revenue": 51396,
+      "orders": 13,
+      "skus": 2,
+      "share": 0.03,
+      "revenuePerOrder": 3954
+    },
+    {
+      "name": "1SUN",
+      "revenue": 44990,
+      "orders": 5,
+      "skus": 1,
+      "share": 0.02,
+      "revenuePerOrder": 8998
+    },
+    {
+      "name": "OVER",
+      "revenue": 42882,
+      "orders": 10,
+      "skus": 1,
+      "share": 0.02,
+      "revenuePerOrder": 4288
+    },
+    {
+      "name": "АРГО",
+      "revenue": 42006,
+      "orders": 3,
+      "skus": 1,
+      "share": 0.02,
+      "revenuePerOrder": 14002
+    },
+    {
+      "name": "SDL",
+      "revenue": 39920,
+      "orders": 4,
+      "skus": 1,
+      "share": 0.02,
+      "revenuePerOrder": 9980
+    },
+    {
+      "name": "onvit",
+      "revenue": 39520,
+      "orders": 4,
+      "skus": 1,
+      "share": 0.02,
+      "revenuePerOrder": 9880
+    },
+    {
+      "name": "Борисовский ЗМП",
+      "revenue": 39158,
+      "orders": 80,
+      "skus": 1,
+      "share": 0.02,
+      "revenuePerOrder": 489
+    },
+    {
+      "name": "4Me Nutrition",
+      "revenue": 37500,
+      "orders": 5,
+      "skus": 1,
+      "share": 0.02,
+      "revenuePerOrder": 7500
+    },
+    {
+      "name": "Mixterra",
+      "revenue": 37382,
+      "orders": 12,
+      "skus": 1,
+      "share": 0.02,
+      "revenuePerOrder": 3115
+    },
+    {
+      "name": "Vit&Form",
+      "revenue": 37045,
+      "orders": 5,
+      "skus": 1,
+      "share": 0.02,
+      "revenuePerOrder": 7409
+    },
+    {
+      "name": "RatioNutriLife",
+      "revenue": 33990,
+      "orders": 2,
+      "skus": 1,
+      "share": 0.02,
+      "revenuePerOrder": 16995
+    },
+    {
+      "name": "HELAT-X",
+      "revenue": 33178,
+      "orders": 4,
+      "skus": 2,
+      "share": 0.02,
+      "revenuePerOrder": 8295
+    },
+    {
+      "name": "Vivasan",
+      "revenue": 32938,
+      "orders": 2,
+      "skus": 1,
+      "share": 0.02,
+      "revenuePerOrder": 16469
+    },
+    {
+      "name": "Nahrin",
+      "revenue": 32015,
+      "orders": 1,
+      "skus": 1,
+      "share": 0.02,
+      "revenuePerOrder": 32015
+    },
+    {
+      "name": "Dr.Neumann",
+      "revenue": 32000,
+      "orders": 4,
+      "skus": 1,
+      "share": 0.02,
+      "revenuePerOrder": 8000
+    },
+    {
+      "name": "Vefa İlaç Sanayi ve Ticaret A.Ş.",
+      "revenue": 30600,
+      "orders": 3,
+      "skus": 1,
+      "share": 0.02,
+      "revenuePerOrder": 10200
+    },
+    {
+      "name": "FLEORAY NUTRITION",
+      "revenue": 29775,
+      "orders": 3,
+      "skus": 1,
+      "share": 0.02,
+      "revenuePerOrder": 9925
+    },
+    {
+      "name": "Dietelle",
+      "revenue": 29457,
+      "orders": 3,
+      "skus": 1,
+      "share": 0.02,
+      "revenuePerOrder": 9819
+    },
+    {
+      "name": "ПАРАФАРМ",
+      "revenue": 29200,
+      "orders": 4,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 7300
+    },
+    {
+      "name": "Биокор ООО",
+      "revenue": 29120,
+      "orders": 14,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 2080
+    },
+    {
+      "name": "Novavit Nutritions",
+      "revenue": 28800,
+      "orders": 3,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 9600
+    },
+    {
+      "name": "GREEN FLOW",
+      "revenue": 28485,
+      "orders": 3,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 9495
+    },
+    {
+      "name": "dzento",
+      "revenue": 27500,
+      "orders": 5,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 5500
+    },
+    {
+      "name": "Stoewer",
+      "revenue": 26907,
+      "orders": 3,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 8969
+    },
+    {
+      "name": "Vitamir Pro",
+      "revenue": 26600,
+      "orders": 7,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 3800
+    },
+    {
+      "name": "Sunshine Nutrition",
+      "revenue": 24864,
+      "orders": 3,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 8288
+    },
+    {
+      "name": "Reckful",
+      "revenue": 24655,
+      "orders": 5,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 4931
+    },
+    {
+      "name": "X10",
+      "revenue": 23945,
+      "orders": 5,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 4789
+    },
+    {
+      "name": "Ёбатон",
+      "revenue": 23574,
+      "orders": 6,
+      "skus": 2,
+      "share": 0.01,
+      "revenuePerOrder": 3929
+    },
+    {
+      "name": "Аматег ОДО",
+      "revenue": 22880,
+      "orders": 11,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 2080
+    },
+    {
+      "name": "ENBIO",
+      "revenue": 20592,
+      "orders": 3,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 6864
+    },
+    {
+      "name": "Грибnik",
+      "revenue": 19960,
+      "orders": 4,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 4990
+    },
+    {
+      "name": "Аквион ЗАО",
+      "revenue": 19458,
+      "orders": 3,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 6486
+    },
+    {
+      "name": "Happy balance",
+      "revenue": 18948,
+      "orders": 3,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 6316
+    },
+    {
+      "name": "RC FARMA",
+      "revenue": 18260,
+      "orders": 2,
+      "skus": 2,
+      "share": 0.01,
+      "revenuePerOrder": 9130
+    },
+    {
+      "name": "Adeptus Medicus",
+      "revenue": 17110,
+      "orders": 2,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 8555
+    },
+    {
+      "name": "Экко Плюс",
+      "revenue": 14656,
+      "orders": 8,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 1832
+    },
+    {
+      "name": "HarmonyAquaX",
+      "revenue": 12294,
+      "orders": 2,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 6147
+    },
+    {
+      "name": "Immunit",
+      "revenue": 11493,
+      "orders": 3,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 3831
+    },
+    {
+      "name": "ВитаЕжка",
+      "revenue": 10500,
+      "orders": 3,
+      "skus": 1,
+      "share": 0.01,
+      "revenuePerOrder": 3500
+    },
+    {
+      "name": "VITANIUM",
+      "revenue": 7491,
+      "orders": 3,
+      "skus": 1,
+      "share": 0,
+      "revenuePerOrder": 2497
+    },
+    {
+      "name": "Naturalis",
+      "revenue": 5881,
+      "orders": 1,
+      "skus": 1,
+      "share": 0,
+      "revenuePerOrder": 5881
+    },
+    {
+      "name": "GNB",
+      "revenue": 4986,
+      "orders": 1,
+      "skus": 1,
+      "share": 0,
+      "revenuePerOrder": 4986
+    },
+    {
+      "name": "MOVI",
+      "revenue": 3497,
+      "orders": 1,
+      "skus": 1,
+      "share": 0,
+      "revenuePerOrder": 3497
+    }
+  ],
+  "segments": [
+    {
+      "name": "Бюджетный",
+      "revenue": 33730304,
+      "orders": 8182,
+      "share": 17.3,
+      "revenuePerOrder": 4123,
+      "medianPrice": 4480
+    },
+    {
+      "name": "Дорогой",
+      "revenue": 64392668,
+      "orders": 6961,
+      "share": 33,
+      "revenuePerOrder": 9250,
+      "medianPrice": 9981
+    },
+    {
+      "name": "Низкий",
+      "revenue": 17045375,
+      "orders": 7586,
+      "share": 8.7,
+      "revenuePerOrder": 2247,
+      "medianPrice": 2533
+    },
+    {
+      "name": "Премиум",
+      "revenue": 51234875,
+      "orders": 3224,
+      "share": 26.3,
+      "revenuePerOrder": 15892,
+      "medianPrice": 16995
+    },
+    {
+      "name": "Средний",
+      "revenue": 28640681,
+      "orders": 4654,
+      "share": 14.7,
+      "revenuePerOrder": 6154,
+      "medianPrice": 6990
+    }
+  ],
+  "categories": [
+    {
+      "month": "2025-01",
+      "name": "Витаминные препараты",
+      "revenue": 67545552,
+      "orders": 27550,
+      "skus": 95,
+      "brands": 52
+    },
+    {
+      "month": "2025-01",
+      "name": "Витамины и БАД",
+      "revenue": 2391673482,
+      "orders": 456883,
+      "skus": 3422,
+      "brands": 753
+    },
+    {
+      "month": "2025-02",
+      "name": "Витаминные препараты",
+      "revenue": 74902604,
+      "orders": 29212,
+      "skus": 99,
+      "brands": 55
+    },
+    {
+      "month": "2025-02",
+      "name": "Витамины и БАД",
+      "revenue": 2510184364,
+      "orders": 466409,
+      "skus": 3707,
+      "brands": 800
+    },
+    {
+      "month": "2025-03",
+      "name": "Витаминные препараты",
+      "revenue": 72661521,
+      "orders": 28059,
+      "skus": 92,
+      "brands": 50
+    },
+    {
+      "month": "2025-03",
+      "name": "Витамины и БАД",
+      "revenue": 2523518234,
+      "orders": 469463,
+      "skus": 3540,
+      "brands": 782
+    },
+    {
+      "month": "2025-04",
+      "name": "Витаминные препараты",
+      "revenue": 72795083,
+      "orders": 24110,
+      "skus": 88,
+      "brands": 49
+    },
+    {
+      "month": "2025-04",
+      "name": "Витамины и БАД",
+      "revenue": 2548508586,
+      "orders": 465888,
+      "skus": 3512,
+      "brands": 786
+    },
+    {
+      "month": "2025-05",
+      "name": "Витаминные препараты",
+      "revenue": 73524220,
+      "orders": 22367,
+      "skus": 87,
+      "brands": 46
+    },
+    {
+      "month": "2025-05",
+      "name": "Витамины и БАД",
+      "revenue": 2446494371,
+      "orders": 443283,
+      "skus": 3564,
+      "brands": 781
+    },
+    {
+      "month": "2025-06",
+      "name": "Витаминные препараты",
+      "revenue": 73126569,
+      "orders": 22772,
+      "skus": 82,
+      "brands": 46
+    },
+    {
+      "month": "2025-06",
+      "name": "Витамины и БАД",
+      "revenue": 2506869294,
+      "orders": 450247,
+      "skus": 3669,
+      "brands": 788
+    },
+    {
+      "month": "2025-07",
+      "name": "Витаминные препараты",
+      "revenue": 71640342,
+      "orders": 24870,
+      "skus": 87,
+      "brands": 49
+    },
+    {
+      "month": "2025-07",
+      "name": "Витамины и БАД",
+      "revenue": 2554846089,
+      "orders": 466454,
+      "skus": 3629,
+      "brands": 793
+    },
+    {
+      "month": "2025-08",
+      "name": "Витаминные препараты",
+      "revenue": 78063416,
+      "orders": 28993,
+      "skus": 88,
+      "brands": 50
+    },
+    {
+      "month": "2025-08",
+      "name": "Витамины и БАД",
+      "revenue": 2826267954,
+      "orders": 514312,
+      "skus": 3930,
+      "brands": 824
+    },
+    {
+      "month": "2025-09",
+      "name": "Витаминные препараты",
+      "revenue": 87762169,
+      "orders": 32017,
+      "skus": 92,
+      "brands": 51
+    },
+    {
+      "month": "2025-09",
+      "name": "Витамины и БАД",
+      "revenue": 3051627505,
+      "orders": 559073,
+      "skus": 4082,
+      "brands": 846
+    },
+    {
+      "month": "2025-10",
+      "name": "Витаминные препараты",
+      "revenue": 100481704,
+      "orders": 37650,
+      "skus": 92,
+      "brands": 51
+    },
+    {
+      "month": "2025-10",
+      "name": "Витамины и БАД",
+      "revenue": 3481261685,
+      "orders": 633970,
+      "skus": 4268,
+      "brands": 849
+    },
+    {
+      "month": "2025-11",
+      "name": "Витаминные препараты",
+      "revenue": 111820636,
+      "orders": 47011,
+      "skus": 93,
+      "brands": 53
+    },
+    {
+      "month": "2025-11",
+      "name": "Витамины и БАД",
+      "revenue": 3971451327,
+      "orders": 724469,
+      "skus": 4674,
+      "brands": 892
+    },
+    {
+      "month": "2025-12",
+      "name": "Витаминные препараты",
+      "revenue": 96926282,
+      "orders": 35122,
+      "skus": 90,
+      "brands": 49
+    },
+    {
+      "month": "2025-12",
+      "name": "Витамины и БАД",
+      "revenue": 3336131614,
+      "orders": 608875,
+      "skus": 4324,
+      "brands": 850
+    },
+    {
+      "month": "2026-01",
+      "name": "Витаминные препараты",
+      "revenue": 121356113,
+      "orders": 40394,
+      "skus": 95,
+      "brands": 53
+    },
+    {
+      "month": "2026-01",
+      "name": "Витамины и БАД",
+      "revenue": 3837366640,
+      "orders": 668337,
+      "skus": 4596,
+      "brands": 895
+    },
+    {
+      "month": "2026-02",
+      "name": "Витаминные препараты",
+      "revenue": 130539205,
+      "orders": 39115,
+      "skus": 97,
+      "brands": 55
+    },
+    {
+      "month": "2026-02",
+      "name": "Витамины и БАД",
+      "revenue": 3707145725,
+      "orders": 635761,
+      "skus": 4703,
+      "brands": 915
+    },
+    {
+      "month": "2026-03",
+      "name": "Витаминные препараты",
+      "revenue": 125880036,
+      "orders": 38305,
+      "skus": 95,
+      "brands": 52
+    },
+    {
+      "month": "2026-03",
+      "name": "Витамины и БАД",
+      "revenue": 3546024902,
+      "orders": 616340,
+      "skus": 4553,
+      "brands": 906
+    },
+    {
+      "month": "2026-04",
+      "name": "Витаминные препараты",
+      "revenue": 138231446,
+      "orders": 38190,
+      "skus": 96,
+      "brands": 52
+    },
+    {
+      "month": "2026-04",
+      "name": "Витамины и БАД",
+      "revenue": 3430150060,
+      "orders": 601056,
+      "skus": 4547,
+      "brands": 927
+    },
+    {
+      "month": "2026-07",
+      "name": "Витаминные препараты",
+      "revenue": 72204317,
+      "orders": 13353,
+      "skus": 94,
+      "brands": 56
+    },
+    {
+      "month": "2026-07",
+      "name": "Витамины и БАД",
+      "revenue": 1803079961,
+      "orders": 279307,
+      "skus": 7897,
+      "brands": 1110
+    }
+  ],
+  "variants": [
+    {
+      "id": "101326865",
+      "name": "Магне В6 Премиум таблетки 100 мг 60 шт",
+      "target": "Magne B6",
+      "revenue": 9001417,
+      "orders": 1159,
+      "revenuePerOrder": 7767,
+      "medianPrice": 7761
+    },
+    {
+      "id": "120965745",
+      "name": "Магне В6 таблетки 48 мг+5 мг 60 шт",
+      "target": "Magne B6",
+      "revenue": 2167938,
+      "orders": 338,
+      "revenuePerOrder": 6414,
+      "medianPrice": 7126
+    },
+    {
+      "id": "139235352",
+      "name": "Магнерот таблетки 500 мг 100 шт",
+      "target": "Magnerot",
+      "revenue": 1698835,
+      "orders": 174,
+      "revenuePerOrder": 9763,
+      "medianPrice": 10208
+    },
+    {
+      "id": "100693873",
+      "name": "Магнерот таблетки 500 мг 50 шт",
+      "target": "Magnerot",
+      "revenue": 1616348,
+      "orders": 284,
+      "revenuePerOrder": 5691,
+      "medianPrice": 5680
+    },
+    {
+      "id": "148580984",
+      "name": "Магне В6 Кидс таблетки 30 шт",
+      "target": "Magne B6",
+      "revenue": 959087,
+      "orders": 138,
+      "revenuePerOrder": 6950,
+      "medianPrice": 7087
+    },
+    {
+      "id": "122125816",
+      "name": "Магне В6 таблетки 48 мг+5 мг 100 шт",
+      "target": "Magne B6",
+      "revenue": 761951,
+      "orders": 71,
+      "revenuePerOrder": 10732,
+      "medianPrice": 10465
+    },
+    {
+      "id": "104896845",
+      "name": "Магнетаб таблетки 334 мг 50 шт",
+      "target": "Magnetab",
+      "revenue": 380688,
+      "orders": 100,
+      "revenuePerOrder": 3807,
+      "medianPrice": 3909
+    },
+    {
+      "id": "100851019",
+      "name": "Магнефар В6 таблетки 500 мг 60 шт",
+      "target": "Magnefar",
+      "revenue": 364185,
+      "orders": 92,
+      "revenuePerOrder": 3959,
+      "medianPrice": 3820
+    },
+    {
+      "id": "100693959",
+      "name": "Магнерот таблетки 500 мг 20 шт",
+      "target": "Magnerot",
+      "revenue": 215133,
+      "orders": 90,
+      "revenuePerOrder": 2390,
+      "medianPrice": 2521
+    },
+    {
+      "id": "104896873",
+      "name": "Магнетаб таблетки 334 мг 90 шт",
+      "target": "Magnetab",
+      "revenue": 148248,
+      "orders": 24,
+      "revenuePerOrder": 6177,
+      "medianPrice": 6539
+    },
+    {
+      "id": "103466815",
+      "name": "Магникум таблетки 470 мг 50 шт",
+      "target": "Magnicum",
+      "revenue": 79980,
+      "orders": 20,
+      "revenuePerOrder": 3999,
+      "medianPrice": 3999
+    }
+  ],
+  "economics": [
+    {
+      "id": "101326865",
+      "name": "Магне В6 Премиум таблетки 100 мг 60 шт",
+      "target": "Magne B6",
+      "price": 7761,
+      "delivery": 927,
+      "commissionLow": 497,
+      "commissionHigh": 846,
+      "logisticsShareLow": 18.3,
+      "logisticsShareHigh": 22.8,
+      "costCeiling": 4358
+    },
+    {
+      "id": "120965745",
+      "name": "Магне В6 таблетки 48 мг+5 мг 60 шт",
+      "target": "Magne B6",
+      "price": 7126,
+      "delivery": 927,
+      "commissionLow": 456,
+      "commissionHigh": 777,
+      "logisticsShareLow": 19.4,
+      "logisticsShareHigh": 23.9,
+      "costCeiling": 3926
+    },
+    {
+      "id": "139235352",
+      "name": "Магнерот таблетки 500 мг 100 шт",
+      "target": "Magnerot",
+      "price": 10208,
+      "delivery": 1507,
+      "commissionLow": 653,
+      "commissionHigh": 1113,
+      "logisticsShareLow": 21.2,
+      "logisticsShareHigh": 25.7,
+      "costCeiling": 5445
+    },
+    {
+      "id": "100693873",
+      "name": "Магнерот таблетки 500 мг 50 шт",
+      "target": "Magnerot",
+      "price": 5680,
+      "delivery": 927,
+      "commissionLow": 364,
+      "commissionHigh": 619,
+      "logisticsShareLow": 22.7,
+      "logisticsShareHigh": 27.2,
+      "costCeiling": 2941
+    },
+    {
+      "id": "148580984",
+      "name": "Магне В6 Кидс таблетки 30 шт",
+      "target": "Magne B6",
+      "price": 7087,
+      "delivery": 927,
+      "commissionLow": 454,
+      "commissionHigh": 772,
+      "logisticsShareLow": 19.5,
+      "logisticsShareHigh": 24,
+      "costCeiling": 3900
+    },
+    {
+      "id": "122125816",
+      "name": "Магне В6 таблетки 48 мг+5 мг 100 шт",
+      "target": "Magne B6",
+      "price": 10465,
+      "delivery": 1507,
+      "commissionLow": 670,
+      "commissionHigh": 1141,
+      "logisticsShareLow": 20.8,
+      "logisticsShareHigh": 25.3,
+      "costCeiling": 5619
+    },
+    {
+      "id": "104896845",
+      "name": "Магнетаб таблетки 334 мг 50 шт",
+      "target": "Magnetab",
+      "price": 3909,
+      "delivery": 231,
+      "commissionLow": 250,
+      "commissionHigh": 426,
+      "logisticsShareLow": 12.3,
+      "logisticsShareHigh": 16.8,
+      "costCeiling": 2432
+    },
+    {
+      "id": "100851019",
+      "name": "Магнефар В6 таблетки 500 мг 60 шт",
+      "target": "Magnefar",
+      "price": 3820,
+      "delivery": 231,
+      "commissionLow": 244,
+      "commissionHigh": 416,
+      "logisticsShareLow": 12.4,
+      "logisticsShareHigh": 16.9,
+      "costCeiling": 2371
+    },
+    {
+      "id": "100693959",
+      "name": "Магнерот таблетки 500 мг 20 шт",
+      "target": "Magnerot",
+      "price": 2521,
+      "delivery": 173,
+      "commissionLow": 161,
+      "commissionHigh": 275,
+      "logisticsShareLow": 13.2,
+      "logisticsShareHigh": 17.8,
+      "costCeiling": 1544
+    },
+    {
+      "id": "104896873",
+      "name": "Магнетаб таблетки 334 мг 90 шт",
+      "target": "Magnetab",
+      "price": 6539,
+      "delivery": 927,
+      "commissionLow": 418,
+      "commissionHigh": 713,
+      "logisticsShareLow": 20.6,
+      "logisticsShareHigh": 25.1,
+      "costCeiling": 3526
+    },
+    {
+      "id": "103466815",
+      "name": "Магникум таблетки 470 мг 50 шт",
+      "target": "Magnicum",
+      "price": 3999,
+      "delivery": 231,
+      "commissionLow": 256,
+      "commissionHigh": 436,
+      "logisticsShareLow": 12.2,
+      "logisticsShareHigh": 16.7,
+      "costCeiling": 2492
+    }
+  ]
+}
