@@ -28,7 +28,7 @@ export function IconlyVK({ size = 18, ...props }: IconProps) {
 type IconProps = SVGProps<SVGSVGElement> & { size?: number };
 
 // Iconly Pro Sharp / Light, inspected at web.iconly.pro on 13 September 2026.
-// Heart, Chat 2 (outer contour), and Upload. Keep reactions free of directional motion.
+// Heart and Chat 2 (outer contour). Keep reactions free of directional motion.
 export function IconlyHeart({ size = 18, filled = false, ...props }: IconProps & { filled?: boolean }) {
   return <svg width={size} height={size} viewBox="0 0 25 24" {...sharedProps} strokeLinecap="square" strokeLinejoin="miter" data-icon-variant="sharp-heart" {...props}>
     <path fill={filled ? "currentColor" : "none"} d="M21.4999 9.63556C21.49 7.09969 20.1596 4.71489 17.5366 3.86991C15.7355 3.28869 13.7736 3.61191 12.25 5.79939C10.7264 3.61191 8.76447 3.28869 6.96339 3.86991C4.34014 4.71498 3.00971 7.10024 3.00008 9.63643C2.97582 14.6801 8.08662 18.5397 12.2487 20.3844L12.25 20.3838L12.2513 20.3844C16.4136 18.5396 21.5248 14.6797 21.4999 9.63556Z" />
@@ -41,11 +41,11 @@ export function IconlyChat({ size = 18, ...props }: IconProps) {
   </svg>;
 }
 
+// User-supplied Iconly Share geometry; currentColor supports both themes.
 export function IconlyShare({ size = 18, ...props }: IconProps) {
-  return <svg width={size} height={size} viewBox="0 0 25 24" {...sharedProps} strokeLinecap="square" strokeLinejoin="miter" data-icon-variant="sharp-upload" {...props}>
-    <path d="M12.2497 3.23101L12.2497 16.0088" />
-    <path d="M8.9751 5.771L12.2501 2.48143L15.5261 5.771" />
-    <path d="M16.875 10.9946L21.5 10.9946L21.5 21.5186L3 21.5186L3 10.9946L7.625 10.9946" />
+  return <svg width={size} height={size} viewBox="0 0 24 24" {...sharedProps} data-icon-variant="share" {...props}>
+    <path d="M10.1206 3.5H8.01633C5.24061 3.5 3.5 5.46539 3.5 8.24678V15.7532C3.5 18.5346 5.23211 20.5 8.01633 20.5H15.9818C18.7669 20.5 20.5 18.5346 20.5 15.7532V14.1089" />
+    <path d="M20.4997 8.07394V3.5M20.4997 3.5H15.9258M20.4997 3.5L13.3691 10.6306" />
   </svg>;
 }
 
