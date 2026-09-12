@@ -18,7 +18,6 @@ type PersonalProject = {
   name: string;
   href?: string;
   period?: string;
-  role: string;
   disciplines: string;
   description: string;
   logo: ProjectLogo;
@@ -34,7 +33,6 @@ const PROJECTS: Record<PersonalLocale, PersonalProject[]> = {
       name: "Redstat",
       href: "https://redstat.kz",
       period: "2026 — сейчас",
-      role: "Основатель",
       disciplines: "Продукт · Разработка · Data · AI",
       description:
         "Платформа аналитики Kaspi. ML-модели прогнозируют выручку, продажи и конкуренцию, а Red Agent помогает находить ниши и оценивать экономику товара.",
@@ -56,7 +54,6 @@ const PROJECTS: Record<PersonalLocale, PersonalProject[]> = {
       name: "10b",
       href: "https://10b.kz",
       period: "2025 — сейчас",
-      role: "Основатель",
       disciplines: "Продукт · Разработка · Data · AI",
       description:
         "Поиск и аналитика лотов Госзакупа и Самрук-Казына. ML оценивает маржу и конкуренцию, а Kepler AI и MCP разбирают техспецификации, заказчиков и риски.",
@@ -74,7 +71,6 @@ const PROJECTS: Record<PersonalLocale, PersonalProject[]> = {
     {
       id: "project-prooftotal",
       name: "ProofTotal",
-      role: "Основатель",
       disciplines: "Продукт · Разработка · Data · AI · Интеграции",
       description: "Аналитика и интеграция бизнес-систем. Сверяем данные из разных источников, находим расхождения и помогаем разобраться в их причинах.",
       clients: ["L'Oréal Paris Kazakhstan", "Mechta Market", "Halyk Market"],
@@ -88,7 +84,6 @@ const PROJECTS: Record<PersonalLocale, PersonalProject[]> = {
       name: "Redstat",
       href: "https://redstat.kz",
       period: "2026 — қазір",
-      role: "Негізін қалаушы",
       disciplines: "Өнім · Әзірлеу · Data · AI",
       description:
         "Kaspi аналитикасына арналған платформа. ML-модельдер түсімді, сатылымды және бәсекені болжайды, ал Red Agent тауашаларды табуға және тауар экономикасын бағалауға көмектеседі.",
@@ -110,7 +105,6 @@ const PROJECTS: Record<PersonalLocale, PersonalProject[]> = {
       name: "10b",
       href: "https://10b.kz",
       period: "2025 — қазір",
-      role: "Негізін қалаушы",
       disciplines: "Өнім · Әзірлеу · Data · AI",
       description:
         "Мемлекеттік сатып алу және Самұрық-Қазына лоттарын іздеу мен талдау. ML маржа мен бәсекені бағалайды, ал Kepler AI және MCP техникалық сипаттамаларды, тапсырыс берушілерді және тәуекелдерді талдайды.",
@@ -128,7 +122,6 @@ const PROJECTS: Record<PersonalLocale, PersonalProject[]> = {
     {
       id: "project-prooftotal",
       name: "ProofTotal",
-      role: "Негізін қалаушы",
       disciplines: "Өнім · Әзірлеу · Data · AI · Интеграциялар",
       description: "Аналитика және бизнес-жүйелерді біріктіру. Әртүрлі дереккөздердегі мәліметтерді салыстырып, сәйкессіздіктерді табамыз және олардың себептерін анықтауға көмектесеміз.",
       clients: ["L'Oréal Paris Kazakhstan", "Mechta Market", "Halyk Market"],
@@ -142,7 +135,6 @@ const PROJECTS: Record<PersonalLocale, PersonalProject[]> = {
       name: "Redstat",
       href: "https://redstat.kz",
       period: "2026 — present",
-      role: "Founder",
       disciplines: "Product · Development · Data · AI",
       description:
         "Kaspi analytics platform. ML models forecast revenue, sales, and competition; Red Agent helps sellers find niches and assess unit economics.",
@@ -164,7 +156,6 @@ const PROJECTS: Record<PersonalLocale, PersonalProject[]> = {
       name: "10b",
       href: "https://10b.kz",
       period: "2025 — present",
-      role: "Founder",
       disciplines: "Product · Development · Data · AI",
       description:
         "Search and analytics for Kazakhstan’s public procurement and Samruk-Kazyna lots. ML estimates margins and competition; Kepler AI and MCP analyze specifications, buyers, and risks.",
@@ -182,7 +173,6 @@ const PROJECTS: Record<PersonalLocale, PersonalProject[]> = {
     {
       id: "project-prooftotal",
       name: "ProofTotal",
-      role: "Founder",
       disciplines: "Product · Development · Data · AI · Integrations",
       description: "Analytics and business systems integration. We reconcile data across sources, find discrepancies, and help explain their causes.",
       clients: ["L'Oréal Paris Kazakhstan", "Mechta Market", "Halyk Market"],
@@ -257,7 +247,6 @@ export function PersonalProjects({ locale }: { locale: PersonalLocale }) {
             <ProjectDetails
               id={project.id}
               name={project.name}
-              role={project.role}
               disciplines={project.disciplines}
               href={project.href}
               newTabLabel={newTabLabel}

@@ -4,11 +4,10 @@ import { useState, type ReactNode } from "react";
 import { IconlyArrowUpRight, IconlyChevronDown } from "@/components/iconly-icons";
 
 export function ProjectDetails({
-  id, name, role, disciplines, href, newTabLabel, detailsLabel, visitLabel, logo, children,
+  id, name, disciplines, href, newTabLabel, detailsLabel, visitLabel, logo, children,
 }: {
   id: string;
   name: string;
-  role: string;
   disciplines: string;
   href?: string;
   newTabLabel: string;
@@ -40,9 +39,6 @@ export function ProjectDetails({
             <span className={nameClassName}>{logo}<span>{name}</span></span>
           )}
           <span className="inline-flex shrink-0 items-center">
-            <span className="rounded-full bg-[var(--personal-text)]/8 px-1.5 py-0.5 text-[11px] font-normal leading-4 text-[var(--personal-muted)]">
-              {role}
-            </span>
             <button
               type="button"
               aria-label={`${detailsLabel}: ${name}`}

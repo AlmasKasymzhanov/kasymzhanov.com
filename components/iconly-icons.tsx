@@ -27,29 +27,25 @@ export function IconlyVK({ size = 18, ...props }: IconProps) {
 
 type IconProps = SVGProps<SVGSVGElement> & { size?: number };
 
-// Original Iconly Pro Light paths inspected at web.iconly.pro, September 2026.
+// Iconly Pro Sharp / Light, inspected at web.iconly.pro on 13 September 2026.
+// Heart, Chat 2 (outer contour), and Upload. Keep reactions free of directional motion.
 export function IconlyHeart({ size = 18, filled = false, ...props }: IconProps & { filled?: boolean }) {
-  return <svg width={size} height={size} viewBox="0 0 24 24" {...sharedProps} {...props}>
-    <g transform="translate(2.5 3)">
-      <path fill={filled ? "currentColor" : "none"} d="M0.371865331,8.59832177 C-0.701134669,5.24832177 0.552865331,1.41932177 4.06986533,0.28632177 C5.91986533,-0.31067823 7.96186533,0.0413217701 9.49986533,1.19832177 C10.9548653,0.0733217701 13.0718653,-0.30667823 14.9198653,0.28632177 C18.4368653,1.41932177 19.6988653,5.24832177 18.6268653,8.59832177 C16.9568653,13.9083218 9.49986533,17.9983218 9.49986533,17.9983218 C9.49986533,17.9983218 2.09786533,13.9703218 0.371865331,8.59832177 Z" />
-      {!filled && <path d="M13.5,3.7 C14.57,4.046 15.326,5.001 15.417,6.122" />}
-    </g>
+  return <svg width={size} height={size} viewBox="0 0 25 24" {...sharedProps} strokeLinecap="square" strokeLinejoin="miter" data-icon-variant="sharp-heart" {...props}>
+    <path fill={filled ? "currentColor" : "none"} d="M21.4999 9.63556C21.49 7.09969 20.1596 4.71489 17.5366 3.86991C15.7355 3.28869 13.7736 3.61191 12.25 5.79939C10.7264 3.61191 8.76447 3.28869 6.96339 3.86991C4.34014 4.71498 3.00971 7.10024 3.00008 9.63643C2.97582 14.6801 8.08662 18.5397 12.2487 20.3844L12.25 20.3838L12.2513 20.3844C16.4136 18.5396 21.5248 14.6797 21.4999 9.63556Z" />
   </svg>;
 }
 
 export function IconlyChat({ size = 18, ...props }: IconProps) {
-  return <svg width={size} height={size} viewBox="0 0 24 24" {...sharedProps} {...props}>
-    <g transform="translate(2 2)">
-      <path d="M17.0713569,17.0698633 C14.0152073,20.1263497 9.48977439,20.7866955 5.78641655,19.0740178 C5.23970647,18.8539025 4.7914846,18.6760012 4.36537232,18.6760012 C3.17848885,18.6830368 1.70116564,19.8338678 0.933359565,19.0669822 C0.165553489,18.2990915 1.3172626,16.8206004 1.3172626,15.6265504 C1.3172626,15.2003912 1.1464157,14.7601607 0.926324692,14.2123853 C-0.787169233,10.5096244 -0.125891225,5.98268764 2.93025835,2.92720636 C6.8315976,-0.975567922 13.1700176,-0.975567922 17.0713569,2.92620127 C20.979731,6.83500611 20.9726961,13.1680941 17.0713569,17.0698633 Z" />
-      <path d="M13.9394 10.413h.009 M9.9304 10.413h.009 M5.9214 10.413h.009" strokeWidth={2} />
-    </g>
+  return <svg width={size} height={size} viewBox="0 0 25 25" {...sharedProps} strokeLinejoin="miter" data-icon-variant="sharp-chat-2" {...props}>
+    <path d="M18.7981 18.6612C16.943 20.5165 14.5012 21.4148 12.0747 21.3624C8.7795 21.2911 3 21.3429 3 21.3429C3 21.3429 3.05068 15.4956 3.04819 12.1431C3.04644 9.78062 3.94595 7.4186 5.75162 5.61333C9.35096 2.01267 15.1987 2.01267 18.7981 5.61241C22.4039 9.21863 22.3974 15.0615 18.7981 18.6612Z" />
   </svg>;
 }
 
 export function IconlyShare({ size = 18, ...props }: IconProps) {
-  return <svg width={size} height={size} viewBox="0 0 24 24" data-icon-direction="up-right" {...sharedProps} {...props}>
-    <path d="M8.41438 4.54297H7.37569C4.68641 4.54297 3 6.4456 3 9.13817V16.4049C3 19.0975 4.67817 21.0001 7.37569 21.0001H15.0931C17.7915 21.0001 19.4706 19.0975 19.4706 16.4049V13.8131" />
-    <path d="M16.041 8.30627C13.6639 8.30627 11.8235 9.12869 10.8057 11.3763C10.8057 11.3763 9.92578 5.20755 16.041 5.20755C16.041 5.20755 16.0415 4.29838 16.0421 3.51595C16.0427 3.07714 16.557 2.83943 16.8921 3.12333L20.8161 6.44738C21.0538 6.64904 21.0623 7.01237 20.8302 7.22192C19.9683 8.00153 18.03 9.75339 16.9011 10.7735C16.5694 11.0732 16.041 10.8361 16.041 10.3888L16.041 8.30627Z" />
+  return <svg width={size} height={size} viewBox="0 0 25 24" {...sharedProps} strokeLinecap="square" strokeLinejoin="miter" data-icon-variant="sharp-upload" {...props}>
+    <path d="M12.2497 3.23101L12.2497 16.0088" />
+    <path d="M8.9751 5.771L12.2501 2.48143L15.5261 5.771" />
+    <path d="M16.875 10.9946L21.5 10.9946L21.5 21.5186L3 21.5186L3 10.9946L7.625 10.9946" />
   </svg>;
 }
 
@@ -225,9 +221,10 @@ export function IconlyGithub({ size = 17, ...props }: IconProps) {
   );
 }
 
+// Crop empty canvas, not the glyph: match the visible 18px brand-logo width.
 export function IconlyEmail({ size = 17, ...props }: IconProps) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" {...sharedProps} {...props}>
+    <svg width={size} height={size} viewBox="2.25 2.25 19.5 19.5" {...sharedProps} {...props}>
       <path d="M21 15.094c0 2.766-1.845 5.013-4.582 5.006H7.582C4.845 20.107 3 17.86 3 15.094v-6.18C3 6.15 4.845 3.9 7.582 3.9h8.836C19.155 3.9 21 6.15 21 8.913v6.181Z" />
       <path d="m17.305 8.91-4 3.252a2.054 2.054 0 0 1-2.573 0L6.7 8.91M9.963 11.542l-3.268 3.548M17.306 15.091l-3.232-3.549" />
     </svg>

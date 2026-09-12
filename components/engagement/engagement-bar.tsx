@@ -34,7 +34,7 @@ export function EngagementBar({ className = "" }: { className?: string }) {
         aria-label={user ? (liked ? t.unlike : t.like) : t.likePrompt}
         aria-pressed={liked}
         title={user ? (liked ? t.unlike : t.like) : t.likePrompt}
-        className={`${control} ${liked ? "border-[var(--color-brand)] text-[var(--color-brand)]" : "text-[var(--color-dim)] hover:text-[var(--color-text)]"} cursor-pointer`}
+        className={`${control} ${liked ? "text-[var(--personal-text)]" : "text-[var(--personal-muted)] hover:text-[var(--personal-text)]"} cursor-pointer`}
       >
         <IconlyHeart size={18} filled={liked} /> {likeCount}
       </button>
@@ -42,7 +42,7 @@ export function EngagementBar({ className = "" }: { className?: string }) {
         onClick={goToComments}
         title={t.toComments}
         aria-label={t.toComments}
-        className={`${control} text-[var(--color-dim)] hover:text-[var(--color-text)] cursor-pointer`}
+        className={`${control} text-[var(--personal-muted)] hover:text-[var(--personal-text)] cursor-pointer`}
       >
         <IconlyChat size={18} /> {comments.length}
       </button>
