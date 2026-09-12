@@ -80,7 +80,9 @@ if (process.argv.includes('--http')) (async () => {
     assert(/<meta name="robots" content="noindex, nofollow"/.test(html));
     assert(html.includes('application/ld+json') && html.includes('og:image'));
     assert(html.includes('data-content-engagement="rynok-magnievyh-preparatov-kaspi-2026"'));
-    assert(!/coverage_status|seller_slots|internal_(?:source|file)|\.jsonl|\.xlsx|[A-Z]:\\/i.test(html));
+    // Next's serialized stream can contain IDs such as 2a:\"; require a
+    // drive-letter boundary and a real path segment, not a stream marker.
+    assert(!/coverage_status|seller_slots|internal_(?:source|file)|\.jsonl|\.xlsx|\b[A-Z]:\\{1,2}[A-Z0-9_]/i.test(html));
     assert(!html.includes('NaN'));
   }
   assert.equal((await fetch(base + oldRoute, { redirect: 'manual' })).status, 404);
